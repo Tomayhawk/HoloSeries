@@ -1,0 +1,664 @@
+[gd_scene load_steps=9 format=3 uid="uid://cow4d6dq0c31v"]
+
+[ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_jo7y3"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
+[ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://user_interfaces/user_interfaces_resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
+[ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui/character_infos.tscn" id="8_dsr74"]
+
+[node name="CombatUi" type="CanvasLayer"]
+script = ExtResource("1_w0nri")
+
+[node name="CombatControl" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="MainCombatOptions" type="MarginContainer" parent="CombatControl"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -104.0
+offset_right = 112.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CombatControl/MainCombatOptions"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_ppn4a")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CombatControl/MainCombatOptions/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Attack"
+
+[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Talents"
+
+[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Skills"
+
+[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Buff
+"
+
+[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Debuff"
+
+[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "White Magic"
+
+[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Black Magic"
+
+[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Summon"
+
+[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Items"
+
+[node name="SubCombatOptions" type="MarginContainer" parent="CombatControl"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -104.0
+offset_right = 306.0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_left = 114
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CombatControl/SubCombatOptions"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_ppn4a")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="SubModesMarginContainer" type="MarginContainer" parent="CombatControl/SubCombatOptions/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Rocket Launcher"
+
+[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Life Drain"
+
+[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Mana Drain"
+
+[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Taunt"
+
+[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Play Dice"
+
+[node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Item"
+
+[node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Item"
+
+[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Heal" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Heal"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Protect" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Protect"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Haste" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Haste"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Regen" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Regen"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Fireball" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Fireball"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Poison" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Poison"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Slowness" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Slowness"
+
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness"]
+layout_mode = 0
+offset_left = 148.0
+offset_right = 186.0
+offset_bottom = 20.0
+theme_override_font_sizes/font_size = 8
+text = "999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+visible = false
+clip_contents = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/normal = ExtResource("2_1ddg2")
+text = "Item"
+
+[node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="PartyPlayerInfos" type="MarginContainer" parent="CombatControl"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="CombatControl/PartyPlayerInfos"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("7_c1xwy")
+
+[node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/PartyPlayerInfos"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="CharacterInfos1" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+layout_mode = 2
+
+[node name="CharacterInfos2" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+layout_mode = 2
+
+[node name="CharacterInfos3" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+layout_mode = 2
+
+[node name="CharacterInfos4" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+layout_mode = 2
+
+[node name="CharacterSelector" type="MarginContainer" parent="."]
+unique_name_in_owner = true
+offset_right = 208.0
+offset_bottom = 160.0
+scale = Vector2(0.99279, 0.997135)
+mouse_filter = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 56
+
+[node name="Panel" type="Panel" parent="CharacterSelector"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = ExtResource("2_ppn4a")
+
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_main_combat_options_pressed" binds= [2]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_main_combat_options_pressed" binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_main_combat_options_pressed" binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_main_combat_options_pressed" binds= [5]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_main_combat_options_pressed" binds= [6]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="instantiate_ability" binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="instantiate_ability" binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="instantiate_ability" binds= [2]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="instantiate_ability" binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_exited"]

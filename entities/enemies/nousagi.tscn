@@ -1,0 +1,266 @@
+[gd_scene load_steps=29 format=3 uid="uid://du2d3fhraj8fe"]
+
+[ext_resource type="Script" uid="uid://c1jjlvfogfwsu" path="res://scripts/entities_scripts/enemies_scripts/nousagi.gd" id="1_kcgu1"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://visuals/entities/basic_enemies/Nousagi.png" id="2_wdkf2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spcl6"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(0, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kn5vj"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(32, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83hm7"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(64, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5vqx"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(96, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwrqj"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(128, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7syra"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(160, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdhe2"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(192, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6a21"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(0, 144, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgjde"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(32, 144, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y10wm"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gj0e"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_07rst"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh3mi"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mv0kr"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(0, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qoam"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(32, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ed81"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(64, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0g3f"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(96, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mv7l6"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(128, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auhih"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(160, 48, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ily6q"]
+atlas = ExtResource("2_wdkf2")
+region = Rect2(192, 48, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7htyj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spcl6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kn5vj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83hm7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5vqx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwrqj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7syra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdhe2")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6a21")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgjde")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgjde")
+}],
+"loop": false,
+"name": &"death",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y10wm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4gj0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_07rst")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh3mi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mv0kr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qoam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ed81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0g3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mv7l6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auhih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ily6q")
+}],
+"loop": false,
+"name": &"walk",
+"speed": 6.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw4lu"]
+size = Vector2(22, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8foym"]
+size = Vector2(22, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v11vd"]
+radius = 150.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p8mfo"]
+radius = 35.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8foym"]
+radius = 20.0
+
+[node name="Nousagi" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 155
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_kcgu1")
+
+[node name="Animation" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_7htyj")
+animation = &"death"
+offset = Vector2(0, -13)
+
+[node name="MovementHitBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_sw4lu")
+
+[node name="CombatHitBox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox"]
+shape = SubResource("RectangleShape2D_8foym")
+
+[node name="DetectionArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+shape = SubResource("CircleShape2D_v11vd")
+
+[node name="AttackArea" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_p8mfo")
+
+[node name="AttackShape" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackShape"]
+position = Vector2(35, 0)
+shape = SubResource("CircleShape2D_8foym")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+navigation_layers = 2
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+modulate = Color(0.662745, 1, 0.188235, 1)
+z_index = 1
+offset_left = -11.0
+offset_top = -23.0
+offset_right = 210.0
+offset_bottom = 4.0
+scale = Vector2(0.1, 0.1)
+value = 100.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="SummonCooldown" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="animation_finished" from="Animation" to="." method="animation_end"]
+[connection signal="animation_looped" from="Animation" to="." method="animation_end"]
+[connection signal="frame_changed" from="Animation" to="." method="_on_animation_frame_changed"]
+[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_input_event"]
+[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_entered"]
+[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_exited"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="SummonCooldown" to="." method="_on_summon_cooldown_timeout"]

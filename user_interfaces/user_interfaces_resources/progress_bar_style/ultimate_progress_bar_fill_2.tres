@@ -1,0 +1,22 @@
+[gd_resource type="AnimatedTexture" load_steps=6 format=3 uid="uid://tk7auwj6h8sf"]
+
+[ext_resource type="Texture2D" uid="uid://b6pdcgbeaxnob" path="res://visuals/entities/characters/AZKi_draft_1.png" id="1_5u7lo"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://visuals/entities/basic_enemies/Nousagi.png" id="2_3yv04"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/tile_sets/physics.png" id="3_gdc21"]
+[ext_resource type="Texture2D" uid="uid://krbcbovqyxyj" path="res://visuals/tile_sets/dungeon_1.png" id="4_4duu1"]
+[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://visuals/temporary/temp_shirakami.png" id="6_mo0n3"]
+
+[resource]
+frames = 6
+frame_0/texture = ExtResource("1_5u7lo")
+frame_0/duration = 0.15
+frame_1/texture = ExtResource("2_3yv04")
+frame_1/duration = 0.15
+frame_2/texture = ExtResource("3_gdc21")
+frame_2/duration = 0.2
+frame_3/texture = ExtResource("4_4duu1")
+frame_3/duration = 0.15
+frame_4/texture = ExtResource("1_5u7lo")
+frame_4/duration = 0.15
+frame_5/texture = ExtResource("6_mo0n3")
+frame_5/duration = 0.15
