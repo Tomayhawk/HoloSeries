@@ -5,20 +5,20 @@ extends EntityStats
 
 #region CONSTANTS
 
-const BASE_MOVE_SPEED: float = 140.0
+const DEFAULT_MOVE_SPEED: float = 140.0
 
-const BASE_DASH_MULTIPLIER: float = 8.0
-const BASE_DASH_STAMINA: float = 36.0
-const BASE_DASH_MIN_STAMINA: float = 28.0
-const BASE_DASH_TIME: float = 0.2
+const DEFAULT_DASH_MULTIPLIER: float = 8.0
+const DEFAULT_DASH_STAMINA: float = 36.0
+const DEFAULT_DASH_MIN_STAMINA: float = 28.0
+const DEFAULT_DASH_TIME: float = 0.2
 
-const BASE_SPRINT_MULTIPLIER: float = 1.25
-const BASE_SPRINT_STAMINA: float = 24.0 # per second
+const DEFAULT_SPRINT_MULTIPLIER: float = 1.25
+const DEFAULT_SPRINT_STAMINA: float = 24.0 # per second
 
 # regeneration
-const BASE_MANA_REGEN: float = 0.25
-const BASE_STAMINA_REGEN: float = 16.0
-const BASE_FATIGUE_REGEN: float = 10.0
+const DEFAULT_MANA_REGEN: float = 0.25
+const DEFAULT_STAMINA_REGEN: float = 16.0
+const DEFAULT_FATIGUE_REGEN: float = 10.0
 
 #endregion
 
@@ -44,23 +44,23 @@ var ultimate_gauge: float = 0.0
 var max_ultimate_gauge: float = 100.0
 
 # movement variables
-var move_speed: float = BASE_MOVE_SPEED
+var move_speed: float = DEFAULT_MOVE_SPEED
 var move_speed_modifier: float = 1.0
 
-var dash_multiplier: float = BASE_DASH_MULTIPLIER
-var dash_stamina: float = BASE_DASH_STAMINA
-var dash_min_stamina: float = BASE_DASH_MIN_STAMINA
-var dash_time: float = BASE_DASH_TIME
+var dash_multiplier: float = DEFAULT_DASH_MULTIPLIER
+var dash_stamina: float = DEFAULT_DASH_STAMINA
+var dash_min_stamina: float = DEFAULT_DASH_MIN_STAMINA
+var dash_time: float = DEFAULT_DASH_TIME
 
-var sprint_multiplier: float = BASE_SPRINT_MULTIPLIER
-var sprint_stamina: float = BASE_SPRINT_STAMINA # per second
+var sprint_multiplier: float = DEFAULT_SPRINT_MULTIPLIER
+var sprint_stamina: float = DEFAULT_SPRINT_STAMINA # per second
 
 var fatigue: bool = false
 
 # regeneration variables
-var mana_regen: float = BASE_MANA_REGEN
-var stamina_regen: float = BASE_STAMINA_REGEN
-var fatigue_regen: float = BASE_FATIGUE_REGEN
+var mana_regen: float = DEFAULT_MANA_REGEN
+var stamina_regen: float = DEFAULT_STAMINA_REGEN
+var fatigue_regen: float = DEFAULT_FATIGUE_REGEN
 
 # party variables
 var last_action_cooldown: float = 0.0
@@ -101,11 +101,13 @@ func stats_process(process_interval: float) -> void:
 
 func update_health(value: float) -> void:
 	super (value)
-	if base: base.update_health()
+	if base: base.stats_bars.update_health()
+
 
 func update_mana(value: float) -> void:
 	super (value)
-	if base: base.update_mana()
+	if base: base.stats_bars.update_mana()
+
 
 func update_stamina(value: float) -> void:
 	super (value)
@@ -116,16 +118,19 @@ func update_stamina(value: float) -> void:
 	elif stamina == max_stamina:
 		fatigue = false
 
-	if base: base.update_stamina()
+	if base: base.stats_bars.update_stamina()
+
 
 func update_shield(value: float) -> void:
 	super (value)
-	if base: base.update_shield()
+	if base: base.stats_bars.update_shield()
+
 
 func update_ultimate_gauge(value: float) -> void:
 	if not alive: return
 	ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
 	if base: base.update_ultimate_gauge()
+
 
 func update_experience(value: int) -> void:
 	experience += value
@@ -133,10 +138,12 @@ func update_experience(value: int) -> void:
 	while experience >= next_level_requirement:
 		experience -= next_level_requirement
 		level_up()
-	
+
+
 func level_up() -> void:
 	level = clamp(level + 1, 1, 300) # cap level at 300
 	next_level_requirement = get_xp_requirement()
+
 
 func get_xp_requirement() -> int:
 	if level < 5: return 400 + (level - 1) * 125
@@ -163,13 +170,13 @@ func set_stats() -> void:
 
 	# nexus health, mana, defense, ward, strength, intelligence, speed, agility
 	var nexus_stats: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-	
+
 	# accumulate all nexus stats
 	for unlocked_node in unlocked_nodes:
 		var nexus_type: int = Global.nexus_types[unlocked_node]
 		if nexus_type > 0 and nexus_type <= 8:
 			nexus_stats[nexus_type - 1] += Global.nexus_qualities[unlocked_node]
-	
+
 	# set base stats from character constants and apply nexus modifications with clamping
 	base_health = clamp(self.CHARACTER_HEALTH + nexus_stats[0], 1.0, 99999.0)
 	base_mana = clamp(self.CHARACTER_MANA + nexus_stats[1], 1.0, 9999.0)
@@ -211,7 +218,7 @@ func set_stats() -> void:
 	crit_damage = base_crit_damage
 
 	weight = base_weight
-	vision = base_vision	
+	vision = base_vision
 
 	# TODO: to be updated
 
@@ -223,18 +230,18 @@ func set_stats() -> void:
 	if accessory_2: accessory_2.set_stats(self)
 	if accessory_3: accessory_3.set_stats(self)
 
-	move_speed = BASE_MOVE_SPEED + (speed / 2.0) # max 268.0 speed
-	dash_multiplier = BASE_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
-	dash_stamina = BASE_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
-	dash_min_stamina = BASE_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
-	
-	dash_time = BASE_DASH_TIME - (agility / 2560.0) # min 0.1s dash time
-	sprint_multiplier = BASE_SPRINT_MULTIPLIER + (speed / 1280.0) # max 1.45 multiplier
-	sprint_stamina = BASE_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
+	move_speed = DEFAULT_MOVE_SPEED + (speed / 2.0) # max 268.0 speed
+	dash_multiplier = DEFAULT_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
+	dash_stamina = DEFAULT_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
+	dash_min_stamina = DEFAULT_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
 
-	mana_regen = BASE_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
-	stamina_regen = BASE_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
-	fatigue_regen = BASE_FATIGUE_REGEN + (stamina / 50.0) # max 25.0 stamina per second
+	dash_time = DEFAULT_DASH_TIME - (agility / 2560.0) # min 0.1s dash time
+	sprint_multiplier = DEFAULT_SPRINT_MULTIPLIER + (speed / 1280.0) # max 1.45 multiplier
+	sprint_stamina = DEFAULT_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
+
+	mana_regen = DEFAULT_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
+	stamina_regen = DEFAULT_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
+	fatigue_regen = DEFAULT_FATIGUE_REGEN + (stamina / 50.0) # max 25.0 stamina per second
 
 	if weapon: weapon.update_variable_stats(self)
 	if headgear: headgear.update_variable_stats(self)

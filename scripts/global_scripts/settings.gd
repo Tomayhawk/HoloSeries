@@ -34,7 +34,7 @@ func _init() -> void:
 				config.set_value(section, key, DEFAULT_SETTINGS[section][key])
 
 		config.save(SETTINGS_PATH)
-	
+
 	DisplayServer.window_set_mode(config.get_value(
 			"display", "window_mode", DEFAULT_SETTINGS["display"]["window_mode"]))
 	DisplayServer.window_set_size(config.get_value(
@@ -47,7 +47,7 @@ func _init() -> void:
 			"audio", "music_volume", DEFAULT_SETTINGS["audio"]["music_volume"])))
 
 	await tree_entered
-	
+
 	Inputs.sprint_hold = config.get_value(
 			"input", "sprint_hold", DEFAULT_SETTINGS["input"]["sprint_hold"])
 
@@ -65,16 +65,19 @@ func toggle_fullscreen(toggled_on: bool) -> void:
 
 	# center window if windowed
 	if next_mode == DisplayServer.WINDOW_MODE_WINDOWED:
+		@warning_ignore("integer_division")
 		DisplayServer.window_set_position((DisplayServer.screen_get_size() - DisplayServer.window_get_size()) / 2)
 		update_setting("display", "window_position", DisplayServer.window_get_position())
+
 
 func set_resolution(next_resolution: Vector2i) -> void:
 	# update resolution
 	DisplayServer.window_set_size(next_resolution)
 	update_setting("display", "resolution", DisplayServer.window_get_size())
-	
+
 	# center window if windowed
 	if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+		@warning_ignore("integer_division")
 		DisplayServer.window_set_position((DisplayServer.screen_get_size() - next_resolution) / 2)
 		update_setting("display", "window_position", DisplayServer.window_get_position())
 
@@ -86,9 +89,11 @@ func set_master_volume(db_value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), db_value)
 	update_setting("audio", "master_volume", db_to_linear(db_value))
 
+
 func set_music_volume(db_value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), db_value)
 	update_setting("audio", "music_volume", db_to_linear(db_value))
+
 
 func update_setting(section: String, key: String, value: Variant) -> void:
 	# Update a specific setting in the configuration file
@@ -109,12 +114,12 @@ func _exit_tree() -> void:
 	const SETTINGS_PATH: String = "user://settings.cfg"
 	if FileAccess.file_exists(SETTINGS_PATH):
 		config.load(SETTINGS_PATH)
-	
+
 	# display
 	config.set_value("display", "window_mode", DisplayServer.window_get_mode())
 	config.set_value("display", "resolution", DisplayServer.window_get_size())
 	config.set_value("display", "window_position", DisplayServer.window_get_position())
-	
+
 	# audio
 	config.set_value("audio", "master_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
 	config.set_value("audio", "music_volume", db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM"))))

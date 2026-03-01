@@ -107,6 +107,7 @@ func add_global_child(node_name: String, node_path: String) -> void:
 	if get_node_or_null(NodePath(node_name)): return
 	add_child(load(node_path).instantiate())
 
+
 func remove_global_child(node_name: String) -> void:
 	if not get_node_or_null(NodePath(node_name)): return
 	get_node(NodePath(node_name)).queue_free()

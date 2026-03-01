@@ -1,5 +1,9 @@
 extends Node
 
+# ..............................................................................
+
+#region CONSTANTS
+
 const DAMAGE_TYPES: int = \
 		Damage.DamageTypes.PLAYER_HIT \
 		| Damage.DamageTypes.HEAL \
@@ -7,12 +11,24 @@ const DAMAGE_TYPES: int = \
 		| Damage.DamageTypes.NO_CRITICAL \
 		| Damage.DamageTypes.NO_MISS
 
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
 var mana_cost: float = 4.0
 var heal_percentage: float = 0.05
 
 # TODO: need to dynamically allocate caster in case of ally/enemy casts (APPLIES TO ALL ABILITIES)
 @onready var caster_node: EntityBase = Players.main_player
 @onready var caster_stats_node: EntityStats = caster_node.stats
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func _ready() -> void:
 	# request target entity
@@ -22,6 +38,7 @@ func _ready() -> void:
 	# if alt is pressed, target player with lowest health
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
+
 
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
@@ -34,3 +51,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 				DAMAGE_TYPES, caster_stats_node, target_node.stats)
 
 	queue_free()
+
+#endregion
+
+# ..............................................................................

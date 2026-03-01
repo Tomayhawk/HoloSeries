@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://chaiav1lxbn5a"]
+[gd_scene format=3 uid="uid://chaiav1lxbn5a"]
 
 [ext_resource type="Script" uid="uid://cafv1okc7724x" path="res://scripts/abilities_scripts/talents_scripts/rocket_launcher.gd" id="1_jc6dy"]
 [ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://visuals/temporary/slime.png" id="2_vcny3"]
@@ -65,22 +65,22 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="RocketLauncher" type="Area2D"]
+[node name="RocketLauncher" type="Area2D" unique_id=532908534]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_jc6dy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=590856499]
 shape = SubResource("RectangleShape2D_m8mse")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1455797604]
 sprite_frames = SubResource("SpriteFrames_wdjgc")
 animation = &"shoot"
 
-[node name="HomingProjectile" parent="." instance=ExtResource("3_0st0y")]
+[node name="HomingProjectile" parent="." unique_id=1077957165 instance=ExtResource("3_0st0y")]
 
-[node name="AreaOfEffect" parent="." instance=ExtResource("4_s1j43")]
+[node name="AreaOfEffect" parent="." unique_id=1752607827 instance=ExtResource("4_s1j43")]
 
-[node name="DespawnComponent" parent="." instance=ExtResource("5_haux1")]
+[node name="DespawnComponent" parent="." unique_id=342487694 instance=ExtResource("5_haux1")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

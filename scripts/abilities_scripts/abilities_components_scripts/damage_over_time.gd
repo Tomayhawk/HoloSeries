@@ -4,9 +4,15 @@ extends Timer
 
 # ..............................................................................
 
-#region VARIABLES
+#region SIGNALS
 
 signal finish_dot
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
 
 var count: int = 1
 
@@ -18,12 +24,12 @@ var count: int = 1
 
 func initiate_dot(intervals: int, interval: float) -> void:
 	count = intervals
-	
+
 	# connect signals
 	var ability: Node = get_parent()
 	timeout.connect(ability.trigger_dot())
 	finish_dot.connect(ability.finish_dot())
-	
+
 	# start timer
 	start(interval)
 

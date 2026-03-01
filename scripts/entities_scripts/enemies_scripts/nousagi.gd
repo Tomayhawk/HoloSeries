@@ -2,23 +2,25 @@ extends BasicEnemyBase
 
 # ..............................................................................
 
-# PROCESS
+#region PROCESS
 
 func _init() -> void:
 	stats = BasicEnemyStats.new()
 	set_variables()
 
+
 func _ready() -> void:
 	# start walking in a random direction
 	$Animation.play(&"walk")
-	$Animation.flip_h = action_vector.x < 0
+	$Animation.flip_h = action_direction.x < 0
+
 
 # TODO: need to fix death
 func _physics_process(delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
 		velocity -= move_state_velocity * (delta / 0.4)
-	elif move_state == MoveState.IDLE and action_state != ActionState.ACTION:
+	elif move_state == MoveState.IDLE:
 		if not in_action_range:
 			$Animation.play(&"walk")
 		elif action_target:
@@ -28,9 +30,11 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+#endregion
+
 # ..............................................................................
 
-# SET VARIABLES
+#region SET VARIABLES
 
 func set_variables() -> void:
 	# Set base variables
@@ -38,7 +42,7 @@ func set_variables() -> void:
 	action_target_types = Entities.Type.PLAYERS_ALIVE
 	action_target_stats = &"health"
 	action_target_get_max = false
-	action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+	action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 
 	# Set stats
 	stats.base = self
@@ -91,19 +95,23 @@ func set_variables() -> void:
 	stats.max_mana = stats.base_mana
 	stats.max_stamina = stats.base_stamina
 
+#endregion
+
 # ..............................................................................
 
-# ANIMATION
+#region ANIMATION
 
 func animation_end() -> void:
 	if in_forced_move_state: return
 
 	velocity = Vector2.ZERO
+	move_state = MoveState.IDLE
+
 	if in_action_range:
-		if action_state == ActionState.ACTION:
+		if in_action():
 			action_state = ActionState.COOLDOWN
 		$Animation.play(&"idle")
-	elif enemy_in_combat:
+	elif stats.entity_types | Entities.Type.ENEMIES_ON_SCREEN:
 		# remove all dead players from detection and attack arrays
 		for player_node in players_in_detection_area:
 			if not player_node.stats.alive:
@@ -127,36 +135,40 @@ func animation_end() -> void:
 		# move towards player if any player in detection area
 		if action_target:
 			$NavigationAgent2D.target_position = action_target.position
-			action_vector = to_local($NavigationAgent2D.get_next_path_position()).normalized()
-			$Animation.flip_h = action_vector.x < 0.0
+			action_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
+			$Animation.flip_h = action_direction.x < 0.0
 		# else move in a random direction
 		else:
-			action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+			action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		$Animation.play(&"walk")
-		$Animation.flip_h = action_vector.x < 0.0
+		$Animation.flip_h = action_direction.x < 0.0
 	else:
-		action_vector = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+		action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 		$Animation.play(&"walk")
-		$Animation.flip_h = action_vector.x < 0.0
+		$Animation.flip_h = action_direction.x < 0.0
+
 
 func _on_animation_frame_changed() -> void:
 	if in_forced_move_state: return
-			
+
 	if $Animation.frame == 3:
-		match$Animation.animation:
-			"attack":
+		match $Animation.animation:
+			&"attack":
 				if action_target:
 					var temp_attack_direction = (action_target.position - position).normalized()
 					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
 							stats, action_target.stats):
 						action_target.knockback(temp_attack_direction, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
-			"walk":
-				velocity = action_vector * move_speed
+			&"walk":
+				velocity = action_direction * move_speed
+				move_state = MoveState.WALK
+
+#endregion
 
 # ..............................................................................
 
-# ACTION
+#region ACTION
 
 func take_action() -> void:
 	if in_forced_move_state: return
@@ -167,22 +179,25 @@ func take_action() -> void:
 	else:
 		attack()
 
+
+# TODO: a lot of missing implementations
 func attack() -> void:
-	action_state = ActionState.ACTION
+	action_state = ActionState.WINDUP
 	$Animation.play(&"attack")
 	$Animation.flip_h = action_target.position.x < position.x
 	action_cooldown = randf_range(1.5, 3.0)
-	
+
 	await action_cooldown_timeout
 	if in_action_range:
 		action_state = ActionState.READY
+
 
 func summon_nousagi() -> void:
 	# create an instance of nousagi in enemies node
 	var nousagi_instance: Node = load("res://entities/enemies/nousagi.tscn").instantiate()
 	add_sibling(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1.0, 1.0), 5 * randf_range(-1.0, 1.0)) * 5
-	
+
 	# start cooldown
 	action_cooldown = randf_range(2.0, 3.5)
 	action_state = ActionState.COOLDOWN
@@ -190,16 +205,25 @@ func summon_nousagi() -> void:
 	await action_cooldown_timeout
 	if in_action_range and not players_in_detection_area.is_empty():
 		action_state = ActionState.READY # TODO: ???
-	await $SummonCooldown.timeout
+
+#endregion
+
+# ..............................................................................
+
+#region HEALTH BAR
 
 # update health bar
 func update_health() -> void:
 	$HealthBar.visible = stats.health > 0.0 and stats.health < stats.max_health
 	$HealthBar.max_value = stats.max_health
 	$HealthBar.value = stats.health
-	
+
 	var health_bar_percentage = stats.health / stats.max_health
 	$HealthBar.modulate = \
 			"a9ff30" if health_bar_percentage > 0.5 \
 			else "c8a502" if health_bar_percentage > 0.2 \
 			else "a93430"
+
+#endregion
+
+# ..............................................................................

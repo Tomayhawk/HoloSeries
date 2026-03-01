@@ -25,8 +25,11 @@ enum MoveState {
 
 enum ActionState {
 	READY,
-	ACTION,
+	WINDUP,
+	EXECUTE,
+	RECOVERY,
 	COOLDOWN,
+	DISABLED,
 }
 
 enum Directions {
@@ -42,11 +45,12 @@ enum Directions {
 }
 
 enum ActionType {
-	NONE,
-	ATTACK,
+	MELEE,
+	RANGED,
+	MAGIC,
 	SUMMON,
-	CAST,
 	ITEM,
+	NONE,
 }
 
 const ALL_DIRECTIONS: Array[Directions] = [
@@ -54,7 +58,7 @@ const ALL_DIRECTIONS: Array[Directions] = [
 	Directions.DOWN_RIGHT,
 	Directions.DOWN,
 	Directions.DOWN_LEFT,
-	Directions.LEFT, 
+	Directions.LEFT,
 	Directions.UP_LEFT,
 	Directions.UP,
 	Directions.UP_RIGHT,
@@ -84,9 +88,9 @@ var in_forced_move_state: bool = false
 
 # ACTION
 var action_state: ActionState = ActionState.READY
+var action_type: ActionType = ActionType.NONE
 var action_node: Node = null
-var action_callable: Callable = Callable()
-var action_vector: Vector2 = Vector2.DOWN
+var action_direction: Vector2 = Vector2.DOWN
 var action_cooldown: float = 0.0
 var in_action_range: bool = false
 
@@ -109,7 +113,7 @@ func _process(delta: float) -> void:
 		move_state_timer -= delta
 		if move_state_timer < 0.0:
 			move_state_timeout.emit()
-	
+
 	# decrease action cooldown
 	if action_cooldown > 0.0:
 		action_cooldown -= delta
@@ -137,6 +141,7 @@ func death() -> void:
 	reset_action()
 	reset_action_targets()
 
+
 func revive() -> void:
 	set_process(true)
 
@@ -144,7 +149,7 @@ func revive() -> void:
 
 # ..............................................................................
 
-#region UTILITIES
+#region RESET VARIABLES
 
 func reset_movement(idle_time: float = 0.5) -> void:
 	move_state = MoveState.IDLE
@@ -152,13 +157,13 @@ func reset_movement(idle_time: float = 0.5) -> void:
 	move_direction = Directions.DOWN
 	move_state_velocity = Vector2.DOWN
 
+
 func reset_action() -> void:
 	action_state = ActionState.READY
-	action_node = null
 	action_cooldown = 0.0
-	action_callable = Callable()
-	action_vector = Vector2.DOWN
+	action_direction = Vector2.DOWN
 	in_action_range = false
+
 
 func reset_action_targets() -> void:
 	action_target = null
@@ -166,6 +171,16 @@ func reset_action_targets() -> void:
 	action_target_types = 0
 	action_target_stats = &""
 	action_target_get_max = true
+
+#endregion
+
+# ..............................................................................
+
+#region UTILITIES
+
+func in_action() -> bool:
+	return action_state in [ActionState.WINDUP, ActionState.EXECUTE, ActionState.RECOVERY]
+
 
 func toggle_process(toggled: bool) -> void:
 	# ignore if not alive
@@ -177,7 +192,7 @@ func toggle_process(toggled: bool) -> void:
 		$Animation.play()
 	else:
 		$Animation.pause()
-	
+
 	# toggle processes
 	set_process(toggled)
 	set_physics_process(toggled)

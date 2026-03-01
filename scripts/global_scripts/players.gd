@@ -25,12 +25,14 @@ func toggle_process(toggled: bool) -> void:
 	set_physics_process(toggled)
 
 	if toggled:
-		main_player.apply_input_velocity()
+		main_player.apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
+
 
 # switch main player to ally, and switch target ally to main player
 func switch_main_player(next_main_player: PlayerBase) -> void:
 	main_player.switch_to_ally()
 	next_main_player.switch_to_main()
+
 
 # TODO: allow allies to switch with standby players
 # update main player, add previous stats to standby, and update standby ui

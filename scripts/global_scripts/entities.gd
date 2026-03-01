@@ -4,6 +4,7 @@ extends Node
 
 #region SIGNALS
 
+signal entity_request_ended(entities: EntityBase)
 signal entities_request_ended(entities: Array[EntityBase])
 
 #endregion
@@ -14,12 +15,30 @@ signal entities_request_ended(entities: Array[EntityBase])
 
 enum Type {
 	PLAYERS = 1 << 0,
-	PLAYERS_ALLIES = 1 << 1,
-	PLAYERS_ALIVE = 1 << 2,
-	PLAYERS_DEAD = 1 << 3,
-	ENEMIES = 1 << 4,
-	ENEMIES_IN_COMBAT = 1 << 5,
-	ENEMIES_ON_SCREEN = 1 << 6,
+	PLAYERS_MAIN = 1 << 1,
+	PLAYERS_ALLIES = 1 << 2,
+	PLAYERS_ALIVE = 1 << 3,
+	PLAYERS_DEAD = 1 << 4,
+	ENEMIES = 1 << 5,
+	ENEMIES_BASIC = 1 << 6,
+	ENEMIES_ELITE = 1 << 7,
+	ENEMIES_BOSS = 1 << 8,
+	ENEMIES_IN_COMBAT = 1 << 9,
+	ENEMIES_ON_SCREEN = 1 << 10,
+}
+
+const GROUP_NAME: Dictionary[Type, StringName] = {
+	Type.PLAYERS: &"players",
+	Type.PLAYERS_MAIN: &"players_main",
+	Type.PLAYERS_ALLIES: &"players_allies",
+	Type.PLAYERS_ALIVE: &"players_alive",
+	Type.PLAYERS_DEAD: &"players_dead",
+	Type.ENEMIES: &"enemies",
+	Type.ENEMIES_BASIC: &"enemies_basic",
+	Type.ENEMIES_ELITE: &"enemies_elite",
+	Type.ENEMIES_BOSS: &"enemies_boss",
+	Type.ENEMIES_IN_COMBAT: &"enemies_in_combat",
+	Type.ENEMIES_ON_SCREEN: &"enemies_on_screen",
 }
 
 enum Status {
@@ -43,6 +62,8 @@ enum Status {
 	TAUNT = 1 << 17,
 }
 
+const PLAYER_COLLISION_LAYER: int = 1
+const ENEMY_COLLISION_LAYER: int = 2
 const ENTITY_LIMIT: int = 200
 
 #endregion
@@ -50,25 +71,6 @@ const ENTITY_LIMIT: int = 200
 # ..............................................................................
 
 #region VARIABLES
-
-# ENTITY FILTERS
-
-var entities_of_type: Dictionary[Type, Callable] = {
-	Type.PLAYERS: func() -> Array[EntityBase]:
-		return type_entities_array(Players.get_children()),
-	Type.PLAYERS_ALLIES: func() -> Array[EntityBase]:
-		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return not node.is_main_player)),
-	Type.PLAYERS_ALIVE: func() -> Array[EntityBase]:
-		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return node.stats.alive)),
-	Type.PLAYERS_DEAD: func() -> Array[EntityBase]:
-		return type_entities_array(Players.get_children().filter(func(node: Node) -> bool: return not node.stats.alive)),
-	Type.ENEMIES: func() -> Array[EntityBase]:
-		return all_enemies(),
-	Type.ENEMIES_IN_COMBAT: func() -> Array[EntityBase]:
-		return Combat.enemies_in_combat,
-	Type.ENEMIES_ON_SCREEN: func() -> Array[EntityBase]:
-		return all_enemies().filter(func(node: Node) -> bool: return node.stats.entity_types & Type.ENEMIES_ON_SCREEN),
-}
 
 # EFFECTS RESOURCES
 
@@ -122,31 +124,36 @@ func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callab
 
 	return best_entity
 
+
 # target entity by stats
 func target_entity_by_stats(candidates: Array[EntityBase], stat_name: StringName, get_max: bool) -> EntityBase:
 	return target_entity_by_quality(candidates, func(entity): return entity.stats.get(stat_name), get_max)
+
 
 # target entity by distance
 func target_entity_by_distance(candidates: Array[EntityBase], origin: Vector2, get_max: bool) -> EntityBase:
 	return target_entity_by_quality(candidates, func(entity): return origin.distance_squared_to(entity.position), get_max)
 
+
 # convert Array into Array[EntityBase]
 func type_entities_array(entities: Array) -> Array[EntityBase]:
 	var entity_base_array: Array[EntityBase] = []
-	
+
 	for entity in entities:
 		if entity and is_instance_valid(entity) and entity is EntityBase:
 			entity_base_array.append(entity)
-	
+
 	return entity_base_array
+
 
 # return all enemies in the current scene enemies node
 func all_enemies() -> Array[EntityBase]:
-	if not get_tree().current_scene: return []
-	
-	var enemies_node = get_tree().current_scene.get_node_or_null(^"Enemies")
-	if not enemies_node: return []
-	
+	if not get_tree().current_scene:
+		return []
+
+	if not get_tree().current_scene.get_node_or_null(^"Enemies"):
+		return []
+
 	return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children())
 
 #endregion
@@ -157,22 +164,22 @@ func all_enemies() -> Array[EntityBase]:
 
 func request_entities(request_types: int, request_count: int = 1) -> void:
 	# append available entities
-	for type in Type.values():
+	for type in GROUP_NAME:
 		if request_types & type:
-			entities_available += entities_of_type[type].call()
+			entities_available += type_entities_array(get_tree().get_nodes_in_group(GROUP_NAME[type]))
 
 	# cancel request if insufficient candidates
 	if entities_available.size() < request_count:
 		entities_request_ended.emit([] as Array[EntityBase])
 		entities_available.clear()
 		return
-	
+
 	# choose locked or nearest entity if suitable
 	if request_count == 1 and Combat.locked_enemy_node in entities_available:
-		entities_request_ended.emit([Combat.locked_enemy_node] as Array[EntityBase])
+		entity_request_ended.emit(Combat.locked_enemy_node as EntityBase)
 		entities_available.clear()
 		return
-	
+
 	# set new variables
 	requesting_entities = true
 	entities_requested_count = request_count
@@ -185,6 +192,7 @@ func request_entities(request_types: int, request_count: int = 1) -> void:
 		elif entity is EnemyBase and not entity.has_node(^"EnemyHighlight"):
 			entity.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
 
+
 func choose_entity(entity: EntityBase) -> void:
 	if requesting_entities and entity in entities_available:
 		entities_chosen.append(entity)
@@ -192,10 +200,11 @@ func choose_entity(entity: EntityBase) -> void:
 		if entities_chosen.size() == entities_requested_count:
 			end_entities_request()
 
+
 func end_entities_request() -> void:
 	# emit signals
 	entities_request_ended.emit(entities_chosen)
-	
+
 	# remove entity highlights
 	for node in entities_chosen + entities_available:
 		if not is_instance_valid(node): continue
@@ -203,7 +212,7 @@ func end_entities_request() -> void:
 			node.get_node(^"PlayerHighlight").free()
 		elif node is EntityBase and node.has_node(^"EnemyHighlight"):
 			node.get_node(^"EnemyHighlight").free()
-	
+
 	# reset variables
 	requesting_entities = false
 	entities_requested_count = 0
@@ -216,26 +225,37 @@ func end_entities_request() -> void:
 
 #region MISCELLANEOUS
 
+# helper to fetch players with dynamic filters
+func get_players(custom_filter: Callable = Callable()) -> Array[EntityBase]:
+	var players: Array[Node] = Players.get_children()
+
+	if custom_filter.is_valid():
+		players = players.filter(custom_filter)
+
+	return type_entities_array(players)
+
 # add an enemy to the current scene enemies node
 func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position_range: float) -> EnemyBase:
 	if not get_tree().current_scene: return null
-	
+
 	# get enemies node and check entity limit
 	var enemies_node = get_tree().current_scene.get_node(^"Enemies")
 	if enemies_node.get_child_count() > ENTITY_LIMIT: return null
-	
+
 	# create enemy instance and set position
 	var enemy_instance: EnemyBase = enemy_load.instantiate()
 	enemy_instance.position = entity_position + Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * position_range
 	enemies_node.add_child(enemy_instance)
-	
+
 	# return enemy instance
 	return enemy_instance
+
 
 # toggle players and enemies process
 func toggle_entities_process(toggled: bool) -> void:
 	for entity in Players.get_children() + all_enemies():
 		entity.toggle_process(toggled)
+
 
 # toggle players process on text box dialogues
 func toggle_text_box_process(toggled: bool) -> void:

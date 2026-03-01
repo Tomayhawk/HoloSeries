@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://du2d3fhraj8fe"]
+[gd_scene format=3 uid="uid://du2d3fhraj8fe"]
 
 [ext_resource type="Script" uid="uid://c1jjlvfogfwsu" path="res://scripts/entities_scripts/enemies_scripts/nousagi.gd" id="1_kcgu1"]
 [ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://visuals/entities/basic_enemies/Nousagi.png" id="2_wdkf2"]
@@ -184,7 +184,7 @@ radius = 35.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8foym"]
 radius = 20.0
 
-[node name="Nousagi" type="CharacterBody2D"]
+[node name="Nousagi" type="CharacterBody2D" unique_id=1123065530 groups=["enemies", "enemies_basic"]]
 y_sort_enabled = true
 collision_layer = 2
 collision_mask = 155
@@ -192,51 +192,51 @@ motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_kcgu1")
 
-[node name="Animation" type="AnimatedSprite2D" parent="."]
+[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1265510199]
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_7htyj")
-animation = &"death"
+animation = &"attack"
 offset = Vector2(0, -13)
 
-[node name="MovementHitBox" type="CollisionShape2D" parent="."]
+[node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=1346202168]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
-[node name="CombatHitBox" type="Area2D" parent="."]
+[node name="CombatHitBox" type="Area2D" parent="." unique_id=2059757367]
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox" unique_id=2031164175]
 shape = SubResource("RectangleShape2D_8foym")
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1755578222]
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1799370548]
 shape = SubResource("CircleShape2D_v11vd")
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." unique_id=2028525060]
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=2017901439]
 shape = SubResource("CircleShape2D_p8mfo")
 
-[node name="AttackShape" type="Area2D" parent="."]
+[node name="AttackShape" type="Area2D" parent="." unique_id=817238980]
 visible = false
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackShape"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackShape" unique_id=1071345662]
 position = Vector2(35, 0)
 shape = SubResource("CircleShape2D_8foym")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=2100346411]
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=367204101]
 navigation_layers = 2
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1758639361]
 modulate = Color(0.662745, 1, 0.188235, 1)
 z_index = 1
 offset_left = -11.0
@@ -248,7 +248,7 @@ value = 100.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="SummonCooldown" type="Timer" parent="."]
+[node name="SummonCooldown" type="Timer" parent="." unique_id=1255430406]
 one_shot = true
 
 [connection signal="animation_finished" from="Animation" to="." method="animation_end"]

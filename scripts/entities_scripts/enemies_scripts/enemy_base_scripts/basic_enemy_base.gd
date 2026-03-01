@@ -1,15 +1,20 @@
 class_name BasicEnemyBase
 extends EnemyBase
 
+# ..............................................................................
+
+#region VARIABLES
+
 var move_speed: float = 45.0
 
-var enemy_in_combat: bool = false
 var players_in_detection_area: Array[Node] = []
 var players_in_attack_area: Array[Node] = []
 
+#endregion
+
 # ..............................................................................
 
-# KNOCKBACK & DEATH
+#region KNOCKBACK & DEATH
 
 func knockback(direction: Vector2, weight: float = 1.0) -> void:
 	if in_forced_move_state: return
@@ -28,10 +33,12 @@ func knockback(direction: Vector2, weight: float = 1.0) -> void:
 	$Animation.speed_scale = 1.0 # TODO
 	$Animation.play(&"idle")
 
+
 func death() -> void:
 	$Animation.play(&"death")
 
-	enemy_in_combat = false
+	move_state = MoveState.KNOCKBACK
+
 	players_in_detection_area.clear()
 	players_in_attack_area.clear()
 	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
@@ -45,16 +52,18 @@ func death() -> void:
 	death_timer.start()
 
 	await death_timer.timeout
-	
+
 	for i in 3:
 		var item: Node = load("res://entities/lootables/lootable_base.tscn").instantiate()
 		item.instantiate_item(global_position, "res://visuals/temporary/temp_shirakami.png", 0, 0)
-	
+
 	queue_free()
+
+#endregion
 
 # ..............................................................................
 
-# SIGNALS
+#region SIGNALS
 
 # COMBAT HIT BOX
 
@@ -73,31 +82,34 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 	if not stats.alive or not body.stats.alive: return
 	Combat.add_active_enemy(self)
 	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
-	enemy_in_combat = true
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.append(body)
+
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
 	players_in_detection_area.erase(body)
-	if players_in_attack_area.is_empty() and action_state != ActionState.ACTION:
+	if players_in_attack_area.is_empty() and action_state != ActionState.EXECUTE:
 		in_action_range = false
 	if players_in_detection_area.is_empty():
 		Combat.remove_active_enemy(self)
 		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
-		enemy_in_combat = false
 
 # ATTACK AREA
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if not stats.alive or not body.stats.alive: return
-	enemy_in_combat = true
-	if in_action_range:
-		action_state = ActionState.READY
+	if not stats.alive or not body.stats.alive:
+		return
+
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.append(body)
+
 	if not players_in_attack_area.has(body):
 		players_in_attack_area.append(body)
+
+	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
+	in_action_range = true
+
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	players_in_attack_area.erase(body)
@@ -110,6 +122,11 @@ func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	stats.entity_types |= Entities.Type.ENEMIES_ON_SCREEN
 	add_to_group(&"enemies_on_screen")
 
+
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	remove_from_group(&"enemies_on_screen")
+
+#endregion
+
+# ..............................................................................

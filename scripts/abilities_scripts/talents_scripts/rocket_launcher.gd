@@ -1,9 +1,19 @@
 extends Area2D
 
+# ..............................................................................
+
+#region CONSTANTS
+
 const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_HIT \
-		| Damage.DamageTypes.COMBAT \
-		| Damage.DamageTypes.PHYSICAL
+		Damage.DamageTypes.ENEMY_HIT | \
+		Damage.DamageTypes.COMBAT | \
+		Damage.DamageTypes.PHYSICAL
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
 
 var mana_cost: float = 8.0
 var speed: float = 90.0
@@ -11,6 +21,12 @@ var damage: float = 10.0
 
 @onready var caster_node: EntityBase = Players.main_player
 @onready var caster_stats_node: EntityStats = caster_node.stats
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func _ready() -> void:
 	hide()
@@ -23,12 +39,13 @@ func _ready() -> void:
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
 
+
 func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
 	if not target_node or not caster_stats_node.alive or caster_stats_node.mana < mana_cost:
 		queue_free()
 		return
-	
+
 	caster_stats_node.update_mana(-mana_cost)
 	position = caster_node.position + Vector2(0, -7)
 
@@ -41,6 +58,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
 
 	show()
 
+
 func projectile_collision(move_direction) -> void:
 	await Players.camera.screen_shake(5, 1, 20, 20.0)
 	var target_enemy_nodes: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
@@ -49,11 +67,22 @@ func projectile_collision(move_direction) -> void:
 			enemy_node.knockback(move_direction, 1.5)
 	queue_free()
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
 func despawn_timeout():
 	# TODO: temporary code
 	projectile_collision(Vector2.ZERO)
 
-# on collision, 
+
+# on collision,
 func _on_body_entered(_body: Node2D) -> void:
 	# TODO: temporary code
 	projectile_collision(Vector2.ZERO)
+
+#endregion
+
+# ..............................................................................

@@ -20,6 +20,7 @@ func update_health(value: float) -> void:
 	super (value)
 	if base: base.update_health()
 
+
 func update_shield(value: float) -> void:
 	super (value)
 	if base: base.update_shield()

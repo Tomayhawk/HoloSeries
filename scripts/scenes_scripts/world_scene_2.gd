@@ -21,6 +21,7 @@ func _on_world_scene_1_transit_body_entered(body: Node) -> void:
 			"res://music/asmarafulldemo.mp3"
 	)
 
+
 func _on_dungeon_scene_1_transit_body_entered(body: Node) -> void:
 	if not body.is_main_player: return
 	$DungeonScene1Transit/CollisionShape2D.set_deferred("disabled", true)

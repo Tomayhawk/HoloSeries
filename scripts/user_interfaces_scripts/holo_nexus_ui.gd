@@ -178,17 +178,17 @@ func _ready() -> void:
 
 	var character_button_load: PackedScene = \
 			load(NEXUS_RESOURCES_PATH + "nexus_button.tscn")
-	
+
 	# populate character selector
 	for stats in nexus.character_stats:
 		# instantiate character button
 		var character_button: Button = character_button_load.instantiate()
 		%CharacterSelectorVBoxContainer.add_child(character_button)
-		
+
 		# initialize button texts
 		character_button.get_node(^"CharacterName").text = stats.CHARACTER_NAME
 		character_button.get_node(^"Level").text = str(stats.level).pad_zeros(3)
-		
+
 		# initialize button signals
 		character_button.pressed.connect(
 				_on_character_selector_button_pressed.bind(character_button.get_index()))
@@ -207,16 +207,16 @@ func _ready() -> void:
 	# populate nexus inventory ui
 	for index in Inventory.nexus_inventory.size():
 		if Inventory.nexus_inventory[index] <= 0: continue
-		
+
 		# instantiate inventory button
 		var inventory_button: Button = inventory_button_load.instantiate()
 		%InventoryVBoxContainer.add_child(inventory_button)
-		
+
 		# initialize button name and texts
 		inventory_button.name = str(index)
 		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
-		
+
 		# initialize button signals
 		inventory_button.pressed.connect(
 				_on_nexus_inventory_item_pressed.bind(index))
@@ -240,6 +240,7 @@ func update_nexus_ui() -> void:
 	options_ui.show()
 	%DescriptionsMargin.show()
 	inventory_ui.hide()
+
 
 func update_options() -> void:
 	var current_type: int = Global.nexus_types[nexus.current_stats.last_node]
@@ -268,6 +269,7 @@ func update_options() -> void:
 	%Unlock.disabled = not can_unlock
 	%Unlock.modulate = Color(1.0, 1.0, 1.0, 1.0) if can_unlock else Color(0.3, 0.3, 0.3, 1.0)
 
+
 func update_inventory_ui() -> void:
 	button_focused = false
 
@@ -294,6 +296,7 @@ func update_inventory_ui() -> void:
 		button.disabled = not button_valid
 		button.modulate = Color(1.0, 1.0, 1.0, 1.0) if button_valid else Color(0.3, 0.3, 0.3, 1.0)
 
+
 func update_descriptions() -> void:
 	var current_index: int = nexus.current_stats.last_node
 	var current_type: int = Global.nexus_types[current_index]
@@ -304,14 +307,14 @@ func update_descriptions() -> void:
 		for temp_node in nexus.current_stats.converted_nodes:
 			# skip until the matching node is found
 			if temp_node.x != current_index: continue
-			
+
 			# update current type and quality string
 			current_type = temp_node.y
 			current_quality_string = \
 					"0" if current_type == 0 else str(nexus.CONVERTED_QUALITIES[current_type - 1])
-			
+
 			break
-	
+
 	var description: String = ""
 
 	if current_type <= -1:
@@ -327,11 +330,13 @@ func update_descriptions() -> void:
 
 	%DescriptionsTextAreaLabel.text = description
 
+
 func hide_all() -> void:
 	hide()
 	options_ui.hide()
 	inventory_ui.hide()
 	%DescriptionsMargin.hide()
+
 
 func attempt_unlock() -> bool:
 	if nexus.current_stats.last_node in nexus.unlockable_nodes:
@@ -356,8 +361,9 @@ func teleport(type: int) -> bool:
 
 	if valid:
 		pass
-	
+
 	return valid
+
 
 func stats_convert(type: int) -> bool:
 	var node_index: int = nexus.current_stats.last_node
@@ -382,15 +388,18 @@ func _on_unlock_pressed() -> void:
 		Inventory.nexus_inventory[item_index] -= 1
 		%InventoryVBoxContainer.get_node(NodePath(str(item_index) + "/Quantity")
 				).text = str(Inventory.nexus_inventory[item_index])
-	
+
 	nexus.unlock_node()
 	update_options()
+
 
 func _on_upgrade_pressed() -> void:
 	pass
 
+
 func _on_awaken_pressed() -> void:
 	pass
+
 
 func _on_items_pressed() -> void:
 	inventory_ui.show()
@@ -408,7 +417,7 @@ func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 		%DescriptionsTextAreaLabel.text = ITEM_DESCRIPTIONS[extra_arg_0]
 		button_focused = true
 		return
-	
+
 	# TODO: change this and confirmation buttons
 
 	button_focused = false
@@ -425,7 +434,7 @@ func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 			item_used = stats_convert(extra_arg_0 - 16)
 		else:
 			item_used = stats_convert(0)
-		
+
 		if not item_used: return
 
 		Inventory.nexus_inventory[extra_arg_0] -= 1
@@ -440,7 +449,7 @@ func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 #region CHARACTER SELECTOR SIGNALS
 
 func _on_character_selector_button_pressed(node_index: int) -> void:
-	nexus.update_nexus_player(node_index)	
+	nexus.update_nexus_player(node_index)
 	%CharacterSelectorVBoxContainer.get_child(node_index).hide()
 	%CharacterSelectorVBoxContainer.get_child(nexus.current_index).show()
 
@@ -452,6 +461,7 @@ func _on_character_selector_button_pressed(node_index: int) -> void:
 
 func _on_button_mouse_entered() -> void:
 	Inputs.zoom_inputs_enabled = false
+
 
 func _on_button_mouse_exited() -> void:
 	Inputs.zoom_inputs_enabled = true

@@ -1,22 +1,37 @@
 extends CanvasLayer
 
-@onready var stats_label_nodes := %StatsMarginGridContainer.get_children()
-@onready var stats_left_button_node := %StatsLeftButton
-@onready var stats_right_button_node := %StatsRightButton
+# ..............................................................................
+
+#region VARIABLES
 
 var characters: Array[Node] = []
-var current_stats := -1
+var current_stats: int = -1
+
+@onready var stats_label_nodes: Array[Node] = %StatsMarginGridContainer.get_children()
+@onready var stats_left_button_node: Button = %StatsLeftButton
+@onready var stats_right_button_node: Button = %StatsRightButton
+
+#endregion
+
+# ..............................................................................
+
+#region INPUTS
 
 func _input(event: InputEvent) -> void:
 	# ignore all unrelated inputs
 	if not event.is_action(&"esc"):
 		return
-	
+
 	Inputs.accept_event()
 
 	if Input.is_action_just_pressed(&"esc"):
 		exit_ui()
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func _on_characters_pressed():
 	characters.clear()
@@ -28,6 +43,7 @@ func _on_characters_pressed():
 	current_stats = Players.main_player.stats.node_index
 	_on_left_button_pressed()
 	_on_right_button_pressed()
+
 
 func update_characters():
 	stats_label_nodes[1].text = characters[current_stats].get_parent().stats.CHARACTER_NAME
@@ -44,9 +60,16 @@ func update_characters():
 	stats_label_nodes[23].text = str(round(characters[current_stats].crit_chance * 100)) + "%"
 	stats_label_nodes[25].text = str(round(characters[current_stats].crit_damage * 100)) + "%"
 
+
 func exit_ui() -> void:
 	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
 	queue_free()
+
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
 
 func _on_left_button_pressed():
 	if current_stats != 0:
@@ -58,6 +81,7 @@ func _on_left_button_pressed():
 		stats_left_button_node.modulate.a = 0.0
 		stats_left_button_node.disabled = true
 
+
 func _on_right_button_pressed():
 	if current_stats != characters.size() - 1:
 		current_stats += 1
@@ -67,3 +91,7 @@ func _on_right_button_pressed():
 	if current_stats == characters.size() - 1:
 		stats_right_button_node.modulate.a = 0.0
 		stats_right_button_node.disabled = true
+
+#endregion
+
+# ..............................................................................

@@ -2,6 +2,10 @@ extends Resource
 
 # TODO: should use .dat
 
+# Directory
+# Windows: C:\Users\Username\AppData\Roaming\Godot\app_userdata\HoloSeries\saves
+# Linux: /home/username/.local/share/godot/app_userdata/HoloSeries/saves
+
 const PLAYER_BASE_PATH: String = "res://entities/player_base.tscn"
 
 const CHARACTER_SCRIPTS: Array[String] = [
@@ -41,14 +45,14 @@ func new_save(character_index: int) -> void:
 		# nexus
 		"nexus_types": [] as Array[int],
 		"nexus_qualities": [] as Array[int],
-		
+
 		# character stats
 		"characters": [
 			{
 				# stats
 				"character_index": character_index as int,
 				"experience": 0 as int,
-				
+
 				# equipments
 				"weapon": -1 as int,
 				"headgear": -1 as int,
@@ -117,16 +121,16 @@ func new_save(character_index: int) -> void:
 func load_save(save_index: int = 1) -> void:
 	# access save file
 	var file_path: String = "user://saves/save_%d.json" % save_index
-	
+
 	if not FileAccess.file_exists(file_path):
 		print("save file does not exist ", file_path)
 		return # TODO: handle error
 
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
 	var data: Dictionary = JSON.parse_string(file.get_as_text())
-	
+
 	file.close()
-	
+
 	if not data:
 		print("failed to parse save data from file ", file_path)
 		return # TODO: handle error
@@ -139,13 +143,13 @@ func load_save(save_index: int = 1) -> void:
 	copy_array(data["accessories_inventory"], Inventory.accessories_inventory)
 	copy_array(data["nexus_inventory"], Inventory.nexus_inventory)
 	copy_array(data["key_inventory"], Inventory.key_inventory)
-	
+
 	Combat.ui.add_items()
 
 	# update nexus
 	copy_array(data["nexus_types"], Global.nexus_types)
 	copy_array(data["nexus_qualities"], Global.nexus_qualities)
-	
+
 	# update characters
 	var character_stats: Array[PlayerStats] = []
 	character_stats.resize(CHARACTER_SCRIPTS.size())
@@ -173,7 +177,7 @@ func load_save(save_index: int = 1) -> void:
 		stats.last_node = character_data["last_node"]
 		copy_array(character_data["unlocked_nodes"], stats.unlocked_nodes)
 		copy_converted_array(character_data["converted_nodes"], stats.converted_nodes) # TODO: will not work because of Vector2i
-	
+
 	# update party
 	var main_player_index: int = data["main_player"]
 	for party_index in data["party"].size():
@@ -191,7 +195,7 @@ func load_save(save_index: int = 1) -> void:
 	for character in character_stats:
 		if not character: continue
 		character.set_stats()
-		
+
 		Players.standby_characters.append(character)
 		Combat.ui.add_standby_character(character)
 
@@ -204,7 +208,7 @@ func load_save(save_index: int = 1) -> void:
 			"res://music/asmarafulldemo.mp3"
 	)
 
-	# TODO: temporary parameters 
+	# TODO: temporary parameters
 	#data["nexus_types"] = temp_array[0]
 	#data["nexus_qualities"] = temp_array[1]
 
@@ -213,9 +217,11 @@ func load_save(save_index: int = 1) -> void:
 	#Global.nexus_types = temp_array[0] as Array[Vector2]
 	#Global.nexus_qualities = temp_array[1] as Array[int]
 
+
 func copy_array(save_array: Array, inventory_array: Array[int]) -> void:
 	for value in save_array:
 		inventory_array.append(int(value))
+
 
 func copy_converted_array(save_array: Array, converted_array: Array[Vector2i]) -> void:
 	for value in save_array:
@@ -290,7 +296,7 @@ func stat_nodes_randomizer(): # TODO: need to change
 	const STATS_TYPES: Array[int] = [1, 2, 3, 4, 5, 6, 7, 8]
 
 	var area_types: Array[int] = []
-	
+
 	var area_size := 0
 	var area_texture_positions_size := 0
 	var i := 0
@@ -379,9 +385,10 @@ func stat_nodes_randomizer(): # TODO: need to change
 	Global.nexus_types = nexus_types
 	Global.nexus_qualities = node_qualities
 
+
 func has_illegal_adjacents(atlas_positions, node_index):
 	var adjacents := []
-	
+
 	# determine adjacents
 	if (node_index % 32) < 16:
 		for temp_index in [-32, -17, -16, 15, 16, 32]: adjacents.append(node_index + temp_index)
@@ -392,10 +399,10 @@ func has_illegal_adjacents(atlas_positions, node_index):
 	for temp_index in adjacents.duplicate():
 		if (temp_index < 0) or (temp_index > 767):
 			adjacents.erase(temp_index)
-	
+
 	# check for identical
 	for adjacent_index in adjacents:
 		if atlas_positions[node_index] == atlas_positions[adjacent_index]:
 			return true
-	
+
 	return false

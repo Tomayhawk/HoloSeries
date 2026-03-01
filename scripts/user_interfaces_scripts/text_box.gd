@@ -57,10 +57,12 @@ var text_box_state := TextBoxState.INACTIVE:
 				requestResponse()
 				text_box_state = TextBoxState.WAITING
 
+
 func _ready():
 	# empty text boxes
 	clearTextBox()
 	clearOptions()
+
 
 func _input(event: InputEvent) -> void:
 	if isInactive(): return
@@ -80,10 +82,12 @@ func _input(event: InputEvent) -> void:
 	elif Input.is_action_just_pressed(&"esc"):
 		Inputs.accept_event()
 
+
 func clearTextBox():
 	%TextBoxMargin.hide()
 	%TextAreaLabel.text = ""
 	%TextEndLabel.hide()
+
 
 func clearOptions():
 	%OptionsMargin.hide()
@@ -91,13 +95,16 @@ func clearOptions():
 		option_button.text = ""
 		option_button.hide()
 
+
 func isInactive():
 	return text_box_state == TextBoxState.INACTIVE
+
 
 func npcDialogue(text_array, options):
 	text_queue = text_array
 	text_options = options
 	text_box_state = TextBox.TextBoxState.READY
+
 
 func requestResponse():
 	# Hide Text End Symbol
@@ -112,8 +119,10 @@ func requestResponse():
 	# Show Options Container
 	%OptionsMargin.show()
 
+
 func reset() -> void:
 	pass
+
 
 func _on_option_button_pressed(extra_arg_0: int):
 	emit_signal(&"option_selected", extra_arg_0)

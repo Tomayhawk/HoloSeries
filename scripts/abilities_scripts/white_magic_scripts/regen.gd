@@ -1,5 +1,9 @@
 extends Node
 
+# ..............................................................................
+
+#region CONSTANTS
+
 const DAMAGE_TYPES: int = \
 		Damage.DamageTypes.PLAYER_HIT \
 		| Damage.DamageTypes.HEAL \
@@ -7,12 +11,24 @@ const DAMAGE_TYPES: int = \
 		| Damage.DamageTypes.NO_CRITICAL \
 		| Damage.DamageTypes.NO_MISS
 
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
 var mana_cost: float = 20
 var heal_percentage: float = 0.02
 var regen_count: int = 7
 # TODO: need to add stats multipliers
 
 @onready var caster_node: EntityBase = Players.main_player
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func _ready():
 	# request target entity
@@ -22,6 +38,7 @@ func _ready():
 	# if alt is pressed, auto-aim player with lowest health
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
+
 
 func entity_chosen(chosen_nodes: Array[EntityBase]):
 	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
@@ -35,3 +52,7 @@ func entity_chosen(chosen_nodes: Array[EntityBase]):
 				4.0, regen_count, 0.8, 1.2)
 
 	queue_free()
+
+#endregion
+
+# ..............................................................................

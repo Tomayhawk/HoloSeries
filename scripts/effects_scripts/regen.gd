@@ -1,5 +1,9 @@
 extends Resource
 
+# ..............................................................................
+
+#region VARIABLES
+
 var effect_type: Entities.Status = Entities.Status.REGEN
 var effect_timer: float = 5.0
 var remove_on_death: bool = true
@@ -20,6 +24,12 @@ var count: int = 7
 var min_rand: float = 0.95
 var max_rand: float = 1.05
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
 func regen_settings(types: int, stats_node: EntityStats, amount: float, set_timer: float, set_count: int, set_min: float = 0.95, set_max: float = 1.05) -> void:
 	damage_types = types
 	origin_stats_node = stats_node
@@ -30,6 +40,7 @@ func regen_settings(types: int, stats_node: EntityStats, amount: float, set_time
 	min_rand = set_min
 	max_rand = set_max
 
+
 func effect_timeout(stats_node: EntityStats) -> void:
 	Damage.combat_damage(heal_amount * randf_range(min_rand, max_rand), damage_types, origin_stats_node, stats_node)
 	count -= 1
@@ -39,6 +50,11 @@ func effect_timeout(stats_node: EntityStats) -> void:
 	else:
 		effect_timer = heal_interval
 
+
 func remove_effect(stats_node: EntityStats) -> void:
 	stats_node.effects.erase(self)
 	stats_node.attempt_remove_status(Entities.Status.REGEN)
+
+#endregion
+
+# ..............................................................................

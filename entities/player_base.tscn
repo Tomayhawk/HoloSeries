@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5o6bi43j562b"]
+[gd_scene format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
+[ext_resource type="SpriteFrames" uid="uid://4au5vp4f5jch" path="res://entities/character_animations/sora.tres" id="2_h3n4j"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/shield_progress_bar_fill.tres" id="2_nogga"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_lt4ow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -23,64 +22,64 @@ radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
 size = Vector2(16, 7)
 
-[node name="PlayerBase" type="CharacterBody2D"]
+[node name="PlayerBase" type="CharacterBody2D" unique_id=1022924037 groups=["players"]]
 y_sort_enabled = true
 collision_mask = 239
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_dib8t")
 
-[node name="Animation" type="AnimatedSprite2D" parent="."]
+[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=190156712]
 y_sort_enabled = true
-sprite_frames = SubResource("SpriteFrames_lt4ow")
+sprite_frames = ExtResource("2_h3n4j")
+animation = &"down_attack"
 offset = Vector2(-0.5, -10)
 
-[node name="MovementHitBox" type="CollisionShape2D" parent="."]
+[node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=976360696]
 visible = false
 shape = SubResource("RectangleShape2D_n3b4m")
 
-[node name="CombatHitBox" type="Area2D" parent="."]
+[node name="CombatHitBox" type="Area2D" parent="." unique_id=1468779264]
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox" unique_id=1389123551]
 position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
-[node name="InteractionArea" type="Area2D" parent="."]
+[node name="InteractionArea" type="Area2D" parent="." unique_id=2120827375]
 visible = false
 collision_layer = 0
 collision_mask = 36
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=778146203]
 shape = SubResource("CircleShape2D_swviq")
 
-[node name="LootableArea" type="Area2D" parent="."]
+[node name="LootableArea" type="Area2D" parent="." unique_id=710829531]
 visible = false
 collision_layer = 0
 collision_mask = 64
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LootableArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LootableArea" unique_id=951062011]
 shape = SubResource("CircleShape2D_lt4ow")
 
-[node name="ActionArea" type="Area2D" parent="."]
-visible = false
+[node name="ActionArea" type="Area2D" parent="." unique_id=787257025]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActionArea" unique_id=1979276887]
 position = Vector2(0, -7)
 shape = SubResource("CircleShape2D_48rhk")
 
-[node name="ObstacleCheck" type="ShapeCast2D" parent="."]
+[node name="ObstacleCheck" type="ShapeCast2D" parent="." unique_id=473659488]
 visible = false
 shape = SubResource("RectangleShape2D_r405m")
 target_position = Vector2(10, 0)
 collision_mask = 46
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1013209347]
 debug_enabled = true
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=1065240922]
 modulate = Color(0, 1, 0, 1)
 z_index = 1
 offset_left = -10.0
@@ -93,7 +92,7 @@ value = 150.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="ManaBar" type="ProgressBar" parent="."]
+[node name="ManaBar" type="ProgressBar" parent="." unique_id=1507457543]
 modulate = Color(0.301961, 0.301961, 1, 1)
 z_index = 1
 offset_left = -10.0
@@ -107,7 +106,7 @@ value = 150.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="StaminaBar" type="ProgressBar" parent="."]
+[node name="StaminaBar" type="ProgressBar" parent="." unique_id=780676554]
 modulate = Color(1, 0.501961, 0, 1)
 z_index = 1
 offset_left = -10.0
@@ -121,7 +120,7 @@ value = 150.0
 show_percentage = false
 metadata/_edit_use_anchors_ = true
 
-[node name="ShieldBar" type="ProgressBar" parent="."]
+[node name="ShieldBar" type="ProgressBar" parent="." unique_id=402742927]
 z_index = 1
 offset_left = -10.0
 offset_top = -27.0

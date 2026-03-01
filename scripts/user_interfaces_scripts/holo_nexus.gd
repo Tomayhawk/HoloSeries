@@ -144,19 +144,20 @@ func set_characters() -> Array[PlayerStats]:
 	# add party players stats to temp_stats
 	for player in party_sorted:
 		temp_stats.append(player.stats)
-	
+
 	# add standby character stats to temp_stats
 	for stats in Players.standby_characters:
 		temp_stats.append(stats)
-	
+
 	# return all stats
 	return temp_stats
+
 
 func set_nexus_nodes() -> void:
 	# set nexus nodes textures and modulate
 	for index in nexus_nodes.size():
 		var node_type: int = Global.nexus_types[index]
-		
+
 		# set texture
 		if node_type == -1:
 			nexus_nodes[index].texture.region.position = NULL_ATLAS_POSITION
@@ -191,7 +192,7 @@ func update_nexus_player(next_index: int) -> void:
 	# for each unlocked node, reset texture and modulate
 	for index in current_stats.unlocked_nodes:
 		var node_type: int = Global.nexus_types[index]
-		
+
 		# reset texture
 		if node_type == -1:
 			nexus_nodes[index].texture.region.position = NULL_ATLAS_POSITION
@@ -221,7 +222,7 @@ func update_nexus_player(next_index: int) -> void:
 		# update texture
 		if node_type == -1 or node_type >= 12:
 			nexus_nodes[index].texture.region.position = EMPTY_ATLAS_POSITION
-		
+
 		# update modulate
 		nexus_nodes[index].modulate = UNLOCKED_MODULATE
 
@@ -254,25 +255,26 @@ func get_adjacents(origin_index: int) -> Array[int]:
 	var temp_adjacents: Array[int] = []
 	var node_count: int = $NexusNodes.get_child_count()
 	var origin_position: Vector2 = nexus_nodes[origin_index].position
-	
+
 	for temp_index in (ADJACENT_INDICES_1 if (origin_index % 32) < 16 else ADJACENT_INDICES_2):
 		var adjusted_index: int = origin_index + temp_index
-		
+
 		# check if current index is within bounds
 		if (adjusted_index < 0) or (adjusted_index >= node_count):
 			continue
-		
+
 		# check if current node is not null
 		if Global.nexus_types[adjusted_index] == -1:
 			continue
-		
+
 		# check if current node is actually nearby
 		if origin_position.distance_squared_to(nexus_nodes[adjusted_index].position) > 10000:
 			continue
-		
+
 		temp_adjacents.append(adjusted_index)
 
 	return temp_adjacents
+
 
 func add_adjacent_unlockables(index: int) -> void:
 	# for each adjacent node of index
@@ -303,6 +305,7 @@ func add_adjacent_unlockables(index: int) -> void:
 			unlockable_instance.name = str(adjacent)
 			unlockable_instance.position = nexus_nodes[adjacent].position
 			break
+
 
 func unlock_node() -> void:
 	var node_index: int = current_stats.last_node

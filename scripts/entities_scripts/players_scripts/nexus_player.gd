@@ -11,7 +11,7 @@ const MAX_SPEED: float = 300.0
 const SNAP_SPEED: float = 15.0
 
 const NEARBY_INDICES: Array[int] = [
-	-64, -49, -48, -47, -33, -32, -31, -17, -16, -15, 
+	-64, -49, -48, -47, -33, -32, -31, -17, -16, -15,
 	-1, 0, 1, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64,
 ]
 
@@ -51,7 +51,7 @@ func _physics_process(_delta: float) -> void:
 	if snapping:
 		var snap_distance: float = position.distance_to(snap_position)
 		move_direction = (snap_position - position).normalized()
-		
+
 		# deccelerate if remaining distance is larger than 1 pixel
 		if snap_distance > 1.0:
 			velocity = snap_distance * SNAP_SPEED * move_direction
@@ -59,7 +59,7 @@ func _physics_process(_delta: float) -> void:
 		else:
 			snapping = false
 			position = snap_position
-			
+
 			# update nexus ui
 			nexus.ui.update_nexus_ui()
 
@@ -96,7 +96,7 @@ func _input(event: InputEvent) -> void:
 	if not (event.is_action(&"left") or event.is_action(&"right") \
 			or event.is_action(&"up") or event.is_action(&"down")):
 		return
-	
+
 	Inputs.accept_event()
 
 	# ignore inputs if not new input
@@ -141,6 +141,7 @@ func snap_to_position(target_position: Vector2) -> void:
 	$PlayerOutline.show()
 	$PlayerCrosshair.hide()
 
+
 func snap_to_nearby() -> void:
 	# calculate and choose an approximate nearby node
 	var temp_index: int = \
@@ -155,7 +156,7 @@ func snap_to_nearby() -> void:
 	# iterate through adjacent nodes to find the nearest node
 	for adjacent_index in NEARBY_INDICES:
 		var current_index: int = adjacent_index + temp_index
-		
+
 		# skip if current node is out of bounds or null
 		if (
 				current_index < 0
@@ -166,7 +167,7 @@ func snap_to_nearby() -> void:
 
 		var current_distance: float = position.distance_squared_to(
 				nexus.nexus_nodes[current_index].position + TEXTURE_OFFSET)
-		
+
 		# update snap node based on proximity
 		if current_distance < snap_distance:
 			snap_node = nexus.nexus_nodes[current_index]

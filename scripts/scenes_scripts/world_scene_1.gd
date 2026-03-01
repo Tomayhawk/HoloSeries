@@ -2,14 +2,16 @@ extends Node2D
 
 # ..............................................................................
 
-# READY
+#region READY
 
 func _ready() -> void:
 	Global.new_scene_ready.emit()
 
+#endregion
+
 # ..............................................................................
 
-# SCENE CHANGES
+#region SCENE CHANGE
 
 func _on_world_scene_2_transit_body_entered(body: Node) -> void:
 	if not body.is_main_player: return
@@ -20,5 +22,7 @@ func _on_world_scene_2_transit_body_entered(body: Node) -> void:
 			[-640, -352, 640, 352] as Array[int],
 			"res://music/asmarafulldemo.mp3"
 	)
+
+#endregion
 
 # ..............................................................................

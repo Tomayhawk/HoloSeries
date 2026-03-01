@@ -65,10 +65,11 @@ func _process(delta: float) -> void:
 		end_zoom()
 		count = 0
 
+
 # process screen shake
 func _physics_process(_delta: float) -> void:
 	shake_cooldown += 1
-	
+
 	if shake_cooldown >= shake_interval:
 		position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_intensity
 		shake_counter -= 1
@@ -90,7 +91,7 @@ func _input(event: InputEvent) -> void:
 
 	# check if zoom inputs are enabled
 	if not Inputs.zoom_inputs_enabled: return
-	
+
 	# prevent input propogation
 	Inputs.accept_event()
 
@@ -111,6 +112,7 @@ func update_camera(next_parent: Node, next_zoom: Vector2 = target_zoom) -> void:
 	force_zoom(next_zoom)
 	end_screen_shake()
 
+
 func update_camera_limits(next_limits: Array[int]) -> void:
 	limit_left = next_limits[0]
 	limit_top = next_limits[1]
@@ -127,15 +129,15 @@ func update_camera_limits(next_limits: Array[int]) -> void:
 func toggle_black_screen(toggled: bool) -> void:
 	$CanvasLayer.show()
 	$CanvasLayer/ColorRect.color.a = 0.0 if toggled else 1.0
-	
+
 	# tween color rect
 	var tween: Tween = create_tween()
 	tween.tween_property($CanvasLayer/ColorRect, "color:a",
 			1.0 if toggled else 0.0, 0.2 if toggled else 0.4).set_ease(Tween.EASE_OUT)
-	
+
 	# wait for tween to finish
 	await tween.finished
-	
+
 	# hide color rect accordingly
 	if not toggled:
 		$CanvasLayer.hide()
@@ -150,9 +152,11 @@ func update_zoom(direction: int) -> void:
 	target_zoom = clamp(target_zoom + (ZOOM_STEP * direction), MIN_ZOOM, MAX_ZOOM)
 	set_process(true)
 
+
 func force_zoom(new_zoom: Vector2) -> void:
 	target_zoom = new_zoom
 	end_zoom()
+
 
 func end_zoom() -> void:
 	target_zoom = target_zoom.clamp(MIN_ZOOM, MAX_ZOOM)
@@ -176,6 +180,7 @@ func screen_shake(counter: int, interval: int, intensity: int, camera_speed: flo
 	Entities.toggle_entities_process(!pause) # TODO: incomplete implementation
 
 	await screen_shake_ended
+
 
 # end screen shake
 func end_screen_shake() -> void:

@@ -16,9 +16,11 @@ func _on_play_button_pressed():
 	saves.load_save(config.get_value("save", "last_save", 1))
 	queue_free()
 
+
 func _on_saves_button_pressed():
 	$SavesMenuMargin.show()
 	$OptionsMenuMargin.hide()
+
 
 func _on_settings_button_pressed():
 	Global.add_global_child("SettingsUi", "res://user_interfaces/settings_ui.tscn")

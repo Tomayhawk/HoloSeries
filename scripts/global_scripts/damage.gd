@@ -47,7 +47,7 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 		damage = clamp(damage, -99999.0, 99999.0)
 	else:
 		damage = clamp(damage, -9999.0, 9999.0)
-	
+
 	# attempt miss
 	# TODO: handle invincibility
 	if not types & DamageTypes.NO_MISS and randf() < 0.25: # TODO: randf() < (target_stats.agility / 1028)
@@ -62,24 +62,28 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 
 	return damage
 
+
 func combat_buff(_buff: float, _types: Array[DamageTypes], _origin_stats: Node, _target_stats: Node) -> void:
 	pass
+
 
 func mana_depletion(_mana: float, _origin_stats: Node) -> void:
 	pass
 
+
 func stamina_depletion(_stamina: float, _origin_stats: Node) -> void:
 	pass
+
 
 func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	if types & DamageTypes.HIDDEN:
 		return
-	
+
 	var display = Label.new()
 	display.text = str(damage)
 	display.z_index = 5
 	add_child(display)
-	
+
 	var color: String = "#FFF"
 	if types & DamageTypes.MISS:
 		display.text = "Miss"
@@ -100,15 +104,16 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	display.pivot_offset = Vector2(display.size / 2)
 
 	var tween = display.create_tween()
-	
+
 	tween.set_parallel(true)
 	tween.tween_property(display, "position:y", display.position.y - 24, 0.25).set_ease(Tween.EASE_OUT)
 	tween.tween_property(display, "position:y", display.position.y - 16, 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
 	tween.tween_property(display, "scale", Vector2(0.75, 0.75), 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
-	
+
 	await tween.finished
 
 	display.queue_free()
+
 
 func clear_damage_display() -> void:
 	for display in get_children():
