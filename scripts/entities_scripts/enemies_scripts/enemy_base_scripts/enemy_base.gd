@@ -1,7 +1,19 @@
 class_name EnemyBase
 extends EntityBase
 
-# CombatHitBox
+# ENEMY BASE
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const BASIC_LOOT_PRELOAD = preload("res://entities/lootables/lootable_base.tscn")
+
+#endregion
+
+# ..............................................................................
+
+#region COMBAT HIT BOX SIGNALS
 
 func _on_combat_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:
@@ -12,3 +24,7 @@ func _on_combat_hit_box_mouse_entered() -> void:
 func _on_combat_hit_box_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
 	Inputs.zoom_inputs_enabled = true
+
+#endregion
+
+# ..............................................................................

@@ -22,8 +22,6 @@ func area_of_effect(collision_masks: int) -> Array[EntityBase]:
 		if target_node.stats.alive:
 			entities.append(target_node)
 
-	print("AOE ", entities)
-
 	# return entities
 	return entities
 

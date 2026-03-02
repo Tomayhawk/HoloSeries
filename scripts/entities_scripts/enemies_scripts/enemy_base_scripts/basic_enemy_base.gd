@@ -1,6 +1,8 @@
 class_name BasicEnemyBase
 extends EnemyBase
 
+# BASIC ENEMY BASE
+
 # ..............................................................................
 
 #region VARIABLES
@@ -53,9 +55,7 @@ func death() -> void:
 
 	await death_timer.timeout
 
-	for i in 3:
-		var item: Node = load("res://entities/lootables/lootable_base.tscn").instantiate()
-		item.instantiate_item(global_position, "res://visuals/temporary/temp_shirakami.png", 0, 0)
+	self.call(&"death_loop")
 
 	queue_free()
 

@@ -1,5 +1,16 @@
 extends BasicEnemyBase
 
+# NOUSAGI
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const NOUSAGI_PRELOAD: Resource = preload("res://entities/enemies/nousagi.tscn")
+const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LOOTABLES_ID.TEMP_SHIRAKAMI]
+
+#endregion
+
 # ..............................................................................
 
 #region PROCESS
@@ -187,14 +198,10 @@ func attack() -> void:
 	$Animation.flip_h = action_target.position.x < position.x
 	action_cooldown = randf_range(1.5, 3.0)
 
-	await action_cooldown_timeout
-	if in_action_range:
-		action_state = ActionState.READY
-
 
 func summon_nousagi() -> void:
 	# create an instance of nousagi in enemies node
-	var nousagi_instance: Node = load("res://entities/enemies/nousagi.tscn").instantiate()
+	var nousagi_instance: Node = NOUSAGI_PRELOAD.instantiate()
 	add_sibling(nousagi_instance)
 	nousagi_instance.position = position + Vector2(5 * randf_range(-1.0, 1.0), 5 * randf_range(-1.0, 1.0)) * 5
 
@@ -202,9 +209,11 @@ func summon_nousagi() -> void:
 	action_cooldown = randf_range(2.0, 3.5)
 	action_state = ActionState.COOLDOWN
 	$SummonCooldown.start(randf_range(15, 20))
-	await action_cooldown_timeout
-	if in_action_range and not players_in_detection_area.is_empty():
-		action_state = ActionState.READY # TODO: ???
+
+
+func action_complete():
+	pass
+
 
 #endregion
 
@@ -223,6 +232,27 @@ func update_health() -> void:
 			"a9ff30" if health_bar_percentage > 0.5 \
 			else "c8a502" if health_bar_percentage > 0.2 \
 			else "a93430"
+
+#endregion
+
+# ..............................................................................
+
+#region DEATH LOOT
+
+func death_loop() -> void:
+	for i in 3:
+		var item: Node = BASIC_LOOT_PRELOAD.instantiate()
+		item.instantiate_item.callv(DEATH_LOOT)
+
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
+
+func _on_action_cooldown_timeout() -> void:
+	if in_action_range:
+		action_state = ActionState.READY
 
 #endregion
 

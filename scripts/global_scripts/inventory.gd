@@ -1,5 +1,23 @@
 extends Node
 
+# ..............................................................................
+
+#region CONSTANTS
+
+enum LOOTABLES_ID {
+	TEMP_SHIRAKAMI,
+}
+
+const LOOTABLES: Dictionary[LOOTABLES_ID, Array] = {
+	LOOTABLES_ID.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", 0, 0],
+}
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
 # inventories
 var consumables_inventory: Array[int] = []
 var materials_inventory: Array[int] = []
@@ -19,6 +37,12 @@ var consumables: Array[Resource] = [
 var weapons: Array[Weapon] = []
 var armors: Array[Armor] = []
 var accessories: Array[Accessory] = []
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func add_item(item_type: int, item_id: int, count: int = 1) -> void:
 	match item_type:
@@ -82,3 +106,7 @@ func change_armor(_character: Node, _index: int) -> void:
 
 func change_accessories(_character: Node, _index: int) -> void:
 	pass
+
+#endregion
+
+# ..............................................................................
