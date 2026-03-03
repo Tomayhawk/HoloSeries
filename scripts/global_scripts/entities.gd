@@ -27,20 +27,6 @@ enum Type {
 	ENEMIES_ON_SCREEN = 1 << 10,
 }
 
-const GROUP_NAME: Dictionary[Type, StringName] = {
-	Type.PLAYERS: &"players",
-	Type.PLAYERS_MAIN: &"players_main",
-	Type.PLAYERS_ALLIES: &"players_allies",
-	Type.PLAYERS_ALIVE: &"players_alive",
-	Type.PLAYERS_DEAD: &"players_dead",
-	Type.ENEMIES: &"enemies",
-	Type.ENEMIES_BASIC: &"enemies_basic",
-	Type.ENEMIES_ELITE: &"enemies_elite",
-	Type.ENEMIES_BOSS: &"enemies_boss",
-	Type.ENEMIES_IN_COMBAT: &"enemies_in_combat",
-	Type.ENEMIES_ON_SCREEN: &"enemies_on_screen",
-}
-
 enum Status {
 	BERSERK = 1 << 0,
 	BLINDNESS = 1 << 1,
@@ -62,19 +48,21 @@ enum Status {
 	TAUNT = 1 << 17,
 }
 
-const PLAYER_COLLISION_LAYER: int = 1
-const ENEMY_COLLISION_LAYER: int = 2
-const ENTITY_LIMIT: int = 200
+const GROUP_NAME: Dictionary[Type, StringName] = {
+	Type.PLAYERS: &"players",
+	Type.PLAYERS_MAIN: &"players_main",
+	Type.PLAYERS_ALLIES: &"players_allies",
+	Type.PLAYERS_ALIVE: &"players_alive",
+	Type.PLAYERS_DEAD: &"players_dead",
+	Type.ENEMIES: &"enemies",
+	Type.ENEMIES_BASIC: &"enemies_basic",
+	Type.ENEMIES_ELITE: &"enemies_elite",
+	Type.ENEMIES_BOSS: &"enemies_boss",
+	Type.ENEMIES_IN_COMBAT: &"enemies_in_combat",
+	Type.ENEMIES_ON_SCREEN: &"enemies_on_screen",
+}
 
-#endregion
-
-# ..............................................................................
-
-#region VARIABLES
-
-# EFFECTS RESOURCES
-
-var effects_resources: Dictionary[Status, Resource] = {
+const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.BERSERK: preload("res://scripts/effects_scripts/berserk.gd"),
 	Status.BLINDNESS: preload("res://scripts/effects_scripts/blindness.gd"),
 	Status.CHARM: preload("res://scripts/effects_scripts/charm.gd"),
@@ -95,7 +83,20 @@ var effects_resources: Dictionary[Status, Resource] = {
 	Status.TAUNT: preload("res://scripts/effects_scripts/taunt.gd"),
 }
 
-# ENTITIES REQUESTS VARIABLES
+const PLAYER_COLLISION_LAYER: int = 1
+const ENEMY_COLLISION_LAYER: int = 2
+const ENTITY_LIMIT: int = 200
+
+const PLAYER_HIGHLIGHT: PackedScene = preload("res://entities/entities_indicators/player_highlight.tscn")
+const ENEMY_HIGHLIGHT: PackedScene = preload("res://entities/entities_indicators/enemy_highlight.tscn")
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+# ENTITIES REQUESTS
 
 var requesting_entities: bool = false
 var entities_requested_count: int = 0
@@ -165,20 +166,33 @@ func all_enemies() -> Array[EntityBase]:
 func request_entities(request_types: int, request_count: int = 1) -> void:
 	# append available entities
 	for type in GROUP_NAME:
-		if request_types & type:
-			entities_available += type_entities_array(get_tree().get_nodes_in_group(GROUP_NAME[type]))
+		# ignore irrelevant types
+		if not request_types & type:
+			continue
 
-	# cancel request if insufficient candidates
+		# append unique and valid entities
+		for entity in get_tree().get_nodes_in_group(GROUP_NAME[type]):
+			if is_instance_valid(entity) and entity not in entities_available:
+				entities_available.append(entity)
+
+	# insufficient candidates -> cancel request
 	if entities_available.size() < request_count:
-		entities_request_ended.emit([] as Array[EntityBase])
+		if request_count == 1:
+			entity_request_ended.emit(null)
+		else:
+			entities_request_ended.emit([] as Array[EntityBase])
 		entities_available.clear()
 		return
 
-	# choose locked or nearest entity if suitable
-	if request_count == 1 and Combat.locked_enemy_node in entities_available:
+	# single target + only enemy targets -> choose locked enemy
+	if (request_count == 1 and Combat.locked_enemy_node in entities_available
+			and not (request_types & (Type.PLAYERS | Type.PLAYERS_ALIVE | Type.PLAYERS_DEAD))
+	):
 		entity_request_ended.emit(Combat.locked_enemy_node as EntityBase)
 		entities_available.clear()
 		return
+
+	# sufficient candidates + managed locked enemy exceptions -> proceed request
 
 	# set new variables
 	requesting_entities = true
@@ -186,32 +200,35 @@ func request_entities(request_types: int, request_count: int = 1) -> void:
 
 	# highlight available entities
 	for entity in entities_available:
-		if not is_instance_valid(entity): continue
-		if entity is PlayerBase and not entity.has_node(^"PlayerHighlight"):
-			entity.add_child(load("res://entities/entities_indicators/player_highlight.tscn").instantiate()) # TODO: need to scale in size
-		elif entity is EnemyBase and not entity.has_node(^"EnemyHighlight"):
-			entity.add_child(load("res://entities/entities_indicators/enemy_highlight.tscn").instantiate()) # TODO: need to scale in size
+		if entity is PlayerBase:
+			entity.add_child(ENEMY_HIGHLIGHT.instantiate())
+		else:
+			entity.add_child(PLAYER_HIGHLIGHT.instantiate()) # TODO: indicators should scale in size
 
 
 func choose_entity(entity: EntityBase) -> void:
-	if requesting_entities and entity in entities_available:
-		entities_chosen.append(entity)
-		entities_available.erase(entity)
-		if entities_chosen.size() == entities_requested_count:
-			end_entities_request()
+	# register chosen target
+	entities_chosen.append(entity)
+	entities_available.erase(entity)
+
+	# sufficient targets -> end request
+	if entities_chosen.size() == entities_requested_count:
+		end_entities_request()
 
 
 func end_entities_request() -> void:
-	# emit signals
-	entities_request_ended.emit(entities_chosen)
+	# emit appropriate signals to request origin
+	if entities_requested_count == 1:
+		entity_request_ended.emit(entities_chosen[0])
+	elif entities_requested_count != 0:
+		print(entities_requested_count)
+		entities_request_ended.emit(entities_chosen)
 
 	# remove entity highlights
-	for node in entities_chosen + entities_available:
-		if not is_instance_valid(node): continue
-		if node is PlayerBase and node.has_node(^"PlayerHighlight"):
-			node.get_node(^"PlayerHighlight").free()
-		elif node is EntityBase and node.has_node(^"EnemyHighlight"):
-			node.get_node(^"EnemyHighlight").free()
+	for indicator in get_tree().get_nodes_in_group(&"entities_indicators"):
+		if not is_instance_valid(indicator):
+			continue
+		indicator.queue_free()
 
 	# reset variables
 	requesting_entities = false

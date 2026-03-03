@@ -2,7 +2,9 @@ extends Resource
 
 # ..............................................................................
 
-#region variables
+# TODO: move to stats?
+
+#region VARIABLES
 
 var player: PlayerBase = null
 var stats: PlayerStats = null

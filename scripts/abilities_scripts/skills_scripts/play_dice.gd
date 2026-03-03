@@ -1,12 +1,10 @@
 extends Node2D
 
-signal entities_chosen
-
 # ..............................................................................
 
 #region CONSTANTS
 
-const MANA_COST: float = 1.0 # 50 (temporarily changed)
+const MANA_COST: float = 50.0
 const BASE_DAMAGE: float = 5.0
 
 const DAMAGE_TYPES: int = \
@@ -24,7 +22,7 @@ const DAMAGE_TYPES: int = \
 var dice_results: Array[int] = []
 var dice_damage := 0.0
 
-@onready var caster_node: EntityBase = Players.main_player
+@onready var caster_base: EntityBase = Players.main_player
 @onready var interval_timer := %Interval
 
 #endregion
@@ -38,7 +36,7 @@ func _ready():
 	set_physics_process(false)
 	hide()
 
-	connect(&"entities_chosen", Callable(self, "initiate_play_dice"))
+	Entities.entity_request_ended.connect(initiate_play_dice, CONNECT_ONE_SHOT)
 
 	# request target entity
 	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
@@ -46,17 +44,26 @@ func _ready():
 	if Entities.entities_available.is_empty():
 		queue_free()
 	# if alt is pressed, auto-aim closest enemy
-	elif Inputs.alt_pressed and Entities.entities_available.size() != 0:
-		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
+	elif Inputs.alt_pressed:
+		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
 
-func initiate_play_dice(chosen_node):
+func initiate_play_dice(chosen_nodes):
+	var target_node: EntityBase = null
+
+	# check chosen entities
+	if not chosen_nodes.is_empty():
+		target_node = chosen_nodes[0]
+
 	# check caster status and mana sufficiency
-	if caster_node.stats.mana > MANA_COST and caster_node.stats.alive:
-		caster_node.stats.update_mana(-MANA_COST)
+	if caster_base.stats.mana > MANA_COST and caster_base.stats.alive:
+		caster_base.stats.update_mana(-MANA_COST)
 
 		# roll 1 to 17 dice
-		for i in (1 + (caster_node.stats.speed + caster_node.stats.agility) / 32):
+		for i in (1 + (caster_base.stats.speed + caster_base.stats.agility) / 32):
+			if not is_instance_valid(target_node) or not target_node.stats.alive:
+				break
+
 			dice_results.append(randi() % 7)
 			dice_damage = BASE_DAMAGE / 2.0 * dice_results[-1]
 
@@ -72,7 +79,7 @@ func initiate_play_dice(chosen_node):
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()
 			Damage.combat_damage(dice_damage, DAMAGE_TYPES,
-					caster_node.stats, chosen_node.stats)
+					caster_base.stats, target_node.stats)
 			await interval_timer.timeout
 
 	queue_free()

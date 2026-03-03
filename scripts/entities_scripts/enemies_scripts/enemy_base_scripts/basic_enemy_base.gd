@@ -7,8 +7,6 @@ extends EnemyBase
 
 #region VARIABLES
 
-var move_speed: float = 45.0
-
 var players_in_detection_area: Array[Node] = []
 var players_in_attack_area: Array[Node] = []
 
@@ -19,7 +17,7 @@ var players_in_attack_area: Array[Node] = []
 #region KNOCKBACK & DEATH
 
 func knockback(direction: Vector2, weight: float = 1.0) -> void:
-	if in_forced_move_state: return
+	if in_forced_move_state(): return
 
 	move_state = MoveState.KNOCKBACK
 

@@ -22,7 +22,7 @@ radius = 20.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
 size = Vector2(16, 7)
 
-[node name="PlayerBase" type="CharacterBody2D" unique_id=1022924037 groups=["players"]]
+[node name="PlayerBase" type="CharacterBody2D" unique_id=1022924037 groups=["players", "players_alive"]]
 y_sort_enabled = true
 collision_mask = 239
 input_pickable = true

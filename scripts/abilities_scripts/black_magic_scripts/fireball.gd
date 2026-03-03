@@ -22,8 +22,8 @@ const SPEED: float = 90.0
 
 var velocity: Vector2 = Vector2.ZERO
 
-@onready var caster_node: EntityBase = Players.main_player
-@onready var caster_stats: EntityStats = caster_node.stats
+@onready var caster_base: EntityBase = Players.main_player
+@onready var caster_stats: EntityStats = caster_base.stats
 
 #endregion
 
@@ -36,12 +36,12 @@ func _ready() -> void:
 	hide()
 
 	# request target entity
-	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
+	Entities.entities_request_ended.connect(cast_fireball, CONNECT_ONE_SHOT)
 	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
 
 	# if alt is pressed, target nearest enemy
 	if Inputs.alt_pressed:
-		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_node.position, false))
+		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
@@ -52,26 +52,23 @@ func _physics_process(delta: float) -> void:
 
 #region FUNCTIONS
 
-func entity_chosen(chosen_nodes: Array[EntityBase]) -> void:
-	var target_node: EntityBase = null
-
-	# check chosen entities
-	if not chosen_nodes.is_empty():
-		target_node = chosen_nodes[0]
-
-	#
-	if not target_node or caster_stats.mana < MANA_COST or not caster_stats.alive:
+func cast_fireball(target_entity: EntityBase) -> void:
+	# check conditions
+	if not target_entity or caster_stats.mana < MANA_COST or not caster_stats.alive:
 		queue_free()
 		return
 
 	caster_stats.update_mana(-MANA_COST)
-	# begin despawn timer
-	%AnimatedSprite2D.play(&"shoot")
-	position = caster_node.position + Vector2(0, -7)
-	%DespawnComponent.set_despawn_requirements(5.0, 1.0)
+	position = caster_base.position + Vector2(0, -7)
+	$AnimatedSprite2D.play(&"shoot")
 
-	velocity = (target_node.position - caster_node.position - Vector2(0, -7)).normalized() * SPEED \
-			* (1 + (caster_stats.intelligence / 1000) + (caster_stats.speed / 256))
+	# start despawn timer
+	$DespawnComponent.set_despawn_requirements(5.0, 1.0)
+
+	var base_velocity: Vector2 = (target_entity.position - position.normalized()) * SPEED
+	var speed_multiplier: float = 1 + (caster_stats.intelligence / 500.0)
+	velocity = base_velocity * speed_multiplier
+
 	set_physics_process(true)
 	show()
 
@@ -79,7 +76,7 @@ func projectile_collision(move_direction) -> void:
 	await Players.camera.screen_shake(5, 1, 10, 10.0)
 
 	for enemy_node in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
-		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_node.stats, enemy_node.stats):
+		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_node.stats):
 			enemy_node.knockback(move_direction, 0.5)
 
 	queue_free()

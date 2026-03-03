@@ -74,17 +74,10 @@ var stats: EntityStats = null
 var process_interval: float = 0.0
 
 # MOVEMENT
-var move_state: MoveState = MoveState.IDLE:
-	set(next_state):
-		move_state = next_state
-		in_forced_move_state = \
-				next_state == MoveState.KNOCKBACK or next_state == MoveState.STUN
-
+var move_state: MoveState = MoveState.IDLE
 var move_state_timer: float = 0.5
 var move_direction: Directions = Directions.DOWN
 var move_state_velocity: Vector2 = Vector2.DOWN
-
-var in_forced_move_state: bool = false
 
 # ACTION
 var action_state: ActionState = ActionState.READY
@@ -180,6 +173,10 @@ func reset_action_targets() -> void:
 
 func in_action() -> bool:
 	return action_state in [ActionState.WINDUP, ActionState.EXECUTE, ActionState.RECOVERY]
+
+
+func in_forced_move_state() -> bool:
+	return move_state in [MoveState.KNOCKBACK, MoveState.STUN]
 
 
 func toggle_process(toggled: bool) -> void:

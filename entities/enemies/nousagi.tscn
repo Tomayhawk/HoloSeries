@@ -251,6 +251,7 @@ metadata/_edit_use_anchors_ = true
 [node name="SummonCooldown" type="Timer" parent="." unique_id=1255430406]
 one_shot = true
 
+[connection signal="action_cooldown_timeout" from="." to="." method="_on_action_cooldown_timeout"]
 [connection signal="animation_finished" from="Animation" to="." method="animation_end"]
 [connection signal="animation_looped" from="Animation" to="." method="animation_end"]
 [connection signal="frame_changed" from="Animation" to="." method="_on_animation_frame_changed"]

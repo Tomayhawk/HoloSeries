@@ -66,12 +66,10 @@ script = ExtResource("1_g8rfi")
 shape = SubResource("RectangleShape2D_rd68m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2104296370]
-unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_m0lm0")
 animation = &"shoot"
 
 [node name="DespawnComponent" parent="." unique_id=1622178997 instance=ExtResource("6_iors1")]
-unique_name_in_owner = true
 
 [node name="AreaOfEffect" parent="." unique_id=72175737 instance=ExtResource("3_hc2jg")]
 

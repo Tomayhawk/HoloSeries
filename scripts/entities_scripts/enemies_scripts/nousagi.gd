@@ -6,7 +6,8 @@ extends BasicEnemyBase
 
 #region CONSTANTS
 
-const NOUSAGI_PRELOAD: Resource = preload("res://entities/enemies/nousagi.tscn")
+const MOVE_SPEED: float = 45.0
+const NOUSAGI_PRELOAD: PackedScene = preload("res://entities/enemies/nousagi.tscn")
 const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LOOTABLES_ID.TEMP_SHIRAKAMI]
 
 #endregion
@@ -64,7 +65,7 @@ func set_variables() -> void:
 	# Base Health, Mana and Stamina
 	stats.base_health = 200.0
 	stats.base_mana = 10.0
-	stats.base_stamina = 100.0
+	stats.base_stamina = 150.0
 
 	# Base Basic Stats
 	stats.base_defense = 10.0
@@ -113,7 +114,7 @@ func set_variables() -> void:
 #region ANIMATION
 
 func animation_end() -> void:
-	if in_forced_move_state: return
+	if in_forced_move_state(): return
 
 	velocity = Vector2.ZERO
 	move_state = MoveState.IDLE
@@ -160,7 +161,7 @@ func animation_end() -> void:
 
 
 func _on_animation_frame_changed() -> void:
-	if in_forced_move_state: return
+	if in_forced_move_state(): return
 
 	if $Animation.frame == 3:
 		match $Animation.animation:
@@ -172,7 +173,7 @@ func _on_animation_frame_changed() -> void:
 						action_target.knockback(temp_attack_direction, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
 			&"walk":
-				velocity = action_direction * move_speed
+				velocity = action_direction * MOVE_SPEED
 				move_state = MoveState.WALK
 
 #endregion
@@ -182,7 +183,7 @@ func _on_animation_frame_changed() -> void:
 #region ACTION
 
 func take_action() -> void:
-	if in_forced_move_state: return
+	if in_forced_move_state(): return
 
 	# attempt summon
 	if $SummonCooldown.paused and randi() % 3 == 0:
@@ -253,6 +254,8 @@ func death_loop() -> void:
 func _on_action_cooldown_timeout() -> void:
 	if in_action_range:
 		action_state = ActionState.READY
+	else:
+		pass # TODO
 
 #endregion
 

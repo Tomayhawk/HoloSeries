@@ -24,9 +24,14 @@ const DIRECTION_VECTORS: Array[Vector2] = [
 var stats_bars: Resource = \
 		load("res://scripts/entities_scripts/players_scripts/player_stats_bars.gd").new()
 
+# TODO: entity_types should help set groups
 var is_main_player: bool = false:
 	set(value):
 		is_main_player = value
+		if is_instance_valid(stats):
+			stats.entity_types &= ~(Entities.Type.PLAYERS_ALLIES | Entities.Type.PLAYERS_MAIN)
+			stats.entity_types |= Entities.Type.PLAYERS_MAIN if is_main_player else Entities.Type.PLAYERS_ALLIES
+
 		add_to_group(&"players_main" if is_main_player else &"players_allies")
 		remove_from_group(&"players_allies" if is_main_player else &"players_main")
 
@@ -95,7 +100,7 @@ func _input(event: InputEvent) -> void:
 	elif Input.is_action_just_released(&"dash"):
 		if move_state == MoveState.SPRINT and Inputs.sprint_hold:
 			end_sprint()
-	elif not in_forced_move_state:
+	elif not in_forced_move_state():
 		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
 
 #endregion
@@ -169,7 +174,7 @@ func _on_move_state_timeout() -> void:
 	move_state_timer = 0.0
 
 	# update move states
-	if in_forced_move_state:
+	if in_forced_move_state():
 		move_state = MoveState.IDLE
 	elif move_state == MoveState.DASH:
 		if is_main_player and (Input.is_action_pressed(&"dash") or not Inputs.sprint_hold):
@@ -179,7 +184,7 @@ func _on_move_state_timeout() -> void:
 
 	# handle main player move states
 	if is_main_player:
-		if not in_forced_move_state:
+		if not in_forced_move_state():
 			apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
 
 		return
@@ -221,6 +226,7 @@ func _on_move_state_timeout() -> void:
 
 		# move towards action target
 		$NavigationAgent2D.target_position = action_target.position
+		# TODO: errors on scene changes (also on $ObstacleCheck.force_shapecast_update() below)
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
 		move_state_timer = randf_range(0.2, 0.4) / stats.move_speed * stats.DEFAULT_MOVE_SPEED
 
@@ -323,7 +329,7 @@ func end_sprint() -> void:
 
 func knockback(next_velocity: Vector2, duration: float) -> void:
 	# check if move state can be changed
-	if in_forced_move_state:
+	if in_forced_move_state():
 		return
 
 	# update velocity and knockback timer
@@ -337,7 +343,7 @@ func knockback(next_velocity: Vector2, duration: float) -> void:
 
 func stun(duration: float) -> void:
 	# check if move state can be changed
-	if in_forced_move_state:
+	if in_forced_move_state():
 		return
 
 	# update velocity and stun timer
@@ -478,7 +484,7 @@ func ally_attempt_action() -> void:
 #region ANIMATIONS
 
 func update_animation() -> void:
-	if not stats.alive or in_forced_move_state:
+	if not stats.alive or in_forced_move_state():
 		return
 
 	var next_animation: StringName = $Animation.animation
@@ -580,7 +586,7 @@ func switch_to_main() -> void:
 	Players.camera.update_camera(self)
 
 	# if not in forced move state, reset move state
-	if not in_forced_move_state and move_state_timer > 0.0:
+	if not in_forced_move_state() and move_state_timer > 0.0:
 		_on_move_state_timeout()
 
 	# store and reset action state
@@ -592,6 +598,9 @@ func switch_to_main() -> void:
 	action_direction = Vector2.DOWN
 	in_action_range = false
 
+	stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
+	stats.entity_types |= Entities.Type.PLAYERS_MAIN
+
 func switch_to_ally() -> void:
 	is_main_player = false
 
@@ -599,7 +608,7 @@ func switch_to_ally() -> void:
 	Entities.end_entities_request()
 
 	# if not in forced move state, reset move state
-	if not in_forced_move_state:
+	if not in_forced_move_state():
 		_on_move_state_timeout()
 
 	# update action state and cooldown
@@ -613,25 +622,29 @@ func switch_to_ally() -> void:
 
 	ally_queue_action()
 
+	stats.entity_types &= ~Entities.Type.PLAYERS_MAIN
+	stats.entity_types |= Entities.Type.PLAYERS_ALLIES
+
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
 	stats.last_action_cooldown = action_cooldown
 
 	stats = next_stats
-	stats.base = self
+
+	next_stats.base = self
 	set_max_values()
 
-	$Animation.sprite_frames = stats.animation
-	if not in_forced_move_state:
+	$Animation.sprite_frames = next_stats.CHARACTER_ANIMATION
+	if is_main_player and not in_forced_move_state():
 		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
 
-	action_cooldown = stats.last_action_cooldown
+	action_cooldown = next_stats.last_action_cooldown
 	action_state = ActionState.COOLDOWN if action_cooldown > 0.0 else ActionState.READY
 
 	process_interval = 0.0
 
 	# update player ui
-	Combat.ui.update_party_ui(party_index, stats)
+	Combat.ui.update_party_ui(party_index, next_stats)
 
 #endregion
 
@@ -695,6 +708,9 @@ func death() -> void:
 	if not stats.alive and animation_node.animation == &"death":
 		animation_node.pause()
 
+	stats.entity_types &= ~Entities.Type.PLAYERS_ALIVE
+	stats.entity_types |= Entities.Type.PLAYERS_DEAD
+
 func revive() -> void:
 	# resume process
 	super ()
@@ -715,6 +731,9 @@ func revive() -> void:
 	#update_ultimate_gauge(0.0)
 	#update_shield(0.0)
 	#play(&"down_idle")
+
+	stats.entity_types &= ~Entities.Type.PLAYERS_DEAD
+	stats.entity_types |= Entities.Type.PLAYERS_ALIVE
 
 func disable_collisions(disable: bool) -> void:
 	$MovementHitBox.disabled = disable

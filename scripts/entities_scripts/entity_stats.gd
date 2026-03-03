@@ -8,7 +8,7 @@ extends Resource
 # default stats
 const DEFAULT_HEALTH: float = 200.0
 const DEFAULT_MANA: float = 10.0
-const DEFAULT_STAMINA: float = 100.0
+const DEFAULT_STAMINA: float = 150.0
 
 const DEFAULT_MAX_SHIELD: float = 200.0
 
@@ -20,6 +20,23 @@ const DEFAULT_SPEED: float = 0.0
 const DEFAULT_AGILITY: float = 0.0
 const DEFAULT_CRIT_CHANCE: float = 0.05
 const DEFAULT_CRIT_DAMAGE: float = 1.50
+
+# stats ceilings
+const HEALTH_CEILING: float = 9999.0
+const MANA_CEILING: float = 999.0
+const STAMINA_CEILING: float = 999.0
+
+const SHIELD_CEILING: float = 9999.0
+
+const DEFENSE_CEILING: float = 999.0
+const WARD_CEILING: float = 999.0
+const STRENGTH_CEILING: float = 999.0
+const INTELLIGENCE_CEILING: float = 999.0
+const SPEED_CEILING: float = 255.0
+const AGILITY_CEILING: float = 255.0
+
+const WEIGHT_CEILING: float = 100.0
+const VISION_CEILING: float = 100.0
 
 #endregion
 
@@ -151,7 +168,7 @@ var status: int = 0
 var effects: Array[Resource] = []
 
 func add_status(type: Entities.Status) -> Resource:
-	var effect: Resource = Entities.effects_resources[type].new()
+	var effect: Resource = Entities.STATUS_PRELOADS[type].new()
 	effects.append(effect)
 	status |= type
 	return effect

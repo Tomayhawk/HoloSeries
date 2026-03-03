@@ -5,11 +5,13 @@ extends Node
 #region CONSTANTS
 
 const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.PLAYER_HIT \
-		| Damage.DamageTypes.HEAL \
-		| Damage.DamageTypes.MAGIC \
-		| Damage.DamageTypes.NO_CRITICAL \
-		| Damage.DamageTypes.NO_MISS
+		Damage.DamageTypes.PLAYER_HIT | \
+		Damage.DamageTypes.HEAL | \
+		Damage.DamageTypes.MAGIC | \
+		Damage.DamageTypes.NO_CRITICAL | \
+		Damage.DamageTypes.NO_MISS
+
+
 
 #endregion
 
@@ -17,12 +19,12 @@ const DAMAGE_TYPES: int = \
 
 #region VARIABLES
 
-var mana_cost: float = 20
-var heal_percentage: float = 0.02
-var regen_count: int = 7
+const MANA_COST: float = 20
+const REGEN_COUNT: int = 7
+const HEAL_PERCENTAGE: float = 0.02
 # TODO: need to add stats multipliers
 
-@onready var caster_node: EntityBase = Players.main_player
+@onready var caster_base: EntityBase = Players.main_player
 
 #endregion
 
@@ -32,7 +34,7 @@ var regen_count: int = 7
 
 func _ready():
 	# request target entity
-	Entities.entities_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
+	Entities.entity_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
 	Entities.request_entities(Entities.Type.PLAYERS_ALIVE)
 
 	# if alt is pressed, auto-aim player with lowest health
@@ -40,16 +42,15 @@ func _ready():
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
 
-func entity_chosen(chosen_nodes: Array[EntityBase]):
-	var target_node: EntityBase = null if chosen_nodes.is_empty() else chosen_nodes[0]
+func entity_chosen(target_entity: EntityBase):
 	# apply regen if node chosen, caster is alive and caster has enough mana
-	if target_node and caster_node.stats.alive and caster_node.stats.mana >= mana_cost:
-		caster_node.stats.update_mana(-mana_cost)
-		var effect: Resource = target_node.stats.add_status(Entities.Status.REGEN)
+	if target_entity and caster_base.stats.alive and caster_base.stats.mana >= MANA_COST:
+		caster_base.stats.update_mana(-MANA_COST)
+		var effect: Resource = target_entity.stats.add_status(Entities.Status.REGEN)
 		# 70 HP to 1470 HP (max at 7000 HP)
-		effect.regen_settings(DAMAGE_TYPES, target_node.stats,
-				clamp(target_node.stats.max_health * heal_percentage, 10.0, 210.0),
-				4.0, regen_count, 0.8, 1.2)
+		effect.regen_settings(DAMAGE_TYPES, target_entity.stats,
+				clamp(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0),
+				4.0, REGEN_COUNT, 0.8, 1.2)
 
 	queue_free()
 

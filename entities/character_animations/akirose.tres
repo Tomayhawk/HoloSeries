@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=62 format=3 uid="uid://53vy40uwfv05"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://53vy40uwfv05"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://visuals/temporary/player.png" id="1_svody"]
 [ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://visuals/entities/characters/Sora_old.png" id="2_gyit8"]
