@@ -11,7 +11,6 @@ func _ready() -> void:
 	Inputs.action_inputs_enabled = false
 	Inputs.zoom_inputs_enabled = false
 	Combat.ui.hide()
-	TextBox.reset()
 
 #endregion
 

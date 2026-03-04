@@ -4,7 +4,7 @@ extends AnimatedSprite2D
 @export var spawn_limit: int = 20
 
 func can_interact() -> bool:
-	return TextBox.isInactive()
+	return TextBox.is_inactive()
 
 func interact() -> void:
 	if $Timer.is_stopped():

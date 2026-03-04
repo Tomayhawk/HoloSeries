@@ -73,3 +73,9 @@ func action_input() -> void:
 		accept_event()
 
 		Players.main_player.action_input()
+
+
+func toggle_text_box(to_enabled) -> void:
+	world_inputs_enabled = to_enabled
+	action_inputs_enabled = to_enabled
+	zoom_inputs_enabled = to_enabled

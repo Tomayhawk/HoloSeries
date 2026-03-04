@@ -269,15 +269,15 @@ func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position
 
 
 # toggle players and enemies process
-func toggle_entities_process(toggled: bool) -> void:
+func toggle_entities_process(to_enabled: bool) -> void:
 	for entity in Players.get_children() + all_enemies():
-		entity.toggle_process(toggled)
+		entity.toggle_process(to_enabled)
 
 
 # toggle players process on text box dialogues
-func toggle_text_box_process(toggled: bool) -> void:
+func toggle_text_box(to_enabled: bool) -> void:
 	for player in Players.get_children():
-		player.toggle_text_box_process(toggled)
+		player.toggle_text_box(to_enabled)
 
 #endregion
 

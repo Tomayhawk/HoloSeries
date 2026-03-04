@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bfgttyngrxknk"]
+[gd_scene format=3 uid="uid://bfgttyngrxknk"]
 
 [ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/text_box.gd" id="1_1dsxa"]
 [ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://user_interfaces/user_interfaces_resources/panel_style/dark_blue_text_box_panel.tres" id="2_hword"]
@@ -7,11 +7,11 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="5_jj0yi"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="6_avsc4"]
 
-[node name="TextBoxUI" type="CanvasLayer"]
+[node name="TextBoxUI" type="CanvasLayer" unique_id=689393278]
 layer = 100
 script = ExtResource("1_1dsxa")
 
-[node name="TextBoxMargin" type="MarginContainer" parent="."]
+[node name="TextBoxMargin" type="MarginContainer" parent="." unique_id=925133529]
 unique_name_in_owner = true
 anchors_preset = 12
 anchor_top = 1.0
@@ -26,22 +26,22 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="TextBoxMargin"]
+[node name="Panel" type="Panel" parent="TextBoxMargin" unique_id=233290238]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_hword")
 
-[node name="MarginContainer" type="MarginContainer" parent="TextBoxMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="TextBoxMargin" unique_id=1131183952]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxMargin/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TextBoxMargin/MarginContainer" unique_id=1798133050]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="TextStartLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextStartLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer" unique_id=1658338968]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -50,7 +50,7 @@ theme_override_font_sizes/font_size = 8
 text = "*"
 horizontal_alignment = 1
 
-[node name="TextAreaLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextAreaLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer" unique_id=1329256376]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
@@ -61,7 +61,7 @@ text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample 
 autowrap_mode = 2
 clip_text = true
 
-[node name="TextEndLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextEndLabel" type="Label" parent="TextBoxMargin/MarginContainer/HBoxContainer" unique_id=252659067]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(7, 0)
 layout_mode = 2
@@ -70,9 +70,7 @@ size_flags_vertical = 8
 theme_override_font_sizes/font_size = 8
 text = "v"
 
-[node name="OptionsMargin" type="MarginContainer" parent="."]
-unique_name_in_owner = true
-visible = false
+[node name="OptionsMargin" type="MarginContainer" parent="." unique_id=50288742]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -87,63 +85,63 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 86
 
-[node name="VBoxContainer" type="VBoxContainer" parent="OptionsMargin"]
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsMargin" unique_id=1275756857]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Option1Button" type="Button" parent="OptionsMargin/VBoxContainer"]
+[node name="Option1Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=1431313542]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("3_3jmhp")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
 theme_override_styles/normal = ExtResource("6_avsc4")
+theme_override_styles/pressed = ExtResource("5_jj0yi")
+theme_override_styles/hover = ExtResource("4_82sas")
+theme_override_styles/focus = ExtResource("3_3jmhp")
 text = " First"
 
-[node name="Option2Button" type="Button" parent="OptionsMargin/VBoxContainer"]
+[node name="Option2Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=657410584]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("3_3jmhp")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
 theme_override_styles/normal = ExtResource("6_avsc4")
+theme_override_styles/pressed = ExtResource("5_jj0yi")
+theme_override_styles/hover = ExtResource("4_82sas")
+theme_override_styles/focus = ExtResource("3_3jmhp")
 text = "Second"
 
-[node name="Option3Button" type="Button" parent="OptionsMargin/VBoxContainer"]
+[node name="Option3Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=1469091731]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("3_3jmhp")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
 theme_override_styles/normal = ExtResource("6_avsc4")
+theme_override_styles/pressed = ExtResource("5_jj0yi")
+theme_override_styles/hover = ExtResource("4_82sas")
+theme_override_styles/focus = ExtResource("3_3jmhp")
 text = "Third"
 
-[node name="Option4Button" type="Button" parent="OptionsMargin/VBoxContainer"]
+[node name="Option4Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=1472945334]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("3_3jmhp")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
 theme_override_styles/normal = ExtResource("6_avsc4")
+theme_override_styles/pressed = ExtResource("5_jj0yi")
+theme_override_styles/hover = ExtResource("4_82sas")
+theme_override_styles/focus = ExtResource("3_3jmhp")
 text = "Fourth"
 
-[node name="SpecialTextBoxMargin" type="MarginContainer" parent="."]
+[node name="SpecialTextBoxMargin" type="MarginContainer" parent="." unique_id=564050847]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -157,20 +155,20 @@ offset_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="SpecialTextBoxMargin"]
+[node name="Panel" type="Panel" parent="SpecialTextBoxMargin" unique_id=684956745]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_hword")
 
-[node name="MarginContainer" type="MarginContainer" parent="SpecialTextBoxMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="SpecialTextBoxMargin" unique_id=35623147]
 layout_mode = 2
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_bottom = 4
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SpecialTextBoxMargin/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SpecialTextBoxMargin/MarginContainer" unique_id=464534769]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="TextStartLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextStartLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer" unique_id=1309089530]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -179,7 +177,7 @@ theme_override_font_sizes/font_size = 8
 text = "*"
 horizontal_alignment = 1
 
-[node name="TextAreaLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextAreaLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer" unique_id=1208563742]
 custom_minimum_size = Vector2(1, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -189,7 +187,7 @@ text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample 
 autowrap_mode = 2
 clip_text = true
 
-[node name="TextEndLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer"]
+[node name="TextEndLabel" type="Label" parent="SpecialTextBoxMargin/MarginContainer/HBoxContainer" unique_id=1919904513]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 size_flags_horizontal = 0

@@ -61,8 +61,8 @@ func exit_ui() -> void:
 
 # SETTINGS
 
-func _on_full_screen_check_button_toggled(toggled_on: bool) -> void:
-	Settings.toggle_fullscreen(toggled_on)
+func _on_full_screen_check_button_toggled(to_enabled: bool) -> void:
+	Settings.toggle_fullscreen(to_enabled)
 
 
 func _on_resolution_option_button_item_selected(index: int) -> void:

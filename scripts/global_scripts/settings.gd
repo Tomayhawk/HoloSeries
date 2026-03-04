@@ -55,9 +55,9 @@ func _init() -> void:
 
 # DISPLAY
 
-func toggle_fullscreen(toggled_on: bool) -> void:
+func toggle_fullscreen(to_enabled: bool) -> void:
 	# toggle between fullscreen and windowed mode
-	var next_mode: int = DisplayServer.WINDOW_MODE_FULLSCREEN if toggled_on else DisplayServer.WINDOW_MODE_WINDOWED
+	var next_mode: int = DisplayServer.WINDOW_MODE_FULLSCREEN if to_enabled else DisplayServer.WINDOW_MODE_WINDOWED
 
 	# update window mode
 	DisplayServer.window_set_mode(next_mode)

@@ -37,7 +37,7 @@ var accessory_3: Accessory = null
 
 # stats variables
 var experience: int = 0
-var next_level_requirement: int = 400
+var experience_required: int = 400
 
 # ultimate variables
 var ultimate_gauge: float = 0.0
@@ -135,28 +135,71 @@ func update_ultimate_gauge(value: float) -> void:
 func update_experience(value: int) -> void:
 	experience += value
 	# check level up requirements
-	while experience >= next_level_requirement:
-		experience -= next_level_requirement
+	while experience >= experience_required:
+		experience -= experience_required
 		level_up()
 
 
 func level_up() -> void:
 	level = clamp(level + 1, 1, 300) # cap level at 300
-	next_level_requirement = get_xp_requirement()
+	set_experience_required()
 
 
-func get_xp_requirement() -> int:
-	if level < 5: return 400 + (level - 1) * 125
-	if level < 10: return 775 + (level - 5) * 150
-	if level < 20: return 1525 + (level - 10) * 225
-	if level < 40: return 3775 + (level - 20) * 350
-	if level < 70: return 10775 + (level - 40) * 500
-	if level < 100: return 25775 + (level - 70) * 700
-	if level < 150: return 46775 + (level - 100) * 1000
-	if level < 200: return 96775 + (level - 150) * 1500
-	if level < 250: return 171775 + (level - 200) * 2200
-	if level < 300: return 281775 + (level - 250) * 3000
-	else: return 9223372036854775807 # effectively infinite
+enum LevelKey { CAP, INCREMENT }
+
+const MAX_INT64: int = 0x7FFFFFFFFFFFFFFF
+const BASE_XP_REQUIREMENT: int = 400
+
+const XP_BRACKETS: Array[Dictionary] = [
+	{ LevelKey.CAP: 5, LevelKey.INCREMENT: 125 },
+	{ LevelKey.CAP: 10, LevelKey.INCREMENT: 150 },
+	{ LevelKey.CAP: 20, LevelKey.INCREMENT: 225 },
+	{ LevelKey.CAP: 40, LevelKey.INCREMENT: 350 },
+	{ LevelKey.CAP: 70, LevelKey.INCREMENT: 500 },
+	{ LevelKey.CAP: 100, LevelKey.INCREMENT: 800 },
+	{ LevelKey.CAP: 150, LevelKey.INCREMENT: 1200 },
+	{ LevelKey.CAP: 200, LevelKey.INCREMENT: 2000 },
+	{ LevelKey.CAP: 250, LevelKey.INCREMENT: 3500 },
+	{ LevelKey.CAP: 300, LevelKey.INCREMENT: 8000 },
+]
+
+
+# TODO: incomplete implementation
+# initialize level
+func initialize_level() -> void:
+	experience_required = BASE_XP_REQUIREMENT
+	var calc_level: int = 1
+	var array_index: int = 0
+
+	while experience > experience_required:
+		while calc_level < level:
+			if calc_level == XP_BRACKETS[array_index][LevelKey.CAP]:
+				array_index += 1
+
+			experience_required += XP_BRACKETS[array_index][LevelKey.INCREMENT]
+			calc_level += 1
+
+		if experience >= experience_required:
+			experience -= experience_required
+			level += 1
+
+
+# store xp required for the next level
+func set_experience_required() -> void:
+	# max level = 300
+	if level == 300:
+		experience_required = MAX_INT64
+
+	experience_required = BASE_XP_REQUIREMENT
+	var calc_level: int = 1
+	var array_index: int = 0
+
+	while calc_level < level:
+		if calc_level == XP_BRACKETS[array_index][LevelKey.CAP]:
+			array_index += 1
+
+		experience_required += XP_BRACKETS[array_index][LevelKey.INCREMENT]
+		calc_level += 1
 
 #endregion
 
@@ -222,34 +265,28 @@ func set_stats() -> void:
 
 	# TODO: to be updated
 
-	if weapon: weapon.set_stats(self)
-	if headgear: headgear.set_stats(self)
-	if chestpiece: chestpiece.set_stats(self)
-	if leggings: leggings.set_stats(self)
-	if accessory_1: accessory_1.set_stats(self)
-	if accessory_2: accessory_2.set_stats(self)
-	if accessory_3: accessory_3.set_stats(self)
+	var gears = [weapon, headgear, chestpiece, leggings, accessory_1, accessory_2, accessory_3]
+
+	for gear in gears:
+		if gear:
+			gear.set_stats(self)
 
 	move_speed = DEFAULT_MOVE_SPEED + (speed / 2.0) # max 268.0 speed
 	dash_multiplier = DEFAULT_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
 	dash_stamina = DEFAULT_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
 	dash_min_stamina = DEFAULT_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
 
-	dash_time = DEFAULT_DASH_TIME - (agility / 2560.0) # min 0.1s dash time
-	sprint_multiplier = DEFAULT_SPRINT_MULTIPLIER + (speed / 1280.0) # max 1.45 multiplier
+	dash_time = DEFAULT_DASH_TIME - (agility / AGILITY_CEILING / 10.0) # min 0.1s dash time
+	sprint_multiplier = DEFAULT_SPRINT_MULTIPLIER + (speed / (SPEED_CEILING * 5.0)) # max 1.45 multiplier
 	sprint_stamina = DEFAULT_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
 
 	mana_regen = DEFAULT_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
 	stamina_regen = DEFAULT_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
 	fatigue_regen = DEFAULT_FATIGUE_REGEN + (stamina / 50.0) # max 25.0 stamina per second
 
-	if weapon: weapon.update_variable_stats(self)
-	if headgear: headgear.update_variable_stats(self)
-	if chestpiece: chestpiece.update_variable_stats(self)
-	if leggings: leggings.update_variable_stats(self)
-	if accessory_1: accessory_1.update_variable_stats(self)
-	if accessory_2: accessory_2.update_variable_stats(self)
-	if accessory_3: accessory_3.update_variable_stats(self)
+	for gear in gears:
+		if gear:
+			gear.update_variable_stats(self)
 
 	# TODO: update current stats based on effects
 

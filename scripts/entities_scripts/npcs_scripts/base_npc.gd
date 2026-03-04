@@ -9,7 +9,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if (
 			Input.is_action_just_pressed(&"interact") # interaction button pressed
-			and TextBox.isInactive() # text box is inactive
+			and TextBox.is_inactive() # text box is inactive
 			and Combat.not_in_combat() # not in combat
 			and Inputs.world_inputs_enabled # world inputs are enabled
 			and event.is_action(&"interact") # event is an interaction event

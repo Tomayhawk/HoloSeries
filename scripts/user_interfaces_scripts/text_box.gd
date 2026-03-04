@@ -1,129 +1,231 @@
 extends CanvasLayer
 
+# TODO: use .tres instead of .JSON
+
+# ..............................................................................
+
+#region CONSTANTS
+
 enum TextBoxState {
 	INACTIVE,
-	READY,
 	TYPING,
 	END,
 	WAITING,
 }
 
-var text_queue := []
-var text_options := []
-var tween
+# TODO: should use saved states instead
+const NPC_STATES_PATH: String = "res://dialogues/npc_default_states.json"
+const TYPING_DURATION_MULTIPLIER: float = 0.04
 
-signal option_selected(option_index: int) # TODO: THIS NEEDS TO BE USED SOMEWHERE ELSE IN SOME OTHER WAY
+#endregion
 
-var text_box_state := TextBoxState.INACTIVE:
-	set(next_state):
-		# ignore same state
-		if text_box_state == next_state: return
-		if next_state == TextBoxState.READY:
-			# end dialogue on empty text queue
-			if text_queue.is_empty():
-				clearTextBox()
-				text_box_state = TextBoxState.INACTIVE
-				Entities.toggle_text_box_process(true)
-				Inputs.world_inputs_enabled = true
-				Inputs.action_inputs_enabled = true
-				Inputs.zoom_inputs_enabled = true
-				return
-			# start dialogue on hidden text box
-			if isInactive():
-				Entities.toggle_text_box_process(false)
-				Inputs.world_inputs_enabled = false
-				Inputs.action_inputs_enabled = false
-				Inputs.zoom_inputs_enabled = false
-				%TextBoxMargin.show()
-			# continue dialogue with animation
-			text_box_state = TextBoxState.TYPING
-			%TextAreaLabel.text = text_queue.pop_front()
-			%TextAreaLabel.visible_characters = 0
-			%TextEndLabel.hide()
-			tween = create_tween()
-			tween.tween_property(%TextAreaLabel, "visible_ratio", 1.0, len(%TextAreaLabel.text) * 0.04)
-			# let dialogue finish naturally
-			await tween.finished
-			next_state = TextBoxState.END
-		if next_state == TextBoxState.END:
-			# force end dialogue animation
-			tween.kill()
-			%TextAreaLabel.set_visible_ratio(1.0)
-			%TextEndLabel.show()
-			text_box_state = TextBoxState.END
+# ..............................................................................
 
-			# check for response request
-			if text_queue.is_empty() and text_options.size() != 0:
-				requestResponse()
-				text_box_state = TextBoxState.WAITING
+#region VARIABLES
 
+var text_box_state: TextBoxState = TextBoxState.INACTIVE
 
-func _ready():
+var npcs_states: Dictionary = {}
+var npc_node: AnimatedSprite2D = null
+
+var dialogue: Dictionary = {}
+var dialogue_key: String = ""
+var dialogue_text: Array = []
+
+var tween: Tween = null
+
+@onready var text_label: Label = %TextAreaLabel
+@onready var end_label: Label = %TextEndLabel
+
+@onready var option_buttons: Array[Button] = [
+	%Option1Button, %Option2Button, %Option3Button, %Option4Button
+]
+
+#endregion
+
+# ..............................................................................
+
+#region READY
+
+func _ready() -> void:
+	initialize_npc_states()
+
 	# empty text boxes
-	clearTextBox()
-	clearOptions()
+	clear_text_box()
+	clear_options()
 
+#endregion
+
+# ..............................................................................
+
+#region INPUT
 
 func _input(event: InputEvent) -> void:
-	if isInactive(): return
+	if is_inactive(): return
 
-	if not (event.is_action(&"action") or event.is_action(&"continue") or event.is_action(&"esc")):
+	if not (
+			event.is_action(&"action")
+			or event.is_action(&"continue")
+			or event.is_action(&"esc")
+	):
 		return
 
 	if Input.is_action_just_pressed(&"continue") or Input.is_action_just_pressed(&"action"):
-		# force end dialogue animation
+		# force end dialogue text
 		if text_box_state == TextBoxState.TYPING:
 			Inputs.accept_event()
-			text_box_state = TextBoxState.END
-		# continue or end dialogue
+			force_end_text()
+		# continue to next dialogue text
 		elif text_box_state == TextBoxState.END:
 			Inputs.accept_event()
-			text_box_state = TextBoxState.READY
+			continue_dialogue()
 	elif Input.is_action_just_pressed(&"esc"):
 		Inputs.accept_event()
 
+#endregion
 
-func clearTextBox():
+# ..............................................................................
+
+#region DIALOGUE LOOP
+
+func npc_dialogue(npc: AnimatedSprite2D, file_path: String) -> void:
+	# set npc dialogue_branch
+	npc_node = npc
+
+	# set dialogue
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	var json_string = file.get_as_text()
+	dialogue = JSON.parse_string(json_string)
+
+	# toggle world states and show text box
+	toggle_world_states(false)
+	%TextBoxMargin.show()
+
+	# set dialogue key and texts
+	dialogue_key = npcs_states[file_path.get_file().get_basename()]
+	dialogue_text = dialogue[dialogue_key]["text"]
+
+	# start dialogue
+	start_text()
+
+
+func start_text() -> void:
+	text_box_state = TextBoxState.TYPING
+
+	# set text and ui
+	text_label.text = dialogue_text.pop_front()
+	text_label.visible_characters = 0
+	end_label.hide()
+
+	# animate typing
+	tween = create_tween()
+	tween.tween_property(
+			text_label,
+			"visible_ratio",
+			1.0,
+			len(text_label.text) * TYPING_DURATION_MULTIPLIER
+	)
+	tween.finished.connect(end_text)
+
+
+func force_end_text() -> void:
+	# force end text animation
+	tween.kill()
+	text_label.set_visible_ratio(1.0)
+
+	end_text()
+
+
+func end_text() -> void:
+	text_box_state = TextBoxState.END
+	end_label.show()
+
+	# handle options and actions
+	if dialogue_text.is_empty() and dialogue[dialogue_key].has("options"):
+		request_response()
+
+
+func continue_dialogue() -> void:
+	if dialogue_text.is_empty() and dialogue[dialogue_key].has("action"):
+		# handle action
+		var action_name: StringName = StringName(dialogue[dialogue_key]["action"])
+
+		if action_name == StringName("end_dialogue"):
+			end_dialogue()
+		else:
+			npc_node.call(action_name)
+	else:
+		start_text()
+
+
+func end_dialogue() -> void:
+	text_box_state = TextBoxState.INACTIVE
+
+	clear_text_box()
+	toggle_world_states(true)
+
+
+func request_response() -> void:
+	text_box_state = TextBoxState.WAITING
+	end_label.hide()
+
+	# set option buttons
+	var dialogue_options: Array = dialogue[dialogue_key]["options"]
+
+	for optionIndex in dialogue_options.size():
+		option_buttons[optionIndex].text = dialogue_options[optionIndex]
+		option_buttons[optionIndex].show()
+
+#endregion
+
+# ..............................................................................
+
+#region UTILITIES
+
+func initialize_npc_states() -> void:
+	var file = FileAccess.open(NPC_STATES_PATH, FileAccess.READ)
+	var json_string = file.get_as_text()
+	npcs_states = JSON.parse_string(json_string)
+
+
+func set_npc_states(_key: String, _state: String) -> void:
+	pass
+
+
+func toggle_world_states(to_enabled: bool) -> void:
+	Entities.toggle_text_box(to_enabled)
+	Inputs.toggle_text_box(to_enabled)
+
+
+func is_inactive() -> bool:
+	return text_box_state == TextBoxState.INACTIVE
+
+
+func clear_text_box() -> void:
 	%TextBoxMargin.hide()
-	%TextAreaLabel.text = ""
-	%TextEndLabel.hide()
+	text_label.text = ""
+	end_label.hide()
 
 
-func clearOptions():
-	%OptionsMargin.hide()
-	for option_button in [%Option1Button, %Option2Button, %Option3Button, %Option4Button]:
+func clear_options() -> void:
+	for option_button in option_buttons:
 		option_button.text = ""
 		option_button.hide()
 
 
-func isInactive():
-	return text_box_state == TextBoxState.INACTIVE
+#endregion
 
+# ..............................................................................
 
-func npcDialogue(text_array, options):
-	text_queue = text_array
-	text_options = options
-	text_box_state = TextBox.TextBoxState.READY
+#region SIGNALS
 
+func _on_option_button_pressed(extra_arg_0: int) -> void:
+	dialogue_key = dialogue[dialogue_key]["branches"][extra_arg_0]
+	dialogue_text = dialogue[dialogue_key]["text"]
 
-func requestResponse():
-	# Hide Text End Symbol
-	%TextEndLabel.hide()
+	clear_options()
+	continue_dialogue()
 
-	# Connect, Update and Show Each Button
-	var option_buttons := [%Option1Button, %Option2Button, %Option3Button, %Option4Button]
-	for optionIndex in text_options.size():
-		option_buttons[optionIndex].text = text_options[optionIndex]
-		option_buttons[optionIndex].show()
+#endregion
 
-	# Show Options Container
-	%OptionsMargin.show()
-
-
-func reset() -> void:
-	pass
-
-
-func _on_option_button_pressed(extra_arg_0: int):
-	emit_signal(&"option_selected", extra_arg_0)
-	clearOptions()
+# ..............................................................................

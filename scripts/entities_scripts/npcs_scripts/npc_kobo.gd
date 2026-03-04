@@ -1,11 +1,22 @@
 extends AnimatedSprite2D
+# ..............................................................................
 
-func initiate_dialogue():
-	default_dialogue.call_deferred()
+#region CONSTANTS
 
-func default_dialogue():
-	TextBox.npcDialogue([
-		"Never gonna give you up.",
-		"Never gonna let you down.",
-		"Never gonna run around and desert you!"
-	], [])
+const DIALOGUE_PATH: String = "res://dialogues/kobo.json"
+
+#endregion
+
+# ..............................................................................
+
+#region DIALOGUE
+
+func initiate_dialogue() -> void:
+	TextBox.npc_dialogue(self, DIALOGUE_PATH)
+
+func end_dialogue() -> void:
+	pass
+
+#endregion
+
+# ..............................................................................

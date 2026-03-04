@@ -1,5 +1,9 @@
 extends AnimatedSprite2D
 
+# ..............................................................................
+
+#region CONSTANTS
+
 enum NpcState {
 	NEVER_SPOKEN,
 	REGULAR,
@@ -8,9 +12,25 @@ enum NpcState {
 	CAN_RECRUIT,
 }
 
-var npc_state := NpcState.CAN_RECRUIT
+const DIALOGUE_PATH: String = "res://dialogues/akirose.json"
 
-func initiate_dialogue():
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+var npc_state: NpcState = NpcState.CAN_RECRUIT
+
+#endregion
+
+# ..............................................................................
+
+#region DIALOGUE
+
+func initiate_dialogue() -> void:
+	TextBox.npc_dialogue(self, DIALOGUE_PATH)
+	'''
 	match npc_state:
 		NpcState.NEVER_SPOKEN:
 			default_dialogue()
@@ -22,13 +42,12 @@ func initiate_dialogue():
 			default_dialogue()
 		_:
 			default_dialogue()
+	'''
 
 
 func default_dialogue():
 	var resp_index := 0
 	var responses := []
-
-	TextBox.npcDialogue(["Do you want to recruit me?"], ["Yes", "No", "Hell No"])
 
 	resp_index = await TextBox.option_selected
 	responses = [
@@ -37,7 +56,7 @@ func default_dialogue():
 		[["????"], []],
 	]
 
-	TextBox.npcDialogue(responses[resp_index][0], responses[resp_index][1])
+	TextBox.npc_dialogue(responses[resp_index][0], responses[resp_index][1])
 
 	if resp_index == 1:
 		resp_index = await TextBox.option_selected
@@ -46,49 +65,58 @@ func default_dialogue():
 			[[], []],
 		] # TODO: want textbox fade out animation
 
-		TextBox.npcDialogue(responses[resp_index][0], responses[resp_index][1])
+		TextBox.npc_dialogue(responses[resp_index][0], responses[resp_index][1])
 
 	# end dialogue if not recruiting
 	if resp_index == 0:
-		recruit_player()
+		recruit_character()
 		queue_free()
 
+#endregion
 
-func recruit_player() -> void:
-	var character: Node = load("res://entities/players/character/akirose.tscn").instantiate()
-	if Players.get_child_count() < 4 and Players.standby_node.get_child_count() == 0:
-		var player_node: Node = load("res://entities/player_base.tscn").instantiate()
-		Players.add_child(player_node)
-		player_node.add_child(character)
-		player_node.stats = character
+# ..............................................................................
 
-		character.node_index = Players.get_child_count() - 1 # TODO
-		player_node.position = Players.main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
+#region RECRUIT
+
+const AKIROSE_PATH: String = "res://entities/character_animations/akirose.tres"
+const PLAYER_PATH: String = "res://entities/player_base.tscn"
+
+func recruit_character() -> void:
+	var stats: EntityStats = load(AKIROSE_PATH).instantiate()
+	if Players.get_child_count() < 4 and Players.standby_characters.is_empty():
+		var base: PlayerBase = load(PLAYER_PATH).instantiate()
+		Players.add_child(base)
+		base.stats = stats
+		stats.base = base
+
+		stats.node_index = Players.get_child_count() - 1 # TODO
+		base.position = Players.main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 
 		# TODO: make function for this
-		Combat.ui.character_name_label_nodes[character.node_index].text = character.CHARACTER_NAME
-		Combat.ui.players_info_nodes[character.node_index].show()
-		Combat.ui.ultimate_progress_bar_nodes[character.node_index].show()
-		Combat.ui.shield_progress_bar_nodes[character.node_index].show()
+		Combat.ui.character_name_label_nodes[stats.node_index].text = stats.CHARACTER_NAME
+		Combat.ui.players_info_nodes[stats.node_index].show()
+		Combat.ui.ultimate_progress_bar_nodes[stats.node_index].show()
+		Combat.ui.shield_progress_bar_nodes[stats.node_index].show()
 	else:
-		Players.standby_node.add_child(character)
-		character.node_index = character.get_index()
+		Players.standby_node.add_child(stats)
+		stats.node_index = stats.get_index()
 
-	character.level = 1
-	character.base_health = 396.0
-	character.base_mana = 26.0
-	character.base_stamina = 100.0
-	character.base_defense = 11.0
-	character.base_ward = 11.0
-	character.base_strength = 14.0
-	character.base_intelligence = 12.0
-	character.base_speed = 0.0
-	character.base_agility = 0.0
-	character.base_crit_chance = 0.05
-	character.base_crit_damage = 0.60
+	stats.level = 1
+	stats.base_health = stats.CHARACTER_HEALTH
+	stats.base_mana = stats.CHARACTER_MANA
+	stats.base_stamina = stats.CHARACTER_STAMINA
 
-	character.last_node = 522
-	character.unlocked_nodes = [491, 522, 523]
+	stats.base_defense = stats.CHARACTER_DEFENSE
+	stats.base_ward = stats.CHARACTER_WARD
+	stats.base_strength = stats.CHARACTER_STRENGTH
+	stats.base_intelligence = stats.CHARACTER_INTELLIGENCE
+	stats.base_speed = stats.CHARACTER_SPEED
+	stats.base_agility = stats.CHARACTER_AGILITY
+	stats.base_crit_chance = stats.CHARACTER_CRIT_CHANCE
+	stats.base_crit_damage = stats.CHARACTER_CRIT_DAMAGE
+
+	stats.last_node = 522
+	stats.unlocked_nodes = stats.CHARACTER_DEFAULT_UNLOCKED
 	Global.nexus_converted_nodes[3] = []
 
 	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
@@ -105,7 +133,14 @@ func recruit_player() -> void:
 
 	# TODO: nexus
 
-	character.update_nodes()
+	stats.update_nodes()
 
-	if character.node_index == -1:
+	if stats.node_index == -1:
 		Combat.ui.update_character_selector()
+
+func end_dialogue() -> void:
+	pass
+
+#endregion
+
+# ..............................................................................

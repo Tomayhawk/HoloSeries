@@ -18,11 +18,11 @@ var standby_characters: Array[PlayerStats] = []
 #region FUNCTIONS
 
 # TODO: need to update states and variables
-func toggle_process(toggled: bool) -> void:
+func toggle_process(to_enabled: bool) -> void:
 	main_player.velocity = Vector2.ZERO
-	set_physics_process(toggled)
+	set_physics_process(to_enabled)
 
-	if toggled:
+	if to_enabled:
 		main_player.apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
 
 

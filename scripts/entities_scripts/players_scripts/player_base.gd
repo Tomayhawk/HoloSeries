@@ -146,13 +146,13 @@ func apply_movement(next_direction: Vector2) -> void:
 	update_animation()
 
 # TODO: need to test
-func toggle_text_box_process(toggled: bool) -> void:
+func toggle_text_box(to_enabled: bool) -> void:
 	if not stats.alive: return
 
-	set_process(toggled)
-	set_physics_process(toggled)
+	set_process(to_enabled)
+	set_physics_process(to_enabled)
 
-	if toggled:
+	if to_enabled:
 		move_state_timer = 0.0
 		if is_main_player:
 			set_process_input(true)

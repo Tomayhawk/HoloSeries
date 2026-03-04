@@ -126,20 +126,20 @@ func update_camera_limits(next_limits: Array[int]) -> void:
 #region BLACK SCREEN
 
 # toggle black screen
-func toggle_black_screen(toggled: bool) -> void:
+func toggle_black_screen(to_enabled: bool) -> void:
 	$CanvasLayer.show()
-	$CanvasLayer/ColorRect.color.a = 0.0 if toggled else 1.0
+	$CanvasLayer/ColorRect.color.a = 0.0 if to_enabled else 1.0
 
 	# tween color rect
 	var tween: Tween = create_tween()
 	tween.tween_property($CanvasLayer/ColorRect, "color:a",
-			1.0 if toggled else 0.0, 0.2 if toggled else 0.4).set_ease(Tween.EASE_OUT)
+			1.0 if to_enabled else 0.0, 0.2 if to_enabled else 0.4).set_ease(Tween.EASE_OUT)
 
 	# wait for tween to finish
 	await tween.finished
 
 	# hide color rect accordingly
-	if not toggled:
+	if not to_enabled:
 		$CanvasLayer.hide()
 
 #endregion
