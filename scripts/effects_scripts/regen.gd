@@ -15,7 +15,7 @@ var damage_types: int = \
 		| Damage.DamageTypes.NO_CRITICAL \
 		| Damage.DamageTypes.NO_MISS
 
-var origin_stats_node: EntityStats = null
+var origin_stats: EntityStats = null
 
 # Healing settings
 var heal_interval: float = 5.0
@@ -30,9 +30,9 @@ var max_rand: float = 1.05
 
 #region FUNCTIONS
 
-func regen_settings(types: int, stats_node: EntityStats, amount: float, set_timer: float, set_count: int, set_min: float = 0.95, set_max: float = 1.05) -> void:
+func regen_settings(types: int, stats: EntityStats, amount: float, set_timer: float, set_count: int, set_min: float = 0.95, set_max: float = 1.05) -> void:
 	damage_types = types
-	origin_stats_node = stats_node
+	origin_stats = stats
 	effect_timer = set_timer
 	heal_interval = set_timer
 	heal_amount = amount
@@ -41,19 +41,19 @@ func regen_settings(types: int, stats_node: EntityStats, amount: float, set_time
 	max_rand = set_max
 
 
-func effect_timeout(stats_node: EntityStats) -> void:
-	Damage.combat_damage(heal_amount * randf_range(min_rand, max_rand), damage_types, origin_stats_node, stats_node)
+func effect_timeout(stats: EntityStats) -> void:
+	Damage.combat_damage(heal_amount * randf_range(min_rand, max_rand), damage_types, origin_stats, stats)
 	count -= 1
 	if count == 0:
-		stats_node.effects.erase(self)
-		stats_node.attempt_remove_status(Entities.Status.REGEN)
+		stats.effects.erase(self)
+		stats.attempt_remove_status(Entities.Status.REGEN)
 	else:
 		effect_timer = heal_interval
 
 
-func remove_effect(stats_node: EntityStats) -> void:
-	stats_node.effects.erase(self)
-	stats_node.attempt_remove_status(Entities.Status.REGEN)
+func remove_effect(stats: EntityStats) -> void:
+	stats.effects.erase(self)
+	stats.attempt_remove_status(Entities.Status.REGEN)
 
 #endregion
 

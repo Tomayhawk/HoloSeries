@@ -51,10 +51,37 @@ var alive: bool = true:
 	set(value):
 		alive = value
 
-		if is_instance_valid(base) and base is PlayerBase:
-			base.add_to_group(&"players_alive" if alive else &"players_dead")
+		if base is PlayerBase:
+			if alive: # dead -> alive
+				entity_types &= ~Entities.Type.PLAYERS_DEAD
+				entity_types |= Entities.Type.PLAYERS_ALIVE
+			else: # alive -> dead
+				entity_types &= ~Entities.Type.PLAYERS_ALIVE
+				entity_types |= Entities.Type.PLAYERS_DEAD
 
-var entity_types: int = 0 # bitmask for entity types (Entities.Type)
+# bitmask for entity types (Entities.Type)
+var entity_types: int = 0:
+	set(value):
+		if not is_instance_valid(base):
+			entity_types = value
+			return
+
+		# add or remove from entity groups accordingly
+		var changed_types: int = entity_types ^ value
+
+		while changed_types > 0:
+			# get rightmost remaining changed type in bitmask
+			var type: int = changed_types & -changed_types
+
+			if entity_types & type:
+				base.remove_from_group(Entities.GROUP_NAME[type])
+			else:
+				base.add_to_group(Entities.GROUP_NAME[type])
+
+			# remove resolved bit
+			changed_types ^= type
+
+		entity_types = value
 
 # health, mana, stamina
 var health: float = DEFAULT_HEALTH
@@ -123,17 +150,20 @@ func update_health(value: float) -> void:
 
 
 func update_mana(value: float) -> void:
-	if not alive: return
+	if not alive:
+		return
 	mana = clamp(mana + value, 0.0, max_mana)
 
 
 func update_stamina(value: float) -> void:
-	if not alive: return
+	if not alive:
+		return
 	stamina = clamp(stamina + value, 0.0, max_stamina)
 
 
 func update_shield(value: float) -> void:
-	if not alive: return
+	if not alive:
+		return
 	shield = clamp(shield + value, 0.0, max_shield)
 
 #endregion

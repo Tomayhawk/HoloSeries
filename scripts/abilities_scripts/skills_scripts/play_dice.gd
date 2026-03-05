@@ -31,7 +31,7 @@ var dice_damage := 0.0
 
 #region FUNCTIONS
 
-func _ready():
+func _ready() -> void:
 	# disabled while selecting target
 	set_physics_process(false)
 	hide()
@@ -48,20 +48,21 @@ func _ready():
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
 
-func initiate_play_dice(chosen_nodes):
-	var target_node: EntityBase = null
+func initiate_play_dice(chosen_nodes: Array[EntityBase]) -> void:
+	var target_base: EntityBase = null
+	var caster_stats: EntityStats = caster_base.stats
 
 	# check chosen entities
 	if not chosen_nodes.is_empty():
-		target_node = chosen_nodes[0]
+		target_base = chosen_nodes[0]
 
 	# check caster status and mana sufficiency
-	if caster_base.stats.mana > MANA_COST and caster_base.stats.alive:
-		caster_base.stats.update_mana(-MANA_COST)
+	if caster_stats.mana > MANA_COST and caster_stats.alive:
+		caster_stats.update_mana(-MANA_COST)
 
 		# roll 1 to 17 dice
-		for i in (1 + (caster_base.stats.speed + caster_base.stats.agility) / 32):
-			if not is_instance_valid(target_node) or not target_node.stats.alive:
+		for i in (1 + (caster_stats.speed + caster_stats.agility) / 32):
+			if not is_instance_valid(target_base) or not target_base.stats.alive:
 				break
 
 			dice_results.append(randi() % 7)
@@ -79,7 +80,7 @@ func initiate_play_dice(chosen_nodes):
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()
 			Damage.combat_damage(dice_damage, DAMAGE_TYPES,
-					caster_base.stats, target_node.stats)
+					caster_stats, target_base.stats)
 			await interval_timer.timeout
 
 	queue_free()

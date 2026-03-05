@@ -5,7 +5,7 @@ extends CanvasLayer
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not event.is_action(&"esc"):
 		return
 

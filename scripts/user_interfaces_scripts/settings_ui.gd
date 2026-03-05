@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-func _ready():
+func _ready() -> void:
 	# set resolution options
 	const resolution_options: Array[Vector2i] = [
 			Vector2i(640, 480), Vector2i(800, 600), Vector2i(1024, 768), Vector2i(1280, 720),
@@ -15,7 +15,7 @@ func _ready():
 	var max_y: int = DisplayServer.screen_get_size().y
 
 	for resolution in resolution_options:
-		if (resolution.x <= max_x) and (resolution.y <= max_y):
+		if resolution.x <= max_x and resolution.y <= max_y:
 			%ResolutionOptionButton.add_item(str(resolution.x) + " x " + str(resolution.y))
 
 	# update full screen status
@@ -42,7 +42,7 @@ func _ready():
 
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not event.is_action(&"esc"):
 		return
 

@@ -74,20 +74,39 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 		return
 
 	var request_count = item.request_count
-	var chosen_nodes: Array[EntityBase] = []
 
-	if request_count != 0:
+	# TODO: bad code
+	if not request_count:
+		item.use_item()
+	elif request_count == 1:
+		var chosen_node: EntityBase = null
+
+		if is_main_player:
+			Entities.request_entities(item.request_types, request_count)
+			chosen_node = await Entities.entity_request_ended
+		else:
+			chosen_node = Entities.ally_request_entities()
+
+		if not chosen_node:
+			return
+
+		item.use_item(chosen_node)
+
+	else:
+		var chosen_nodes: Array[EntityBase] = []
+
 		if is_main_player:
 			Entities.request_entities(item.request_types, request_count)
 			chosen_nodes = await Entities.entities_request_ended
 		else:
 			chosen_nodes = Entities.ally_request_entities()
 
-	if chosen_nodes.size() != request_count:
-		return
+		if chosen_nodes.size() != request_count:
+			return
+
+		item.use_item(chosen_nodes)
 
 	consumables_inventory[index] -= 1
-	item.use_item(chosen_nodes)
 
 	if consumables_inventory[index] == 0:
 		if combat_ui_button_node:

@@ -25,17 +25,17 @@ func instantiate_item(base_position: Vector2, texture_path: StringName, type: in
 	item_id = id
 
 
-func player_entered(player: PlayerBase) -> void:
-	if not nearby_players.has(player):
-		nearby_players.append(player)
+func player_entered(player_base: PlayerBase) -> void:
+	if not nearby_players.has(player_base):
+		nearby_players.append(player_base)
 
 	if not target_player:
-		target_player = player
+		target_player = player_base
 		set_physics_process(true)
 
 
-func player_exited(player: PlayerBase) -> void:
-	nearby_players.erase(player)
+func player_exited(player_base: PlayerBase) -> void:
+	nearby_players.erase(player_base)
 
 	if nearby_players.is_empty():
 		set_physics_process(false)

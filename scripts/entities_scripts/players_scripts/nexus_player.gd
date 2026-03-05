@@ -92,7 +92,7 @@ func _physics_process(_delta: float) -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not (event.is_action(&"left") or event.is_action(&"right") \
 			or event.is_action(&"up") or event.is_action(&"down")):
 		return

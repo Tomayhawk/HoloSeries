@@ -4,7 +4,7 @@ extends CanvasLayer
 
 #region VARIABLES
 
-var characters: Array[PlayerStats] = []
+var character_stats: Array[PlayerStats] = []
 var current_index: int = -1
 var stats_label_nodes: Array[Label] = []
 
@@ -19,17 +19,17 @@ var stats_label_nodes: Array[Label] = []
 
 func _ready() -> void:
 	# get party character stats
-	for player in Players.get_children():
-		characters.append(player.stats)
+	for player_base in Players.get_children():
+		character_stats.append(player_base.stats)
 
 	# sort party characters by party index
-	characters.sort_custom(func(a, b):
+	character_stats.sort_custom(func(a, b) -> bool:
 		return a.base.party_index < b.base.party_index
 	)
 
 	# get standby character stats
 	for character in Players.standby_characters:
-		characters.append(character)
+		character_stats.append(character)
 
 	current_index = Players.main_player.party_index
 
@@ -52,7 +52,7 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not event.is_action(&"esc"):
 		return
 
@@ -68,7 +68,7 @@ func _input(event: InputEvent) -> void:
 #region FUNCTIONS
 
 func update_characters() -> void:
-	var stats: PlayerStats = characters[current_index]
+	var stats: PlayerStats = character_stats[current_index]
 
 	stats_label_nodes[0].text = stats.CHARACTER_NAME
 	stats_label_nodes[1].text = "%d" % stats.level
@@ -87,7 +87,7 @@ func update_characters() -> void:
 
 func update_button_states() -> void:
 	var at_left_limit: bool = current_index == 0
-	var at_right_limit: bool = current_index == characters.size() - 1
+	var at_right_limit: bool = current_index == character_stats.size() - 1
 
 	left_button_node.modulate.a = 0.0 if at_left_limit else 1.0
 	right_button_node.modulate.a = 0.0 if at_right_limit else 1.0

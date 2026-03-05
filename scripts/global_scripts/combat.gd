@@ -29,7 +29,7 @@ var ability_loads: Array[Resource] = [
 	load("res://abilities/talents/rocket_launcher.tscn"),
 ]
 
-var locked_enemy_node: Node = null
+var locked_enemy_base: Node = null
 
 var combat_state := CombatState.NOT_IN_COMBAT:
 	set(next_state):
@@ -77,25 +77,20 @@ func not_in_combat() -> bool:
 	return combat_state == CombatState.NOT_IN_COMBAT
 
 
+# enter combat
+func enter_combat() -> void:
+	combat_state = CombatState.IN_COMBAT
+
+
 # leave combat
 func leave_combat() -> void:
 	combat_state = CombatState.NOT_IN_COMBAT
 
 
-# add enemy to combat
-func add_active_enemy(enemy_node: Node) -> void:
-	enemy_node.add_to_group(&"enemies_in_combat")
-
-	# update combat state
-	combat_state = CombatState.IN_COMBAT
-
-
 # remove enemy from combat
-func remove_active_enemy(enemy_node: Node) -> void:
-	enemy_node.remove_from_group(&"enemies_in_combat")
-
+func remove_active_enemy(enemy_base: EnemyBase) -> void:
 	# manage locked enemy
-	if locked_enemy_node == enemy_node:
+	if locked_enemy_base == enemy_base:
 		unlock()
 
 	# update combat state
@@ -104,37 +99,37 @@ func remove_active_enemy(enemy_node: Node) -> void:
 
 
 # lock enemy
-func lock(enemy_node: Node) -> void:
-	if locked_enemy_node == enemy_node: return
+func lock(enemy_base: EnemyBase) -> void:
+	if locked_enemy_base == enemy_base: return
 	unlock()
-	locked_enemy_node = enemy_node
+	locked_enemy_base = enemy_base
 	var marker_node: Sprite2D = EnemyMarker.instantiate()
-	enemy_node.add_child(marker_node)
+	enemy_base.add_child(marker_node)
 	marker_node.position = Vector2(0, -40) # should be dynamic
 
 
 # unlock enemy
 func unlock() -> void:
-	if locked_enemy_node == null: return
-	if locked_enemy_node.has_node(^"EnemyMarker"):
-		locked_enemy_node.get_node(^"EnemyMarker").queue_free()
-	locked_enemy_node = null
+	if locked_enemy_base == null: return
+	if locked_enemy_base.has_node(^"EnemyMarker"):
+		locked_enemy_base.get_node(^"EnemyMarker").queue_free()
+	locked_enemy_base = null
 
 
 # if node is null, checks if anything is locked
 # if node is not null, checks if node is locked
-func is_locked(node: Node = null) -> bool:
-	return locked_enemy_node == node if node else locked_enemy_node != null
+func is_locked(enemy_base: EnemyBase = null) -> bool:
+	return locked_enemy_base == enemy_base if enemy_base else locked_enemy_base != null
 
 
 # freeing ability nodes, pick up item nodes, and/or damage display nodes
-func clear_combat_entities(abilities: bool = true, lootable_items: bool = true, damage_display: bool = true):
+func clear_combat_entities(abilities: bool = true, lootable_items: bool = true, damage_display: bool = true) -> void:
 	if abilities:
-		for node in Entities.abilities_node.get_children():
-			node.queue_free()
+		for entity_base in Entities.abilities_node.get_children():
+			entity_base.queue_free()
 	if lootable_items: # TODO: should be somewhere else
-		for node in Entities.lootable_items_node.get_children():
-			node.queue_free()
+		for entity_base in Entities.lootable_items_node.get_children():
+			entity_base.queue_free()
 	if damage_display:
 		Damage.clear_damage_display()
 

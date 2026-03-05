@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 # TODO: use .tres instead of .JSON
+# TODO: want text box fade out animation
 
 # ..............................................................................
 
@@ -34,6 +35,7 @@ var dialogue_text: Array = []
 
 var tween: Tween = null
 
+@onready var text_box: MarginContainer = %TextBoxMargin
 @onready var text_label: Label = %TextAreaLabel
 @onready var end_label: Label = %TextEndLabel
 
@@ -99,7 +101,7 @@ func npc_dialogue(npc: AnimatedSprite2D, file_path: String) -> void:
 
 	# toggle world states and show text box
 	toggle_world_states(false)
-	%TextBoxMargin.show()
+	text_box.show()
 
 	# set dialogue key and texts
 	dialogue_key = npcs_states[file_path.get_file().get_basename()]
@@ -202,7 +204,7 @@ func is_inactive() -> bool:
 
 
 func clear_text_box() -> void:
-	%TextBoxMargin.hide()
+	text_box.hide()
 	text_label.text = ""
 	end_label.hide()
 

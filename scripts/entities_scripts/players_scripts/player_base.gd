@@ -1,6 +1,8 @@
 class_name PlayerBase
 extends EntityBase
 
+# ..............................................................................
+
 #region CONSTANTS
 
 # 8-way, normalized, direction vectors, clockwise from RIGHT
@@ -21,19 +23,18 @@ const DIRECTION_VECTORS: Array[Vector2] = [
 
 #region VARIABLES
 
-var stats_bars: Resource = \
-		load("res://scripts/entities_scripts/players_scripts/player_stats_bars.gd").new()
-
 # TODO: entity_types should help set groups
 var is_main_player: bool = false:
 	set(value):
 		is_main_player = value
-		if is_instance_valid(stats):
-			stats.entity_types &= ~(Entities.Type.PLAYERS_ALLIES | Entities.Type.PLAYERS_MAIN)
-			stats.entity_types |= Entities.Type.PLAYERS_MAIN if is_main_player else Entities.Type.PLAYERS_ALLIES
 
-		add_to_group(&"players_main" if is_main_player else &"players_allies")
-		remove_from_group(&"players_allies" if is_main_player else &"players_main")
+		if is_instance_valid(stats):
+			if is_main_player: # ally -> main
+				stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
+				stats.entity_types |= Entities.Type.PLAYERS_MAIN
+			else: # main -> ally
+				stats.entity_types &= ~Entities.Type.PLAYERS_MAIN
+				stats.entity_types |= Entities.Type.PLAYERS_ALLIES
 
 var party_index: int = -1
 
@@ -80,7 +81,7 @@ func _input(event: InputEvent) -> void:
 	if not is_main_player or not Inputs.world_inputs_enabled:
 		return
 
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not (event.is_action(&"left") or event.is_action(&"right") \
 			or event.is_action(&"up") or event.is_action(&"down") \
 			or event.is_action(&"dash")):
@@ -267,8 +268,8 @@ func _on_move_state_timeout() -> void:
 		move_state = MoveState.SPRINT
 
 	# snap target direction to the nearest 8-way angle
-	const ANGLE_INCREMENT: float = PI / 4
-	var snapped_angle: float = roundi(target_direction.angle() / ANGLE_INCREMENT) * ANGLE_INCREMENT
+	const ANGLE_INCREMENT: float = PI / 4.0
+	var snapped_angle: float = ANGLE_INCREMENT * roundi(target_direction.angle() / ANGLE_INCREMENT)
 
 	# possible angles by proximity to the snapped angle
 	var possible_angles: Array[float] = [
@@ -428,9 +429,9 @@ func ally_set_action() -> void:
 
 	# update action candidates
 	for target_dict in get_world_2d().direct_space_state.intersect_shape(query):
-		var target_node: EntityBase = target_dict["collider"].get_parent()
-		if target_node.stats.entity_types & action_target_types:
-			action_target_candidates.append(target_node)
+		var target_base: EntityBase = target_dict["collider"].get_parent()
+		if target_base.stats.entity_types & action_target_types:
+			action_target_candidates.append(target_base)
 
 	in_action_range = not action_target_candidates.is_empty()
 
@@ -507,7 +508,7 @@ func update_animation() -> void:
 			&"down_idle",
 			&"left_idle",
 			&"right_idle"
-		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
+		][move_direction if move_direction < 4 else move_direction % 2 + 2]
 	else:
 		# move
 		next_animation = [
@@ -515,7 +516,7 @@ func update_animation() -> void:
 			&"down_walk",
 			&"left_walk",
 			&"right_walk"
-		][move_direction if (move_direction < 4) else move_direction % 2 + 2]
+		][move_direction if move_direction < 4 else move_direction % 2 + 2]
 
 		# update animation speed based on movement speed
 		animation_speed = stats.move_speed / 70.0
@@ -569,13 +570,13 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 
 	# update stats ui and stats bars
 	Combat.ui.update_party_ui(party_index, stats)
-	set_max_values()
 
 	# update movement and animation
 	if is_main_player:
 		_on_move_state_timeout()
 	else:
 		update_animation()
+
 
 func switch_to_main() -> void:
 	# update main player
@@ -600,6 +601,7 @@ func switch_to_main() -> void:
 
 	stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
 	stats.entity_types |= Entities.Type.PLAYERS_MAIN
+
 
 func switch_to_ally() -> void:
 	is_main_player = false
@@ -632,7 +634,8 @@ func switch_character(next_stats: PlayerStats) -> void:
 	stats = next_stats
 
 	next_stats.base = self
-	set_max_values()
+	stats.set_base_variables()
+	stats.update_display_values()
 
 	$Animation.sprite_frames = next_stats.CHARACTER_ANIMATION
 	if is_main_player and not in_forced_move_state():
@@ -650,29 +653,13 @@ func switch_character(next_stats: PlayerStats) -> void:
 
 # ..............................................................................
 
-#region STATS
+#region STATS STATES
 
-# update ultimate gauge bar
-func update_ultimate_gauge() -> void:
-	Combat.ui.ultimate_progress_bars[party_index].value = stats.ultimate_gauge
-	Combat.ui.ultimate_progress_bars[party_index].modulate.g = (130.0 - stats.ultimate_gauge) / stats.max_ultimate_gauge
+func fatigue_state() -> void:
+	if move_state in [MoveState.DASH, MoveState.SPRINT]:
+		move_state = MoveState.WALK
+		update_animation()
 
-# update maximum bar values
-func set_max_values() -> void:
-	$HealthBar.max_value = stats.max_health
-	$ManaBar.max_value = stats.max_mana
-	$StaminaBar.max_value = stats.max_stamina
-	$ShieldBar.max_value = stats.max_shield
-	Combat.ui.ultimate_progress_bars[party_index].max_value = stats.max_ultimate_gauge
-
-	stats_bars.set_nodes(self)
-	update_ultimate_gauge()
-
-#endregion
-
-# ..............................................................................
-
-#region DEATH & REVIVE
 
 func death() -> void:
 	# pause process and update all base class variables
@@ -695,7 +682,7 @@ func death() -> void:
 		if not alive_party_players.is_empty():
 			Players.switch_main_player(alive_party_players[0])
 		else:
-			print("GAME OVER") # TODO
+			print("[LOG] GAME OVER") # TODO
 
 	# play death animation
 	var animation_node: AnimatedSprite2D = $Animation

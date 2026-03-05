@@ -16,14 +16,14 @@ func area_of_effect(collision_masks: int) -> Array[EntityBase]:
 	query.shape = CircleShape2D.new()
 	query.shape.radius = 10.0
 
-	var entities: Array[EntityBase] = []
+	var entity_bases: Array[EntityBase] = []
 	for target_dict in get_world_2d().direct_space_state.intersect_shape(query):
-		var target_node: EntityBase = target_dict["collider"].get_parent()
-		if target_node.stats.alive:
-			entities.append(target_node)
+		var target_base: EntityBase = target_dict["collider"].get_parent()
+		if target_base.stats.alive:
+			entity_bases.append(target_base)
 
 	# return entities
-	return entities
+	return entity_bases
 
 #endregion
 

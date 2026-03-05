@@ -4,7 +4,7 @@ extends CanvasLayer
 
 #region READY
 
-func _ready():
+func _ready() -> void:
 	pass
 	# for item_index in miscellaneous_buttons
 
@@ -15,7 +15,7 @@ func _ready():
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not event.is_action(&"esc"):
 		return
 
@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 
 #region ADD BUTTONS
 
-func update_inventory(_inventory_index):
+func update_inventory(_inventory_index) -> void:
 	pass
 
 
@@ -39,7 +39,7 @@ func exit_ui() -> void:
 	queue_free()
 
 
-func _on_inventory_type_button_pressed(_extra_arg_0):
+func _on_inventory_type_button_pressed(_extra_arg_0) -> void:
 	pass
 
 #endregion

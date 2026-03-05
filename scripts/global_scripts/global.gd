@@ -63,13 +63,13 @@ func change_scene(next_scene_path: String, next_position: Vector2, camera_limits
 	Players.reparent(get_tree().current_scene)
 
 	# reposition players and update camera
-	for player_node in Players.get_children():
-		if player_node.is_main_player:
-			player_node.position = next_position
+	for player_base in Players.get_children():
+		if player_base.is_main_player:
+			player_base.position = next_position
 			Players.camera.force_zoom(Players.camera.target_zoom)
 			Players.camera.update_camera_limits(camera_limits)
 		else:
-			player_node.ally_teleport(next_position)
+			player_base.ally_teleport(next_position)
 
 	# reset world objects and values
 	Entities.end_entities_request()

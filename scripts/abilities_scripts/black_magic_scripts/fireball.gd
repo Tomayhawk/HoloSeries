@@ -7,7 +7,7 @@ extends Area2D
 
 #region CONSTANTS
 
-const DT := Damage.DamageTypes
+const DT: Dictionary[int, int] = Damage.DamageTypes
 const DAMAGE_TYPES: int = DT.ENEMY_HIT | DT.COMBAT | DT.MAGIC
 
 const MANA_COST: float = 8.0
@@ -36,12 +36,13 @@ func _ready() -> void:
 	hide()
 
 	# request target entity
-	Entities.entities_request_ended.connect(cast_fireball, CONNECT_ONE_SHOT)
+	Entities.entity_request_ended.connect(cast_fireball, CONNECT_ONE_SHOT)
 	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
 
 	# if alt is pressed, target nearest enemy
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
+
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
@@ -65,24 +66,27 @@ func cast_fireball(target_entity: EntityBase) -> void:
 	# start despawn timer
 	$DespawnComponent.set_despawn_requirements(5.0, 1.0)
 
-	var base_velocity: Vector2 = (target_entity.position - position.normalized()) * SPEED
+	var base_velocity: Vector2 = (target_entity.position - position).normalized() * SPEED
 	var speed_multiplier: float = 1 + (caster_stats.intelligence / 500.0)
 	velocity = base_velocity * speed_multiplier
 
 	set_physics_process(true)
 	show()
 
+
 func projectile_collision(move_direction) -> void:
 	await Players.camera.screen_shake(5, 1, 10, 10.0)
 
-	for enemy_node in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
-		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_node.stats):
-			enemy_node.knockback(move_direction, 0.5)
+	for enemy_base in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
+		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):
+			enemy_base.knockback(move_direction, 0.5)
 
 	queue_free()
 
-func despawn_timeout():
+
+func despawn_timeout() -> void:
 	projectile_collision(velocity.normalized())
+
 
 # on collision,
 func _on_body_entered(_body: Node2D) -> void:

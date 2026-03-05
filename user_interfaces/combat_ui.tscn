@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cow4d6dq0c31v"]
+[gd_scene format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
@@ -9,17 +9,17 @@
 [ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://user_interfaces/user_interfaces_resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
 [ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui/character_infos.tscn" id="8_dsr74"]
 
-[node name="CombatUi" type="CanvasLayer"]
+[node name="CombatUi" type="CanvasLayer" unique_id=1346001288]
 script = ExtResource("1_w0nri")
 
-[node name="CombatControl" type="Control" parent="."]
+[node name="CombatControl" type="Control" parent="." unique_id=1627033191]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(640, 360)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 
-[node name="MainCombatOptions" type="MarginContainer" parent="CombatControl"]
+[node name="MainCombatOptions" type="MarginContainer" parent="CombatControl" unique_id=344046794]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -32,16 +32,16 @@ size_flags_vertical = 4
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="CombatControl/MainCombatOptions"]
+[node name="Panel" type="Panel" parent="CombatControl/MainCombatOptions" unique_id=470160861]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions" unique_id=1383455227]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="CombatControl/MainCombatOptions/ScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CombatControl/MainCombatOptions/ScrollContainer" unique_id=1172046243]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -50,122 +50,122 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer" unique_id=1286790993]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=144328070]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Attack"
 
-[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=82716689]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Talents"
 
-[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=987890133]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Skills"
 
-[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=271863243]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Buff
 "
 
-[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1604021819]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Debuff"
 
-[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1286248496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "White Magic"
 
-[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1548677165]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Black Magic"
 
-[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1583900496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Summon"
 
-[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1574227575]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Items"
 
-[node name="SubCombatOptions" type="MarginContainer" parent="CombatControl"]
+[node name="SubCombatOptions" type="MarginContainer" parent="CombatControl" unique_id=133430143]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -180,16 +180,16 @@ mouse_filter = 2
 theme_override_constants/margin_left = 114
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="CombatControl/SubCombatOptions"]
+[node name="Panel" type="Panel" parent="CombatControl/SubCombatOptions" unique_id=582790624]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions" unique_id=753609874]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="SubModesMarginContainer" type="MarginContainer" parent="CombatControl/SubCombatOptions/ScrollContainer"]
+[node name="SubModesMarginContainer" type="MarginContainer" parent="CombatControl/SubCombatOptions/ScrollContainer" unique_id=1170884981]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -199,132 +199,132 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1065277067]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer"]
+[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer" unique_id=1381613575]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Rocket Launcher"
 
-[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1446198244]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=19792629]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Life Drain"
 
-[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=953318937]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Mana Drain"
 
-[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=666622587]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Taunt"
 
-[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer"]
+[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=935520257]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Play Dice"
 
-[node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1817402991]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer"]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer" unique_id=1980485428]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
-[node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=35963636]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer"]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer" unique_id=1124433522]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
-[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1239020115]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Heal" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+[node name="Heal" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=584189595]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Heal"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" unique_id=1907825575]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -334,19 +334,19 @@ text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Protect" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+[node name="Protect" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=132800691]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Protect"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" unique_id=740313198]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -356,19 +356,19 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Haste" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+[node name="Haste" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=385400927]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Haste"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" unique_id=1665398947]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -378,19 +378,19 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Regen" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer"]
+[node name="Regen" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=755472920]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Regen"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" unique_id=1064543930]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -400,25 +400,25 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1798988757]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Fireball" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+[node name="Fireball" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1337901624]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Fireball"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" unique_id=1967914479]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -428,19 +428,19 @@ text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Poison" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+[node name="Poison" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1833436887]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Poison"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" unique_id=85038854]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -450,19 +450,19 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Slowness" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer"]
+[node name="Slowness" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=673289659]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Slowness"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness"]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" unique_id=1553102202]
 layout_mode = 0
 offset_left = 148.0
 offset_right = 186.0
@@ -472,32 +472,32 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=670956275]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer"]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer" unique_id=1768832102]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/focus = ExtResource("5_kyyya")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/pressed = ExtResource("4_ywh4v")
+theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Item"
 
-[node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer"]
+[node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1829303411]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="PartyPlayerInfos" type="MarginContainer" parent="CombatControl"]
+[node name="PartyPlayerInfos" type="MarginContainer" parent="CombatControl" unique_id=1503655065]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -514,30 +514,30 @@ mouse_filter = 2
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="CombatControl/PartyPlayerInfos"]
+[node name="Panel" type="Panel" parent="CombatControl/PartyPlayerInfos" unique_id=371746364]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("7_c1xwy")
 
-[node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/PartyPlayerInfos"]
+[node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/PartyPlayerInfos" unique_id=18982232]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 18
 
-[node name="CharacterInfos1" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos1" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=2036599380 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos2" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos2" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=505918468 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos3" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos3" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=822581549 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos4" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos4" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=1530443605 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterSelector" type="MarginContainer" parent="."]
+[node name="CharacterSelector" type="MarginContainer" parent="." unique_id=640736208]
 unique_name_in_owner = true
 offset_right = 208.0
 offset_bottom = 160.0
@@ -546,24 +546,24 @@ mouse_filter = 2
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 56
 
-[node name="Panel" type="Panel" parent="CharacterSelector"]
+[node name="Panel" type="Panel" parent="CharacterSelector" unique_id=1932900478]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
 
-[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector" unique_id=353191523]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer" unique_id=1248332095]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/ScrollContainer"]
+[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/ScrollContainer" unique_id=1553889859]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -574,8 +574,8 @@ theme_override_constants/separation = 2
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
 [connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
 [connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
 [connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="button_pressed"]

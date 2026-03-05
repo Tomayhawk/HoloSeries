@@ -39,8 +39,8 @@ func _physics_process(delta: float) -> void:
 
 #region FUNCTIONS
 
-func initiate_homing_projectile(entity: EntityBase, projectile_speed: float) -> void:
-	target_entity = entity
+func initiate_homing_projectile(entity_base: EntityBase, projectile_speed: float) -> void:
+	target_entity = entity_base
 	speed = projectile_speed
 
 	$CollisionShape2D.disabled = false

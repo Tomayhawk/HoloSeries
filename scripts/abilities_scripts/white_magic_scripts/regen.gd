@@ -32,7 +32,7 @@ const HEAL_PERCENTAGE: float = 0.02
 
 #region FUNCTIONS
 
-func _ready():
+func _ready() -> void:
 	# request target entity
 	Entities.entity_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
 	Entities.request_entities(Entities.Type.PLAYERS_ALIVE)
@@ -42,7 +42,7 @@ func _ready():
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
 
-func entity_chosen(target_entity: EntityBase):
+func entity_chosen(target_entity: EntityBase) -> void:
 	# apply regen if node chosen, caster is alive and caster has enough mana
 	if target_entity and caster_base.stats.alive and caster_base.stats.mana >= MANA_COST:
 		caster_base.stats.update_mana(-MANA_COST)

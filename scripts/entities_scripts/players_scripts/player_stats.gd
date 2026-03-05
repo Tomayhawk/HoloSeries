@@ -5,6 +5,9 @@ extends EntityStats
 
 #region CONSTANTS
 
+enum LevelKey { CAP, INCREMENT }
+
+# movement
 const DEFAULT_MOVE_SPEED: float = 140.0
 
 const DEFAULT_DASH_MULTIPLIER: float = 8.0
@@ -20,13 +23,66 @@ const DEFAULT_MANA_REGEN: float = 0.25
 const DEFAULT_STAMINA_REGEN: float = 16.0
 const DEFAULT_FATIGUE_REGEN: float = 10.0
 
+# experience requirements
+const MAX_INT64: int = 0x7FFFFFFFFFFFFFFF
+const BASE_XP_REQUIREMENT: int = 400
+
+const XP_BRACKETS: Array[Dictionary] = [
+	{ LevelKey.CAP: 5, LevelKey.INCREMENT: 125 },
+	{ LevelKey.CAP: 10, LevelKey.INCREMENT: 150 },
+	{ LevelKey.CAP: 20, LevelKey.INCREMENT: 225 },
+	{ LevelKey.CAP: 40, LevelKey.INCREMENT: 350 },
+	{ LevelKey.CAP: 70, LevelKey.INCREMENT: 500 },
+	{ LevelKey.CAP: 100, LevelKey.INCREMENT: 800 },
+	{ LevelKey.CAP: 150, LevelKey.INCREMENT: 1200 },
+	{ LevelKey.CAP: 200, LevelKey.INCREMENT: 2000 },
+	{ LevelKey.CAP: 250, LevelKey.INCREMENT: 3500 },
+	{ LevelKey.CAP: 300, LevelKey.INCREMENT: 8000 },
+]
+
 #endregion
 
 # ..............................................................................
 
-#region VARIABLES
+#region STATS
 
-# equipment variables
+# stats variables
+var experience: int = 0
+var experience_required: int = 400
+
+# ultimate gauge variables
+var ultimate_gauge: float = 0.0
+var max_ultimate_gauge: float = 100.0
+
+# nexus variables
+var last_node: int = -1
+var unlocked_nodes: Array[int] = []
+var converted_nodes: Array[Vector2i] = [] # (index, type)
+
+#endregion
+
+# ..............................................................................
+
+#region STATS UI
+
+# stats bars
+var health_bar: ProgressBar = null
+var mana_bar: ProgressBar = null
+var stamina_bar: ProgressBar = null
+var shield_bar: ProgressBar = null
+
+# combat ui nodes
+var health_label: Label = null
+var mana_label: Label = null
+var ultimate_gauge_bar: ProgressBar = null
+
+#endregion
+
+# ..............................................................................
+
+#region GEAR
+
+# equipment
 var weapon: Weapon = null
 var headgear: Headgear = null
 var chestpiece: Chestpiece = null
@@ -35,15 +91,13 @@ var accessory_1: Accessory = null
 var accessory_2: Accessory = null
 var accessory_3: Accessory = null
 
-# stats variables
-var experience: int = 0
-var experience_required: int = 400
+#endregion
 
-# ultimate variables
-var ultimate_gauge: float = 0.0
-var max_ultimate_gauge: float = 100.0
+# ..............................................................................
 
-# movement variables
+#region ACTION VARIABLES
+
+# movement
 var move_speed: float = DEFAULT_MOVE_SPEED
 var move_speed_modifier: float = 1.0
 
@@ -57,18 +111,13 @@ var sprint_stamina: float = DEFAULT_SPRINT_STAMINA # per second
 
 var fatigue: bool = false
 
-# regeneration variables
+# regeneration
 var mana_regen: float = DEFAULT_MANA_REGEN
 var stamina_regen: float = DEFAULT_STAMINA_REGEN
 var fatigue_regen: float = DEFAULT_FATIGUE_REGEN
 
-# party variables
+# party
 var last_action_cooldown: float = 0.0
-
-# nexus variables
-var last_node: int = -1
-var unlocked_nodes: Array[int] = []
-var converted_nodes: Array[Vector2i] = [] # (index, type)
 
 #endregion
 
@@ -97,17 +146,57 @@ func stats_process(process_interval: float) -> void:
 
 # ..............................................................................
 
-#region STATS UPDATES
+#region HEALTH UPDATES
 
 func update_health(value: float) -> void:
 	super (value)
-	if base: base.stats_bars.update_health()
 
+	# in party -> update health bar & label
+	if base:
+		update_health_display()
+
+
+func update_health_display() -> void:
+	# update health bar
+	var bar_percentage: float = health / max_health
+	health_bar.value = health
+	health_bar.visible = health > 0.0 and health < max_health
+	health_bar.modulate = (
+			Color(0, 1, 0, 1) if bar_percentage > 0.5
+			else Color(1, 1, 0, 1) if bar_percentage > 0.2
+			else Color(1, 0, 0, 1)
+	)
+
+	# update combat ui label
+	health_label.text = str(int(health))
+
+#endregion
+
+# ..............................................................................
+
+#region MANA UPDATES
 
 func update_mana(value: float) -> void:
 	super (value)
-	if base: base.stats_bars.update_mana()
 
+	# in party -> update mana bar & label
+	if base:
+		update_mana_display()
+
+
+func update_mana_display() -> void:
+	# update mana bar
+	mana_bar.value = mana
+	mana_bar.visible = mana < max_mana
+
+	# update combat ui label
+	mana_label.text = str(int(mana))
+
+#endregion
+
+# ..............................................................................
+
+#region STAMINA UPDATES
 
 func update_stamina(value: float) -> void:
 	super (value)
@@ -115,22 +204,68 @@ func update_stamina(value: float) -> void:
 	# handle fatigue
 	if stamina == 0:
 		fatigue = true
+		if base:
+			base.fatigue_state()
 	elif stamina == max_stamina:
 		fatigue = false
 
-	if base: base.stats_bars.update_stamina()
+	# in party -> update stamina bar
+	if base:
+		update_stamina_display()
 
+
+func update_stamina_display() -> void:
+	# update stamina bar
+	stamina_bar.value = stamina
+	stamina_bar.visible = stamina < max_stamina
+	stamina_bar.modulate = Color(0.5, 0, 0, 1) if fatigue else Color(1, 0.5, 0, 1)
+
+#endregion
+
+# ..............................................................................
+
+#region SHIELD UPDATES
 
 func update_shield(value: float) -> void:
 	super (value)
-	if base: base.stats_bars.update_shield()
 
+	# in party -> update shield bar
+	if base:
+		update_shield_display()
+
+
+func update_shield_display() -> void:
+	# update shield bar
+	shield_bar.value = shield
+	shield_bar.visible = shield > 0
+
+#endregion
+
+# ..............................................................................
+
+#region ULTIMATE GAUGE UPDATES
 
 func update_ultimate_gauge(value: float) -> void:
-	if not alive: return
-	ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
-	if base: base.update_ultimate_gauge()
+	if not alive:
+		return
 
+	ultimate_gauge = clamp(ultimate_gauge + value, 0, max_ultimate_gauge)
+
+	# in party -> update ultimate gauge bar
+	if base:
+		update_ultimate_gauge_display()
+
+
+func update_ultimate_gauge_display() -> void:
+	# update ultimate gauge bar
+	ultimate_gauge_bar.value = ultimate_gauge
+	ultimate_gauge_bar.modulate.g = (130.0 - ultimate_gauge) / max_ultimate_gauge
+
+#endregion
+
+# ..............................................................................
+
+#region LEVELS UPDATES
 
 func update_experience(value: int) -> void:
 	experience += value
@@ -143,25 +278,6 @@ func update_experience(value: int) -> void:
 func level_up() -> void:
 	level = clamp(level + 1, 1, 300) # cap level at 300
 	set_experience_required()
-
-
-enum LevelKey { CAP, INCREMENT }
-
-const MAX_INT64: int = 0x7FFFFFFFFFFFFFFF
-const BASE_XP_REQUIREMENT: int = 400
-
-const XP_BRACKETS: Array[Dictionary] = [
-	{ LevelKey.CAP: 5, LevelKey.INCREMENT: 125 },
-	{ LevelKey.CAP: 10, LevelKey.INCREMENT: 150 },
-	{ LevelKey.CAP: 20, LevelKey.INCREMENT: 225 },
-	{ LevelKey.CAP: 40, LevelKey.INCREMENT: 350 },
-	{ LevelKey.CAP: 70, LevelKey.INCREMENT: 500 },
-	{ LevelKey.CAP: 100, LevelKey.INCREMENT: 800 },
-	{ LevelKey.CAP: 150, LevelKey.INCREMENT: 1200 },
-	{ LevelKey.CAP: 200, LevelKey.INCREMENT: 2000 },
-	{ LevelKey.CAP: 250, LevelKey.INCREMENT: 3500 },
-	{ LevelKey.CAP: 300, LevelKey.INCREMENT: 8000 },
-]
 
 
 # TODO: incomplete implementation
@@ -271,14 +387,15 @@ func set_stats() -> void:
 		if gear:
 			gear.set_stats(self)
 
-	move_speed = DEFAULT_MOVE_SPEED + (speed / 2.0) # max 268.0 speed
-	dash_multiplier = DEFAULT_DASH_MULTIPLIER + (speed / 128.0) # max 10.0 multiplier
-	dash_stamina = DEFAULT_DASH_STAMINA - (agility / 32.0) # min 28.0 stamina per dash
-	dash_min_stamina = DEFAULT_DASH_MIN_STAMINA - (agility / 32.0) # min 20.0 stamina per dash
+	# TODO: manage constants
+	move_speed = DEFAULT_MOVE_SPEED + (speed * 0.5) # max 268.0 speed
+	dash_multiplier = DEFAULT_DASH_MULTIPLIER + (speed / (SPEED_CEILING * 0.5)) # max 10.0 multiplier
+	dash_stamina = DEFAULT_DASH_STAMINA - (agility / (AGILITY_CEILING * 0.125)) # min 28.0 stamina per dash
+	dash_min_stamina = DEFAULT_DASH_MIN_STAMINA - (agility / (AGILITY_CEILING * 0.125)) # min 20.0 stamina per dash
 
-	dash_time = DEFAULT_DASH_TIME - (agility / AGILITY_CEILING / 10.0) # min 0.1s dash time
+	dash_time = DEFAULT_DASH_TIME - (agility / (AGILITY_CEILING * 10.0)) # min 0.1s dash time
 	sprint_multiplier = DEFAULT_SPRINT_MULTIPLIER + (speed / (SPEED_CEILING * 5.0)) # max 1.45 multiplier
-	sprint_stamina = DEFAULT_SPRINT_STAMINA - (agility / 64.0) # min 20.0 stamina per second
+	sprint_stamina = DEFAULT_SPRINT_STAMINA - (agility / (AGILITY_CEILING * 0.25)) # min 20.0 stamina per second
 
 	mana_regen = DEFAULT_MANA_REGEN + (mana / 10000.0) # max 1.25 mana per second
 	stamina_regen = DEFAULT_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
@@ -291,6 +408,43 @@ func set_stats() -> void:
 	# TODO: update current stats based on effects
 
 	# TODO: update max_shield based on stats
+
+	# in party -> update base variables and nodes
+	if base:
+		set_base_variables()
+
+
+func set_base_variables() -> void:
+	# stats bars
+	health_bar = base.get_node(^"HealthBar")
+	mana_bar = base.get_node(^"ManaBar")
+	stamina_bar = base.get_node(^"StaminaBar")
+	shield_bar = base.get_node(^"ShieldBar")
+
+	# combat ui nodes
+	health_label = Combat.ui.health_labels[base.party_index]
+	mana_label = Combat.ui.mana_labels[base.party_index]
+	ultimate_gauge_bar = Combat.ui.ultimate_gauge_bars[base.party_index]
+
+	# update display values
+	update_display_values()
+
+
+# update stats bars and labels
+func update_display_values() -> void:
+	# update max values
+	health_bar.max_value = max_health
+	mana_bar.max_value = max_mana
+	stamina_bar.max_value = max_stamina
+	shield_bar.max_value = max_shield
+	ultimate_gauge_bar.max_value = max_ultimate_gauge
+
+	# update stats displays
+	update_health_display()
+	update_mana_display()
+	update_stamina_display()
+	update_shield_display()
+	update_ultimate_gauge_display()
 
 #endregion
 

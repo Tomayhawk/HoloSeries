@@ -80,6 +80,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
+mouse_filter = 2
 theme_override_constants/margin_left = 496
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 16

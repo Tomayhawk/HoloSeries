@@ -110,7 +110,7 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not (event.is_action(&"tab") or event.is_action(&"esc")):
 		return
 
@@ -139,11 +139,11 @@ func set_characters() -> Array[PlayerStats]:
 
 	# sort party players by party index
 	var party_sorted: Array[Node] = Players.get_children()
-	party_sorted.sort_custom(func(a, b): return a.party_index < b.party_index)
+	party_sorted.sort_custom(func(a, b) -> bool: return a.party_index < b.party_index)
 
 	# add party players stats to temp_stats
-	for player in party_sorted:
-		temp_stats.append(player.stats)
+	for player_base in party_sorted:
+		temp_stats.append(player_base.stats)
 
 	# add standby character stats to temp_stats
 	for stats in Players.standby_characters:
@@ -256,11 +256,11 @@ func get_adjacents(origin_index: int) -> Array[int]:
 	var node_count: int = $NexusNodes.get_child_count()
 	var origin_position: Vector2 = nexus_nodes[origin_index].position
 
-	for temp_index in (ADJACENT_INDICES_1 if (origin_index % 32) < 16 else ADJACENT_INDICES_2):
+	for temp_index in (ADJACENT_INDICES_1 if origin_index % 32 < 16 else ADJACENT_INDICES_2):
 		var adjusted_index: int = origin_index + temp_index
 
 		# check if current index is within bounds
-		if (adjusted_index < 0) or (adjusted_index >= node_count):
+		if adjusted_index < 0 or adjusted_index >= node_count:
 			continue
 
 		# check if current node is not null
@@ -328,7 +328,7 @@ func unlock_node() -> void:
 
 #region EXIT
 
-func exit_nexus():
+func exit_nexus() -> void:
 	Players.camera.update_camera(Players.main_player, scene_camera_zoom)
 	Players.camera.update_camera_limits(scene_camera_limits)
 

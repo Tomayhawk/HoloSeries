@@ -7,8 +7,7 @@ extends CanvasLayer
 var name_labels: Array[Label] = []
 var health_labels: Array[Label] = []
 var mana_labels: Array[Label] = []
-var ultimate_progress_bars: Array[ProgressBar] = []
-var shield_progress_bars: Array[ProgressBar] = []
+var ultimate_gauge_bars: Array[ProgressBar] = []
 
 var standby_name_labels: Array[Label] = []
 var standby_level_labels: Array[Label] = []
@@ -36,8 +35,7 @@ func _ready() -> void:
 		name_labels.append(character_infos_node.get_node(^"CharacterName"))
 		health_labels.append(character_infos_node.get_node(^"HealthAmount"))
 		mana_labels.append(character_infos_node.get_node(^"ManaAmount"))
-		ultimate_progress_bars.append(character_infos_node.get_node(^"Ultimate"))
-		shield_progress_bars.append(character_infos_node.get_node(^"Shield"))
+		ultimate_gauge_bars.append(character_infos_node.get_node(^"Ultimate"))
 
 #endregion
 
@@ -49,7 +47,7 @@ func _input(event: InputEvent) -> void:
 	# check combat inputs enabled
 	if not Inputs.world_inputs_enabled: return
 
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not (event.is_action(&"display_combat_ui") or event.is_action(&"tab") or event.is_action(&"esc")): return
 
 	if not event.is_action(&"esc"):
@@ -74,7 +72,7 @@ func _input(event: InputEvent) -> void:
 
 #region ADD BUTTONS
 
-func add_items() -> void:
+func update_inventory_ui() -> void:
 	var index: int = 0
 	var options_button_load: PackedScene = \
 			load("res://user_interfaces/user_interfaces_resources/combat_ui/options_button.tscn")
@@ -130,10 +128,8 @@ func update_party_ui(party_index: int, character: PlayerStats) -> void:
 	name_labels[party_index].text = character.CHARACTER_NAME
 	health_labels[party_index].text = str(int(character.health))
 	mana_labels[party_index].text = str(int(character.mana))
-	ultimate_progress_bars[party_index].value = character.ultimate_gauge
-	ultimate_progress_bars[party_index].max_value = character.max_ultimate_gauge
-	shield_progress_bars[party_index].value = character.shield
-	shield_progress_bars[party_index].max_value = character.max_shield
+	ultimate_gauge_bars[party_index].value = character.ultimate_gauge
+	ultimate_gauge_bars[party_index].max_value = character.max_ultimate_gauge
 
 
 func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
@@ -200,7 +196,7 @@ func hide_sub_combat_options() -> void:
 
 # ..............................................................................
 
-#region SIGNALS AND BUTTON PRESSES
+#region SIGNALS & BUTTON PRESSES
 
 func _on_control_mouse_entered() -> void:
 	Inputs.action_inputs_enabled = false
@@ -213,6 +209,7 @@ func _on_control_mouse_exited() -> void:
 
 
 func button_pressed() -> void:
-	Entities.end_entities_request()
+	if Entities.requesting_entities:
+		Entities.end_entities_request()
 
 #endregion

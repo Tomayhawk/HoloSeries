@@ -4,7 +4,7 @@ extends CanvasLayer
 
 #region OPTIONS MENU
 
-func _on_play_button_pressed():
+func _on_play_button_pressed() -> void:
 	const SETTINGS_PATH: String = "user://settings.cfg"
 
 	var saves: Resource = load("res://scripts/global_scripts/saves.gd").new()
@@ -17,12 +17,12 @@ func _on_play_button_pressed():
 	queue_free()
 
 
-func _on_saves_button_pressed():
+func _on_saves_button_pressed() -> void:
 	$SavesMenuMargin.show()
 	$OptionsMenuMargin.hide()
 
 
-func _on_settings_button_pressed():
+func _on_settings_button_pressed() -> void:
 	Global.add_global_child("SettingsUi", "res://user_interfaces/settings_ui.tscn")
 
 #endregion
@@ -31,7 +31,7 @@ func _on_settings_button_pressed():
 
 #region SAVES MENU
 
-func _on_back_button_pressed():
+func _on_back_button_pressed() -> void:
 	$OptionsMenuMargin.show()
 	$SavesMenuMargin.hide()
 

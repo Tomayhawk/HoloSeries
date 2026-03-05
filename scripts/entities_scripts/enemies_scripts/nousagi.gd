@@ -125,25 +125,25 @@ func animation_end() -> void:
 		$Animation.play(&"idle")
 	elif stats.entity_types | Entities.Type.ENEMIES_ON_SCREEN:
 		# remove all dead players from detection and attack arrays
-		for player_node in players_in_detection_area:
-			if not player_node.stats.alive:
-				_on_detection_area_body_exited(player_node)
-				_on_attack_area_body_exited(player_node)
+		for player_base in players_in_detection_area:
+			if not player_base.stats.alive:
+				_on_detection_area_body_exited(player_base)
+				_on_attack_area_body_exited(player_base)
 
-		var available_player_nodes: Array[Node]
+		var available_player_bases: Array[Node]
 		# determine targetable player nodes
 		if not players_in_attack_area.is_empty():
-			available_player_nodes = players_in_attack_area
+			available_player_bases = players_in_attack_area
 		else:
-			available_player_nodes = players_in_detection_area
+			available_player_bases = players_in_detection_area
 
 		action_target = null
 		var target_player_health: float = INF
 		# target player with lowest health
-		for player_node in available_player_nodes:
-			if player_node.stats.health < target_player_health:
-				target_player_health = player_node.stats.health
-				action_target = player_node
+		for player_base in available_player_bases:
+			if player_base.stats.health < target_player_health:
+				target_player_health = player_base.stats.health
+				action_target = player_base
 		# move towards player if any player in detection area
 		if action_target:
 			$NavigationAgent2D.target_position = action_target.position
@@ -212,7 +212,7 @@ func summon_nousagi() -> void:
 	$SummonCooldown.start(randf_range(15, 20))
 
 
-func action_complete():
+func action_complete() -> void:
 	pass
 
 

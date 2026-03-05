@@ -12,7 +12,7 @@ var zoom_inputs_enabled: bool = false
 var sprint_hold: bool = true
 
 func _input(event: InputEvent) -> void:
-	# ignore all unrelated inputs
+	# ignore unrelated inputs
 	if not (
 			event.is_action(&"alt") or
 			event.is_action(&"action") or
@@ -27,32 +27,21 @@ func _input(event: InputEvent) -> void:
 	# handle inputs
 	if event.is_action(&"alt"):
 		accept_event()
-
 		alt_pressed = event.is_pressed()
-
 	elif Input.is_action_just_pressed(&"action"):
 		action_input()
-
 	elif Input.is_action_just_pressed(&"full_screen"):
 		accept_event()
-
 		Settings.toggle_fullscreen(
 				DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)
-
-	else:
-		#accept_event()
-
-		# TODO: temporary code
-		for i in range(1, 5):
-			var action_name = str(i)
-			if Input.is_action_just_pressed(action_name):
-				for player in get_tree().get_nodes_in_group(&"players"):
-					if player.party_index != i - 1:
-						continue
-					if not player.is_main_player:
-						Players.switch_main_player(player)
-					break
-				break
+	elif Input.is_action_just_pressed(&"1"):
+		party_input(0)
+	elif Input.is_action_just_pressed(&"2"):
+		party_input(1)
+	elif Input.is_action_just_pressed(&"3"):
+		party_input(2)
+	elif Input.is_action_just_pressed(&"4"):
+		party_input(3)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -73,6 +62,17 @@ func action_input() -> void:
 		accept_event()
 
 		Players.main_player.action_input()
+
+
+func party_input(index: int) -> void:
+	accept_event()
+
+	# TODO: temporary code
+	for player_base in get_tree().get_nodes_in_group(&"players"):
+		if player_base.party_index == index:
+			if not player_base.is_main_player:
+				Players.switch_main_player(player_base)
+			break
 
 
 func toggle_text_box(to_enabled) -> void:
