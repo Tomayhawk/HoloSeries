@@ -2,7 +2,7 @@ extends Node
 
 # ..............................................................................
 
-# CONFIGURATION
+#region CONFIGURATION
 
 func _init() -> void:
 	const SETTINGS_PATH: String = "user://settings.cfg"
@@ -51,9 +51,11 @@ func _init() -> void:
 	Inputs.sprint_hold = config.get_value(
 			"input", "sprint_hold", DEFAULT_SETTINGS["input"]["sprint_hold"])
 
+#endregion
+
 # ..............................................................................
 
-# DISPLAY
+#region DISPLAY
 
 func toggle_fullscreen(to_enabled: bool) -> void:
 	# toggle between fullscreen and windowed mode
@@ -81,9 +83,11 @@ func set_resolution(next_resolution: Vector2i) -> void:
 		DisplayServer.window_set_position((DisplayServer.screen_get_size() - next_resolution) / 2)
 		update_setting("display", "window_position", DisplayServer.window_get_position())
 
+#endregion
+
 # ..............................................................................
 
-# AUDIO
+#region AUDIO
 
 func set_master_volume(db_value: float) -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"), db_value)
@@ -102,9 +106,11 @@ func update_setting(section: String, key: String, value: Variant) -> void:
 	config.set_value(section, key, value)
 	config.save("user://settings.cfg")
 
+#endregion
+
 # ..............................................................................
 
-# EXIT
+#region EXIT
 
 # Save settings on exit
 func _exit_tree() -> void:
@@ -129,3 +135,7 @@ func _exit_tree() -> void:
 
 	# save
 	config.save("user://settings.cfg")
+
+#endregion
+
+# ..............................................................................

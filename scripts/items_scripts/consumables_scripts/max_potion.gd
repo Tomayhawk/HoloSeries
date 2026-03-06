@@ -1,4 +1,4 @@
-extends Resource
+extends Consumable
 
 const item_name: String = "MAX Potion"
 const request_count: int = 0

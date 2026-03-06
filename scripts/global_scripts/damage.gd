@@ -1,5 +1,9 @@
 extends Node
 
+# ..............................................................................
+
+#region CONSTANTS
+
 enum DamageTypes {
 	PLAYER_HIT = 0,
 	ENEMY_HIT = 1 << 0,
@@ -11,11 +15,18 @@ enum DamageTypes {
 	CRITICAL = 1 << 6,
 	NO_CRITICAL = 1 << 7,
 	NO_RANDOM = 1 << 8,
-	BREAK_LIMIT = 1 << 9,
-	MISS = 1 << 10,
-	NO_MISS = 1 << 11,
-	HIDDEN = 1 << 12,
+	NON_LETHAL = 1 << 9,
+	BREAK_LIMIT = 1 << 10,
+	MISS = 1 << 11,
+	NO_MISS = 1 << 12,
+	HIDDEN = 1 << 13,
 }
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_stats: EntityStats) -> float:
 	# TODO: base calculation (very bad code, need fix)
@@ -53,6 +64,10 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 	if not types & DamageTypes.NO_MISS and randf() < 0.25: # TODO: randf() < (target_stats.agility / 1028)
 		types |= DamageTypes.MISS
 		damage = 0.0
+
+	# TODO: temporary
+	if types & DamageTypes.NON_LETHAL and damage < 0 and (damage > target_stats.health - 1.0):
+		damage = target_stats.health - 1.0
 
 	# update target
 	target_stats.update_health(damage)
@@ -118,3 +133,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 func clear_damage_display() -> void:
 	for display in get_children():
 		display.queue_free()
+
+#endregion
+
+# ..............................................................................

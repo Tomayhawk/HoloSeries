@@ -1,5 +1,5 @@
 class_name EntityStats
-extends Resource
+extends RefCounted
 
 # ..............................................................................
 
@@ -195,36 +195,37 @@ func revive(value: float) -> void:
 #region STATUS
 
 var status: int = 0
-var effects: Array[Resource] = []
+var effects: Array[Effect] = []
 
-func add_status(type: Entities.Status) -> Resource:
-	var effect: Resource = Entities.STATUS_PRELOADS[type].new()
+func add_status(type: Entities.Status) -> Effect:
+	var effect: Effect = Entities.STATUS_PRELOADS[type].new()
+	if base:
+		effect.effect_timer += base.process_interval
 	effects.append(effect)
 	status |= type
 	return effect
 
 
-func attempt_remove_status(type: Entities.Status) -> void:
+func update_status(type: Entities.Status) -> void:
 	for effect in effects:
 		if effect.effect_type == type:
 			return
 	status &= ~type
 
 
-func force_remove_status(type: Entities.Status) -> void:
+func remove_status(type: Entities.Status) -> void:
 	for effect in effects.duplicate():
 		if effect.effect_type == type:
 			effect.remove_effect(self)
-	status &= ~type
+
+
+func clear_status() -> void:
+	for effect in effects.duplicate():
+		effect.remove_effect(self)
 
 
 func has_status(type: Entities.Status) -> bool:
 	return status & type
-
-
-func reset_status() -> void:
-	effects.clear()
-	status = 0
 
 #endregion
 

@@ -1,4 +1,4 @@
-extends Resource
+extends Effect
 
 # TODO: becomes unable to move, switch characters, attack or use any commands
 # TODO: (optional) character shake

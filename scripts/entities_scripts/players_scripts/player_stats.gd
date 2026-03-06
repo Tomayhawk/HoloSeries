@@ -80,9 +80,9 @@ var ultimate_gauge_bar: ProgressBar = null
 
 # ..............................................................................
 
-#region GEAR
+#region EQUIPMENTS
 
-# equipment
+# equipments
 var weapon: Weapon = null
 var headgear: Headgear = null
 var chestpiece: Chestpiece = null
@@ -323,6 +323,25 @@ func set_experience_required() -> void:
 
 #region SET STATS
 
+func load_character(character_data: Dictionary) -> void:
+	# experience
+	update_experience(character_data["experience"])
+
+	# equipments
+	weapon = null if character_data["weapon"] == -1 else Inventory.weapons[character_data["weapon"]]
+	headgear = null if character_data["headgear"] == -1 else Inventory.armors[character_data["headgear"]]
+	chestpiece = null if character_data["chestpiece"] == -1 else Inventory.armors[character_data["chestpiece"]]
+	leggings = null if character_data["leggings"] == -1 else Inventory.armors[character_data["leggings"]]
+	accessory_1 = null if character_data["accessory_1"] == -1 else Inventory.accessories[character_data["accessory_1"]]
+	accessory_2 = null if character_data["accessory_2"] == -1 else Inventory.accessories[character_data["accessory_2"]]
+	accessory_3 = null if character_data["accessory_3"] == -1 else Inventory.accessories[character_data["accessory_3"]]
+
+	# nexus
+	last_node = character_data["last_node"]
+	unlocked_nodes.assign(character_data["unlocked_nodes"])
+	converted_nodes.assign(character_data["converted_nodes"])
+
+
 func set_stats() -> void:
 	# TODO: update level and experience
 	# TODO: update entity_types
@@ -381,11 +400,11 @@ func set_stats() -> void:
 
 	# TODO: to be updated
 
-	var gears = [weapon, headgear, chestpiece, leggings, accessory_1, accessory_2, accessory_3]
+	var equipments = [weapon, headgear, chestpiece, leggings, accessory_1, accessory_2, accessory_3]
 
-	for gear in gears:
-		if gear:
-			gear.set_stats(self)
+	for equipment in equipments:
+		if equipment:
+			equipment.set_stats(self)
 
 	# TODO: manage constants
 	move_speed = DEFAULT_MOVE_SPEED + (speed * 0.5) # max 268.0 speed
@@ -401,9 +420,9 @@ func set_stats() -> void:
 	stamina_regen = DEFAULT_STAMINA_REGEN + (stamina / 25.0) # max 40.0 stamina per second
 	fatigue_regen = DEFAULT_FATIGUE_REGEN + (stamina / 50.0) # max 25.0 stamina per second
 
-	for gear in gears:
-		if gear:
-			gear.update_variable_stats(self)
+	for equipment in equipments:
+		if equipment:
+			equipment.update_variable_stats(self)
 
 	# TODO: update current stats based on effects
 

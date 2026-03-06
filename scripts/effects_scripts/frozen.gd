@@ -1,3 +1,3 @@
 extends Effect
 
-# TODO
+# frozen

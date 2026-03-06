@@ -21,7 +21,7 @@ func knockback(direction: Vector2, weight: float = 1.0) -> void:
 
 	move_state = MoveState.KNOCKBACK
 
-	move_state_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stat
+	move_state_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stats
 	if stats.alive: $Animation.speed_scale = 0.3 # TODO
 	velocity = move_state_velocity
 

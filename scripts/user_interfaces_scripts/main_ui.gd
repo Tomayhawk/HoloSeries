@@ -7,7 +7,7 @@ extends CanvasLayer
 func _on_play_button_pressed() -> void:
 	const SETTINGS_PATH: String = "user://settings.cfg"
 
-	var saves: Resource = load("res://scripts/global_scripts/saves.gd").new()
+	var saves: RefCounted = load("res://scripts/global_scripts/saves.gd").new()
 	var config: ConfigFile = ConfigFile.new()
 
 	if FileAccess.file_exists(SETTINGS_PATH):

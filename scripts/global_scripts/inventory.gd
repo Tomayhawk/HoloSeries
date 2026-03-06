@@ -65,7 +65,7 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	if is_main_player and Entities.requesting_entities:
 		return
 
-	var item: Resource = consumables[index].new()
+	var item: Consumable = consumables[index].new()
 	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.item_name)
 
 	if consumables_inventory[index] <= 0:

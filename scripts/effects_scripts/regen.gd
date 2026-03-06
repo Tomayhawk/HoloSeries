@@ -1,26 +1,24 @@
-extends Resource
+extends Effect
+
+# REGEN
+# heals target periodically
 
 # ..............................................................................
 
 #region VARIABLES
 
-var effect_type: Entities.Status = Entities.Status.REGEN
-var effect_timer: float = 5.0
-var remove_on_death: bool = true
-
-var damage_types: int = \
-		Damage.DamageTypes.PLAYER_HIT \
-		| Damage.DamageTypes.HEAL \
-		| Damage.DamageTypes.MAGIC \
-		| Damage.DamageTypes.NO_CRITICAL \
+var damage_types: int = (
+		Damage.DamageTypes.PLAYER_HIT
+		| Damage.DamageTypes.HEAL
+		| Damage.DamageTypes.MAGIC
+		| Damage.DamageTypes.NO_CRITICAL
 		| Damage.DamageTypes.NO_MISS
+)
 
 var origin_stats: EntityStats = null
-
-# Healing settings
-var heal_interval: float = 5.0
-var heal_amount: float = 10.0
-var count: int = 7
+var regen_interval: float = 5.0
+var regen_amount: float = 10.0
+var regen_count: int = 7
 var min_rand: float = 0.95
 var max_rand: float = 1.05
 
@@ -30,30 +28,23 @@ var max_rand: float = 1.05
 
 #region FUNCTIONS
 
-func regen_settings(types: int, stats: EntityStats, amount: float, set_timer: float, set_count: int, set_min: float = 0.95, set_max: float = 1.05) -> void:
-	damage_types = types
-	origin_stats = stats
-	effect_timer = set_timer
-	heal_interval = set_timer
-	heal_amount = amount
-	count = set_count
-	min_rand = set_min
-	max_rand = set_max
+func _init() -> void:
+	effect_type = Entities.Status.REGEN
+	effect_timer = regen_interval
 
 
 func effect_timeout(stats: EntityStats) -> void:
-	Damage.combat_damage(heal_amount * randf_range(min_rand, max_rand), damage_types, origin_stats, stats)
-	count -= 1
-	if count == 0:
-		stats.effects.erase(self)
-		stats.attempt_remove_status(Entities.Status.REGEN)
+	# calculate and trigger regen
+	var rand_regen_amount: float = regen_amount * randf_range(min_rand, max_rand)
+	Damage.combat_damage(rand_regen_amount, damage_types, origin_stats, stats)
+
+	# decrement regen count
+	regen_count -= 1
+
+	if regen_count == 0:
+		remove_effect(stats)
 	else:
-		effect_timer = heal_interval
-
-
-func remove_effect(stats: EntityStats) -> void:
-	stats.effects.erase(self)
-	stats.attempt_remove_status(Entities.Status.REGEN)
+		effect_timer = regen_interval
 
 #endregion
 

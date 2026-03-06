@@ -23,7 +23,7 @@ const MANA_COST: float = 20
 const REGEN_COUNT: int = 7
 const HEAL_PERCENTAGE: float = 0.02
 # TODO: need to add stats multipliers
-
+# TODO: add ally casting
 @onready var caster_base: EntityBase = Players.main_player
 
 #endregion
@@ -46,11 +46,16 @@ func entity_chosen(target_entity: EntityBase) -> void:
 	# apply regen if node chosen, caster is alive and caster has enough mana
 	if target_entity and caster_base.stats.alive and caster_base.stats.mana >= MANA_COST:
 		caster_base.stats.update_mana(-MANA_COST)
-		var effect: Resource = target_entity.stats.add_status(Entities.Status.REGEN)
+		var effect: Effect = target_entity.stats.add_status(Entities.Status.REGEN)
 		# 70 HP to 1470 HP (max at 7000 HP)
-		effect.regen_settings(DAMAGE_TYPES, target_entity.stats,
-				clamp(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0),
-				4.0, REGEN_COUNT, 0.8, 1.2)
+		effect.effect_timer = 4.0
+		effect.origin_stats = caster_base.stats
+		effect.damage_types = DAMAGE_TYPES
+		effect.regen_interval = 4.0
+		effect.regen_amount = clamp(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0)
+		effect.regen_count = REGEN_COUNT
+		effect.min_rand = 0.8
+		effect.max_rand = 1.2
 
 	queue_free()
 

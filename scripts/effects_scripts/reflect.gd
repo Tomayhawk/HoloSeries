@@ -1,3 +1,3 @@
-extends Resource
+extends Effect
 
 # TODO: deflects mana abilities, back towards original caster

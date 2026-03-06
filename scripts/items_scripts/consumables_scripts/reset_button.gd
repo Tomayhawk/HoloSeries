@@ -1,4 +1,4 @@
-extends Resource
+extends Consumable
 
 const item_name: String = "Reset Button"
 const request_count: int = 0

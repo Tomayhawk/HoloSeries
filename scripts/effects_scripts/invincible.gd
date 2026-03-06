@@ -1,13 +1,16 @@
-extends Resource
+extends Effect
 
-var effect_type: Entities.Status = Entities.Status.INVINCIBLE
-var effect_timer: float = 0.1
-var remove_on_death: bool = true
+# INVINCIBLE
+# grants temporary invincibility frames
 
-func effect_timeout(stats: EntityStats) -> void:
-	stats.effects.erase(self)
-	stats.attempt_remove_status(Entities.Status.INVINCIBLE)
+# ..............................................................................
 
-func remove_effect(stats: EntityStats) -> void:
-	stats.effects.erase(self)
-	stats.attempt_remove_status(Entities.Status.INVINCIBLE)
+#region FUNCTIONS
+
+func _init() -> void:
+	effect_type = Entities.Status.INVINCIBLE
+	effect_timer = 0.1
+
+#endregion
+
+# ..............................................................................

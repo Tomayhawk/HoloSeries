@@ -32,7 +32,7 @@ script = ExtResource("1_dib8t")
 [node name="Animation" type="AnimatedSprite2D" parent="." unique_id=190156712]
 y_sort_enabled = true
 sprite_frames = ExtResource("2_h3n4j")
-animation = &"down_attack"
+animation = &"down_idle"
 offset = Vector2(-0.5, -10)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=976360696]

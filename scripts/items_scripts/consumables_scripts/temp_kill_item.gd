@@ -1,4 +1,4 @@
-extends Resource
+extends Consumable
 
 const item_name: String = "Temp Kill Item"
 const request_count: int = 1

@@ -28,8 +28,7 @@ func _ready() -> void:
 	)
 
 	# get standby character stats
-	for character in Players.standby_characters:
-		character_stats.append(character)
+	character_stats.append_array(Players.standby_characters)
 
 	current_index = Players.main_player.party_index
 

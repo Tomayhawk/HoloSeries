@@ -1,2 +1,2 @@
 class_name Weapon
-extends Resource
+extends Item

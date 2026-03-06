@@ -28,24 +28,28 @@ enum Type {
 }
 
 enum Status {
+	NONE = 0,
 	BERSERK = 1 << 0,
 	BLINDNESS = 1 << 1,
-	CHARM = 1 << 2,
-	CONFUSE = 1 << 3,
-	COUNTER = 1 << 4,
-	DOOM = 1 << 5,
-	INVINCIBLE = 1 << 6,
-	INVISIBLE = 1 << 7,
-	PETRIFICATION = 1 << 8,
-	POISON = 1 << 9,
-	REFLECT = 1 << 10,
-	REGEN = 1 << 11,
-	SECOND_CHANCE = 1 << 12,
-	SILENCE = 1 << 13,
-	SLEEP = 1 << 14,
-	STAT_CHANGE = 1 << 15,
-	STUN = 1 << 16,
-	TAUNT = 1 << 17,
+	BURN = 1 << 2, # deals physical damage periodically
+	CHARM = 1 << 3,
+	CONFUSE = 1 << 4,
+	COUNTER = 1 << 5,
+	DOOM = 1 << 6,
+	DOT = 1 << 7,
+	FROZEN = 1 << 8,
+	INVINCIBLE = 1 << 9,
+	INVISIBLE = 1 << 10,
+	PETRIFICATION = 1 << 11,
+	POISON = 1 << 12, # deals damage periodically & cannot kill (leaves 1 HP)
+	REFLECT = 1 << 13,
+	REGEN = 1 << 14, # heals target periodically
+	SECOND_CHANCE = 1 << 15,
+	SILENCE = 1 << 16,
+	SLEEP = 1 << 17,
+	STATS = 1 << 18,
+	STUN = 1 << 19,
+	TAUNT = 1 << 20,
 }
 
 const GROUP_NAME: Dictionary[Type, StringName] = {
@@ -65,10 +69,12 @@ const GROUP_NAME: Dictionary[Type, StringName] = {
 const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.BERSERK: preload("res://scripts/effects_scripts/berserk.gd"),
 	Status.BLINDNESS: preload("res://scripts/effects_scripts/blindness.gd"),
+	Status.BURN: preload("res://scripts/effects_scripts/burn.gd"),
 	Status.CHARM: preload("res://scripts/effects_scripts/charm.gd"),
 	Status.CONFUSE: preload("res://scripts/effects_scripts/confuse.gd"),
 	Status.COUNTER: preload("res://scripts/effects_scripts/counter.gd"),
 	Status.DOOM: preload("res://scripts/effects_scripts/doom.gd"),
+	Status.DOT: preload("res://scripts/effects_scripts/dot.gd"),
 	Status.INVINCIBLE: preload("res://scripts/effects_scripts/invincible.gd"),
 	Status.INVISIBLE: preload("res://scripts/effects_scripts/invisible.gd"),
 	Status.PETRIFICATION: preload("res://scripts/effects_scripts/petrification.gd"),
@@ -78,7 +84,7 @@ const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.SECOND_CHANCE: preload("res://scripts/effects_scripts/second_chance.gd"),
 	Status.SILENCE: preload("res://scripts/effects_scripts/silence.gd"),
 	Status.SLEEP: preload("res://scripts/effects_scripts/sleep.gd"),
-	Status.STAT_CHANGE: preload("res://scripts/effects_scripts/stat_change.gd"),
+	Status.STATS: preload("res://scripts/effects_scripts/stats.gd"),
 	Status.STUN: preload("res://scripts/effects_scripts/stun.gd"),
 	Status.TAUNT: preload("res://scripts/effects_scripts/taunt.gd"),
 }
@@ -141,7 +147,7 @@ func type_entities_array(entities_array: Array) -> Array[EntityBase]:
 	var entity_bases: Array[EntityBase] = []
 
 	for entity_base in entities_array:
-		if entity_base and is_instance_valid(entity_base) and entity_base is EntityBase:
+		if is_instance_valid(entity_base) and entity_base is EntityBase:
 			entity_bases.append(entity_base)
 
 	return entity_bases
