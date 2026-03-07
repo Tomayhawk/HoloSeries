@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=57 format=3 uid="uid://cg6qsfbn7l6gh"]
+[gd_resource type="SpriteFrames" format=3 uid="uid://cg6qsfbn7l6gh"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://visuals/temporary/player.png" id="1_4uqcb"]
 [ext_resource type="Texture2D" uid="uid://b6pdcgbeaxnob" path="res://visuals/entities/characters/AZKi_draft_1.png" id="2_2r1kl"]

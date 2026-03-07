@@ -1,14 +1,68 @@
-extends RefCounted
+extends Node
+
+# TODO: add "last played" save information and sort saves in UI based on that
+
+# SAVES (AUTOLOAD)
 
 # Directory
-# Windows: C:\Users\Tomay\AppData\Roaming\Godot\app_userdata\HoloSeries\saves
-# Linux: /home/tomay/.local/share/godot/app_userdata/HoloSeries/saves
+# Windows: %APPDATA%\Godot\app_userdata\HoloSeries\saves
+# MacOS: ~/Library/Application Support/Godot/app_userdata/HoloSeries/saves
+# Linux: ~/.local/share/godot/app_userdata/HoloSeries/saves
 
 # ..............................................................................
 
 #region CONSTANTS
 
 # new save
+const DEFAULT_SAVE_STRUCTURE: Dictionary = {
+	# save information
+	"save_name": "",
+
+	# scene
+	"scene_path": "res://scenes/world_scene_1.tscn",
+
+	# inventories
+	"consumables_inventory": [],
+	"materials_inventory": [],
+	"weapons_inventory": [],
+	"armors_inventory": [],
+	"accessories_inventory": [],
+	"nexus_inventory": [],
+	"key_inventory": [],
+
+	# nexus
+	"nexus_types": [],
+	"nexus_qualities": [],
+
+	# characters
+	"characters": [
+		{
+			# stats
+			"character_index": -1,
+			"experience": 0,
+
+			# equipments
+			"weapon": -1,
+			"headgear": -1,
+			"chestpiece": -1,
+			"leggings": -1,
+			"accessory_1": -1,
+			"accessory_2": -1,
+			"accessory_3": -1,
+
+			# nexus
+			"last_node": -1,
+			"unlocked_nodes": [],
+			"converted_nodes": [],
+		}
+	],
+
+	# players
+	"main_player": -1,
+	"main_player_position": [0.0, 0.0],
+	"party": [-1, -1, -1, -1],
+}
+
 const CONSUMABLES_INVENTORY_SIZE: int = 100
 const MATERIALS_INVENTORY_SIZE: int = 101
 const NEXUS_INVENTORY_SIZE: int = 102
@@ -36,54 +90,16 @@ const CHARACTER_SCRIPTS: Array[String] = [
 #region NEW SAVE
 
 func new_save(character_index: int) -> void:
+	# create save
+	var save_data: Dictionary = DEFAULT_SAVE_STRUCTURE
+
+	# create character
 	var player_stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
-
-	# initialize save
-	var save_data: Dictionary = {
-		# scene
-		"scene_path": "res://scenes/world_scene_1.tscn" as String,
-
-		# inventories
-		"consumables_inventory": [] as Array[int],
-		"materials_inventory": [] as Array[int],
-		"weapons_inventory": [] as Array[int],
-		"armors_inventory": [] as Array[int],
-		"accessories_inventory": [] as Array[int],
-		"nexus_inventory": [] as Array[int],
-		"key_inventory": [] as Array[int],
-
-		# nexus
-		"nexus_types": [] as Array[int],
-		"nexus_qualities": [] as Array[int],
-
-		# character stats
-		"characters": [
-			{
-				# stats
-				"character_index": character_index as int,
-				"experience": 0 as int,
-
-				# equipments
-				"weapon": -1 as int,
-				"headgear": -1 as int,
-				"chestpiece": -1 as int,
-				"leggings": -1 as int,
-				"accessory_1": -1 as int,
-				"accessory_2": -1 as int,
-				"accessory_3": -1 as int,
-
-				# nexus
-				"last_node": player_stats.DEFAULT_UNLOCKED[1] as int,
-				"unlocked_nodes": player_stats.DEFAULT_UNLOCKED as Array[int],
-				"converted_nodes": [] as Array[Vector2i],
-			}
-		] as Array[Dictionary],
-
-		# players
-		"main_player": character_index as int,
-		"main_player_position": [0.0, 0.0] as Array[float],
-		"party": [character_index, -1, -1, -1] as Array[int],
-	}
+	save_data["characters"]["last_node"] = player_stats.DEFAULT_UNLOCKED[1]
+	save_data["characters"]["unlocked_nodes"] = player_stats.DEFAULT_UNLOCKED
+	save_data["main_player"] = character_index
+	save_data["main_player_position"] = [0.0, 0.0]
+	save_data["party"][0] = character_index
 
 	# initialize inventories
 	save_data["consumables_inventory"].resize(CONSUMABLES_INVENTORY_SIZE)
@@ -104,7 +120,7 @@ func new_save(character_index: int) -> void:
 	# find an empty save file
 	var file_path: String = ""
 	var save_index: int = 1
-	for index in [1, 2, 3]:
+	for index in [1, 2, 3]: # TODO: should not be limited to 3, should be unlimited
 		var test_path: String = "user://saves/save_%d.json" % index
 		if not FileAccess.file_exists(test_path):
 			file_path = test_path
@@ -147,7 +163,7 @@ func load_save(save_index: int = 1) -> void:
 
 func read_save_file(save_index: int) -> Dictionary:
 	# TODO: temporary code
-	_migrate_json_saves()
+	migrate_json_saves()
 
 	var file_path: String = SAVE_FILE_PATH % save_index
 
@@ -251,9 +267,11 @@ func save(_save_index: int) -> void:
 
 # ..............................................................................
 
+#region DEBUG
+
 # TODO: temporary functions
 
-func _migrate_json_saves() -> void:
+func migrate_json_saves() -> void:
 	var dir: DirAccess = DirAccess.open("user://saves")
 	if not dir:
 		return
@@ -263,12 +281,12 @@ func _migrate_json_saves() -> void:
 
 	while file_name != "":
 		if file_name.ends_with(".json"):
-			_convert_json_to_dat("user://saves/" + file_name)
+			convert_json_to_dat("user://saves/" + file_name)
 		file_name = dir.get_next()
 
 	dir.list_dir_end()
 
-func _convert_json_to_dat(json_path: String) -> void:
+func convert_json_to_dat(json_path: String) -> void:
 	var file := FileAccess.open(json_path, FileAccess.READ)
 	if not file:
 		push_error("[saves.gd] Could not open JSON save: %s" % json_path)
@@ -281,7 +299,7 @@ func _convert_json_to_dat(json_path: String) -> void:
 		push_error("[saves.gd] Failed to parse JSON save: %s" % json_path)
 		return
 
-	data = _migrate_data(data)
+	data = migrate_data(data)
 
 	var dat_path := json_path.replace(".json", ".dat")
 	write_save(dat_path, data)
@@ -297,7 +315,7 @@ func write_save(file_path: String, data: Dictionary) -> void:
 	file.store_buffer(bytes)
 	file.close()
 
-func _migrate_data(data: Dictionary) -> Dictionary:
+func migrate_data(data: Dictionary) -> Dictionary:
 	# fix converted_nodes from [[x,y], ...] to Array[Vector2i]
 	for character in data["characters"]:
 		var converted: Array[Vector2i] = []
@@ -306,3 +324,7 @@ func _migrate_data(data: Dictionary) -> Dictionary:
 		character["converted_nodes"] = converted
 
 	return data
+
+#endregion
+
+# ..............................................................................

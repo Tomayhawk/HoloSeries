@@ -1,7 +1,13 @@
 extends Node2D
 
+# ..............................................................................
+
+#region READY
+
 func _ready() -> void:
 	Global.add_global_child("MainUi", "res://user_interfaces/main_ui.tscn")
+
+#endregion
 
 # ..............................................................................
 

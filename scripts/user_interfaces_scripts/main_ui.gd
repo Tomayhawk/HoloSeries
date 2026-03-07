@@ -1,19 +1,13 @@
 extends CanvasLayer
 
+@onready var main_scene: Node2D = Global.get_tree().current_scene
+
 # ..............................................................................
 
 #region OPTIONS MENU
 
 func _on_play_button_pressed() -> void:
-	const SETTINGS_PATH: String = "user://settings.cfg"
-
-	var saves: RefCounted = load("res://scripts/global_scripts/saves.gd").new()
-	var config: ConfigFile = ConfigFile.new()
-
-	if FileAccess.file_exists(SETTINGS_PATH):
-		config.load(SETTINGS_PATH)
-
-	saves.load_save(config.get_value("save", "last_save", 1))
+	Saves.load_save(Settings.get_last_save())
 	queue_free()
 
 

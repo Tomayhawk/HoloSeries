@@ -94,12 +94,12 @@ func _input(event: InputEvent) -> void:
 		return
 
 	if Input.is_action_just_pressed(&"dash"):
-		if move_state == MoveState.SPRINT and not Inputs.sprint_hold:
+		if move_state == MoveState.SPRINT and not Inputs.sprint_toggle:
 			end_sprint()
 		else:
 			attempt_dash()
 	elif Input.is_action_just_released(&"dash"):
-		if move_state == MoveState.SPRINT and Inputs.sprint_hold:
+		if move_state == MoveState.SPRINT and Inputs.sprint_toggle:
 			end_sprint()
 	elif not in_forced_move_state():
 		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
@@ -178,7 +178,7 @@ func _on_move_state_timeout() -> void:
 	if in_forced_move_state():
 		move_state = MoveState.IDLE
 	elif move_state == MoveState.DASH:
-		if is_main_player and (Input.is_action_pressed(&"dash") or not Inputs.sprint_hold):
+		if is_main_player and (Input.is_action_pressed(&"dash") or not Inputs.sprint_toggle):
 			move_state = MoveState.SPRINT
 		else:
 			move_state = MoveState.WALK

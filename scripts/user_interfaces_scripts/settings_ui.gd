@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 func _ready() -> void:
-	# set resolution options
+	# set size options
 	const resolution_options: Array[Vector2i] = [
 			Vector2i(640, 480), Vector2i(800, 600), Vector2i(1024, 768), Vector2i(1280, 720),
 			Vector2i(1280, 800), Vector2i(1280, 960), Vector2i(1280, 1024), Vector2i(1366, 768),
@@ -14,25 +14,25 @@ func _ready() -> void:
 	var max_x: int = DisplayServer.screen_get_size().x
 	var max_y: int = DisplayServer.screen_get_size().y
 
-	for resolution in resolution_options:
-		if resolution.x <= max_x and resolution.y <= max_y:
-			%ResolutionOptionButton.add_item(str(resolution.x) + " x " + str(resolution.y))
+	for size in resolution_options:
+		if size.x <= max_x and size.y <= max_y:
+			%ResolutionOptionButton.add_item(str(size.x) + " x " + str(size.y))
 
 	# update full screen status
 	%FullScreenCheckButton.set_pressed(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
 
-	# update selected resolution option
+	# update selected size option
 	var current_x: int = DisplayServer.window_get_size().x
 	var current_y: int = DisplayServer.window_get_size().y
 
 	for index in %ResolutionOptionButton.get_item_count():
-		var resolution: PackedStringArray = %ResolutionOptionButton.get_item_text(index).split(" x ")
+		var size: PackedStringArray = %ResolutionOptionButton.get_item_text(index).split(" x ")
 
-		if int(resolution[0]) == current_x and int(resolution[1]) == current_y:
+		if int(size[0]) == current_x and int(size[1]) == current_y:
 			%ResolutionOptionButton.selected = index
 			break
 
-		if int(resolution[0]) > current_x and int(resolution[1]) > current_y:
+		if int(size[0]) > current_x and int(size[1]) > current_y:
 			%ResolutionOptionButton.selected = -1
 			break
 
@@ -67,7 +67,7 @@ func _on_full_screen_check_button_toggled(to_enabled: bool) -> void:
 
 func _on_resolution_option_button_item_selected(index: int) -> void:
 	var resolution_dimensions: PackedStringArray = %ResolutionOptionButton.get_item_text(index).split(" x ")
-	Settings.set_resolution(Vector2i(resolution_dimensions[0].to_int(), resolution_dimensions[1].to_int()))
+	Settings.set_window_size(Vector2i(resolution_dimensions[0].to_int(), resolution_dimensions[1].to_int()))
 
 
 func _on_master_volume_h_slider_value_changed(value: float) -> void:

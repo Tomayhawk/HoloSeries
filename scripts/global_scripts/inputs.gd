@@ -9,7 +9,7 @@ var world_inputs_enabled: bool = false
 var action_inputs_enabled: bool = false
 var zoom_inputs_enabled: bool = false
 
-var sprint_hold: bool = true
+var sprint_toggle: bool = true
 
 func _input(event: InputEvent) -> void:
 	# ignore unrelated inputs
