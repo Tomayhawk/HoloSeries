@@ -213,7 +213,7 @@ func _ready() -> void:
 		%InventoryVBoxContainer.add_child(inventory_button)
 
 		# initialize button name and texts
-		inventory_button.name = str(index)
+		inventory_button.name = StringName(str(index))
 		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
 

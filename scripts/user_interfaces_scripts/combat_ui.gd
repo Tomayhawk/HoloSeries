@@ -19,6 +19,9 @@ var tween: Tween
 @onready var sub_modes_nodes: Array[Node] = %SubModesMarginContainer.get_children()
 @onready var items_grid_container_node: GridContainer = %ItemsGridContainer
 
+# TODO: incomplete implementation
+@onready var character_infos_container_node: VBoxContainer = %CharacterInfosVBoxContainer
+
 #endregion
 
 # ..............................................................................
@@ -32,6 +35,7 @@ func _ready() -> void:
 
 	var character_infos_nodes: Array[Node] = %CharacterInfosVBoxContainer.get_children()
 	for character_infos_node in character_infos_nodes:
+		character_infos_node.modulate.a = 0.0
 		name_labels.append(character_infos_node.get_node(^"CharacterName"))
 		health_labels.append(character_infos_node.get_node(^"HealthAmount"))
 		mana_labels.append(character_infos_node.get_node(^"ManaAmount"))
@@ -80,9 +84,9 @@ func update_inventory_ui() -> void:
 	for count in Inventory.consumables_inventory:
 		if count > 0:
 			var options_button: Button = options_button_load.instantiate()
-			var item_name: String = Inventory.consumables[index].new().item_name
-			options_button.name = item_name
-			options_button.get_node(^"Name").text = item_name
+			var ITEM_NAME: String = Inventory.consumables[index].new().ITEM_NAME
+			options_button.name = ITEM_NAME
+			options_button.get_node(^"Name").text = ITEM_NAME
 			options_button.get_node(^"Number").text = str(count)
 			options_button.pressed.connect(button_pressed)
 			options_button.pressed.connect(use_consumable.bind(index))

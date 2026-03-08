@@ -1,15 +1,17 @@
 extends Node
 
+# INVENTORY (AUTOLOAD #8)
+
 # ..............................................................................
 
 #region CONSTANTS
 
-enum LOOTABLES_ID {
+enum LootablesKeys {
 	TEMP_SHIRAKAMI,
 }
 
-const LOOTABLES: Dictionary[LOOTABLES_ID, Array] = {
-	LOOTABLES_ID.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", 0, 0],
+const LOOTABLES: Dictionary[LootablesKeys, Array] = {
+	LootablesKeys.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", 0, 0],
 }
 
 #endregion
@@ -66,14 +68,14 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 		return
 
 	var item: Consumable = consumables[index].new()
-	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.item_name)
+	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.ITEM_NAME)
 
 	if consumables_inventory[index] <= 0:
 		if combat_ui_button_node:
 			combat_ui_button_node.queue_free()
 		return
 
-	var request_count = item.request_count
+	var request_count = item.REQUEST_COUNT
 
 	# TODO: bad code
 	if not request_count:

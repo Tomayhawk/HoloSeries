@@ -21,8 +21,7 @@ func _input(event: InputEvent) -> void:
 #region FUNCTIONS
 
 func exit_ui() -> void:
-	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
-	queue_free()
+	Global.global_ui(Global.Ui.ABILITIES, Global.Ui.HOLO_DECK)
 
 #endregion
 

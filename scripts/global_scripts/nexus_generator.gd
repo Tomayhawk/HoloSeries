@@ -66,8 +66,8 @@ const BASE_AREA_STATS_COUNTS: Array[Array] = [
 ]
 
 # [ROW: AREA_INDEX][COL: STATS_TYPE]
-# nexus stats population flactuation ranges in each nexus area
-const STATS_COUNT_FLACTUATION_RATE: Array[Array] = [
+# nexus stats population fluctuation ranges in each nexus area
+const STATS_COUNT_FLUCTUATION_RATE: Array[Array] = [
 	[2, 3, 1, 1, 1, 2, 1, 1],
 	[1, 1, 0, 1, 0, 1, 0, 0],
 	[3, 5, 1, 1, 1, 3, 1, 1],
@@ -214,7 +214,7 @@ func set_area_stats_types(area_index: int, area_size: int) -> Array[int]:
 		# randomize the number of a specific stats type
 		var stats_type_count: int = BASE_AREA_STATS_COUNTS[area_index][stats_type_index]
 		stats_type_count += round(
-				STATS_COUNT_FLACTUATION_RATE[area_index][stats_type_index] * (
+				STATS_COUNT_FLUCTUATION_RATE[area_index][stats_type_index] * (
 						randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25)
 						+ randf_range(-0.25, 0.25) + randf_range(-0.25, 0.25)))
 

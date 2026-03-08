@@ -2,7 +2,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	# set size options
-	const resolution_options: Array[Vector2i] = [
+	const RESOLUTION_OPTIONS: Array[Vector2i] = [
 			Vector2i(640, 480), Vector2i(800, 600), Vector2i(1024, 768), Vector2i(1280, 720),
 			Vector2i(1280, 800), Vector2i(1280, 960), Vector2i(1280, 1024), Vector2i(1366, 768),
 			Vector2i(1440, 900), Vector2i(1600, 900), Vector2i(1600, 1200), Vector2i(1680, 1050),
@@ -14,7 +14,7 @@ func _ready() -> void:
 	var max_x: int = DisplayServer.screen_get_size().x
 	var max_y: int = DisplayServer.screen_get_size().y
 
-	for size in resolution_options:
+	for size in RESOLUTION_OPTIONS:
 		if size.x <= max_x and size.y <= max_y:
 			%ResolutionOptionButton.add_item(str(size.x) + " x " + str(size.y))
 
@@ -38,7 +38,7 @@ func _ready() -> void:
 
 	# update volume sliders
 	%MasterVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
-	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"BGM"))))
+	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music"))))
 
 
 func _input(event: InputEvent) -> void:
@@ -56,8 +56,11 @@ func _input(event: InputEvent) -> void:
 # SIGNALS
 
 func exit_ui() -> void:
-	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
-	queue_free()
+	# TODO: temporary check method
+	if get_tree().current_scene.name == "MainMenuScene":
+		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.NONE)
+	else:
+		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.HOLO_DECK)
 
 # SETTINGS
 

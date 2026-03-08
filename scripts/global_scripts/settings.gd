@@ -1,6 +1,6 @@
 extends Node
 
-# SETTINGS (AUTOLOAD)
+# SETTINGS (AUTOLOAD #2)
 
 # Directory
 # Windows: %APPDATA%\Godot\app_userdata\HoloSeries
@@ -23,7 +23,7 @@ const DEFAULT_SETTINGS: Dictionary[String, Dictionary] = {
 		"music": 0.7,
 	},
 	"save": {
-		"last_save": -1,
+		"last_save": "",
 	},
 	"input": {
 		"sprint_toggle": false,
@@ -69,7 +69,7 @@ func _ready() -> void:
 	# set audio volumes
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Master"),linear_to_db(
 			settings.get_value("audio", "master", DEFAULT_SETTINGS["audio"]["master"])))
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), linear_to_db(
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Music"), linear_to_db(
 			settings.get_value("audio", "music", DEFAULT_SETTINGS["audio"]["music"])))
 
 	# set input settings
@@ -95,7 +95,11 @@ func set_default_settings() -> void:
 
 #region LAST SAVE
 
-func get_last_save() -> int:
+func set_last_save(current_save_file_name: String) -> void:
+	settings.set_value("save", "last_save", current_save_file_name)
+
+
+func get_last_save() -> String:
 	return settings.get_value("save", "last_save", DEFAULT_SETTINGS["save"]["last_save"])
 
 #endregion
@@ -153,7 +157,7 @@ func set_master_volume(db_value: float) -> void:
 
 
 func set_music_volume(db_value: float) -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"BGM"), db_value)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Music"), db_value)
 	settings.set_value("audio", "music", db_to_linear(db_value))
 
 #endregion

@@ -35,8 +35,7 @@ func update_inventory(_inventory_index) -> void:
 
 
 func exit_ui() -> void:
-	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
-	queue_free()
+	Global.global_ui(Global.Ui.INVENTORY, Global.Ui.HOLO_DECK)
 
 
 func _on_inventory_type_button_pressed(_extra_arg_0) -> void:

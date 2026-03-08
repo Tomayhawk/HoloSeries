@@ -177,7 +177,7 @@ func screen_shake(counter: int, interval: int, intensity: int, camera_speed: flo
 	shake_intensity = intensity
 	position_smoothing_speed = camera_speed
 	set_physics_process(true)
-	Entities.toggle_entities_process(!pause) # TODO: incomplete implementation
+	Entities.toggle_entities_process(not pause) # TODO: incomplete implementation
 
 	await screen_shake_ended
 

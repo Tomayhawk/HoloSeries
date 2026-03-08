@@ -36,7 +36,10 @@ var is_main_player: bool = false:
 				stats.entity_types &= ~Entities.Type.PLAYERS_MAIN
 				stats.entity_types |= Entities.Type.PLAYERS_ALLIES
 
-var party_index: int = -1
+var party_index: int = -1:
+	set(value):
+		Players.party_bases[value] = self
+		party_index = value
 
 var basic_attack_node: Node = null
 var action_queue: Array[Dictionary] = [] # { "action_node": Node, "priority": int }
@@ -682,7 +685,7 @@ func death() -> void:
 		if not alive_party_players.is_empty():
 			Players.switch_main_player(alive_party_players[0])
 		else:
-			print("[LOG] GAME OVER") # TODO
+			print("[LOG] [player_base.gd] GAME OVER") # TODO
 
 	# play death animation
 	var animation_node: AnimatedSprite2D = $Animation

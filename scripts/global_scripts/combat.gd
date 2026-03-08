@@ -1,6 +1,6 @@
 extends Node
 
-# COMBAT MANAGER
+# COMBAT (AUTOLOAD #7)
 
 signal entering_combat
 signal left_combat

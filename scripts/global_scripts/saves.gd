@@ -1,8 +1,8 @@
 extends Node
 
-# TODO: add "last played" save information and sort saves in UI based on that
+# SAVES (AUTOLOAD #10)
 
-# SAVES (AUTOLOAD)
+# TODO: add "last played" save information and sort saves in UI based on that
 
 # Directory
 # Windows: %APPDATA%\Godot\app_userdata\HoloSeries\saves
@@ -13,13 +13,18 @@ extends Node
 
 #region CONSTANTS
 
-# new save
-const DEFAULT_SAVE_STRUCTURE: Dictionary = {
+const SAVES_PATH: String = "user://saves/"
+const SAVE_FILE_PATH: String = SAVES_PATH + "%s.dat"
+
+# NEW SAVE
+
+const SAVE_STRUCTURE: Dictionary = {
 	# save information
 	"save_name": "",
+	"last_saved": 0.0,
 
 	# scene
-	"scene_path": "res://scenes/world_scene_1.tscn",
+	"scene": Global.Scenes.WORLD_SCENE_1,
 
 	# inventories
 	"consumables_inventory": [],
@@ -35,53 +40,61 @@ const DEFAULT_SAVE_STRUCTURE: Dictionary = {
 	"nexus_qualities": [],
 
 	# characters
-	"characters": [
-		{
-			# stats
-			"character_index": -1,
-			"experience": 0,
+	"characters": [],
 
-			# equipments
-			"weapon": -1,
-			"headgear": -1,
-			"chestpiece": -1,
-			"leggings": -1,
-			"accessory_1": -1,
-			"accessory_2": -1,
-			"accessory_3": -1,
-
-			# nexus
-			"last_node": -1,
-			"unlocked_nodes": [],
-			"converted_nodes": [],
-		}
-	],
-
-	# players
+	# main player and party character indices
 	"main_player": -1,
-	"main_player_position": [0.0, 0.0],
+	"position": Vector2(0.0, 0.0),
 	"party": [-1, -1, -1, -1],
 }
 
+const CHARACTER_STRUCTURE: Dictionary = {
+	# stats
+	"level": 0,
+	"experience": 0,
+
+	# equipments
+	"weapon": -1,
+	"headgear": -1,
+	"chestpiece": -1,
+	"leggings": -1,
+	"accessory_1": -1,
+	"accessory_2": -1,
+	"accessory_3": -1,
+
+	# nexus
+	"last_node": -1,
+	"unlocked_nodes": [],
+	"converted_nodes": [],
+}
+
+# inventories
 const CONSUMABLES_INVENTORY_SIZE: int = 100
 const MATERIALS_INVENTORY_SIZE: int = 101
 const NEXUS_INVENTORY_SIZE: int = 102
 const KEY_INVENTORY_SIZE: int = 103
 
+# nexus
 const NEXUS_GENERATOR_PATH: String = "res://scripts/global_scripts/nexus_generator.gd"
 
-# load save
-const SAVE_FILE_PATH: String = "user://saves/save_%d.dat"
+# characters
+const CHARACTERS_COUNT: int = 5
+
+# LOAD SAVE
+
+# errors
 const FILE_ERROR_MESSAGE: String = "[saves.gd] Save file not found: %s"
 const DATA_ERROR_MESSAGE: String = "[saves.gd] Failed to parse save file: %s"
-const PLAYER_BASE_PATH: String = "res://entities/player_base.tscn"
-const CHARACTER_SCRIPTS: Array[String] = [
-	"res://scripts/entities_scripts/players_scripts/character_scripts/sora.gd",
-	"res://scripts/entities_scripts/players_scripts/character_scripts/azki.gd",
-	"res://scripts/entities_scripts/players_scripts/character_scripts/roboco.gd",
-	"res://scripts/entities_scripts/players_scripts/character_scripts/akirose.gd",
-	"res://scripts/entities_scripts/players_scripts/character_scripts/luna.gd",
-]
+
+#endregion
+
+# ..............................................................................
+
+#region INITIALIZE
+
+# TODO: temporary function
+func _init() -> void:
+	migrate_json_to_dat()
 
 #endregion
 
@@ -90,51 +103,100 @@ const CHARACTER_SCRIPTS: Array[String] = [
 #region NEW SAVE
 
 func new_save(character_index: int) -> void:
-	# create save
-	var save_data: Dictionary = DEFAULT_SAVE_STRUCTURE
-
-	# create character
-	var player_stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
-	save_data["characters"]["last_node"] = player_stats.DEFAULT_UNLOCKED[1]
-	save_data["characters"]["unlocked_nodes"] = player_stats.DEFAULT_UNLOCKED
-	save_data["main_player"] = character_index
-	save_data["main_player_position"] = [0.0, 0.0]
-	save_data["party"][0] = character_index
-
-	# initialize inventories
-	save_data["consumables_inventory"].resize(CONSUMABLES_INVENTORY_SIZE)
-	save_data["materials_inventory"].resize(MATERIALS_INVENTORY_SIZE)
-	save_data["nexus_inventory"].resize(NEXUS_INVENTORY_SIZE)
-	save_data["key_inventory"].resize(KEY_INVENTORY_SIZE)
-
-	# initialize nexus
-	var nexus_randomized: Array[Array] = load(NEXUS_GENERATOR_PATH).new().stats_nodes_randomizer()
-	save_data["nexus_types"] = nexus_randomized[0]
-	save_data["nexus_qualities"] = nexus_randomized[1]
-
 	# create saves directory if it doesn't exist
-	var dir: DirAccess = DirAccess.open("user://")
-	if not dir.dir_exists("saves"):
-		dir.make_dir("saves")
+	DirAccess.make_dir_absolute("user://saves")
 
-	# find an empty save file
-	var file_path: String = ""
-	var save_index: int = 1
-	for index in [1, 2, 3]: # TODO: should not be limited to 3, should be unlimited
-		var test_path: String = "user://saves/save_%d.json" % index
-		if not FileAccess.file_exists(test_path):
-			file_path = test_path
-			save_index = index
-			break
+	# create save
+	var data: Dictionary = SAVE_STRUCTURE.duplicate(true)
 
-	# store save data
-	if file_path != "":
-		var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
-		file.store_string(JSON.stringify(save_data))
-		file.close()
+	# create save name
+	var save_name: String = get_default_save_name()
+
+	# EDGE CASE: no default save names available. too many saves
+	if save_name == "":
+		return
+
+	# save information
+	data["save_name"] = save_name
+	data["last_saved"] = Time.get_unix_time_from_system()
+
+	# inventories
+	data["consumables_inventory"].resize(CONSUMABLES_INVENTORY_SIZE)
+	data["materials_inventory"].resize(MATERIALS_INVENTORY_SIZE)
+	data["nexus_inventory"].resize(NEXUS_INVENTORY_SIZE)
+	data["key_inventory"].resize(KEY_INVENTORY_SIZE)
+
+	# note: weapons, armors, and accessories inventories don't have set sizes
+
+	# nexus
+	var nexus_randomized: Array[Array] = load(NEXUS_GENERATOR_PATH).new().stats_nodes_randomizer()
+	data["nexus_types"] = nexus_randomized[0]
+	data["nexus_qualities"] = nexus_randomized[1]
+
+	# characters
+	data["characters"].resize(CHARACTERS_COUNT)
+	data["characters"][character_index] = CHARACTER_STRUCTURE.duplicate(true)
+	var player_stats: PlayerStats = load(Players.CHARACTER_PATHS[character_index]).new()
+	data["characters"][character_index]["last_node"] = player_stats.DEFAULT_UNLOCKED[1]
+	data["characters"][character_index]["unlocked_nodes"] = player_stats.DEFAULT_UNLOCKED
+
+	# main player and party character indices
+	data["main_player"] = character_index
+	data["party"][0] = character_index
+
+	# store save data to file
+	var file_name: String = save_name_to_file_name(save_name)
+	var file_path: String = SAVE_FILE_PATH % file_name
+	save_data_to_file(file_path, data)
 
 	# load save
-	load_save(save_index)
+	load_save(file_name)
+
+
+func get_default_save_name() -> String:
+	var dir: DirAccess = DirAccess.open(SAVES_PATH)
+	var used_names: Array = []
+
+	dir.list_dir_begin()
+
+	var file_name: String = dir.get_next()
+
+	# get existing save names
+	while file_name != "":
+		if file_name.ends_with(".dat"):
+			var file: FileAccess = FileAccess.open(SAVES_PATH + file_name, FileAccess.READ)
+			var data: Variant = bytes_to_var(file.get_buffer(file.get_length()))
+			file.close()
+
+			# EDGE CASE: data is not a dictionary OR data doesn't have the key "save_name"
+			if not data is Dictionary and not data.has("save_name"):
+				continue
+
+			used_names.append(data["save_name"])
+
+		file_name = dir.get_next()
+
+	dir.list_dir_end()
+
+	# get an available save name between "Save 0" and "Save 99"
+	var save_name: String = ""
+
+	for i in 100:
+		save_name = "Save %d" % i
+		if not used_names.has(save_name):
+			break
+
+	return save_name
+
+
+func save_name_to_file_name(save_name: String) -> String:
+	var file_name: String = ""
+
+	for c in save_name.strip_edges().to_lower().replace(" ", "_"):
+		if c.is_valid_identifier() or c == "-":
+			file_name += c
+
+	return file_name
 
 #endregion
 
@@ -142,45 +204,45 @@ func new_save(character_index: int) -> void:
 
 #region LOAD SAVE
 
-func load_save(save_index: int = 1) -> void:
-	# read save file
-	var data: Dictionary = read_save_file(save_index)
+func load_last_save() -> void:
+	var last_file_name: String = Settings.get_last_save()
 
+	if last_file_name != "":
+		load_save(last_file_name)
+	else:
+		new_save(0) # TODO: should instead go to a "choose character" UI
+
+
+func load_save(file_name: String) -> void:
+	# read save file
+	var data: Dictionary = read_save_file(file_name)
+
+	# EDGE CASE: file doesn't exist OR file data isn't a dictionary
 	if data.is_empty():
 		return
 
-	# load inventories and nexus variables
+	Settings.set_last_save(file_name)
+
+	# load inventories, nexus variables, players and scene
 	load_inventories(data)
 	load_nexus_variables(data)
-
-	# load players and standby characters
-	var character_stats: Array[PlayerStats] = load_characters(data)
-	load_players(data, character_stats)
-
-	# load scene
+	load_players(data)
 	load_scene(data)
 
 
-func read_save_file(save_index: int) -> Dictionary:
-	# TODO: temporary code
-	migrate_json_saves()
+func read_save_file(file_name: String) -> Dictionary:
+	var file_path: String = SAVE_FILE_PATH % file_name
 
-	var file_path: String = SAVE_FILE_PATH % save_index
-
-	# check file exists
+	# EDGE CASE: file doesn't exist
 	if not FileAccess.file_exists(file_path):
-		# TODO: should instead pop up a text box and return to menu
 		push_error(FILE_ERROR_MESSAGE % file_path)
 		return {}
 
 	# load save file as a dictionary
-	var bytes := FileAccess.get_file_as_bytes(file_path)
+	var data: Variant = bytes_to_var(FileAccess.get_file_as_bytes(file_path))
 
-	var data = bytes_to_var(bytes)
-
-	# check dictionary exists
+	# EDGE CASE: file data isn't a dictionary
 	if not data is Dictionary:
-		# TODO: should instead pop up a text box and return to menu
 		push_error(DATA_ERROR_MESSAGE % file_path)
 		return {}
 
@@ -206,53 +268,34 @@ func load_nexus_variables(data: Dictionary) -> void:
 	Global.nexus_qualities.assign(data["nexus_qualities"])
 
 
-func load_characters(data: Dictionary) -> Array[PlayerStats]:
-	# update characters
-	var character_stats: Array[PlayerStats] = []
-	character_stats.resize(CHARACTER_SCRIPTS.size())
+func load_players(data: Dictionary) -> void:
+	var character_index: int = 0
 
 	for character_data in data["characters"]:
-		var character_index: int = character_data["character_index"]
-		var stats: PlayerStats = load(CHARACTER_SCRIPTS[character_index]).new()
-		character_stats[character_index] = stats
-		stats.load_character(character_data)
-
-	return character_stats
-
-
-func load_players(data: Dictionary, character_stats: Array[PlayerStats]) -> void:
-	# set party players
-	var main_player_index: int = data["main_player"]
-	for party_index in data["party"].size():
-		var character_index: int = data["party"][party_index]
-		if character_index == -1:
-			Combat.ui.name_labels[party_index].get_parent().modulate.a = 0.0
-		else:
-			var player_base: Node = load(PLAYER_BASE_PATH).instantiate()
-			if character_index == main_player_index:
-				player_base.is_main_player = true
-			player_base.set_variables(character_stats[character_index], party_index)
-			character_stats[character_index] = null
-			Players.add_child(player_base)
-
-	# set standby characters
-	for character in character_stats:
-		if not character:
+		# EDGE CASE: character not unlocked OR character data is not a dictionary
+		if not character_data or not character_data is Dictionary:
+			character_index += 1
 			continue
 
-		character.set_stats()
-		Players.standby_characters.append(character)
-		Combat.ui.add_standby_character(character)
+		# load character stats
+		var stats: PlayerStats = Players.load_player_stats(character_index, character_data as Dictionary)
+
+		# add character to party or standby accordingly
+		var party_index: int = data["party"].find(character_index)
+		var is_main_player: bool = character_index == data["main_player"]
+
+		if party_index == -1:
+			Players.add_standby_character(stats)
+		else:
+			Players.add_party_player(stats, party_index, is_main_player)
+
+		character_index += 1
 
 
 func load_scene(data: Dictionary) -> void:
-	var main_player_position: Vector2 = Vector2(data["main_player_position"][0], data["main_player_position"][1])
+	#var position: Vector2 = Vector2(data["position"][0], data["position"][1])
 	# TODO: should be more dynamic
-	Global.change_scene(
-			data["scene_path"],
-			main_player_position,
-			[ - 10000000, -10000000, 10000000, 10000000],
-			"res://music/asmarafulldemo.mp3")
+	Global.change_scene(Global.Scenes.MAIN_MENU, data["scene"])
 
 #endregion
 
@@ -260,8 +303,14 @@ func load_scene(data: Dictionary) -> void:
 
 #region SAVE
 
-func save(_save_index: int) -> void:
+func save(_save_name: String) -> void:
 	pass
+
+
+func save_data_to_file(file_path: String, save_data: Dictionary) -> void:
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
+	file.store_buffer(var_to_bytes(save_data))
+	file.close()
 
 #endregion
 
@@ -271,59 +320,77 @@ func save(_save_index: int) -> void:
 
 # TODO: temporary functions
 
-func migrate_json_saves() -> void:
-	var dir: DirAccess = DirAccess.open("user://saves")
+func migrate_json_to_dat() -> void:
+	var dir: DirAccess = DirAccess.open(SAVES_PATH)
+
 	if not dir:
 		return
 
 	dir.list_dir_begin()
-	var file_name: String = dir.get_next()
 
+	var file_name: String = dir.get_next()
 	while file_name != "":
 		if file_name.ends_with(".json"):
-			convert_json_to_dat("user://saves/" + file_name)
+			json_to_dat(SAVES_PATH + file_name)
 		file_name = dir.get_next()
 
 	dir.list_dir_end()
 
-func convert_json_to_dat(json_path: String) -> void:
-	var file := FileAccess.open(json_path, FileAccess.READ)
-	if not file:
-		push_error("[saves.gd] Could not open JSON save: %s" % json_path)
-		return
 
-	var data = JSON.parse_string(file.get_as_text())
+func json_to_dat(json_path: String) -> void:
+	var file: FileAccess = FileAccess.open(json_path, FileAccess.READ)
+	var data: Variant = JSON.parse_string(file.get_as_text())
 	file.close()
 
 	if not data is Dictionary:
-		push_error("[saves.gd] Failed to parse JSON save: %s" % json_path)
+		push_error(DATA_ERROR_MESSAGE % json_path)
 		return
-
-	data = migrate_data(data)
-
-	var dat_path := json_path.replace(".json", ".dat")
-	write_save(dat_path, data)
-	print("[saves.gd] Migrated %s -> %s" % [json_path, dat_path])
-
-
-func write_save(file_path: String, data: Dictionary) -> void:
-	var bytes := var_to_bytes(data)
-	var file := FileAccess.open(file_path, FileAccess.WRITE)
-	if not file:
-		push_error("[saves.gd] Could not write save: %s" % file_path)
-		return
-	file.store_buffer(bytes)
-	file.close()
-
-func migrate_data(data: Dictionary) -> Dictionary:
-	# fix converted_nodes from [[x,y], ...] to Array[Vector2i]
 	for character in data["characters"]:
+		# EDGE CASE: character not unlocked
+		if not character:
+			continue
+
 		var converted: Array[Vector2i] = []
 		for value in character["converted_nodes"]:
 			converted.append(Vector2i(int(value[0]), int(value[1])))
 		character["converted_nodes"] = converted
+	data["position"] = Vector2(float(data["position"][0]), float(data["position"][1]))
+	var temp_array: Array[int] = []
+	temp_array.assign(data["party"])
+	data["party"] = temp_array.duplicate()
 
-	return data
+	var dat_path: String = json_path.replace(".json", ".dat")
+	save_data_to_file(dat_path, data)
+
+	print("[LOG] [saves.gd] Migrated %s -> %s" % [json_path.get_file(), dat_path.get_file()])
+
+
+func dat_to_json(dat_path: String) -> void:
+	var file: FileAccess = FileAccess.open(dat_path, FileAccess.READ)
+	var data: Variant = bytes_to_var(file.get_buffer(file.get_length()))
+	file.close()
+
+	if not data is Dictionary:
+		push_error(DATA_ERROR_MESSAGE % dat_path)
+		return
+	for character in data["characters"]:
+		# EDGE CASE: character not unlocked
+		if not character:
+			continue
+
+		var flat_nodes: Array = []
+		for vec in character["converted_nodes"]:
+			flat_nodes.append([vec.x, vec.y])
+		character["converted_nodes"] = flat_nodes
+	data["position"] = [data["position"].x, data["position"].y]
+
+	var timestamp: String = Time.get_datetime_string_from_unix_time(data["last_saved"]).replace("T", "_").replace(":", "-")
+	var json_path: String = dat_path.replace(".dat", "_%s.json" % timestamp)
+	file = FileAccess.open(json_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data, "\t"))
+	file.close()
+
+	print("[LOG] [saves.gd] Exported %s -> %s" % [dat_path.get_file(), json_path.get_file()])
 
 #endregion
 

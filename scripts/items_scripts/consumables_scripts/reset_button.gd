@@ -1,7 +1,7 @@
 extends Consumable
 
-const item_name: String = "Reset Button"
-const request_count: int = 0
+const ITEM_NAME: String = "Reset Button"
+const REQUEST_COUNT: int = 0
 const request_types: int = 0
 
 func use_item() -> void:

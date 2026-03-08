@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+# TEXT BOX (AUTOLOAD #9)
+
 # TODO: use .tres instead of .JSON
 # TODO: want text box fade out animation
 

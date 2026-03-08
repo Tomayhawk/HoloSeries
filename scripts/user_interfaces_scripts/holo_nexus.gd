@@ -302,7 +302,7 @@ func add_adjacent_unlockables(index: int) -> void:
 			# create unlockables outline for adjacent node
 			var unlockable_instance: TextureRect = unlockables_load.instantiate()
 			$Unlockables.add_child(unlockable_instance)
-			unlockable_instance.name = str(adjacent)
+			unlockable_instance.name = StringName(str(adjacent))
 			unlockable_instance.position = nexus_nodes[adjacent].position
 			break
 
@@ -314,7 +314,7 @@ func unlock_node() -> void:
 	unlockable_nodes.erase(node_index)
 
 	# remove unlockable outline
-	$Unlockables.remove_child($Unlockables.get_node(str(node_index)))
+	$Unlockables.remove_child($Unlockables.get_node(NodePath(str(node_index))))
 
 	# update node texture
 	nexus_nodes[node_index].modulate = UNLOCKED_MODULATE
@@ -332,8 +332,7 @@ func exit_nexus() -> void:
 	Players.camera.update_camera(Players.main_player, scene_camera_zoom)
 	Players.camera.update_camera_limits(scene_camera_limits)
 
-	Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
-	queue_free()
+	Global.global_ui(Global.Ui.HOLO_NEXUS, Global.Ui.HOLO_DECK)
 
 #endregion
 

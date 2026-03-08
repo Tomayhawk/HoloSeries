@@ -1,13 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://lpel4hhwnqte"]
+[gd_scene format=3 uid="uid://lpel4hhwnqte"]
 
 [ext_resource type="Script" uid="uid://gusxhy8pku2g" path="res://scripts/global_scripts/global.gd" id="1_2k1wk"]
 [ext_resource type="AudioStream" uid="uid://bjnpw5ds0cv8s" path="res://music/asmarafulldemo.mp3" id="2_cqcin"]
 
-[node name="Global" type="Node"]
+[node name="Global" type="Node" unique_id=638621631]
 process_mode = 3
 script = ExtResource("1_2k1wk")
 
-[node name="BgmPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=316065085]
 stream = ExtResource("2_cqcin")
 autoplay = true
-bus = &"BGM"

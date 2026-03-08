@@ -1,5 +1,9 @@
 extends Control
 
+# INPUTS (AUTOLOAD #3)
+
+# ..............................................................................
+
 # TODO: deal with all inputs everywhere
 # TODO: update world_inputs_enabled properly
 
@@ -34,14 +38,12 @@ func _input(event: InputEvent) -> void:
 		accept_event()
 		Settings.toggle_fullscreen(
 				DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)
-	elif Input.is_action_just_pressed(&"1"):
-		party_input(0)
-	elif Input.is_action_just_pressed(&"2"):
-		party_input(1)
-	elif Input.is_action_just_pressed(&"3"):
-		party_input(2)
-	elif Input.is_action_just_pressed(&"4"):
-		party_input(3)
+
+	# handle player swap inputs
+	for index in Players.MAX_PARTY_SIZE:
+		if Input.is_action_just_pressed(StringName(str(index + 1))):
+			player_swap(index)
+			break
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -54,7 +56,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Entities.requesting_entities:
 			Entities.end_entities_request()
 		else:
-			Global.add_global_child("HoloDeck", "res://user_interfaces/holo_deck.tscn")
+			Global.global_ui(Global.Ui.NONE, Global.Ui.HOLO_DECK)
 
 
 func action_input() -> void:
@@ -64,15 +66,15 @@ func action_input() -> void:
 		Players.main_player.action_input()
 
 
-func party_input(index: int) -> void:
+func player_swap(index: int) -> void:
+	if (
+			not is_instance_valid(Players.main_player) or
+			not is_instance_valid(Players.party_bases[index]) or
+			Players.main_player.party_index == index
+	):
+		return
 	accept_event()
-
-	# TODO: temporary code
-	for player_base in get_tree().get_nodes_in_group(&"players"):
-		if player_base.party_index == index:
-			if not player_base.is_main_player:
-				Players.switch_main_player(player_base)
-			break
+	Players.switch_main_player(Players.party_bases[index])
 
 
 func toggle_text_box(to_enabled) -> void:

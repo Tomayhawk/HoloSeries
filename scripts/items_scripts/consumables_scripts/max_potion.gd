@@ -1,7 +1,7 @@
 extends Consumable
 
-const item_name: String = "MAX Potion"
-const request_count: int = 0
+const ITEM_NAME: String = "MAX Potion"
+const REQUEST_COUNT: int = 0
 const request_types: int = 0
 
 func use_item() -> void:

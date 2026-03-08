@@ -14,11 +14,6 @@ func _ready() -> void:
 func _on_world_scene_2_transit_body_entered(body: Node) -> void:
 	if not body.is_main_player: return
 	$WorldScene2Transit/CollisionShape2D.set_deferred("disabled", true)
-	Global.change_scene(
-			"res://scenes/world_scene_2.tscn",
-			Vector2(31, -103),
-			[-640, -352, 640, 352] as Array[int],
-			"res://music/asmarafulldemo.mp3"
-	)
+	Global.change_scene(Global.Scenes.DUNGEON_SCENE_1, Global.Scenes.WORLD_SCENE_2)
 
 # ..............................................................................

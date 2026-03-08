@@ -8,7 +8,7 @@ extends BasicEnemyBase
 
 const MOVE_SPEED: float = 45.0
 const NOUSAGI_PRELOAD: PackedScene = preload("res://entities/enemies/nousagi.tscn")
-const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LOOTABLES_ID.TEMP_SHIRAKAMI]
+const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LootablesKeys.TEMP_SHIRAKAMI]
 
 #endregion
 

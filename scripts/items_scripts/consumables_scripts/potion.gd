@@ -1,7 +1,7 @@
 extends Consumable
 
-const item_name: String = "Potion"
-const request_count: int = 1
+const ITEM_NAME: String = "Potion"
+const REQUEST_COUNT: int = 1
 const request_types: int = Entities.Type.PLAYERS_ALIVE
 
 func use_item(target_base: EntityBase) -> void:
