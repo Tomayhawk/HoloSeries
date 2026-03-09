@@ -77,7 +77,7 @@ func player_swap(index: int) -> void:
 	Players.switch_main_player(Players.party_bases[index])
 
 
-func toggle_text_box(to_enabled) -> void:
+func toggle_world_inputs(to_enabled: bool) -> void:
 	world_inputs_enabled = to_enabled
 	action_inputs_enabled = to_enabled
 	zoom_inputs_enabled = to_enabled

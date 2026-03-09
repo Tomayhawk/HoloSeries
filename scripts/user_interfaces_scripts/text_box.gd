@@ -198,7 +198,7 @@ func set_npc_states(_key: String, _state: String) -> void:
 
 func toggle_world_states(to_enabled: bool) -> void:
 	Entities.toggle_text_box(to_enabled)
-	Inputs.toggle_text_box(to_enabled)
+	Inputs.toggle_world_inputs(to_enabled)
 
 
 func is_inactive() -> bool:

@@ -130,7 +130,7 @@ const NEXUS_ADJACENTS_OFFSETS: Array[Array] = [
 #region NEXUS RANDOMIZER
 
 # randomizes empty nexus nodes with randomized stats types and stats qualities
-func stats_nodes_randomizer() -> Array[Array]:
+static func stats_nodes_randomizer() -> Array[Array]:
 	var final_nexus_types: Array[int] = NEXUS_SET_TYPES.duplicate()
 	var final_nexus_qualities: Array[int] = []
 
@@ -139,7 +139,8 @@ func stats_nodes_randomizer() -> Array[Array]:
 	# for each nexus area
 	for area_index in NEXUS_AREA_COUNT:
 		# initialize area nodes and area stats types populations
-		var area_nodes: Array[int] = INITIAL_AREA_NODES[area_index].duplicate()
+		var area_nodes: Array[int] = []
+		area_nodes.assign(INITIAL_AREA_NODES[area_index].duplicate())
 		var area_stats_types: Array[int] = set_area_stats_types(area_index, area_nodes.size())
 
 		# distribute stats types nodes
@@ -189,7 +190,8 @@ func stats_nodes_randomizer() -> Array[Array]:
 
 			final_nexus_types[node_index] = area_stats_types.pop_at(randi() % (remaining))
 
-		var area_stats_qualities: Array[int] = AREA_STATS_QUALITIES_INDICES[area_index]
+		var area_stats_qualities: Array[int] = []
+		area_stats_qualities.assign(AREA_STATS_QUALITIES_INDICES[area_index])
 
 		for node_index in area_nodes:
 			var stats_type: int = BASIC_STATS_TYPES_INDICES.find(final_nexus_types[node_index])
@@ -206,7 +208,7 @@ func stats_nodes_randomizer() -> Array[Array]:
 
 #region NEXUS UTILITIES
 
-func set_area_stats_types(area_index: int, area_size: int) -> Array[int]:
+static func set_area_stats_types(area_index: int, area_size: int) -> Array[int]:
 	var area_stats_types: Array[int] = []
 
 	# for each stats type
@@ -231,7 +233,7 @@ func set_area_stats_types(area_index: int, area_size: int) -> Array[int]:
 
 # TODO: mediocre validations
 # TODO: should handle cases with nexus board edges
-func valid_node_option(nexus_types: Array[int], node_index: int) -> bool:
+static func valid_node_option(nexus_types: Array[int], node_index: int) -> bool:
 	var node_type: int = nexus_types[node_index]
 
 	@warning_ignore("integer_division")

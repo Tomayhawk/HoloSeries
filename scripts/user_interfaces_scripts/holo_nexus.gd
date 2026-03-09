@@ -6,48 +6,7 @@ extends Node2D
 
 #region CONSTANTS
 
-# atlas positions for empty and null nodes
-const EMPTY_ATLAS_POSITION: Vector2 = Vector2(0.0, 0.0)
-const NULL_ATLAS_POSITION: Vector2 = Vector2(32.0, 0.0)
-
-# atlas positions for HP, MP, DEF, WRD, STR, INT, SPD, AGI nodes
-const STATS_ATLAS_POSITIONS: Array[Vector2] = [
-	Vector2(0.0, 32.0),
-	Vector2(32.0, 32.0),
-	Vector2(64.0, 32.0),
-	Vector2(96.0, 32.0),
-	Vector2(0.0, 64.0),
-	Vector2(32.0, 64.0),
-	Vector2(64.0, 64.0),
-	Vector2(96.0, 64.0),
-]
-
-# nexus nodes atlas positions for special, white magic, black magic nodes
-const ABILITY_ATLAS_POSITIONS: Array[Vector2] = [
-	Vector2(64.0, 0.0),
-	Vector2(96.0, 0.0),
-	Vector2(128.0, 0.0),
-]
-
-# atlas positions for diamond, clover, heart, spade key nodes
-const KEY_ATLAS_POSITIONS: Array[Vector2] = [
-	Vector2(0.0, 96.0),
-	Vector2(32.0, 96.0),
-	Vector2(64.0, 96.0),
-	Vector2(96.0, 96.0)
-]
-
-const NULL_MODULATE: Color = Color(0.2, 0.2, 0.2, 1.0)
-const KEY_MODULATE: Color = Color(0.33, 0.33, 0.33, 1.0)
-const LOCKED_MODULATE: Color = Color(0.25, 0.25, 0.25, 1.0)
-const UNLOCKED_MODULATE: Color = Color(1.0, 1.0, 1.0, 1.0)
-
-# converted stats qualities for HP, MP, DEF, WRD, STR, INT, SPD, AGI nodes
-const CONVERTED_QUALITIES: Array[int] = [400, 40, 15, 15, 20, 20, 4, 4]
-
-# adjacent node indices
-const ADJACENT_INDICES_1: Array[int] = [-32, -17, -16, 15, 16, 32]
-const ADJACENT_INDICES_2: Array[int] = [-32, -16, -15, 16, 17, 32]
+const NEXUS_DATA: RefCounted = preload("res://scripts/user_interfaces_scripts/holo_nexus_data.gd")
 
 #endregion
 
@@ -160,21 +119,21 @@ func set_nexus_nodes() -> void:
 
 		# set texture
 		if node_type == -1:
-			nexus_nodes[index].texture.region.position = NULL_ATLAS_POSITION
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.NULL_ATLAS_POSITION
 		elif node_type == 0:
-			nexus_nodes[index].texture.region.position = EMPTY_ATLAS_POSITION
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.EMPTY_ATLAS_POSITION
 		elif node_type <= 8:
-			nexus_nodes[index].texture.region.position = STATS_ATLAS_POSITIONS[node_type - 1]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.STATS_ATLAS_POSITIONS[node_type - 1]
 		elif node_type <= 11:
-			nexus_nodes[index].texture.region.position = ABILITY_ATLAS_POSITIONS[node_type - 9]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.ABILITY_ATLAS_POSITIONS[node_type - 9]
 		else:
-			nexus_nodes[index].texture.region.position = KEY_ATLAS_POSITIONS[node_type - 12]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.KEY_ATLAS_POSITIONS[node_type - 12]
 
 		# set modulate
 		nexus_nodes[index].modulate = \
-				NULL_MODULATE if node_type == -1 \
-				else KEY_MODULATE if node_type >= 12 \
-				else LOCKED_MODULATE
+				NEXUS_DATA.NULL_MODULATE if node_type == -1 \
+				else NEXUS_DATA.KEY_MODULATE if node_type >= 12 \
+				else NEXUS_DATA.LOCKED_MODULATE
 
 #endregion
 
@@ -195,21 +154,21 @@ func update_nexus_player(next_index: int) -> void:
 
 		# reset texture
 		if node_type == -1:
-			nexus_nodes[index].texture.region.position = NULL_ATLAS_POSITION
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.NULL_ATLAS_POSITION
 		elif node_type == 0:
-			nexus_nodes[index].texture.region.position = EMPTY_ATLAS_POSITION
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.EMPTY_ATLAS_POSITION
 		elif node_type <= 8:
-			nexus_nodes[index].texture.region.position = STATS_ATLAS_POSITIONS[node_type - 1]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.STATS_ATLAS_POSITIONS[node_type - 1]
 		elif node_type <= 11:
-			nexus_nodes[index].texture.region.position = ABILITY_ATLAS_POSITIONS[node_type - 9]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.ABILITY_ATLAS_POSITIONS[node_type - 9]
 		else:
-			nexus_nodes[index].texture.region.position = KEY_ATLAS_POSITIONS[node_type - 12]
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.KEY_ATLAS_POSITIONS[node_type - 12]
 
 		# reset modulate
 		nexus_nodes[index].modulate = \
-				NULL_MODULATE if node_type == -1 \
-				else KEY_MODULATE if node_type >= 12 \
-				else LOCKED_MODULATE
+				NEXUS_DATA.NULL_MODULATE if node_type == -1 \
+				else NEXUS_DATA.KEY_MODULATE if node_type >= 12 \
+				else NEXUS_DATA.LOCKED_MODULATE
 
 	# update current stats and index
 	current_stats = next_stats
@@ -221,10 +180,10 @@ func update_nexus_player(next_index: int) -> void:
 
 		# update texture
 		if node_type == -1 or node_type >= 12:
-			nexus_nodes[index].texture.region.position = EMPTY_ATLAS_POSITION
+			nexus_nodes[index].texture.region.position = NEXUS_DATA.EMPTY_ATLAS_POSITION
 
 		# update modulate
-		nexus_nodes[index].modulate = UNLOCKED_MODULATE
+		nexus_nodes[index].modulate = NEXUS_DATA.UNLOCKED_MODULATE
 
 	# reset converted nodes array
 	converted_nodes.clear()
@@ -233,7 +192,7 @@ func update_nexus_player(next_index: int) -> void:
 	for converted in next_stats.converted_nodes:
 		converted_nodes.append(converted.x)
 		nexus_nodes[converted.x].texture.region.position = \
-				EMPTY_ATLAS_POSITION if converted.y == 0 else STATS_ATLAS_POSITIONS[converted.y - 1]
+				NEXUS_DATA.EMPTY_ATLAS_POSITION if converted.y == 0 else NEXUS_DATA.STATS_ATLAS_POSITIONS[converted.y - 1]
 
 	# reset unlockable nodes array
 	unlockable_nodes.clear()
@@ -256,7 +215,7 @@ func get_adjacents(origin_index: int) -> Array[int]:
 	var node_count: int = $NexusNodes.get_child_count()
 	var origin_position: Vector2 = nexus_nodes[origin_index].position
 
-	for temp_index in (ADJACENT_INDICES_1 if origin_index % 32 < 16 else ADJACENT_INDICES_2):
+	for temp_index in (NEXUS_DATA.ADJACENT_INDICES_1 if origin_index % 32 < 16 else NEXUS_DATA.ADJACENT_INDICES_2):
 		var adjusted_index: int = origin_index + temp_index
 
 		# check if current index is within bounds
@@ -283,7 +242,7 @@ func add_adjacent_unlockables(index: int) -> void:
 		if (
 				adjacent in current_stats.unlocked_nodes
 				or adjacent in unlockable_nodes
-				or nexus_nodes[adjacent].texture.region.position == NULL_ATLAS_POSITION
+				or nexus_nodes[adjacent].texture.region.position == NEXUS_DATA.NULL_ATLAS_POSITION
 		):
 			continue
 
@@ -317,7 +276,7 @@ func unlock_node() -> void:
 	$Unlockables.remove_child($Unlockables.get_node(NodePath(str(node_index))))
 
 	# update node texture
-	nexus_nodes[node_index].modulate = UNLOCKED_MODULATE
+	nexus_nodes[node_index].modulate = NEXUS_DATA.UNLOCKED_MODULATE
 
 	# check for adjacent unlockables
 	add_adjacent_unlockables(node_index)

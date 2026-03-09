@@ -1,6 +1,6 @@
 extends VisibleOnScreenNotifier2D
 
-# ABILITIES COMPONENT: DAMAGE OVER TIME
+# DAMAGE OVER TIME (ABILITIES COMPONENTS)
 
 # ..............................................................................
 

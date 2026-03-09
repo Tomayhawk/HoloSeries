@@ -72,10 +72,12 @@ func initiate_play_dice(chosen_nodes: Array[EntityBase]) -> void:
 			dice_damage *= 2 * dice_results.count(dice_results[-1])
 
 			# check for "6"
-			if dice_results[-1] == 6: dice_damage *= 1.5
+			if dice_results[-1] == 6:
+				dice_damage *= 1.5
 
 			# check for 5 dice duplicates
-			if dice_results.count(dice_results[-1]) == 5: dice_damage *= 2
+			if dice_results.count(dice_results[-1]) == 5:
+				dice_damage *= 2
 
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()

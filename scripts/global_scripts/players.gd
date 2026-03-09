@@ -24,6 +24,7 @@ const CHARACTER_PATHS: Array[String] = [
 
 #region VARIABLES
 
+# TODO: make better use of party_bases around Players.get_children()
 var main_player: PlayerBase = null
 var party_bases: Array[PlayerBase] = [null, null, null, null]
 var standby_characters: Array[PlayerStats] = []
@@ -110,17 +111,17 @@ func add_standby_character(stats: PlayerStats) -> void:
 # TODO: broken
 func recruit_character(stats: PlayerStats) -> void:
 	if get_child_count() < MAX_PARTY_SIZE and standby_characters.is_empty():
-		var base: PlayerBase = load(PLAYER_PATH).instantiate()
-		add_child(base)
-		base.stats = stats
-		stats.base = base
+		var player_base: PlayerBase = load(PLAYER_PATH).instantiate()
+		add_child(player_base)
+		player_base.stats = stats
+		stats.base = player_base
 
 		for index in party_bases.size():
 			if not party_bases[index]:
-				base.party_index = index
+				player_base.party_index = index
 
 		stats.node_index = get_child_count() - 1 # TODO
-		base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
+		player_base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 
 		# TODO: make function for this
 		Combat.ui.character_name_label_nodes[stats.node_index].text = stats.CHARACTER_NAME

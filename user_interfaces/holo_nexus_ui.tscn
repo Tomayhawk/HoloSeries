@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://wsunon4ilt68"]
+[gd_scene format=3 uid="uid://wsunon4ilt68"]
 
 [ext_resource type="Script" uid="uid://dr8vjdytxbc7s" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_gx1i3"]
@@ -15,19 +15,19 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
 
-[node name="HoloNexusUi" type="CanvasLayer"]
+[node name="HoloNexusUi" type="CanvasLayer" unique_id=1701078547]
 process_mode = 3
 layer = 20
 script = ExtResource("1_602ku")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=65866183]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 scale = Vector2(0.5, 0.5)
 
-[node name="Options" type="MarginContainer" parent="Control"]
+[node name="Options" type="MarginContainer" parent="Control" unique_id=1538908111]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -41,36 +41,36 @@ size_flags_vertical = 4
 theme_override_constants/margin_left = 96
 theme_override_constants/margin_bottom = 64
 
-[node name="Panel" type="Panel" parent="Control/Options"]
+[node name="Panel" type="Panel" parent="Control/Options" unique_id=579621886]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_gx1i3")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/Options"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/Options" unique_id=1075671575]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Options/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Options/MarginContainer" unique_id=1944446298]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Unlock" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+[node name="Unlock" type="Button" parent="Control/Options/MarginContainer/VBoxContainer" unique_id=2032695560]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/focus = ExtResource("5_7271n")
-theme_override_styles/hover = ExtResource("3_4ebr1")
-theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/pressed = ExtResource("4_50b2e")
+theme_override_styles/hover = ExtResource("3_4ebr1")
+theme_override_styles/focus = ExtResource("5_7271n")
 text = "Unlock"
 
-[node name="Upgrade" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+[node name="Upgrade" type="Button" parent="Control/Options/MarginContainer/VBoxContainer" unique_id=222861906]
 unique_name_in_owner = true
 modulate = Color(0.301961, 0.301961, 0.301961, 1)
 custom_minimum_size = Vector2(0, 32)
@@ -78,14 +78,14 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/focus = ExtResource("5_7271n")
-theme_override_styles/hover = ExtResource("3_4ebr1")
-theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/pressed = ExtResource("4_50b2e")
+theme_override_styles/hover = ExtResource("3_4ebr1")
+theme_override_styles/focus = ExtResource("5_7271n")
 disabled = true
 text = "Upgrade"
 
-[node name="Awaken" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+[node name="Awaken" type="Button" parent="Control/Options/MarginContainer/VBoxContainer" unique_id=2068974011]
 unique_name_in_owner = true
 modulate = Color(0.301961, 0.301961, 0.301961, 1)
 custom_minimum_size = Vector2(0, 32)
@@ -93,27 +93,27 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/focus = ExtResource("5_7271n")
-theme_override_styles/hover = ExtResource("3_4ebr1")
-theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/pressed = ExtResource("4_50b2e")
+theme_override_styles/hover = ExtResource("3_4ebr1")
+theme_override_styles/focus = ExtResource("5_7271n")
 disabled = true
 text = "Awaken"
 
-[node name="Items" type="Button" parent="Control/Options/MarginContainer/VBoxContainer"]
+[node name="Items" type="Button" parent="Control/Options/MarginContainer/VBoxContainer" unique_id=483432098]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 16
-theme_override_styles/focus = ExtResource("5_7271n")
-theme_override_styles/hover = ExtResource("3_4ebr1")
-theme_override_styles/pressed = ExtResource("4_50b2e")
 theme_override_styles/normal = ExtResource("2_k63ny")
+theme_override_styles/pressed = ExtResource("4_50b2e")
+theme_override_styles/hover = ExtResource("3_4ebr1")
+theme_override_styles/focus = ExtResource("5_7271n")
 text = "Items"
 
-[node name="InventoryMargin" type="MarginContainer" parent="Control"]
+[node name="InventoryMargin" type="MarginContainer" parent="Control" unique_id=1346964546]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
@@ -125,30 +125,30 @@ grow_vertical = 0
 theme_override_constants/margin_left = 128
 theme_override_constants/margin_bottom = 64
 
-[node name="Panel" type="Panel" parent="Control/InventoryMargin"]
+[node name="Panel" type="Panel" parent="Control/InventoryMargin" unique_id=1722219122]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_gx1i3")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/InventoryMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/InventoryMargin" unique_id=740133622]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control/InventoryMargin/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Control/InventoryMargin/MarginContainer" unique_id=740800463]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="InventoryVBoxContainer" type="VBoxContainer" parent="Control/InventoryMargin/MarginContainer/ScrollContainer"]
+[node name="InventoryVBoxContainer" type="VBoxContainer" parent="Control/InventoryMargin/MarginContainer/ScrollContainer" unique_id=18693324]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="DescriptionsMargin" type="MarginContainer" parent="Control"]
+[node name="DescriptionsMargin" type="MarginContainer" parent="Control" unique_id=1329322875]
 unique_name_in_owner = true
 layout_mode = 1
 offset_right = 1280.0
@@ -160,44 +160,44 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 0
 
-[node name="Panel" type="Panel" parent="Control/DescriptionsMargin"]
+[node name="Panel" type="Panel" parent="Control/DescriptionsMargin" unique_id=1892736616]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k5cw7")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control/DescriptionsMargin"]
+[node name="MarginContainer" type="MarginContainer" parent="Control/DescriptionsMargin" unique_id=1337129663]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/DescriptionsMargin/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/DescriptionsMargin/MarginContainer" unique_id=1351359435]
 layout_mode = 2
 
-[node name="DescriptionsTextStartLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer"]
+[node name="DescriptionsTextStartLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer" unique_id=1444276661]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 20
 text = "*  "
 
-[node name="DescriptionsTextAreaLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer"]
+[node name="DescriptionsTextAreaLabel" type="Label" parent="Control/DescriptionsMargin/MarginContainer/HBoxContainer" unique_id=2060634864]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(1199, 57)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 20
 text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
 autowrap_mode = 2
 clip_text = true
 
-[node name="CharacterSelector" type="Control" parent="."]
+[node name="CharacterSelector" type="Control" parent="." unique_id=263830570]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector" unique_id=1961213733]
 layout_mode = 1
 offset_right = 208.0
 offset_bottom = 155.0
@@ -205,23 +205,23 @@ scale = Vector2(0.99279, 0.997135)
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 56
 
-[node name="Panel" type="Panel" parent="CharacterSelector/MarginContainer"]
+[node name="Panel" type="Panel" parent="CharacterSelector/MarginContainer" unique_id=1111684539]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_gx1i3")
 
-[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CharacterSelector/MarginContainer" unique_id=57936576]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer/MarginContainer" unique_id=209752736]
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer"]
+[node name="CharacterSelectorVBoxContainer" type="VBoxContainer" parent="CharacterSelector/MarginContainer/MarginContainer/ScrollContainer" unique_id=1499294011]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3

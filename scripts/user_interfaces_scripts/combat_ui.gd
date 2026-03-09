@@ -84,7 +84,7 @@ func update_inventory_ui() -> void:
 	for count in Inventory.consumables_inventory:
 		if count > 0:
 			var options_button: Button = options_button_load.instantiate()
-			var ITEM_NAME: String = Inventory.consumables[index].new().ITEM_NAME
+			var ITEM_NAME: String = Inventory.CONSUMABLES[index].ITEM_NAME
 			options_button.name = ITEM_NAME
 			options_button.get_node(^"Name").text = ITEM_NAME
 			options_button.get_node(^"Number").text = str(count)

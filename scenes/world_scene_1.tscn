@@ -313,5 +313,3 @@ collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit" unique_id=893803303]
 shape = SubResource("RectangleShape2D_h76rv")
-
-[connection signal="body_entered" from="WorldScene2Transit" to="." method="_on_world_scene_2_transit_body_entered"]

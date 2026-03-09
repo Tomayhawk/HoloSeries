@@ -56,8 +56,6 @@ func _init() -> void:
 		push_error(LOAD_ERROR_MESSAGE % error_string(config_state))
 		set_default_settings()
 
-
-func _ready() -> void:
 	# set window mode, size, and position
 	DisplayServer.window_set_mode(settings.get_value(
 			"window", "mode", DEFAULT_SETTINGS["window"]["mode"]))
@@ -72,6 +70,8 @@ func _ready() -> void:
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Music"), linear_to_db(
 			settings.get_value("audio", "music", DEFAULT_SETTINGS["audio"]["music"])))
 
+
+func _ready() -> void:
 	# set input settings
 	Inputs.sprint_toggle = settings.get_value(
 			"input", "sprint_toggle", DEFAULT_SETTINGS["input"]["sprint_toggle"])

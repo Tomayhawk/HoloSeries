@@ -1,6 +1,6 @@
 extends Node2D
 
-# ABILITIES COMPONENT: AREA OF EFFECT
+# AREA OF EFFECT (ABILITIES COMPONENTS)
 
 # ..............................................................................
 

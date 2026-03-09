@@ -1,6 +1,6 @@
 extends Timer
 
-# ABILITIES COMPONENT: DAMAGE OVER TIME
+# DAMAGE OVER TIME (ABILITIES COMPONENTS)
 
 # ..............................................................................
 

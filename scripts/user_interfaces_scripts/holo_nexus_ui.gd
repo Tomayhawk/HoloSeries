@@ -6,150 +6,7 @@ extends CanvasLayer
 
 #region CONSTANTS
 
-const STATS_DESCRIPTIONS: Array[String] = [
-	"Health",
-	"Mana",
-	"Defense",
-	"Ward",
-	"Strength",
-	"Intelligence",
-	"Speed",
-	"Agility",
-]
-
-const KEY_DESCRIPTIONS: Array[String] = [
-	"Star",
-	"Prosperity",
-	"Love",
-	"Nobility",
-]
-
-const ABILITY_DESCRIPTIONS: Array[String] = [
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-]
-
-const ITEM_NAMES: Array[String] = [
-	# Life, Magic and Reflex
-	"Life",
-	"Magic",
-	"Reflex",
-	# Special, Blessed, Abyssal
-	"Special",
-	"Blessed",
-	"Abyssal",
-	# Star, Prosperity, Love, Nobility
-	"Star",
-	"Prosperity",
-	"Love",
-	"Nobility",
-	# Sunlight, Starlight, Moonlight
-	"Sunlight",
-	"Starlight",
-	"Moonlight",
-	# Dream, Return, Share and Instant
-	"Dream",
-	"Return",
-	"Share",
-	"Instant",
-	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
-	"Health",
-	"Mana",
-	"Defense",
-	"Ward",
-	"Strength",
-	"Intelligence",
-	"Speed",
-	"Agility",
-	# Clear
-	"Clear",
-]
-
-const ITEM_DESCRIPTIONS: Array[String] = [
-	# Life, Magic and Reflex
-	"Unlocks HP, DEF and STR nodes.",
-	"Unlocks MP, WRD and INT nodes.",
-	"Unlocks SPD and AGI nodes.",
-	# Special, Blessed, Abyssal
-	"Unlocks Special nodes.",
-	"Unlocks White Magic nodes.",
-	"Unlocks Black Magic nodes.",
-	# Star, Prosperity, Love, Nobility
-	"Unlocks Diamond Key nodes.",
-	"Unlocks Clover Key nodes.",
-	"Unlocks Heart Key nodes.",
-	"Unlocks Spade Key nodes.",
-	# Sunlight, Starlight, Moonlight
-	"Unlocks any Special node.",
-	"Unlocks any White Magic node.",
-	"Unlocks any Black Magic node.",
-	# Dream, Return, Share and Instant
-	"Unlocks any one node.",
-	"Teleports this character to any of their unlocked nodes.",
-	"Teleports this character to any other character.",
-	"Teleports this character to any node.",
-	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
-	"Converts an empty node into an HP node.",
-	"Converts an empty node into an MP node.",
-	"Converts an empty node into a DEF node.",
-	"Converts an empty node into a WRD node.",
-	"Converts an empty node into an STR node.",
-	"Converts an empty node into an INT node.",
-	"Converts an empty node into a SPD node.",
-	"Converts an empty node into an AGI node.",
-	# Clear
-	"Converts a stats node into an empty node.",
-]
-
-# -1: null
-# 0: empty
-# 1-8: HP, MP, DEF, WRD, STR, INT, SPD, AGI
-# 9-11: special, white magic, black magic
-# 12-15: diamond, clover, heart, spade
-
-const ITEM_COMPATIBLES : Array[int] = [
-	# Life, Magic and Reflex
-	(1 << 1) | (1 << 3) | (1 << 5),
-	(1 << 2) | (1 << 4) | (1 << 6),
-	(1 << 7) | (1 << 8),
-	# Special, Blessed, Abyssal
-	1 << 9,
-	1 << 10,
-	1 << 11,
-	# Star, Prosperity, Love, Nobility
-	1 << 12,
-	1 << 13,
-	1 << 14,
-	1 << 15,
-	# Sunlight, Starlight, Moonlight
-	1 << 9,
-	1 << 10,
-	1 << 11,
-	# Dream, Return, Share and Instant - all non-null types
-	0xFFFF,
-	0xFFFF,
-	0xFFFF,
-	0xFFFF,
-	# Health, Mana, Defense, Ward, Strength, Intelligence, Speed, Agility
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	1 << 0,
-	# Clear
-	(1 << 1) | (1 << 2) | (1 << 3) | (1 << 4) | (1 << 5) | (1 << 6) | (1 << 7) | (1 << 8),
-]
+const NEXUS_DATA: RefCounted = preload("res://scripts/user_interfaces_scripts/holo_nexus_data.gd")
 
 #endregion
 
@@ -214,7 +71,7 @@ func _ready() -> void:
 
 		# initialize button name and texts
 		inventory_button.name = StringName(str(index))
-		inventory_button.get_node(^"ItemName").text = ITEM_NAMES[index] + " Crystal"
+		inventory_button.get_node(^"ItemName").text = NEXUS_DATA.ITEM_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
 
 		# initialize button signals
@@ -261,7 +118,7 @@ func update_options() -> void:
 
 				# check item quantity and compatibility with current node type
 				if Inventory.nexus_inventory[item_index] > 0 and \
-						ITEM_COMPATIBLES[item_index] & current_type_flag:
+						NEXUS_DATA.ITEM_COMPATIBLES[item_index] & current_type_flag:
 					nexus.item_on_hold = item_index
 					can_unlock = true
 					break
@@ -287,7 +144,7 @@ func update_inventory_ui() -> void:
 
 		# update and modulate button based on compatibility and node state
 		var button_valid: bool = (
-				ITEM_COMPATIBLES[item_index] & (1 << Global.nexus_types[node_index])
+				NEXUS_DATA.ITEM_COMPATIBLES[item_index] & (1 << Global.nexus_types[node_index])
 				and ((item_index <= 13 and not node_unlocked)
 				or (item_index <= 16)
 				or (item_index >= 17 and (node_unlocked or node_unlockable)))
@@ -311,22 +168,20 @@ func update_descriptions() -> void:
 			# update current type and quality string
 			current_type = temp_node.y
 			current_quality_string = \
-					"0" if current_type == 0 else str(nexus.CONVERTED_QUALITIES[current_type - 1])
+					"0" if current_type == 0 else str(NEXUS_DATA.CONVERTED_QUALITIES[current_type - 1])
 
 			break
 
 	var description: String = ""
 
-	if current_type <= -1:
-		description = "Null Node."
-	elif current_type == 0:
+	if current_type == 0:
 		description = "Empty Node."
 	elif current_type <= 8:
-		description = "Gain " + current_quality_string + " " + STATS_DESCRIPTIONS[current_type - 1] + "."
+		description = "Gain %s %s." % [current_quality_string, NEXUS_DATA.STATS_DESCRIPTIONS[current_type - 1]]
 	elif current_type <= 11:
 		description = "Unlock " + "[Ability Name]" + "."
 	elif current_type <= 15:
-		description = "Requires a " + KEY_DESCRIPTIONS[current_type - 12] + " Key to Unlock."
+		description = "Requires a %s Key to Unlock." % NEXUS_DATA.KEY_DESCRIPTIONS[current_type - 12]
 
 	%DescriptionsTextAreaLabel.text = description
 
@@ -371,7 +226,7 @@ func stats_convert(type: int) -> bool:
 	nexus.current_stats.converted_nodes.append(Vector2i(node_index, type))
 
 	nexus.nexus_nodes[node_index].texture.region.position = \
-			nexus.EMPTY_ATLAS_POSITION if type == 0 else nexus.STATS_ATLAS_POSITIONS[type - 1]
+			NEXUS_DATA.EMPTY_ATLAS_POSITION if type == 0 else NEXUS_DATA.STATS_ATLAS_POSITIONS[type - 1]
 
 	nexus.unlock_node()
 
@@ -414,7 +269,7 @@ func _on_items_pressed() -> void:
 # nexus inventory button signals
 func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 	if not button_focused:
-		%DescriptionsTextAreaLabel.text = ITEM_DESCRIPTIONS[extra_arg_0]
+		%DescriptionsTextAreaLabel.text = NEXUS_DATA.ITEM_DESCRIPTIONS[extra_arg_0]
 		button_focused = true
 		return
 

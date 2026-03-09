@@ -1,7 +1,5 @@
 extends Node
 
-# TODO: refactor?
-
 # GLOBAL (AUTOLOAD #1)
 
 # ..............................................................................
@@ -14,7 +12,7 @@ signal new_scene_ready
 
 # ..............................................................................
 
-#region CONSTANTS
+#region UI ENUMS
 
 # GLOBAL UI
 
@@ -35,7 +33,11 @@ enum UiKeys {
 	PATH,
 }
 
-# WORLD SCENES
+#endregion
+
+# ..............................................................................
+
+#region SCENES ENUMS
 
 enum Scenes {
 	MAIN_MENU,
@@ -45,102 +47,35 @@ enum Scenes {
 }
 
 enum ScenesKeys {
-	POSITION,
 	CAMERA_LIMITS,
 	MUSIC,
 }
 
-# BACKGROUND MUSIC
+#endregion
+
+# ..............................................................................
+
+#region MUSIC ENUMS
 
 enum Music {
 	OH_ASMARA,
 	SHUNKAN_HEARTBEAT,
 }
 
-# GLOBAL UI
+#endregion
 
-const GLOBAL_UI_PATH_BASE = "res://user_interfaces/%s.tscn"
+# ..............................................................................
 
-const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
-	Ui.ABILITIES: {
-		UiKeys.NAME: ^"AbilitiesUi",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "abilities_ui",
-	},
-	Ui.CHARACTERS: {
-		UiKeys.NAME: ^"CharactersUi",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "characters_ui",
-	},
-	Ui.HOLO_DECK: {
-		UiKeys.NAME: ^"HoloDeck",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "holo_deck",
-	},
-	Ui.HOLO_NEXUS: {
-		UiKeys.NAME: ^"HoloNexus",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "holo_nexus",
-	},
-	Ui.INVENTORY: {
-		UiKeys.NAME: ^"InventoryUi",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "inventory_ui",
-	},
-	Ui.MAIN_MENU: {
-		UiKeys.NAME: ^"MainMenuUi",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "main_menu_ui",
-	},
-	Ui.SETTINGS: {
-		UiKeys.NAME: ^"SettingsUi",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "settings_ui",
-	},
-	Ui.TEXT_BOX: {
-		UiKeys.NAME: ^"TextBox",
-		UiKeys.PATH: GLOBAL_UI_PATH_BASE % "text_box",
-	},
-}
+#region PATHS CONSTANTS
 
-# WORLD SCENES
+const GLOBAL_UI_PATH = "res://user_interfaces/%s.tscn"
 
 const SCENE_PATHS: Dictionary[Scenes, String] = {
+	Scenes.MAIN_MENU: "res://scenes/main_menu_scene.tscn",
 	Scenes.WORLD_SCENE_1: "res://scenes/world_scene_1.tscn",
 	Scenes.WORLD_SCENE_2: "res://scenes/world_scene_2.tscn",
 	Scenes.DUNGEON_SCENE_1: "res://scenes/dungeon_scene_1.tscn",
 }
-
-const WORLD_SCENES: Dictionary[Scenes, Dictionary] = {
-	Scenes.MAIN_MENU: {
-		Scenes.WORLD_SCENE_1: {
-			ScenesKeys.POSITION: Vector2(0.0, 0.0),
-			ScenesKeys.CAMERA_LIMITS: [-10000000, -10000000, 10000000, 10000000],
-			ScenesKeys.MUSIC: MUSIC_PATHS[Music.OH_ASMARA],
-		},
-	},
-	Scenes.WORLD_SCENE_1: {
-		Scenes.WORLD_SCENE_2: {
-			ScenesKeys.POSITION: Vector2(0.0, 341.0),
-			ScenesKeys.CAMERA_LIMITS: [-640, -352, 640, 352],
-			ScenesKeys.MUSIC: MUSIC_PATHS[Music.OH_ASMARA],
-		},
-	},
-	Scenes.WORLD_SCENE_2: {
-		Scenes.WORLD_SCENE_1: {
-			ScenesKeys.POSITION: Vector2(0.0, -247.0),
-			ScenesKeys.CAMERA_LIMITS: [-208, -288, 224, 64],
-			ScenesKeys.MUSIC: MUSIC_PATHS[Music.OH_ASMARA],
-		},
-		Scenes.DUNGEON_SCENE_1: {
-			ScenesKeys.POSITION: Vector2(0.0, 53.0),
-			ScenesKeys.CAMERA_LIMITS: [-10000000, -10000000, 10000000, 10000000],
-			ScenesKeys.MUSIC: MUSIC_PATHS[Music.SHUNKAN_HEARTBEAT],
-		},
-	},
-	Scenes.DUNGEON_SCENE_1: {
-		Scenes.WORLD_SCENE_2: {
-			ScenesKeys.POSITION: Vector2(31.0, -103.0),
-			ScenesKeys.CAMERA_LIMITS: [-640, -352, 640, 352],
-			ScenesKeys.MUSIC: MUSIC_PATHS[Music.OH_ASMARA],
-		},
-	},
-}
-
-# BACKGROUND MUSIC
 
 const MUSIC_PATHS: Dictionary[Music, String] = {
 	Music.OH_ASMARA: "res://music/asmarafulldemo.mp3",
@@ -151,97 +86,87 @@ const MUSIC_PATHS: Dictionary[Music, String] = {
 
 # ..............................................................................
 
-#region VARIABLES
+#region UI DICTIONARY
 
-# NEXUS VARIABLES
-
-# -1: null
-# 0: empty
-# 1-8: HP, MP, DEF, WRD, STR, INT, SPD, AGI
-# 9-11: special, white magic, black magic
-# 12-15: diamond, clover, heart, spade
-var nexus_types: Array[int] = []
-
-# -1 for all non-stats nodes
-var nexus_qualities: Array[int] = []
+const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
+	Ui.ABILITIES: {
+		UiKeys.NAME: ^"AbilitiesUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "abilities_ui",
+	},
+	Ui.CHARACTERS: {
+		UiKeys.NAME: ^"CharactersUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "characters_ui",
+	},
+	Ui.HOLO_DECK: {
+		UiKeys.NAME: ^"HoloDeck",
+		UiKeys.PATH: GLOBAL_UI_PATH % "holo_deck",
+	},
+	Ui.HOLO_NEXUS: {
+		UiKeys.NAME: ^"HoloNexus",
+		UiKeys.PATH: GLOBAL_UI_PATH % "holo_nexus",
+	},
+	Ui.INVENTORY: {
+		UiKeys.NAME: ^"InventoryUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "inventory_ui",
+	},
+	Ui.MAIN_MENU: {
+		UiKeys.NAME: ^"MainMenuUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "main_menu_ui",
+	},
+	Ui.SETTINGS: {
+		UiKeys.NAME: ^"SettingsUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "settings_ui",
+	},
+	Ui.TEXT_BOX: {
+		UiKeys.NAME: ^"TextBox",
+		UiKeys.PATH: GLOBAL_UI_PATH % "text_box",
+	},
+}
 
 #endregion
 
 # ..............................................................................
 
-#region SCENE CHANGE
+#region SCENES DICTIONARIES
 
-func change_scene(current_scene: Scenes, next_scene: Scenes) -> void:
-	var next_scene_path: String = SCENE_PATHS[next_scene]
-	var next_position: Vector2 = WORLD_SCENES[current_scene][next_scene][ScenesKeys.POSITION]
-	var camera_limits: Array[int] = []
-	var music_path: String = WORLD_SCENES[current_scene][next_scene][ScenesKeys.MUSIC]
+const SCENES_DICT: Dictionary[Scenes, Dictionary] = {
+	Scenes.WORLD_SCENE_1: {
+		ScenesKeys.CAMERA_LIMITS: [-208, -288, 224, 64],
+		ScenesKeys.MUSIC: Music.OH_ASMARA,
+	},
+	Scenes.WORLD_SCENE_2: {
+		ScenesKeys.CAMERA_LIMITS: [-640, -352, 640, 352],
+		ScenesKeys.MUSIC: Music.OH_ASMARA,
+	},
+	Scenes.DUNGEON_SCENE_1: {
+		ScenesKeys.CAMERA_LIMITS: [-10000000, -10000000, 10000000, 10000000],
+		ScenesKeys.MUSIC: Music.SHUNKAN_HEARTBEAT,
+	},
+}
 
-	camera_limits.assign(WORLD_SCENES[current_scene][next_scene][ScenesKeys.CAMERA_LIMITS])
+const SCENE_CHANGES: Dictionary[Scenes, Dictionary] = {
+	Scenes.WORLD_SCENE_1: {
+		Scenes.WORLD_SCENE_2: Vector2(0.0, 341.0),
+	},
+	Scenes.WORLD_SCENE_2: {
+		Scenes.WORLD_SCENE_1: Vector2(0.0, -247.0),
+		Scenes.DUNGEON_SCENE_1: Vector2(0.0, 53.0),
+	},
+	Scenes.DUNGEON_SCENE_1: {
+		Scenes.WORLD_SCENE_2: Vector2(31.0, -103.0),
+	},
+}
 
-	# disable inputs
-	Inputs.action_inputs_enabled = false
-	Inputs.world_inputs_enabled = false
-	Inputs.zoom_inputs_enabled = false
+#endregion
 
-	# disable camera smoothing
-	Players.camera.position_smoothing_enabled = false
+# ..............................................................................
 
-	# start black screen
-	await Players.camera.toggle_black_screen(true)
+#region VARIABLES
 
-	# disable players
-	Players.toggle_process(false)
+# NEXUS
 
-	# reparent players and main camera to self
-	Players.reparent.call_deferred(self)
-
-	# change scene
-	get_tree().change_scene_to_file.call_deferred(next_scene_path)
-
-	# wait for scene to load
-	await new_scene_ready
-
-	# update music
-	start_music(music_path)
-
-	# reparent players to the new scene
-	Players.reparent(get_tree().current_scene)
-
-	# reposition players and update camera
-	for player_base in Players.get_children():
-		if player_base.is_main_player:
-			player_base.position = next_position
-			Players.camera.force_zoom(Players.camera.target_zoom)
-			Players.camera.update_camera_limits(camera_limits)
-		else:
-			player_base.ally_teleport(next_position)
-
-	# reset world objects and values
-	Entities.end_entities_request()
-	Combat.clear_combat_entities()
-	Combat.leave_combat()
-
-	# move Inputs to the bottom of the tree
-	get_tree().root.move_child(Inputs, -1)
-
-	# await 2 frames to ensure everything is loaded
-	await get_tree().process_frame
-	await get_tree().process_frame
-
-	# enable players
-	Players.toggle_process(true)
-
-	# end black screen
-	Players.camera.toggle_black_screen(false)
-
-	# enable camera smoothing
-	Players.camera.position_smoothing_enabled = true
-
-	# enable inputs
-	Inputs.action_inputs_enabled = true
-	Inputs.world_inputs_enabled = true
-	Inputs.zoom_inputs_enabled = true
+var nexus_types: Array[int] = []
+var nexus_qualities: Array[int] = []
 
 #endregion
 
@@ -260,52 +185,121 @@ func global_ui(current_ui: Ui, next_ui: Ui) -> void:
 
 # ..............................................................................
 
-#region Music
+#region SCENE CHANGE
 
-func start_music(music_path: String) -> void:
-	# return if currently playing the same track
-	if $MusicPlayer.stream.resource_path == music_path:
+func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vector2 = Vector2.ZERO) -> void:
+	var camera_limits: Array[int] = []
+	camera_limits.assign(SCENES_DICT[next_scene][ScenesKeys.CAMERA_LIMITS])
+
+	# disable world inputs and players
+	Inputs.toggle_world_inputs(false)
+	Players.toggle_process(false)
+
+	# start black screen
+	await Players.camera.toggle_black_screen(true)
+
+	# change scene
+	get_tree().change_scene_to_file.call_deferred(SCENE_PATHS[next_scene])
+
+	# reparent players to self
+	Players.reparent.call_deferred(self)
+
+	# reposition party
+	warp_party(set_position if current_scene == Scenes.MAIN_MENU
+			else SCENE_CHANGES[current_scene][next_scene])
+
+	# update camera
+	Players.camera.force_zoom(Players.camera.target_zoom)
+	Players.camera.update_camera_limits(camera_limits)
+
+	# reset world objects and values
+	Entities.end_entities_request()
+	Combat.clear_combat_entities()
+	Combat.leave_combat()
+
+	# wait for scene to load
+	await new_scene_ready
+
+	# reparent players to the new scene
+	Players.reparent(get_tree().current_scene)
+
+	# move Inputs to the bottom of the tree
+	get_tree().root.move_child(Inputs, -1)
+
+	# update music
+	start_music(SCENES_DICT[next_scene][ScenesKeys.MUSIC])
+
+	# end black screen
+	Players.camera.toggle_black_screen(false)
+
+	# enable players and world inputs
+	Players.toggle_process(true)
+	Inputs.toggle_world_inputs(true)
+
+
+func warp_party(next_position: Vector2) -> void:
+	# reposition main player
+	Players.main_player.position = next_position
+
+	# reposition ally players
+	for player_base in Players.party_bases:
+		if is_instance_valid(player_base) and not player_base.is_main_player:
+			player_base.ally_teleport(next_position)
+
+#endregion
+
+# ..............................................................................
+
+#region MUSIC
+
+func start_music(music: Music) -> void:
+	var music_path: String = MUSIC_PATHS[music]
+
+	var current_music_player: AudioStreamPlayer = $MusicPlayer
+
+	# EDGE CASE: same track -> continue playing
+	if current_music_player.stream.resource_path == music_path:
 		return
 
-	# free old music player if applicable
-	if get_node_or_null(^"OldMusicPlayer"):
-		$OldMusicPlayer.queue_free()
-		await $OldMusicPlayer.tree_exited
+	var old_music_player: AudioStreamPlayer = get_node_or_null(^"OldMusicPlayer")
 
-	# no tweens if no volume (or low volume)
-	if AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music")) < -70.0:
-		$MusicPlayer.stream = load(music_path)
-		$MusicPlayer.play()
+	# EDGE CASE: old music player still exists -> free it
+	if old_music_player:
+		old_music_player.name = &"FreedMusicPlayer"
+		old_music_player.queue_free()
+
+	var music_volume: float = \
+			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music"))
+
+	# EDGE CASE: low volume -> set new track with no tweens
+	if music_volume < -70.0:
+		current_music_player.stream = load(music_path)
+		current_music_player.play()
 		return
 
-	# turn down old music player
-	$MusicPlayer.name = "OldMusicPlayer"
-	var tween_1 = $OldMusicPlayer.create_tween()
-	tween_1.tween_property($OldMusicPlayer, "volume_db", -80.0, 3.0) \
-			.set_trans(Tween.TRANS_LINEAR) \
-			.set_ease(Tween.EASE_OUT)
+	# turn down current music player
+	current_music_player.name = &"OldMusicPlayer"
 
-	# initialize new music player
-	var new_music_player = AudioStreamPlayer.new()
-	add_child(new_music_player)
+	# set tween, tween properties, and queue free current music player when finished
+	var tween: Tween = current_music_player.create_tween()
+	tween.tween_property(current_music_player, "volume_db", -80.0, 3.0
+			).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	tween.finished.connect(func() -> void: current_music_player.queue_free())
 
-	new_music_player.name = "MusicPlayer"
-	$MusicPlayer.stream = load(music_path)
-	$MusicPlayer.bus = "Music"
-	$MusicPlayer.volume_db = -80.0
+	# initialize next music player
+	var next_music_player := AudioStreamPlayer.new()
 
-	$MusicPlayer.play()
+	add_child(next_music_player)
+
+	next_music_player.name = &"MusicPlayer"
+	next_music_player.bus = &"Music"
+	next_music_player.volume_db = -80.0
+	next_music_player.stream = load(music_path)
+	next_music_player.play()
 
 	# turn up new music player
-	$MusicPlayer.create_tween().tween_property($MusicPlayer, "volume_db",
-			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music")), 4.0) \
-			.set_trans(Tween.TRANS_EXPO) \
-			.set_ease(Tween.EASE_OUT)
-
-	# free old music player
-	await tween_1.finished
-	if get_node_or_null(^"OldMusicPlayer"):
-		$OldMusicPlayer.queue_free()
+	next_music_player.create_tween().tween_property(next_music_player, "volume_db",
+			music_volume, 4.0).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 
 #endregion
 

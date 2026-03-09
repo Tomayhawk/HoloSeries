@@ -29,12 +29,12 @@ var accessories_inventory: Array[int] = []
 var nexus_inventory: Array[int] = []
 var key_inventory: Array[int] = []
 
-var consumables: Array[Resource] = [
-	load("res://scripts/items_scripts/consumables_scripts/potion.gd"),
-	load("res://scripts/items_scripts/consumables_scripts/max_potion.gd"),
-	load("res://scripts/items_scripts/consumables_scripts/phoenix_burger.gd"),
-	load("res://scripts/items_scripts/consumables_scripts/reset_button.gd"),
-	load("res://scripts/items_scripts/consumables_scripts/temp_kill_item.gd"),
+const CONSUMABLES: Array[Resource] = [
+	preload("res://scripts/items_scripts/consumables_scripts/potion.gd"),
+	preload("res://scripts/items_scripts/consumables_scripts/max_potion.gd"),
+	preload("res://scripts/items_scripts/consumables_scripts/phoenix_burger.gd"),
+	preload("res://scripts/items_scripts/consumables_scripts/reset_button.gd"),
+	preload("res://scripts/items_scripts/consumables_scripts/temp_kill_item.gd"),
 ]
 var weapons: Array[Weapon] = []
 var armors: Array[Armor] = []
@@ -67,7 +67,7 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 	if is_main_player and Entities.requesting_entities:
 		return
 
-	var item: Consumable = consumables[index].new()
+	var item: Resource = CONSUMABLES[index]
 	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.ITEM_NAME)
 
 	if consumables_inventory[index] <= 0:
@@ -84,7 +84,7 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 		var chosen_node: EntityBase = null
 
 		if is_main_player:
-			Entities.request_entities(item.request_types, request_count)
+			Entities.request_entities(item.REQUEST_TYPES, request_count)
 			chosen_node = await Entities.entity_request_ended
 		else:
 			chosen_node = Entities.ally_request_entities()
@@ -98,7 +98,7 @@ func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
 		var chosen_nodes: Array[EntityBase] = []
 
 		if is_main_player:
-			Entities.request_entities(item.request_types, request_count)
+			Entities.request_entities(item.REQUEST_TYPES, request_count)
 			chosen_nodes = await Entities.entities_request_ended
 		else:
 			chosen_nodes = Entities.ally_request_entities()

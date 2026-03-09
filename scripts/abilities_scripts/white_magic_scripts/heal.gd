@@ -4,12 +4,13 @@ extends Node
 
 #region CONSTANTS
 
-const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.PLAYER_HIT \
-		| Damage.DamageTypes.HEAL \
-		| Damage.DamageTypes.MAGIC \
-		| Damage.DamageTypes.NO_CRITICAL \
-		| Damage.DamageTypes.NO_MISS
+const DAMAGE_TYPES: int = (
+		Damage.DamageTypes.PLAYER_HIT |
+		Damage.DamageTypes.HEAL |
+		Damage.DamageTypes.MAGIC |
+		Damage.DamageTypes.NO_CRITICAL |
+		Damage.DamageTypes.NO_MISS
+)
 
 const MANA_COST: float = 4.0
 
@@ -29,7 +30,7 @@ var heal_percentage: float = 0.05
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region READY
 
 func _ready() -> void:
 	# request target entity
@@ -40,6 +41,11 @@ func _ready() -> void:
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func entity_chosen(target_entity: EntityBase) -> void:
 	# TODO: should add a variable for "player can cast spells"

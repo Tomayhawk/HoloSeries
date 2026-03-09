@@ -56,8 +56,7 @@ func _input(event: InputEvent) -> void:
 # SIGNALS
 
 func exit_ui() -> void:
-	# TODO: temporary check method
-	if get_tree().current_scene.name == "MainMenuScene":
+	if get_tree().current_scene.name == &"MainMenuScene":
 		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.NONE)
 	else:
 		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.HOLO_DECK)

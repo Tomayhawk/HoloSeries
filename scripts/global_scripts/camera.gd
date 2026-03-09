@@ -128,7 +128,6 @@ func update_camera_limits(next_limits: Array[int]) -> void:
 # toggle black screen
 func toggle_black_screen(to_enabled: bool) -> void:
 	$CanvasLayer.show()
-	$CanvasLayer/ColorRect.color.a = 0.0 if to_enabled else 1.0
 
 	# tween color rect
 	var tween: Tween = create_tween()

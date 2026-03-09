@@ -1,22 +1,24 @@
-extends Node2D
+extends SceneBase
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const CURRENT_SCENE: Global.Scenes = Global.Scenes.WORLD_SCENE_1
+
+#endregion
 
 # ..............................................................................
 
 #region READY
 
 func _ready() -> void:
-	Global.new_scene_ready.emit()
+	transit_options.append({
+		TransitKeys.TRANSIT_AREA: $WorldScene2Transit,
+		TransitKeys.NEXT_SCENE: Global.Scenes.WORLD_SCENE_2,
+	})
 
-#endregion
-
-# ..............................................................................
-
-#region SCENE CHANGE
-
-func _on_world_scene_2_transit_body_entered(body: Node) -> void:
-	if not body.is_main_player: return
-	$WorldScene2Transit/CollisionShape2D.set_deferred("disabled", true)
-	Global.change_scene(Global.Scenes.WORLD_SCENE_1, Global.Scenes.WORLD_SCENE_2)
+	super()
 
 #endregion
 

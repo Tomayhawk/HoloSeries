@@ -1,6 +1,6 @@
 extends Area2D
 
-# ABILITIES COMPONENT: HOMING PROJECTILE
+# HOMING PROJECTILE (ABILITIES COMPONENTS)
 
 # ..............................................................................
 

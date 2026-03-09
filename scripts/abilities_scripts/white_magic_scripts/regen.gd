@@ -4,14 +4,17 @@ extends Node
 
 #region CONSTANTS
 
-const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.PLAYER_HIT | \
-		Damage.DamageTypes.HEAL | \
-		Damage.DamageTypes.MAGIC | \
-		Damage.DamageTypes.NO_CRITICAL | \
+const DAMAGE_TYPES: int = (
+		Damage.DamageTypes.PLAYER_HIT |
+		Damage.DamageTypes.HEAL |
+		Damage.DamageTypes.MAGIC |
+		Damage.DamageTypes.NO_CRITICAL |
 		Damage.DamageTypes.NO_MISS
+)
 
-
+const MANA_COST: float = 20
+const REGEN_COUNT: int = 7
+const HEAL_PERCENTAGE: float = 0.02
 
 #endregion
 
@@ -19,9 +22,6 @@ const DAMAGE_TYPES: int = \
 
 #region VARIABLES
 
-const MANA_COST: float = 20
-const REGEN_COUNT: int = 7
-const HEAL_PERCENTAGE: float = 0.02
 # TODO: need to add stats multipliers
 # TODO: add ally casting
 @onready var caster_base: EntityBase = Players.main_player
@@ -30,7 +30,7 @@ const HEAL_PERCENTAGE: float = 0.02
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region READY
 
 func _ready() -> void:
 	# request target entity
@@ -41,6 +41,11 @@ func _ready() -> void:
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func entity_chosen(target_entity: EntityBase) -> void:
 	# apply regen if node chosen, caster is alive and caster has enough mana

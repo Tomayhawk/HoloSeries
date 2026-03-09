@@ -29,7 +29,7 @@ var velocity: Vector2 = Vector2.ZERO
 
 # ..............................................................................
 
-#region PROCESS
+#region READY
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -43,6 +43,11 @@ func _ready() -> void:
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta

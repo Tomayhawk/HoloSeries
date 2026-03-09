@@ -1,25 +1,30 @@
-extends Node2D
+extends SceneBase
 
 # ..............................................................................
 
-# READY
+#region CONSTANTS
+
+const CURRENT_SCENE: Global.Scenes = Global.Scenes.WORLD_SCENE_2
+
+#endregion
+
+# ..............................................................................
+
+#region READY
 
 func _ready() -> void:
-	Global.new_scene_ready.emit()
+	transit_options.append({
+		TransitKeys.TRANSIT_AREA: $WorldScene1Transit,
+		TransitKeys.NEXT_SCENE: Global.Scenes.WORLD_SCENE_1,
+	})
 
-# ..............................................................................
+	transit_options.append({
+		TransitKeys.TRANSIT_AREA: $DungeonScene1Transit,
+		TransitKeys.NEXT_SCENE: Global.Scenes.DUNGEON_SCENE_1,
+	})
 
-# SCENE CHANGES
+	super()
 
-func _on_world_scene_1_transit_body_entered(body: Node) -> void:
-	if not body.is_main_player: return
-	$WorldScene1Transit/CollisionShape2D.set_deferred("disabled", true)
-	Global.change_scene(Global.Scenes.WORLD_SCENE_2, Global.Scenes.WORLD_SCENE_1)
-
-
-func _on_dungeon_scene_1_transit_body_entered(body: Node) -> void:
-	if not body.is_main_player: return
-	$DungeonScene1Transit/CollisionShape2D.set_deferred("disabled", true)
-	Global.change_scene(Global.Scenes.WORLD_SCENE_2, Global.Scenes.DUNGEON_SCENE_1)
+#endregion
 
 # ..............................................................................

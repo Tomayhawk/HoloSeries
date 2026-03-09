@@ -41,7 +41,7 @@ var target_get_max: bool = false
 
 # ..............................................................................
 
-#region PROCESS
+#region READY
 
 func _ready() -> void:
 	position = OFFSET_POSITION
