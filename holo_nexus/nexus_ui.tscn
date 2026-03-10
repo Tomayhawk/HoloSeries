@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wsunon4ilt68"]
 
-[ext_resource type="Script" uid="uid://dr8vjdytxbc7s" path="res://scripts/user_interfaces_scripts/holo_nexus_ui.gd" id="1_602ku"]
+[ext_resource type="Script" uid="uid://dr8vjdytxbc7s" path="res://scripts/holo_nexus_scripts/nexus_ui.gd" id="1_602ku"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_gx1i3"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_k63ny"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_4ebr1"]
@@ -15,7 +15,7 @@ border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
 
-[node name="HoloNexusUi" type="CanvasLayer" unique_id=1701078547]
+[node name="NexusUi" type="CanvasLayer" unique_id=1701078547]
 process_mode = 3
 layer = 20
 script = ExtResource("1_602ku")

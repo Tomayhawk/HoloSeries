@@ -6,7 +6,7 @@ extends CanvasLayer
 
 #region CONSTANTS
 
-const NEXUS_DATA: RefCounted = preload("res://scripts/user_interfaces_scripts/holo_nexus_data.gd")
+const NEXUS_DATA: RefCounted = preload("res://scripts/holo_nexus_scripts/nexus_data.gd")
 
 #endregion
 
@@ -30,11 +30,11 @@ var inventory_quantity_labels: Array[Label] = []
 #region READY
 
 func _ready() -> void:
-	const NEXUS_RESOURCES_PATH: String = \
-			"res://user_interfaces/user_interfaces_resources/holo_nexus_ui/"
+	const NEXUS_COMPONENTS_PATH: String = \
+			"res://holo_nexus/nexus_components/"
 
 	var character_button_load: PackedScene = \
-			load(NEXUS_RESOURCES_PATH + "nexus_button.tscn")
+			load(NEXUS_COMPONENTS_PATH + "nexus_character_button.tscn")
 
 	# populate character selector
 	for stats in nexus.character_stats:
@@ -59,7 +59,7 @@ func _ready() -> void:
 	character_selector_node.hide()
 
 	var inventory_button_load: PackedScene = \
-			load(NEXUS_RESOURCES_PATH + "nexus_inventory_button.tscn")
+			load(NEXUS_COMPONENTS_PATH + "nexus_inventory_button.tscn")
 
 	# populate nexus inventory ui
 	for index in Inventory.nexus_inventory.size():

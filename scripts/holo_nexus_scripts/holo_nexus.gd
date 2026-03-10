@@ -6,7 +6,7 @@ extends Node2D
 
 #region CONSTANTS
 
-const NEXUS_DATA: RefCounted = preload("res://scripts/user_interfaces_scripts/holo_nexus_data.gd")
+const NEXUS_DATA: RefCounted = preload("res://scripts/holo_nexus_scripts/nexus_data.gd")
 
 #endregion
 
@@ -32,8 +32,8 @@ var scene_camera_limits: Array[int] = [
 	Players.camera.limit_bottom
 ]
 
-var unlockables_load: Resource = \
-		load("res://user_interfaces/user_interfaces_resources/holo_nexus_ui/nexus_unlockables.tscn")
+const UNLOCKABLES_OUTLINE_LOAD: Resource = \
+		preload("res://holo_nexus/nexus_components/nexus_unlockables_outline.tscn")
 
 # nodes
 @onready var ui: CanvasLayer = $HoloNexusUi
@@ -259,7 +259,7 @@ func add_adjacent_unlockables(index: int) -> void:
 			unlockable_nodes.append(adjacent)
 
 			# create unlockables outline for adjacent node
-			var unlockable_instance: TextureRect = unlockables_load.instantiate()
+			var unlockable_instance: TextureRect = UNLOCKABLES_OUTLINE_LOAD.instantiate()
 			$Unlockables.add_child(unlockable_instance)
 			unlockable_instance.name = StringName(str(adjacent))
 			unlockable_instance.position = nexus_nodes[adjacent].position

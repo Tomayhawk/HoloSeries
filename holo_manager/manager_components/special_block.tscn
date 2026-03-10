@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bu8suvylsi70p"]
+
+[node name="SpecialBlock" type="Control" unique_id=307609537]
+layout_mode = 3
+anchors_preset = 0

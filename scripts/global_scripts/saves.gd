@@ -85,7 +85,7 @@ const NEXUS_INVENTORY_SIZE: int = 102
 const KEY_INVENTORY_SIZE: int = 103
 
 # nexus
-const NEXUS_GENERATOR_PATH: String = "res://scripts/global_scripts/nexus_generator.gd"
+const NEXUS_GENERATOR_PATH: String = "res://scripts/holo_nexus_scripts/nexus_generator.gd"
 
 # characters
 const CHARACTERS_COUNT: int = 5

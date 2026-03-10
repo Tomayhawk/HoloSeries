@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://bvl42ayngp5dn"]
+
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="1_uv2fw"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="2_yair5"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_u3g0b"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="4_vcd0d"]
+[ext_resource type="Texture2D" uid="uid://0hod3eligggx" path="res://visuals/entities/entities_highlight.png" id="5_52yke"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wk6ws"]
+atlas = ExtResource("5_52yke")
+region = Rect2(0, 0, 16, 16)
+
+[node name="NexusCharacterButton" type="Button" unique_id=2029831267]
+custom_minimum_size = Vector2(154, 32)
+focus_mode = 1
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = ExtResource("1_uv2fw")
+theme_override_styles/pressed = ExtResource("2_yair5")
+theme_override_styles/hover = ExtResource("3_u3g0b")
+theme_override_styles/focus = ExtResource("4_vcd0d")
+text = " "
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1772817176]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 22.0
+offset_bottom = 24.0
+texture = SubResource("AtlasTexture_wk6ws")
+
+[node name="CharacterName" type="Label" parent="." unique_id=610217148]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 9.0
+offset_right = 104.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 10
+text = "CharacterName"
+vertical_alignment = 1
+
+[node name="Lvl" type="Label" parent="." unique_id=215442074]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 9.0
+offset_right = 123.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 10
+text = "Lvl"
+
+[node name="Level" type="Label" parent="." unique_id=1265498504]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 9.0
+offset_right = 145.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 10
+text = "###"
+vertical_alignment = 1

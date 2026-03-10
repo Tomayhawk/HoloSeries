@@ -103,7 +103,7 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 	},
 	Ui.HOLO_NEXUS: {
 		UiKeys.NAME: ^"HoloNexus",
-		UiKeys.PATH: GLOBAL_UI_PATH % "holo_nexus",
+		UiKeys.PATH: "res://holo_nexus/holo_nexus.tscn", # TODO: maybe put this somewhere else
 	},
 	Ui.INVENTORY: {
 		UiKeys.NAME: ^"InventoryUi",
