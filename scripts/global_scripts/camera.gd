@@ -141,6 +141,15 @@ func toggle_black_screen(to_enabled: bool) -> void:
 	if not to_enabled:
 		$CanvasLayer.hide()
 
+
+func force_black_screen(to_enabled: bool) -> void:
+	$CanvasLayer.show()
+	$CanvasLayer/ColorRect.color.a = 1.0 if to_enabled else 0.0
+
+	# hide color rect accordingly
+	if not to_enabled:
+		$CanvasLayer.hide()
+
 #endregion
 
 # ..............................................................................

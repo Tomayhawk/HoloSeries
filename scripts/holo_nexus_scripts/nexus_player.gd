@@ -6,6 +6,8 @@ extends CharacterBody2D
 
 #region CONSTANTS
 
+const DATA: RefCounted = preload("res://scripts/holo_nexus_scripts/nexus_data.gd")
+
 const BASE_SPEED: float = 150.0
 const MAX_SPEED: float = 300.0
 const SNAP_SPEED: float = 15.0
@@ -161,7 +163,7 @@ func snap_to_nearby() -> void:
 		if (
 				current_index < 0
 				or current_index > 767
-				or Global.nexus_types[current_index] == -1
+				or Global.nexus_types[current_index] == DATA.NodeTypes.NULL
 		):
 			continue
 

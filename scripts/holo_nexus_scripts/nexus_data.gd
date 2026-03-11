@@ -15,7 +15,7 @@ extends RefCounted
 #region NODE TYPES
 
 enum NodeTypes {
-	NULL = -1,
+	NULL = 0,
 	EMPTY = 1 << 0,
 	# stats
 	HEALTH = 1 << 1,
@@ -36,8 +36,28 @@ enum NodeTypes {
 	HEART = 1 << 14,
 	SPADE = 1 << 15,
 	# combinations
-	ALL = 0xFFFF,
+	ALL = 0xFFFFFFFF,
 	ALL_STATS = HEALTH | MANA | DEFENCE | WARD | STRENGTH | INTELLIGENCE | SPEED | AGILITY,
+	ALL_ABILITIES = SPECIAL | WHITE_MAGIC | BLACK_MAGIC,
+	ALL_KEYS = DIAMOND | CLOVER | HEART | SPADE,
+}
+
+const STATS_TYPE_TO_INDEX: Dictionary[NodeTypes, int] = {
+    NodeTypes.HEALTH: 0,
+    NodeTypes.MANA: 1,
+    NodeTypes.DEFENCE: 2,
+    NodeTypes.WARD: 3,
+    NodeTypes.STRENGTH: 4,
+    NodeTypes.INTELLIGENCE: 5,
+    NodeTypes.SPEED: 6,
+    NodeTypes.AGILITY: 7,
+}
+
+const KEYS_TYPE_TO_INDEX: Dictionary[NodeTypes, int] = {
+	NodeTypes.DIAMOND: 0,
+	NodeTypes.CLOVER: 1,
+	NodeTypes.HEART: 2,
+	NodeTypes.SPADE: 3,
 }
 
 #endregion
@@ -89,7 +109,7 @@ enum CrystalTypes {
 #region ATLAS POSITIONS
 
 const ATLAS_POSITIONS: Dictionary[NodeTypes, Vector2] = {
-	NodeTypes.NULL: Vector2(0.0, 0.0),
+	NodeTypes.NULL: Vector2(32.0, 0.0),
 	NodeTypes.EMPTY: Vector2(0.0, 0.0),
 	# stats
 	NodeTypes.HEALTH: Vector2(0.0, 32.0),
@@ -163,8 +183,10 @@ const UNLOCKED_MODULATE: Color = Color(1.0, 1.0, 1.0)
 const CONVERTED_QUALITIES: Array[int] = [400, 40, 15, 15, 20, 20, 4, 4]
 
 # adjacent node indices
-const ADJACENT_INDICES_1: Array[int] = [-32, -17, -16, 15, 16, 32]
-const ADJACENT_INDICES_2: Array[int] = [-32, -16, -15, 16, 17, 32]
+const NEXUS_ROW_SIZE: int = 16
+const NEXUS_ADJACENTS_OFFSETS: Array[Array] = [
+	[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]
+]
 
 #endregion
 

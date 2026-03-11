@@ -345,6 +345,7 @@ func load_character(character_data: Dictionary) -> void:
 func set_stats() -> void:
 	# TODO: update level and experience
 	# TODO: update entity_types
+	const NEXUS_DATA: RefCounted = preload("res://scripts/holo_nexus_scripts/nexus_data.gd")
 
 	# nexus health, mana, defense, ward, strength, intelligence, speed, agility
 	var nexus_stats: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -352,8 +353,8 @@ func set_stats() -> void:
 	# accumulate all nexus stats
 	for unlocked_node in unlocked_nodes:
 		var nexus_type: int = Global.nexus_types[unlocked_node]
-		if nexus_type > 0 and nexus_type <= 8:
-			nexus_stats[nexus_type - 1] += Global.nexus_qualities[unlocked_node]
+		if nexus_type & NEXUS_DATA.NodeTypes.ALL_STATS:
+			nexus_stats[NEXUS_DATA.STATS_TYPE_TO_INDEX[nexus_type]] += Global.nexus_qualities[unlocked_node]
 
 	# set base stats from character constants and apply nexus modifications with clamping
 	base_health = clamp(self.CHARACTER_HEALTH + nexus_stats[0], 1.0, 99999.0)
