@@ -71,7 +71,7 @@ func _ready() -> void:
 
 		# initialize button name and texts
 		inventory_button.name = StringName(str(index))
-		inventory_button.get_node(^"ItemName").text = DATA.ITEM_NAMES[index] + " Crystal"
+		inventory_button.get_node(^"ItemName").text = DATA.CRYSTAL_NAMES[index] + " Crystal"
 		inventory_button.get_node(^"Quantity").text = str(Inventory.nexus_inventory[index])
 
 		# initialize button signals
@@ -101,14 +101,13 @@ func update_nexus_ui() -> void:
 
 func update_options() -> void:
 	var current_type: int = Global.nexus_types[nexus.current_stats.last_node]
-	var current_type_flag: int = 1 << current_type
 	var can_unlock: bool = false
 
 	nexus.item_selected = -1
 
 	# update unlock button
 	if nexus.current_stats.last_node in nexus.unlockable_nodes:
-		if current_type == 0:
+		if current_type == DATA.NodeTypes.EMPTY:
 			can_unlock = true
 		else:
 			for item_index in Inventory.nexus_inventory.size():
@@ -118,7 +117,7 @@ func update_options() -> void:
 
 				# check item quantity and compatibility with current node type
 				if Inventory.nexus_inventory[item_index] > 0 and \
-						DATA.ITEM_COMPATIBLES[item_index] & current_type_flag:
+						DATA.CRYSTAL_COMPATIBLES[item_index] & current_type:
 					nexus.item_selected = item_index
 					can_unlock = true
 					break
@@ -144,7 +143,7 @@ func update_inventory_ui() -> void:
 
 		# update and modulate button based on compatibility and node state
 		var button_valid: bool = (
-				DATA.ITEM_COMPATIBLES[item_index] & Global.nexus_types[node_index]
+				DATA.CRYSTAL_COMPATIBLES[item_index] & Global.nexus_types[node_index]
 				and ((item_index <= 13 and not node_unlocked)
 				or (item_index <= 16)
 				or (item_index >= 17 and (node_unlocked or node_unlockable)))
@@ -167,21 +166,14 @@ func update_descriptions() -> void:
 
 			# update current type and quality string
 			current_type = temp_node.y
-			current_quality_string = \
-					"0" if current_type & DATA.NodeTypes.EMPTY else str(DATA.CONVERTED_QUALITIES[DATA.STATS_TYPE_TO_INDEX[current_type]])
+			current_quality_string = str(DATA.CONVERTED_QUALITIES[current_type])
 
 			break
 
-	var description: String = ""
+	var description: String = DATA.NODE_DESCRIPTIONS[current_type]
 
-	if current_type & DATA.NodeTypes.EMPTY:
-		description = "Empty Node."
-	elif current_type & DATA.NodeTypes.ALL_STATS:
-		description = "Gain %s %s." % [current_quality_string, DATA.STATS_DESCRIPTIONS[DATA.STATS_TYPE_TO_INDEX[current_type]]]
-	elif current_type & DATA.NodeTypes.ALL_ABILITIES:
-		description = "Unlock " + "[Ability Name]" + "."
-	elif current_type & DATA.NodeTypes.ALL_KEYS:
-		description = "Requires a %s Key to Unlock." % DATA.KEY_DESCRIPTIONS[DATA.KEYS_TYPE_TO_INDEX[current_type]]
+	if current_quality_string != "0":
+		description = description % current_quality_string
 
 	%DescriptionsTextAreaLabel.text = description
 
@@ -225,8 +217,7 @@ func stats_convert(type: int) -> bool:
 
 	nexus.current_stats.converted_nodes.append(Vector2i(node_index, type))
 
-	nexus.nexus_nodes[node_index].texture.region.position = \
-			DATA.EMPTY_ATLAS_POSITION if type == 0 else DATA.STATS_ATLAS_POSITIONS[type - 1]
+	nexus.nexus_nodes[node_index].texture.region.position = DATA.ATLAS_POSITIONS[type]
 
 	nexus.unlock_node()
 
@@ -269,7 +260,7 @@ func _on_items_pressed() -> void:
 # nexus inventory button signals
 func _on_nexus_inventory_item_pressed(extra_arg_0: int) -> void:
 	if not button_focused:
-		%DescriptionsTextAreaLabel.text = DATA.ITEM_DESCRIPTIONS[extra_arg_0]
+		%DescriptionsTextAreaLabel.text = DATA.CRYSTAL_DESCRIPTIONS[extra_arg_0]
 		button_focused = true
 		return
 

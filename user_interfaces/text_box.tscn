@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/text_box.gd" id="1_1dsxa"]
 [ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://user_interfaces/user_interfaces_resources/panel_style/dark_blue_text_box_panel.tres" id="2_hword"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="3_3jmhp"]
-[ext_resource type="Texture2D" uid="uid://g4bgqpb2fo7y" path="res://visuals/user_interfaces/text_box.png" id="3_hword"]
+[ext_resource type="Texture2D" uid="uid://b7tr6l3oi7l1p" path="res://visuals/user_interfaces/text_box_2.png" id="3_82sas"]
 [ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_3jmhp"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="4_82sas"]
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="5_jj0yi"]
@@ -35,12 +35,11 @@ theme_override_styles/panel = ExtResource("2_hword")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="TextBoxMargin" unique_id=359191572]
 layout_mode = 2
-texture = ExtResource("3_hword")
-region_rect = Rect2(0, 0, 48, 48)
-patch_margin_left = 16
-patch_margin_top = 16
-patch_margin_right = 16
-patch_margin_bottom = 16
+texture = ExtResource("3_82sas")
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 23
 
 [node name="MarginContainer" type="MarginContainer" parent="TextBoxMargin" unique_id=1131183952]
 layout_mode = 2

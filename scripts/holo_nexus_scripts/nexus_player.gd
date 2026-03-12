@@ -17,6 +17,8 @@ const NEARBY_INDICES: Array[int] = [
 	-1, 0, 1, 15, 16, 17, 31, 32, 33, 47, 48, 49, 64,
 ]
 
+const POSITION_OFFSET: Vector2 = Vector2(16.0, 16.0)
+
 #endregion
 
 # ..............................................................................
@@ -150,8 +152,6 @@ func snap_to_nearby() -> void:
 			roundi((position.y + 298.0) / 596.0 * 48.0) * 16 + \
 			roundi((position.x + 341.0) / 683.0 * 16.0)
 
-	const TEXTURE_OFFSET: Vector2 = Vector2(16.0, 16.0)
-
 	var snap_node: TextureRect = null
 	var snap_distance: float = INF
 
@@ -162,13 +162,13 @@ func snap_to_nearby() -> void:
 		# skip if current node is out of bounds or null
 		if (
 				current_index < 0
-				or current_index > 767
+				or current_index >= DATA.NEXUS_NODES_COUNT
 				or Global.nexus_types[current_index] == DATA.NodeTypes.NULL
 		):
 			continue
 
 		var current_distance: float = position.distance_squared_to(
-				nexus.nexus_nodes[current_index].position + TEXTURE_OFFSET)
+				nexus.nexus_nodes[current_index].position + POSITION_OFFSET)
 
 		# update snap node based on proximity
 		if current_distance < snap_distance:
@@ -176,7 +176,7 @@ func snap_to_nearby() -> void:
 			snap_distance = current_distance
 
 	# start snapping
-	snap_position = snap_node.position + TEXTURE_OFFSET
+	snap_position = snap_node.position + POSITION_OFFSET
 	move_direction = (snap_position - position).normalized()
 	nexus.current_stats.last_node = snap_node.get_index()
 	snapping = true

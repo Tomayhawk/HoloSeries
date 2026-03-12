@@ -89,7 +89,7 @@ const NEXUS_AREA_COUNT: int = 12
 const BASIC_STATS_TYPES_INDICES: Array[int] = [
 	DATA.NodeTypes.HEALTH,
 	DATA.NodeTypes.MANA,
-	DATA.NodeTypes.DEFENCE,
+	DATA.NodeTypes.DEFENSE,
 	DATA.NodeTypes.WARD,
 	DATA.NodeTypes.STRENGTH,
 	DATA.NodeTypes.INTELLIGENCE,
@@ -129,12 +129,7 @@ const NEXUS_SET_TYPES: Array[int] = [DATA.NodeTypes.SPECIAL, DATA.NodeTypes.WHIT
 
 # has_illegal_adjacents() constants
 
-const NEXUS_NODES_COUNT: int = 768
-const NEXUS_ROW_SIZE: int = 16
 
-const NEXUS_ADJACENTS_OFFSETS: Array[Array] = [
-	[-32, -17, -16, 15, 16, 32], [-32, -16, -15, 16, 17, 32]
-]
 
 #endregion
 
@@ -147,7 +142,7 @@ static func stats_nodes_randomizer() -> Array[Array]:
 	var final_nexus_types: Array[int] = NEXUS_SET_TYPES.duplicate()
 	var final_nexus_qualities: Array[int] = []
 
-	final_nexus_qualities.resize(NEXUS_NODES_COUNT)
+	final_nexus_qualities.resize(DATA.NEXUS_NODES_COUNT)
 
 	# for each nexus area
 	for area_index in NEXUS_AREA_COUNT:
@@ -245,20 +240,24 @@ static func set_area_stats_types(area_index: int, area_size: int) -> Array[int]:
 
 
 # TODO: mediocre validations
-# TODO: should handle cases with nexus board edges
 static func valid_node_option(nexus_types: Array[int], node_index: int) -> bool:
 	var node_type: int = nexus_types[node_index]
 
 	@warning_ignore("integer_division")
-	var is_odd_row: bool = (node_index / NEXUS_ROW_SIZE) % 2 == 1
+	var is_odd_row: bool = (node_index / DATA.NEXUS_ROW_SIZE) % 2 == 1
+	var origin_col: int = node_index % DATA.NEXUS_ROW_SIZE
 
 	# set adjacent indices
-	for offset in NEXUS_ADJACENTS_OFFSETS[1 if is_odd_row else 0]:
+	for offset in DATA.NEXUS_ADJACENTS_OFFSETS[1 if is_odd_row else 0]:
 		var adjacent_index: int = node_index + offset
-		# valid index and shares node type with origin -> invalid
-		if adjacent_index >= 0 and adjacent_index < NEXUS_NODES_COUNT:
-			if node_type == nexus_types[adjacent_index]:
-				return false
+		var adjacent_col: int = adjacent_index % DATA.NEXUS_ROW_SIZE
+		# valid index, no row wrap, and shares node type with origin -> invalid
+		if (
+			adjacent_index >= 0 and adjacent_index < DATA.NEXUS_NODES_COUNT
+			and absi(adjacent_col - origin_col) <= 1
+			and node_type == nexus_types[adjacent_index]
+		):
+			return false
 
 	# no adjacent node shares the same type as origin -> valid
 	return true

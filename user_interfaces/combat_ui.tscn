@@ -3,11 +3,21 @@
 [ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
 [ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
 [ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
+[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui_button.png" id="3_ceijx"]
 [ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_jo7y3"]
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
 [ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://user_interfaces/user_interfaces_resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
 [ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui/character_infos.tscn" id="8_dsr74"]
+[ext_resource type="Texture2D" uid="uid://n308mhyabkrl" path="res://visuals/user_interfaces/character_selector_background.png" id="9_bscr1"]
+[ext_resource type="Texture2D" uid="uid://c4wd0yfaurgbr" path="res://visuals/user_interfaces/party_players_background.png" id="9_m2uty"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m2uty"]
+texture = ExtResource("3_ceijx")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
 
 [node name="CombatUi" type="CanvasLayer" unique_id=1346001288]
 script = ExtResource("1_w0nri")
@@ -33,8 +43,17 @@ theme_override_constants/margin_left = 32
 theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="CombatControl/MainCombatOptions" unique_id=470160861]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/MainCombatOptions" unique_id=1450215358]
+layout_mode = 2
+texture = ExtResource("9_m2uty")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions" unique_id=1383455227]
 layout_mode = 2
@@ -62,7 +81,7 @@ layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
 theme_override_styles/focus = ExtResource("5_kyyya")
@@ -181,8 +200,17 @@ theme_override_constants/margin_left = 114
 theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="CombatControl/SubCombatOptions" unique_id=582790624]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/SubCombatOptions" unique_id=634882124]
+layout_mode = 2
+texture = ExtResource("9_m2uty")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions" unique_id=753609874]
 layout_mode = 2
@@ -515,9 +543,18 @@ theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="CombatControl/PartyPlayerInfos" unique_id=371746364]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("7_c1xwy")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/PartyPlayerInfos" unique_id=1148351326]
+layout_mode = 2
+texture = ExtResource("9_m2uty")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
 
 [node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/PartyPlayerInfos" unique_id=18982232]
 unique_name_in_owner = true
@@ -540,23 +577,31 @@ layout_mode = 2
 [node name="CharacterSelector" type="MarginContainer" parent="." unique_id=640736208]
 unique_name_in_owner = true
 offset_right = 208.0
-offset_bottom = 160.0
-scale = Vector2(0.99279, 0.997135)
+offset_bottom = 192.0
 mouse_filter = 2
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 56
 
 [node name="Panel" type="Panel" parent="CharacterSelector" unique_id=1932900478]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
 
+[node name="NinePatchRect" type="NinePatchRect" parent="CharacterSelector" unique_id=134154352]
+layout_mode = 2
+texture = ExtResource("9_bscr1")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
 [node name="MarginContainer" type="MarginContainer" parent="CharacterSelector" unique_id=353191523]
 layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
 [node name="ScrollContainer" type="ScrollContainer" parent="CharacterSelector/MarginContainer" unique_id=1248332095]
 layout_mode = 2
