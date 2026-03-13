@@ -86,14 +86,17 @@ func _physics_process(_delta: float) -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not (event.is_action(&"scroll_up") or event.is_action(&"scroll_down")): return
+	# EDGE CASE: unrelated inputs -> ignore input
+	if not (event.is_action_pressed(&"scroll_up") or event.is_action_pressed(&"scroll_down")):
+		return
 
-	# check if zoom inputs are enabled
-	if not Inputs.zoom_inputs_enabled: return
+	# EDGE CASE: zoom inputs disabled -> ignore input
+	if not Inputs.zoom_inputs_enabled:
+		return
 
 	# prevent input propogation
 	Inputs.accept_event()
+	#print("Input Event: ", event, " Is Echo:", event.is_echo())
 
 	# zoom in or out
 	if Input.is_action_just_pressed(&"scroll_up"):

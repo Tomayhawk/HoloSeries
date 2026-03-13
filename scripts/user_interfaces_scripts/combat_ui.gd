@@ -1,5 +1,14 @@
 extends CanvasLayer
 
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const COMBAT_UI_TWEEN_DURATION: float = 0.2
+
+#endregion
+
 # ..............................................................................
 
 #region VARIABLES
@@ -14,13 +23,8 @@ var standby_level_labels: Array[Label] = []
 var standby_health_labels: Array[Label] = []
 var standby_mana_labels: Array[Label] = []
 
-var tween: Tween
-
 @onready var sub_modes_nodes: Array[Node] = %SubModesMarginContainer.get_children()
 @onready var items_grid_container_node: GridContainer = %ItemsGridContainer
-
-# TODO: incomplete implementation
-@onready var character_infos_container_node: VBoxContainer = %CharacterInfosVBoxContainer
 
 #endregion
 
@@ -48,27 +52,23 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# check combat inputs enabled
-	if not Inputs.world_inputs_enabled: return
+	# EDGE CASE: world inputs disabled -> ignore input
+	if not Inputs.world_inputs_enabled:
+		return
 
-	# ignore unrelated inputs
-	if not (event.is_action(&"display_combat_ui") or event.is_action(&"tab") or event.is_action(&"esc")): return
-
-	if not event.is_action(&"esc"):
+	if event.is_action_pressed(&"display_combat_ui") and Combat.not_in_combat():
 		Inputs.accept_event()
-
-	if Input.is_action_just_pressed(&"display_combat_ui"):
-		if Combat.not_in_combat():
-			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
-			%CombatControl.visible = %CombatControl.modulate.a == 1.0
-	elif Input.is_action_just_pressed(&"tab"):
+		%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
+		%CombatControl.visible = %CombatControl.modulate.a == 1.0
+	elif event.is_action_pressed(&"tab"):
+		Inputs.accept_event()
 		%CharacterSelector.show()
-	elif Input.is_action_just_released(&"tab"):
+	elif event.is_action_released(&"tab"):
+		Inputs.accept_event()
 		%CharacterSelector.hide()
-	elif Input.is_action_just_pressed(&"esc"):
-		if %SubCombatOptions.visible:
-			Inputs.accept_event()
-			hide_sub_combat_options()
+	elif event.is_action_pressed(&"esc") and %SubCombatOptions.visible:
+		Inputs.accept_event()
+		hide_sub_combat_options()
 
 #endregion
 
@@ -146,6 +146,10 @@ func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
 	standby_health_labels[standby_index].text = str(int(character.health))
 	standby_mana_labels[standby_index].text = str(int(character.mana))
 
+
+func toggle_party_character_info(party_index: int, to_enabled: bool) -> void:
+	%CharacterInfosVBoxContainer.get_child(party_index).modulate.a = 1.0 if to_enabled else 0.0
+
 #endregion
 
 # ..............................................................................
@@ -155,10 +159,12 @@ func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
 func combat_ui_tween(target_visibility_value: float) -> void:
 	%CombatControl.show()
 
-	tween = create_tween()
-	tween.tween_property(%CombatControl, "modulate:a", target_visibility_value, 0.2)
+	create_tween().tween_property(
+			%CombatControl, "modulate:a", target_visibility_value, COMBAT_UI_TWEEN_DURATION
+			).finished.connect(combat_ui_tween_finished)
 
-	await tween.finished
+
+func combat_ui_tween_finished() -> void:
 	if %CombatControl.modulate.a == 0.0:
 		%CombatControl.hide()
 

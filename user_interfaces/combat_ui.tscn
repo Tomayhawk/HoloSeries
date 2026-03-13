@@ -525,7 +525,7 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="PartyPlayerInfos" type="MarginContainer" parent="CombatControl" unique_id=1503655065]
+[node name="CharacterInfos" type="MarginContainer" parent="CombatControl" unique_id=1503655065]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -542,13 +542,13 @@ mouse_filter = 2
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 16
 
-[node name="Panel" type="Panel" parent="CombatControl/PartyPlayerInfos" unique_id=371746364]
+[node name="Panel" type="Panel" parent="CombatControl/CharacterInfos" unique_id=371746364]
 visible = false
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("7_c1xwy")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/PartyPlayerInfos" unique_id=1148351326]
+[node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/CharacterInfos" unique_id=1148351326]
 layout_mode = 2
 texture = ExtResource("9_m2uty")
 patch_margin_left = 16
@@ -556,22 +556,22 @@ patch_margin_top = 16
 patch_margin_right = 16
 patch_margin_bottom = 16
 
-[node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/PartyPlayerInfos" unique_id=18982232]
+[node name="CharacterInfosVBoxContainer" type="VBoxContainer" parent="CombatControl/CharacterInfos" unique_id=18982232]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 18
 
-[node name="CharacterInfos1" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=2036599380 instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos1" parent="CombatControl/CharacterInfos/CharacterInfosVBoxContainer" unique_id=2036599380 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos2" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=505918468 instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos2" parent="CombatControl/CharacterInfos/CharacterInfosVBoxContainer" unique_id=505918468 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos3" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=822581549 instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos3" parent="CombatControl/CharacterInfos/CharacterInfosVBoxContainer" unique_id=822581549 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
-[node name="CharacterInfos4" parent="CombatControl/PartyPlayerInfos/CharacterInfosVBoxContainer" unique_id=1530443605 instance=ExtResource("8_dsr74")]
+[node name="CharacterInfos4" parent="CombatControl/CharacterInfos/CharacterInfosVBoxContainer" unique_id=1530443605 instance=ExtResource("8_dsr74")]
 layout_mode = 2
 
 [node name="CharacterSelector" type="MarginContainer" parent="." unique_id=640736208]

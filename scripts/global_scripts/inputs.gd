@@ -7,11 +7,16 @@ extends Control
 # TODO: deal with all inputs everywhere
 # TODO: update world_inputs_enabled properly
 
-var alt_pressed: bool = false
+
 
 var world_inputs_enabled: bool = false
 var action_inputs_enabled: bool = false
 var zoom_inputs_enabled: bool = false
+
+var mouse_on_entity: bool = false
+var mouse_on_ui: bool = false
+
+var alt_pressed: bool = false
 
 var sprint_toggle: bool = true
 

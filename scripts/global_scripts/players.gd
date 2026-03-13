@@ -95,8 +95,7 @@ func add_party_player(stats: PlayerStats, party_index: int, is_main_player: bool
 	player_base.set_variables(stats, party_index)
 	add_child(player_base)
 
-	# TODO: incomplete implementation
-	Combat.ui.character_infos_container_node.get_child(party_index).modulate.a = 1.0
+	Combat.ui.toggle_party_character_info(party_index, true)
 
 	if is_main_player:
 		main_player = player_base
@@ -108,7 +107,7 @@ func add_standby_character(stats: PlayerStats) -> void:
 	Combat.ui.add_standby_character(stats)
 
 
-# TODO: broken
+# TODO: very broken
 func recruit_character(stats: PlayerStats) -> void:
 	if get_child_count() < MAX_PARTY_SIZE and standby_characters.is_empty():
 		var player_base: PlayerBase = load(PLAYER_PATH).instantiate()
@@ -120,17 +119,16 @@ func recruit_character(stats: PlayerStats) -> void:
 			if not party_bases[index]:
 				player_base.party_index = index
 
-		stats.node_index = get_child_count() - 1 # TODO
+		stats.party_index = get_child_count() - 1 # TODO
 		player_base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
 
 		# TODO: make function for this
-		Combat.ui.character_name_label_nodes[stats.node_index].text = stats.CHARACTER_NAME
-		Combat.ui.players_info_nodes[stats.node_index].show()
-		Combat.ui.ultimate_gauge_bar_nodes[stats.node_index].show()
-		Combat.ui.shield_bar_nodes[stats.node_index].show()
+		Combat.ui.character_name_label_nodes[stats.party_index].text = stats.CHARACTER_NAME
+		Combat.ui.players_info_nodes[stats.party_index].show()
+		Combat.ui.ultimate_gauge_bar_nodes[stats.party_index].show()
+		Combat.ui.shield_bar_nodes[stats.party_index].show()
 	else:
 		standby_characters.append(stats)
-		stats.node_index = stats.get_index()
 
 	stats.level = 1
 	stats.base_health = stats.CHARACTER_HEALTH
@@ -148,7 +146,6 @@ func recruit_character(stats: PlayerStats) -> void:
 
 	stats.last_node = stats.CHARACTER_DEFAULT_UNLOCKED[1]
 	stats.unlocked_nodes = stats.CHARACTER_DEFAULT_UNLOCKED
-	Global.nexus_converted_nodes[3] = []
 
 	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
 	Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
@@ -163,11 +160,6 @@ func recruit_character(stats: PlayerStats) -> void:
 	Combat.ui.standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
 
 	# TODO: nexus
-
-	stats.update_nodes()
-
-	if stats.node_index == -1:
-		Combat.ui.update_character_selector()
 
 #endregion
 

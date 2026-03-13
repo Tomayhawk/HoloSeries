@@ -12,7 +12,7 @@ var damage_types: int = (
 		| Damage.DamageTypes.COMBAT
 		| Damage.DamageTypes.MAGIC
 		| Damage.DamageTypes.NO_CRITICAL
-		| Damage.DamageTypes.NON_LETHAL
+		| Damage.DamageTypes.NO_LETHAL
 		| Damage.DamageTypes.NO_MISS
 )
 

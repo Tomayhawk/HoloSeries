@@ -17,7 +17,7 @@ enum DamageTypes {
 	CRITICAL = 1 << 6,
 	NO_CRITICAL = 1 << 7,
 	NO_RANDOM = 1 << 8,
-	NON_LETHAL = 1 << 9,
+	NO_LETHAL = 1 << 9,
 	BREAK_LIMIT = 1 << 10,
 	MISS = 1 << 11,
 	NO_MISS = 1 << 12,
@@ -68,7 +68,7 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 		damage = 0.0
 
 	# TODO: temporary
-	if types & DamageTypes.NON_LETHAL and damage < 0 and (damage > target_stats.health - 1.0):
+	if types & DamageTypes.NO_LETHAL and damage < 0 and (damage > target_stats.health - 1.0):
 		damage = target_stats.health - 1.0
 
 	# update target

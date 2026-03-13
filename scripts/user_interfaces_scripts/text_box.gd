@@ -4,6 +4,7 @@ extends CanvasLayer
 
 # TODO: use .tres instead of .JSON
 # TODO: want text box fade out animation
+# TODO: should not be autoload
 
 # ..............................................................................
 
@@ -153,11 +154,12 @@ func continue_dialogue() -> void:
 	if dialogue_text.is_empty() and dialogue[dialogue_key].has("action"):
 		# handle action
 		var action_name: StringName = StringName(dialogue[dialogue_key]["action"])
+		print(action_name)
 
-		if action_name == StringName("end_dialogue"):
-			end_dialogue()
-		else:
+		if action_name != StringName("end_dialogue"):
 			npc_node.call(action_name)
+
+		end_dialogue()
 	else:
 		start_text()
 

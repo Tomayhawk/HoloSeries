@@ -1,24 +1,50 @@
 extends StaticBody2D
 
-@onready var npc_node := get_parent()
+# TODO: input process should reflect main player changes
+
+# ..............................................................................
+
+#region VARIABLES
+
+@onready var npc_node: Node = get_parent()
+
+#endregion
+
+# ..............................................................................
+
+#region READY
 
 func _ready() -> void:
 	set_process_input(false)
 
+#endregion
+
+# ..............................................................................
+
+#region INPUTS
 
 func _input(event: InputEvent) -> void:
+	# EDGE CASE: not interact pressed || text box is active || in combat || world_inputs_disabled -> ignore input
 	if (
-			Input.is_action_just_pressed(&"interact") # interaction button pressed
-			and TextBox.is_inactive() # text box is inactive
-			and Combat.not_in_combat() # not in combat
-			and Inputs.world_inputs_enabled # world inputs are enabled
-			and event.is_action(&"interact") # event is an interaction event
-
+			event.is_action_pressed(&"interact")
+			and TextBox.is_inactive()
+			and Combat.not_in_combat()
+			and Inputs.world_inputs_enabled
 	):
 		Inputs.accept_event()
 		npc_node.initiate_dialogue()
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 # triggered on npc entering/exiting player interaction area
-func interaction_area(status: bool) -> void:
-	set_process_input(status)
+func interaction_area(player_base: PlayerBase, status: bool) -> void:
+	if player_base.is_main_player:
+		set_process_input(status)
+
+#endregion
+
+# ..............................................................................

@@ -1,6 +1,8 @@
 class_name EntityBase
 extends CharacterBody2D
 
+# TODO: add a hit box for player clicks
+
 # ..............................................................................
 
 #region SIGNALS

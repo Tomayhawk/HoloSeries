@@ -28,6 +28,8 @@ var is_main_player: bool = false:
 	set(value):
 		is_main_player = value
 
+		set_process_input(is_main_player)
+
 		if is_instance_valid(stats):
 			if is_main_player: # ally -> main
 				stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
@@ -48,11 +50,21 @@ var action_queue: Array[Dictionary] = [] # { "action_node": Node, "priority": in
 
 # ..............................................................................
 
-#region PROCESS
+#region READY
+
+func _init() -> void:
+	set_process_input(is_main_player)
+
 
 func _ready() -> void:
 	Combat.entering_combat.connect(enter_combat)
 	Combat.left_combat.connect(leave_combat)
+
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
 
 func _physics_process(_delta: float) -> void:
 	# no velocity if stunned
@@ -81,31 +93,25 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	# check input requirements
-	if not is_main_player or not Inputs.world_inputs_enabled:
+	if not Inputs.world_inputs_enabled:
 		return
 
-	# ignore unrelated inputs
-	if not (event.is_action(&"left") or event.is_action(&"right") \
-			or event.is_action(&"up") or event.is_action(&"down") \
-			or event.is_action(&"dash")):
-		return
-
-	Inputs.accept_event()
-
-	# ignore input echoes
-	if event.is_echo():
-		return
-
-	if Input.is_action_just_pressed(&"dash"):
+	if not event.is_echo() and not in_forced_move_state() and (
+			event.is_action(&"left") or event.is_action(&"right")
+			or event.is_action(&"up") or event.is_action(&"down")
+	):
+		Inputs.accept_event()
+		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
+	elif event.is_action_pressed(&"dash"):
+		Inputs.accept_event()
 		if move_state == MoveState.SPRINT and not Inputs.sprint_toggle:
 			end_sprint()
 		else:
 			attempt_dash()
-	elif Input.is_action_just_released(&"dash"):
+	elif event.is_action_released(&"dash"):
+		Inputs.accept_event()
 		if move_state == MoveState.SPRINT and Inputs.sprint_toggle:
 			end_sprint()
-	elif not in_forced_move_state():
-		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
 
 #endregion
 
@@ -794,11 +800,11 @@ func _on_combat_hit_box_mouse_exited() -> void:
 # InteractionArea
 
 func _on_interaction_area_body_entered(body: Node2D) -> void:
-	body.interaction_area(true)
+	body.interaction_area(self, true)
 
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:
-	body.interaction_area(false)
+	body.interaction_area(self, false)
 
 # LootableArea
 
