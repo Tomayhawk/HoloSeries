@@ -1,5 +1,7 @@
 extends PlayerStats
 
+# AZKI (CHARACTER)
+
 # Score: 4.265 + 5% Crit Rate
 # Buffer - Skills
 

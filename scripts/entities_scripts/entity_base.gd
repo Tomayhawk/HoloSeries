@@ -1,6 +1,8 @@
 class_name EntityBase
 extends CharacterBody2D
 
+# ENTITY BASE (ENTITY)
+
 # TODO: add a hit box for player clicks
 
 # ..............................................................................

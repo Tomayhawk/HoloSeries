@@ -1,8 +1,10 @@
 extends CanvasLayer
 
+# INVENTORY UI (GLOBAL UI)
+
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	pass
@@ -15,13 +17,12 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not event.is_action(&"esc"):
-		return
+	# INPUT: accept events
+	if event.is_action(&"esc"):
+		Inputs.accept_event()
 
-	Inputs.accept_event()
-
-	if Input.is_action_just_pressed(&"esc"):
+	# INPUT: esc -> exit ui
+	if event.is_action_pressed(&"esc"):
 		exit_ui()
 
 #endregion

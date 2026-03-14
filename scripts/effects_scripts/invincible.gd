@@ -5,7 +5,7 @@ extends Effect
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 func _init() -> void:
 	effect_type = Entities.Status.INVINCIBLE

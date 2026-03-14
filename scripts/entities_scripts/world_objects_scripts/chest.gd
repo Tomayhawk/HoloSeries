@@ -1,7 +1,17 @@
 extends AnimatedSprite2D
 
+# CHEST (WORLD OBJECT)
+
+# ..............................................................................
+
+#region FUNCTIONS
+
 func can_interact() -> bool:
-	return TextBox.is_inactive() and Combat.not_in_combat()
+	return Combat.not_in_combat()
 
 func interact() -> void:
 	frame = 1
+
+#endregion
+
+# ..............................................................................

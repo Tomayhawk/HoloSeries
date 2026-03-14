@@ -1,10 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://cjuro6l8pppiv"]
+[gd_scene format=3 uid="uid://cjuro6l8pppiv"]
 
 [ext_resource type="Script" uid="uid://dq2b7mo1fv32b" path="res://scripts/user_interfaces_scripts/inventory_ui.gd" id="1_f2j56"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="2_qi3e4"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_16ksu"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_qlyti"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="5_gw8i1"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="2_qi3e4"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="3_16ksu"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_qlyti"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="5_gw8i1"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g5cvp"]
 load_path = "res://.godot/imported/Untitled_Artwork (1).png-2d67e5c10c894bcd32baa9489513a2f6.ctex"

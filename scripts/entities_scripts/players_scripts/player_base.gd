@@ -1,6 +1,20 @@
 class_name PlayerBase
 extends EntityBase
 
+# PLAYER BASE (PLAYER)
+
+# TODO: deal with all await edge cases in project
+# TODO: should add toggle setting for release dash
+
+# TODO: test and maybe add other knockback options (maybe also dash)
+#var t = knockback_timer / 0.4
+# Quadratic
+#velocity = move_state_velocity * t * t
+# Exponential
+#velocity = move_state_velocity * pow(t, 0.5)
+# Ease Out Sine
+#velocity = move_state_velocity * sin(t * PI * 0.5)
+
 # ..............................................................................
 
 #region CONSTANTS
@@ -16,6 +30,8 @@ const DIRECTION_VECTORS: Array[Vector2] = [
 	Vector2.UP,
 	Vector2(0.70710678, -0.70710678),
 ]
+
+const DEAD_ZONE: float = 0.2
 
 #endregion
 
@@ -50,7 +66,7 @@ var action_queue: Array[Dictionary] = [] # { "action_node": Node, "priority": in
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _init() -> void:
 	set_process_input(is_main_player)
@@ -92,26 +108,39 @@ func _physics_process(_delta: float) -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# check input requirements
+	# GUARD: world inputs disabled -> ignore input
 	if not Inputs.world_inputs_enabled:
 		return
 
-	if not event.is_echo() and not in_forced_move_state() and (
+	# INPUT: left, right, up, down -> apply player movement
+	if (
 			event.is_action(&"left") or event.is_action(&"right")
 			or event.is_action(&"up") or event.is_action(&"down")
 	):
 		Inputs.accept_event()
-		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
-	elif event.is_action_pressed(&"dash"):
+		# GUARD: input is echo || player in forced move state -> ignore input
+		if not (event.is_echo() or in_forced_move_state()):
+			apply_main_player_movement()
+	# INPUT: dash -> handle dash inputs
+	elif event.is_action(&"dash"):
 		Inputs.accept_event()
-		if move_state == MoveState.SPRINT and not Inputs.sprint_toggle:
-			end_sprint()
-		else:
-			attempt_dash()
-	elif event.is_action_released(&"dash"):
-		Inputs.accept_event()
-		if move_state == MoveState.SPRINT and Inputs.sprint_toggle:
-			end_sprint()
+		handle_dash_input(event)
+
+#endregion
+
+# ..............................................................................
+
+#region INPUT FUNCTIONS
+
+func apply_main_player_movement() -> void:
+	apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", DEAD_ZONE))
+
+
+func handle_dash_input(event: InputEvent) -> void:
+	if event.is_pressed():
+		attempt_dash()
+	elif move_state == MoveState.SPRINT and Inputs.sprint_toggle:
+		end_sprint()
 
 #endregion
 
@@ -195,7 +224,7 @@ func _on_move_state_timeout() -> void:
 	# handle main player move states
 	if is_main_player:
 		if not in_forced_move_state():
-			apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
+			apply_main_player_movement()
 
 		return
 
@@ -849,15 +878,3 @@ func _on_action_area_body_exited(body: Node2D) -> void:
 #endregion
 
 # ..............................................................................
-
-# TODO: deal with all await edge cases in project
-# TODO: should add toggle setting for release dash
-
-# TODO: test and maybe add other knockback options (maybe also dash)
-#var t = knockback_timer / 0.4
-# Quadratic
-#velocity = move_state_velocity * t * t
-# Exponential
-#velocity = move_state_velocity * pow(t, 0.5)
-# Ease Out Sine
-#velocity = move_state_velocity * sin(t * PI * 0.5)

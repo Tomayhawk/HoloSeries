@@ -27,7 +27,7 @@ var damage: float = 10.0
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 func _ready() -> void:
 	hide()
@@ -40,6 +40,11 @@ func _ready() -> void:
 	if Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func entity_chosen(target_entity: EntityBase) -> void:
 	# check conditions

@@ -12,7 +12,7 @@ extends StaticBody2D
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	set_process_input(false)
@@ -24,14 +24,17 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# EDGE CASE: not interact pressed || text box is active || in combat || world_inputs_disabled -> ignore input
+	# INPUT: accept events
+	if event.is_action(&"interact"):
+		Inputs.accept_event()
+
+	# GUARD: in combat || world_inputs_disabled -> ignore input
+	# INPUT: interact -> start dialogue
 	if (
 			event.is_action_pressed(&"interact")
-			and TextBox.is_inactive()
-			and Combat.not_in_combat()
 			and Inputs.world_inputs_enabled
+			and Combat.not_in_combat()
 	):
-		Inputs.accept_event()
 		npc_node.initiate_dialogue()
 
 #endregion

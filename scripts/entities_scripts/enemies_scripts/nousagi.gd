@@ -7,14 +7,14 @@ extends BasicEnemyBase
 #region CONSTANTS
 
 const MOVE_SPEED: float = 45.0
-const NOUSAGI_PRELOAD: PackedScene = preload("res://entities/enemies/nousagi.tscn")
+const NOUSAGI_PRELOAD: PackedScene = preload("res://entities/enemies/basic_enemies/nousagi.tscn")
 const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LootablesKeys.TEMP_SHIRAKAMI]
 
 #endregion
 
 # ..............................................................................
 
-#region PROCESS
+#region INITIAL
 
 func _init() -> void:
 	stats = BasicEnemyStats.new()
@@ -26,6 +26,11 @@ func _ready() -> void:
 	$Animation.play(&"walk")
 	$Animation.flip_h = action_direction.x < 0
 
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
 
 # TODO: need to fix death
 func _physics_process(delta: float) -> void:

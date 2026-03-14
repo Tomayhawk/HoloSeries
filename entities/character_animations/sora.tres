@@ -1,9 +1,9 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://4au5vp4f5jch"]
 
 [ext_resource type="Texture2D" uid="uid://uol36pddvrtw" path="res://visuals/temporary/player.png" id="1_0ukpq"]
-[ext_resource type="Texture2D" uid="uid://dcgmxdrrnr6om" path="res://visuals/entities/characters/Sora_draft_1.png" id="2_0ukpq"]
-[ext_resource type="Texture2D" uid="uid://c3r1eby83fag7" path="res://visuals/entities/characters/Sora_test.png" id="3_xuvqk"]
-[ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://visuals/entities/characters/Sora_old.png" id="4_jl2l7"]
+[ext_resource type="Texture2D" uid="uid://dcgmxdrrnr6om" path="res://visuals/entities/character_animations/Sora_draft_1.png" id="2_0ukpq"]
+[ext_resource type="Texture2D" uid="uid://c3r1eby83fag7" path="res://visuals/entities/character_animations/Sora_test.png" id="3_xuvqk"]
+[ext_resource type="Texture2D" uid="uid://cu1embux0bml5" path="res://visuals/entities/character_animations/Sora_old.png" id="4_jl2l7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sj06v"]
 atlas = ExtResource("1_0ukpq")

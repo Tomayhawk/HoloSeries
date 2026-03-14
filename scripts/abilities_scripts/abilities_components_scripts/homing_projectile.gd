@@ -16,10 +16,16 @@ var target_entity: EntityBase = null
 
 # ..............................................................................
 
-#region PROCESS
+#region INITIAL
 
 func _ready() -> void:
 	set_physics_process(false)
+
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
 
 func _physics_process(delta: float) -> void:
 	# maintain direction if no target

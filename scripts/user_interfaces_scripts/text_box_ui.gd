@@ -1,23 +1,20 @@
 extends CanvasLayer
 
-# TEXT BOX (AUTOLOAD #9)
+# TEXT BOX UI (GLOBAL UI)
 
 # TODO: use .tres instead of .JSON
-# TODO: want text box fade out animation
-# TODO: should not be autoload
+# TODO: should use saved states instead
 
 # ..............................................................................
 
 #region CONSTANTS
 
 enum TextBoxState {
-	INACTIVE,
 	TYPING,
 	END,
 	WAITING,
 }
 
-# TODO: should use saved states instead
 const NPC_STATES_PATH: String = "res://dialogues/npc_default_states.json"
 const TYPING_DURATION_MULTIPLIER: float = 0.04
 
@@ -27,7 +24,7 @@ const TYPING_DURATION_MULTIPLIER: float = 0.04
 
 #region VARIABLES
 
-var text_box_state: TextBoxState = TextBoxState.INACTIVE
+var text_box_state: TextBoxState = TextBoxState.TYPING
 
 var npcs_states: Dictionary = {}
 var npc_node: AnimatedSprite2D = null
@@ -50,7 +47,7 @@ var tween: Tween = null
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	initialize_npc_states()
@@ -63,29 +60,28 @@ func _ready() -> void:
 
 # ..............................................................................
 
-#region INPUT
+#region INPUTS
 
 func _input(event: InputEvent) -> void:
-	if is_inactive(): return
-
-	if not (
-			event.is_action(&"action")
-			or event.is_action(&"continue")
-			or event.is_action(&"esc")
-	):
-		return
-
-	if Input.is_action_just_pressed(&"continue") or Input.is_action_just_pressed(&"action"):
-		# force end dialogue text
-		if text_box_state == TextBoxState.TYPING:
-			Inputs.accept_event()
-			force_end_text()
-		# continue to next dialogue text
-		elif text_box_state == TextBoxState.END:
-			Inputs.accept_event()
-			continue_dialogue()
-	elif Input.is_action_just_pressed(&"esc"):
+	# INPUT: continue, action -> handle text box input
+	if event.is_action(&"continue") or event.is_action(&"action"):
 		Inputs.accept_event()
+		if event.is_pressed():
+			text_box_input()
+
+#endregion
+
+# ..............................................................................
+
+#region INPUT FUNCTIONS
+
+func text_box_input() -> void:
+	# force end dialogue text
+	if text_box_state == TextBoxState.TYPING:
+		force_end_text()
+	# continue to next dialogue text
+	elif text_box_state == TextBoxState.END:
+		continue_dialogue()
 
 #endregion
 
@@ -154,7 +150,6 @@ func continue_dialogue() -> void:
 	if dialogue_text.is_empty() and dialogue[dialogue_key].has("action"):
 		# handle action
 		var action_name: StringName = StringName(dialogue[dialogue_key]["action"])
-		print(action_name)
 
 		if action_name != StringName("end_dialogue"):
 			npc_node.call(action_name)
@@ -165,10 +160,10 @@ func continue_dialogue() -> void:
 
 
 func end_dialogue() -> void:
-	text_box_state = TextBoxState.INACTIVE
-
 	clear_text_box()
 	toggle_world_states(true)
+
+	Global.global_ui(Global.Ui.TEXT_BOX, Global.Ui.NONE)
 
 
 func request_response() -> void:
@@ -203,10 +198,6 @@ func toggle_world_states(to_enabled: bool) -> void:
 	Inputs.toggle_world_inputs(to_enabled)
 
 
-func is_inactive() -> bool:
-	return text_box_state == TextBoxState.INACTIVE
-
-
 func clear_text_box() -> void:
 	text_box.hide()
 	text_label.text = ""
@@ -217,7 +208,6 @@ func clear_options() -> void:
 	for option_button in option_buttons:
 		option_button.text = ""
 		option_button.hide()
-
 
 #endregion
 

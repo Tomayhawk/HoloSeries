@@ -1,23 +1,29 @@
 [gd_scene format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
-[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui_button.png" id="3_ceijx"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_jo7y3"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
-[ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://user_interfaces/user_interfaces_resources/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
-[ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/user_interfaces_resources/combat_ui/character_infos.tscn" id="8_dsr74"]
-[ext_resource type="Texture2D" uid="uid://n308mhyabkrl" path="res://visuals/user_interfaces/character_selector_background.png" id="9_bscr1"]
-[ext_resource type="Texture2D" uid="uid://c4wd0yfaurgbr" path="res://visuals/user_interfaces/party_players_background.png" id="9_m2uty"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/general/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
+[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button.png" id="3_ceijx"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="3_jo7y3"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_5527i"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
+[ext_resource type="Texture2D" uid="uid://b0a3gjq144st1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_pressed.png" id="6_q4p0c"]
+[ext_resource type="Texture2D" uid="uid://dysrbbx2j3qeu" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_hover.png" id="7_8c8oe"]
+[ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://visuals/user_interfaces/general/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
+[ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/combat_ui_components/character_infos.tscn" id="8_dsr74"]
+[ext_resource type="Texture2D" uid="uid://n308mhyabkrl" path="res://visuals/user_interfaces/combat_ui/character_selector_background.png" id="9_bscr1"]
+[ext_resource type="Texture2D" uid="uid://c4wd0yfaurgbr" path="res://visuals/user_interfaces/combat_ui/party_players_background.png" id="9_m2uty"]
+[ext_resource type="Texture2D" uid="uid://2ievxtfyxif7" path="res://visuals/user_interfaces/combat_ui/party_infos_background.png" id="10_bjnd6"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m2uty"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjnd6"]
 texture = ExtResource("3_ceijx")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8c8oe"]
+texture = ExtResource("6_q4p0c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aretp"]
+texture = ExtResource("7_8c8oe")
 
 [node name="CombatUi" type="CanvasLayer" unique_id=1346001288]
 script = ExtResource("1_w0nri")
@@ -55,12 +61,7 @@ patch_margin_top = 16
 patch_margin_right = 16
 patch_margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions" unique_id=1383455227]
-layout_mode = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="CombatControl/MainCombatOptions/ScrollContainer" unique_id=1172046243]
+[node name="MarginContainer" type="MarginContainer" parent="CombatControl/MainCombatOptions" unique_id=1172046243]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -69,120 +70,143 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer" unique_id=1286790993]
+[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions/MarginContainer" unique_id=1383455227]
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" unique_id=1286790993]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=144328070]
+[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=144328070]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Attack"
+clip_text = true
 
-[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=82716689]
+[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=82716689]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Talents"
+clip_text = true
 
-[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=987890133]
+[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=987890133]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Skills"
+clip_text = true
 
-[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=271863243]
+[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=271863243]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Buff
 "
+clip_text = true
 
-[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1604021819]
+[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1604021819]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Debuff"
+clip_text = true
 
-[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1286248496]
+[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1286248496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "White Magic"
+clip_text = true
 
-[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1548677165]
+[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1548677165]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Black Magic"
+clip_text = true
 
-[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1583900496]
+[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1583900496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Summon"
+clip_text = true
 
-[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer" unique_id=1574227575]
+[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer" unique_id=1574227575]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
+theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
 theme_override_styles/focus = ExtResource("5_kyyya")
 text = "Items"
+clip_text = true
 
 [node name="SubCombatOptions" type="MarginContainer" parent="CombatControl" unique_id=133430143]
 unique_name_in_owner = true
@@ -237,7 +261,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -255,7 +280,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -267,7 +293,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -279,7 +306,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -291,7 +319,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -309,7 +338,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -327,7 +357,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -345,7 +376,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -367,7 +399,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -389,7 +422,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -411,7 +445,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -439,7 +474,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -461,7 +497,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -483,7 +520,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -511,7 +549,8 @@ custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = ExtResource("2_1ddg2")
 theme_override_styles/pressed = ExtResource("4_ywh4v")
 theme_override_styles/hover = ExtResource("3_jo7y3")
@@ -550,7 +589,7 @@ theme_override_styles/panel = ExtResource("7_c1xwy")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="CombatControl/CharacterInfos" unique_id=1148351326]
 layout_mode = 2
-texture = ExtResource("9_m2uty")
+texture = ExtResource("10_bjnd6")
 patch_margin_left = 16
 patch_margin_top = 16
 patch_margin_right = 16
@@ -615,44 +654,44 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Attack" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Buff" to="." method="_on_main_combat_options_pressed" binds= [2]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Debuff" to="." method="_on_main_combat_options_pressed" binds= [3]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/WhiteMagic" to="." method="_on_main_combat_options_pressed" binds= [4]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/BlackMagic" to="." method="_on_main_combat_options_pressed" binds= [5]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Summon" to="." method="_on_main_combat_options_pressed" binds= [6]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/ScrollContainer/MarginContainer/VBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Attack" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Talents" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Skills" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Buff" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Buff" to="." method="_on_main_combat_options_pressed" binds= [2]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Debuff" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Debuff" to="." method="_on_main_combat_options_pressed" binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/WhiteMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/WhiteMagic" to="." method="_on_main_combat_options_pressed" binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/BlackMagic" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/BlackMagic" to="." method="_on_main_combat_options_pressed" binds= [5]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Summon" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Summon" to="." method="_on_main_combat_options_pressed" binds= [6]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Items" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Items" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Items" to="." method="button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/VBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
 [connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
 [connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]

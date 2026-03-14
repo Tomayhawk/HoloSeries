@@ -43,7 +43,7 @@ func toggle_process(to_enabled: bool) -> void:
 	set_physics_process(to_enabled)
 
 	if to_enabled:
-		main_player.apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", 0.2))
+		main_player.apply_main_player_movement()
 
 #endregion
 
@@ -109,27 +109,6 @@ func add_standby_character(stats: PlayerStats) -> void:
 
 # TODO: very broken
 func recruit_character(stats: PlayerStats) -> void:
-	if get_child_count() < MAX_PARTY_SIZE and standby_characters.is_empty():
-		var player_base: PlayerBase = load(PLAYER_PATH).instantiate()
-		add_child(player_base)
-		player_base.stats = stats
-		stats.base = player_base
-
-		for index in party_bases.size():
-			if not party_bases[index]:
-				player_base.party_index = index
-
-		stats.party_index = get_child_count() - 1 # TODO
-		player_base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
-
-		# TODO: make function for this
-		Combat.ui.character_name_label_nodes[stats.party_index].text = stats.CHARACTER_NAME
-		Combat.ui.players_info_nodes[stats.party_index].show()
-		Combat.ui.ultimate_gauge_bar_nodes[stats.party_index].show()
-		Combat.ui.shield_bar_nodes[stats.party_index].show()
-	else:
-		standby_characters.append(stats)
-
 	stats.level = 1
 	stats.base_health = stats.CHARACTER_HEALTH
 	stats.base_mana = stats.CHARACTER_MANA
@@ -147,17 +126,37 @@ func recruit_character(stats: PlayerStats) -> void:
 	stats.last_node = stats.CHARACTER_DEFAULT_UNLOCKED[1]
 	stats.unlocked_nodes = stats.CHARACTER_DEFAULT_UNLOCKED
 
-	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
-	Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
-	standby_button.pressed.connect(switch_standby_character.bind(standby_button.get_index()))
-	standby_button.pressed.connect(Combat.ui.button_pressed)
-	standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
-	standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
+	if get_child_count() < MAX_PARTY_SIZE and standby_characters.is_empty():
+		var player_base: PlayerBase = load(PLAYER_PATH).instantiate()
+		add_child(player_base)
+		player_base.stats = stats
+		stats.base = player_base
 
-	Combat.ui.standby_name_labels.append(standby_button.get_node(^"Name"))
-	Combat.ui.standby_level_labels.append(standby_button.get_node(^"Level"))
-	Combat.ui.standby_health_labels.append(standby_button.get_node(^"HealthAmount"))
-	Combat.ui.standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
+		for index in party_bases.size():
+			if not party_bases[index]:
+				player_base.party_index = index
+
+		player_base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
+
+		# TODO: make function for this
+		Combat.ui.name_labels[player_base.party_index].text = stats.CHARACTER_NAME
+		Combat.ui.health_labels[player_base.party_index].text = str(int(stats.health))
+		Combat.ui.mana_labels[player_base.party_index].text = str(int(stats.mana))
+		Combat.ui.get_node(^"%CharacterInfosVBoxContainer").get_children()[player_base.party_index].modulate.a = 1.0
+	else:
+		standby_characters.append(stats)
+
+		var standby_button: Button = load("res://user_interfaces/combat_ui_components/standby_button.tscn").instantiate()
+		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
+		standby_button.pressed.connect(switch_standby_character.bind(standby_button.get_index()))
+		standby_button.pressed.connect(Combat.ui.button_pressed)
+		standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
+		standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
+
+		Combat.ui.standby_name_labels.append(standby_button.get_node(^"Name"))
+		Combat.ui.standby_level_labels.append(standby_button.get_node(^"Level"))
+		Combat.ui.standby_health_labels.append(standby_button.get_node(^"HealthAmount"))
+		Combat.ui.standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
 
 	# TODO: nexus
 

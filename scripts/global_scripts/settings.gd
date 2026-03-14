@@ -45,7 +45,7 @@ var settings: ConfigFile = ConfigFile.new()
 
 # ..............................................................................
 
-#region STARTUP CONFIG
+#region INITIAL
 
 func _init() -> void:
 	# load settings

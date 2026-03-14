@@ -29,7 +29,7 @@ var velocity: Vector2 = Vector2.ZERO
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	set_physics_process(false)

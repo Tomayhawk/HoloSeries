@@ -113,7 +113,8 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 		color = "#B22"
 
 	display.set(&"theme_override_colors/font_color", color)
-	display.set(&"theme_override_font_sizes/font_size", 16) # TODO: should scale on damage 7 to 16
+	display.set(&"theme_override_fonts/font", load("res://visuals/fonts/SHPinscher-Regular.otf"))
+	display.set(&"theme_override_font_sizes/font_size", 20) # TODO: should scale on damage 7 to 16
 	display.set(&"theme_override_colors/font_outline_color", "#000")
 	display.set(&"theme_override_constants/outline_size", 2)
 

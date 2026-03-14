@@ -1,5 +1,10 @@
 extends Node
 
+# REGEN (WHITE MAGIC)
+
+# TODO: need to add stats multipliers
+# TODO: add ally casting
+
 # ..............................................................................
 
 #region CONSTANTS
@@ -22,15 +27,13 @@ const HEAL_PERCENTAGE: float = 0.02
 
 #region VARIABLES
 
-# TODO: need to add stats multipliers
-# TODO: add ally casting
 @onready var caster_base: EntityBase = Players.main_player
 
 #endregion
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	# request target entity

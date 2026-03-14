@@ -1,11 +1,26 @@
 [gd_scene format=3 uid="uid://810cm81280q3"]
 
 [ext_resource type="Script" uid="uid://1vvf7qsqosjt" path="res://scripts/scenes_scripts/main_menu_scene.gd" id="1_tgs5c"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="2_55lvy"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://user_interfaces/user_interfaces_resources/panel_style/blue_translucent_panel.tres" id="2_jdk0e"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_pj10e"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="4_3fkh3"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="5_yjj58"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="2_55lvy"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/general/panel_style/blue_translucent_panel.tres" id="2_jdk0e"]
+[ext_resource type="Texture2D" uid="uid://hm7e5wc8ld8i" path="res://visuals/user_interfaces/main_menu_button_hover.png" id="3_8fdqi"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="3_pj10e"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="3_wbyn4"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_3fkh3"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="5_yjj58"]
+[ext_resource type="Texture2D" uid="uid://c5qqddt3tskw3" path="res://visuals/user_interfaces/main_menu_button_pressed.png" id="8_ofrqx"]
+[ext_resource type="Texture2D" uid="uid://c54kocs6awmww" path="res://visuals/user_interfaces/main_menu_button_focus.png" id="10_pw2k5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pw2k5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pe0bh"]
+texture = ExtResource("8_ofrqx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yg1bx"]
+texture = ExtResource("3_8fdqi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pw2k5"]
+texture = ExtResource("10_pw2k5")
 
 [node name="MainMenu" type="CanvasLayer" unique_id=1595380706]
 script = ExtResource("1_tgs5c")
@@ -17,14 +32,15 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -51.0
-offset_top = -177.0
-offset_right = 51.0
+offset_left = -70.0
+offset_top = -242.0
+offset_right = 70.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 32
 
 [node name="Panel" type="Panel" parent="MainOptionsMenuMargin" unique_id=2140320226]
+visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_jdk0e")
 
@@ -40,92 +56,61 @@ layout_mode = 2
 theme_override_constants/separation = 2
 
 [node name="PlayButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=1660047756]
-custom_minimum_size = Vector2(0, 24)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "NG/Continue"
-
-[node name="MultiplayerButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=1737981545]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
-disabled = true
-text = "Multiplayer"
+clip_text = true
 
 [node name="SavesButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=909825769]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Saves"
-
-[node name="MiniGamesButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=191235014]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
-disabled = true
-text = "Mini Games"
+clip_text = true
 
 [node name="AchievementsButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=215276825]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
-disabled = true
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Achievements"
-
-[node name="LeaderboardsButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=2011095637]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-focus_mode = 1
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
-disabled = true
-text = "Leaderboards"
+clip_text = true
 
 [node name="SettingsButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=30635038]
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 focus_mode = 1
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = ExtResource("2_55lvy")
-theme_override_styles/pressed = ExtResource("4_3fkh3")
-theme_override_styles/hover = ExtResource("3_pj10e")
-theme_override_styles/focus = ExtResource("5_yjj58")
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Settings"
+clip_text = true
 
 [node name="SavesMenuMargin" type="MarginContainer" parent="." unique_id=996704080]
 unique_name_in_owner = true
@@ -249,6 +234,7 @@ text = "New Game"
 
 [connection signal="pressed" from="MainOptionsMenuMargin/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainOptionsMenuMargin/MarginContainer/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]
+[connection signal="pressed" from="MainOptionsMenuMargin/MarginContainer/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
 [connection signal="pressed" from="MainOptionsMenuMargin/MarginContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

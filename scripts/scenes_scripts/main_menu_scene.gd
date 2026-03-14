@@ -1,6 +1,7 @@
 extends CanvasLayer
 
-# MAIN MENU UI (UI)
+# MAIN MENU (SCENE)
+# TODO: Multiplayer, Mini Games, Leaderboards
 
 # ..............................................................................
 
@@ -10,6 +11,9 @@ enum Menus {
 	MAIN_OPTIONS,
 	SAVES,
 }
+
+const SAVES_LOAD: Resource = \
+		preload("res://scripts/global_scripts/global_components_scripts/saves.gd")
 
 #endregion
 
@@ -26,10 +30,11 @@ enum Menus {
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	toggle_menus(Menus.MAIN_OPTIONS)
+	%PlayButton.text = "New Game" if Settings.get_last_save() == "" else "Continue"
 
 #endregion
 
@@ -37,15 +42,30 @@ func _ready() -> void:
 
 #region INPUTS
 
-func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed(&"esc"):
+func _input(event: InputEvent) -> void:
+	# INPUT: accept events
+	if event.is_action(&"esc"):
 		Inputs.accept_event()
-		if not menu_nodes[Menus.MAIN_OPTIONS].is_visible():
-			toggle_menus(Menus.MAIN_OPTIONS)
-		elif Global.get_node_or_null(^"SettingsUi"):
-			Global.global_ui(Global.Ui.SETTINGS, Global.Ui.NONE)
-		else:
-			Global.global_ui(Global.Ui.NONE, Global.Ui.SETTINGS)
+
+	# INPUT: esc -> handle esc inputs
+	if event.is_action_pressed(&"esc"):
+		esc_input()
+
+#endregion
+
+# ..............................................................................
+
+#region INPUT FUNCTIONS
+
+func esc_input() -> void:
+	# return to main options menu from sibling menus,
+	# or switch between main options and settings menus
+	if not menu_nodes[Menus.MAIN_OPTIONS].is_visible():
+		toggle_menus(Menus.MAIN_OPTIONS)
+	elif Global.get_node_or_null(^"SettingsUi"):
+		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.NONE)
+	else:
+		Global.global_ui(Global.Ui.NONE, Global.Ui.SETTINGS)
 
 #endregion
 
@@ -53,6 +73,7 @@ func _input(_event: InputEvent) -> void:
 
 #region FUNCTIONS
 
+# switch between main options menu and sibling menus
 func toggle_menus(next_menu: Menus) -> void:
 	for menu_node in menu_nodes.values():
 		menu_node.hide()
@@ -67,11 +88,15 @@ func toggle_menus(next_menu: Menus) -> void:
 
 func _on_play_button_pressed() -> void:
 	await Players.camera.toggle_black_screen(true)
-	Saves.load_last_save()
+	SAVES_LOAD.load_last_save()
 
 
 func _on_saves_button_pressed() -> void:
 	toggle_menus(Menus.SAVES)
+
+
+func _on_achievements_button_pressed() -> void:
+	pass # Replace with function body.
 
 
 func _on_settings_button_pressed() -> void:
@@ -88,7 +113,7 @@ func _on_back_button_pressed() -> void:
 
 
 func _on_new_game_button_pressed() -> void:
-	Saves.new_save(0)
+	SAVES_LOAD.new_save(0)
 
 #endregion
 

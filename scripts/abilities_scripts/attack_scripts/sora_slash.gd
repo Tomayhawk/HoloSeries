@@ -1,10 +1,13 @@
 extends ShapeCast2D
 
+# SORA SLASH (ATTACK)
+
+# TODO: make variables for magic numbers
+
 # ..............................................................................
 
 #region CONSTANTS
 
-# TODO: make variables for magic numbers
 const OFFSET_POSITION: Vector2 = Vector2(0.0, -7.0)
 const BASE_DAMAGE: float = 10.0
 
@@ -41,7 +44,7 @@ var target_get_max: bool = false
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	position = OFFSET_POSITION

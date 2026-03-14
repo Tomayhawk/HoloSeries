@@ -1,5 +1,7 @@
 extends PlayerStats
 
+# AKIROSE (CHARACTER)
+
 # Score: 4.18 + 2% Crit Rate + 10% Crit Damage
 # Physical - Magic
 

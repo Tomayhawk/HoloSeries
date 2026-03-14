@@ -1,5 +1,7 @@
 extends PlayerStats
 
+# LUNA (CHARACTER)
+
 # Score: 4.285
 # Healer
 

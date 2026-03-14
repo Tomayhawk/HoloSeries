@@ -3,7 +3,7 @@ extends EnemyStats
 
 # ..............................................................................
 
-# PROCESS
+#region FUNCTIONS
 
 func stats_process(process_interval: float) -> void:
 	# decrease effects timers
@@ -12,9 +12,11 @@ func stats_process(process_interval: float) -> void:
 		if effect.effect_timer <= 0.0:
 			effect.effect_timeout(self)
 
+#endregion
+
 # ..............................................................................
 
-# STATS UPDATES
+#region STATS UPDATES
 
 func update_health(value: float) -> void:
 	super (value)
@@ -25,10 +27,16 @@ func update_shield(value: float) -> void:
 	super (value)
 	if base: base.update_shield()
 
+#endregion
+
 # ..............................................................................
 
-# SET STATS
+#region SET STATS
 
 # TODO
 func set_stats() -> void:
 	pass
+
+#endregion
+
+# ..............................................................................

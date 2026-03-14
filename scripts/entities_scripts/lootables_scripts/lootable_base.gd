@@ -1,5 +1,11 @@
 extends Area2D
 
+# LOOTABLE BASE (LOOTABLE)
+
+# ..............................................................................
+
+#region VARIABLES
+
 var item_type: int = -1
 var item_id: int = -1
 
@@ -8,14 +14,30 @@ var target_player: PlayerBase = null
 var multiplier: float = 1.0
 var increment: float = 0.1
 
+#endregion
+
+# ..............................................................................
+
+#region INITIAL
+
 func _ready() -> void:
 	set_physics_process(false)
 
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
 
 func _physics_process(_delta: float) -> void:
 	global_position += (target_player.global_position - global_position).normalized() * multiplier
 	multiplier = clamp(multiplier + increment, 1.0, 10.0)
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func instantiate_item(base_position: Vector2, texture_path: StringName, type: int, id: int) -> void:
 	global_position = base_position + Vector2(15 * randf_range(-1.0, 1.0), 15 * randf_range(-1.0, 1.0))
@@ -49,9 +71,18 @@ func player_exited(player_base: PlayerBase) -> void:
 				target_player = nearby_player
 				least_distance = temp_distance
 
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
 
 func _on_body_entered(body: Node2D) -> void:
 	Inventory.add_item(item_type, item_id)
 	body.stats.update_shield(10.0) # TODO: temporary code
 	body.stats.update_ultimate_gauge(10.0) # TODO: temporary code
 	queue_free()
+
+#endregion
+
+# ..............................................................................

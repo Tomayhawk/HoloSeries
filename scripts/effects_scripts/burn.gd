@@ -23,12 +23,17 @@ var burn_count: int = 8
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 func _init() -> void:
 	effect_type = Entities.Status.BURN
 	effect_timer = burn_interval
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func effect_timeout(stats: EntityStats) -> void:
 	# trigger burn

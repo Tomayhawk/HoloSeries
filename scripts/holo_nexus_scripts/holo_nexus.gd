@@ -45,7 +45,7 @@ var scene_camera_limits: Array[int] = [
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _init() -> void:
 	Players.camera.force_black_screen(true)
@@ -80,23 +80,13 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not (event.is_action(&"tab") or event.is_action(&"esc")):
-		return
+	# INPUT: accept events
+	if event.is_action(&"esc"):
+		Inputs.accept_event()
 
-	Inputs.accept_event()
-
-	if Input.is_action_just_pressed(&"tab"):
-		ui.character_selector_node.show()
-	elif Input.is_action_just_released(&"tab"):
-		ui.character_selector_node.hide()
-	elif Input.is_action_just_pressed(&"esc"):
-		if ui.inventory_ui.visible:
-			ui.button_focused = false
-			ui.inventory_ui.hide()
-			ui.options_ui.show()
-		else:
-			exit_nexus()
+	# INPUT: esc -> exit nexus
+	if event.is_action_pressed(&"esc"):
+		exit_nexus()
 
 #endregion
 
@@ -196,7 +186,7 @@ func get_adjacents(origin_index: int) -> Array[int]:
 	for index_offset in (DATA.NEXUS_ADJACENTS_OFFSETS[1 if is_odd_row else 0]):
 		var adjacent_index: int = origin_index + index_offset
 		var adjacent_col: int = adjacent_index % DATA.NEXUS_ROW_SIZE
-		# EDGE CASE: node index is out of bounds || node wraps row || node is null type -> skip
+		# GUARD: node index is out of bounds || node wraps row || node is null type -> skip
 		if (
 				adjacent_index >= 0 and adjacent_index < DATA.NEXUS_NODES_COUNT
 				and absi(adjacent_col - origin_col) <= 1
@@ -210,13 +200,13 @@ func get_adjacents(origin_index: int) -> Array[int]:
 func add_adjacent_unlockables(index: int) -> void:
 	# for each adjacent node of index
 	for adjacent in get_adjacents(index):
-		# EDGE CASE: node is unlocked || node is already in unlockables -> skip
+		# GUARD: node is unlocked || node is already in unlockables -> skip
 		if adjacent in current_stats.unlocked_nodes or adjacent in unlockable_nodes:
 			continue
 
 		# for each adjacent node of adjacents
 		for second_adjacent in get_adjacents(adjacent):
-			# EDGE CASE: node is unlocked || node is the original node -> skip
+			# GUARD: node is unlocked || node is the original node -> skip
 			if not second_adjacent in current_stats.unlocked_nodes or second_adjacent == index:
 				continue
 

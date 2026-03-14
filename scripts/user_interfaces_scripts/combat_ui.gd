@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+# COMBAT UI (GLOBAL UI)
 
 # ..............................................................................
 
@@ -30,7 +31,7 @@ var standby_mana_labels: Array[Label] = []
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	%CombatControl.modulate.a = 0.0
@@ -52,20 +53,25 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# EDGE CASE: world inputs disabled -> ignore input
+	# GUARD: world inputs disabled -> ignore input
 	if not Inputs.world_inputs_enabled:
 		return
 
-	if event.is_action_pressed(&"display_combat_ui") and Combat.not_in_combat():
+	# INPUT: accept events
+	if event.is_action(&"display_combat_ui"):
 		Inputs.accept_event()
+
+	# GUARD: in combat -> cannot force toggle combat ui
+	# INPUT: display_combat_ui -> toggle combat ui
+	if event.is_action_pressed(&"display_combat_ui") and Combat.not_in_combat():
 		%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
 		%CombatControl.visible = %CombatControl.modulate.a == 1.0
-	elif event.is_action_pressed(&"tab"):
+	# INPUT: tab -> toggle character selector
+	elif event.is_action(&"tab"):
 		Inputs.accept_event()
-		%CharacterSelector.show()
-	elif event.is_action_released(&"tab"):
-		Inputs.accept_event()
-		%CharacterSelector.hide()
+		%CharacterSelector.visible = event.is_pressed()
+	# GUARD: sub combat options not visible -> ignore esc input
+	# INPUT: esc -> hide sub combat options
 	elif event.is_action_pressed(&"esc") and %SubCombatOptions.visible:
 		Inputs.accept_event()
 		hide_sub_combat_options()
@@ -79,7 +85,7 @@ func _input(event: InputEvent) -> void:
 func update_inventory_ui() -> void:
 	var index: int = 0
 	var options_button_load: PackedScene = \
-			load("res://user_interfaces/user_interfaces_resources/combat_ui/options_button.tscn")
+			load("res://user_interfaces/combat_ui_components/options_button.tscn")
 
 	for count in Inventory.consumables_inventory:
 		if count > 0:
@@ -97,7 +103,7 @@ func update_inventory_ui() -> void:
 
 
 func add_standby_character(character: PlayerStats) -> void:
-	var standby_button: Button = load("res://user_interfaces/user_interfaces_resources/combat_ui/standby_button.tscn").instantiate()
+	var standby_button: Button = load("res://user_interfaces/combat_ui_components/standby_button.tscn").instantiate()
 	%CharacterSelectorVBoxContainer.add_child(standby_button)
 
 	# set button labels
@@ -223,3 +229,5 @@ func button_pressed() -> void:
 		Entities.end_entities_request()
 
 #endregion
+
+# ..............................................................................

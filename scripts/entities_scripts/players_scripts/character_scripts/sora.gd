@@ -1,5 +1,7 @@
 extends PlayerStats
 
+# SORA (CHARACTER)
+
 # Score: 4.55
 # Buffer - Healer
 

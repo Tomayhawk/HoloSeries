@@ -29,7 +29,7 @@ var dice_damage := 0.0
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 func _ready() -> void:
 	# disabled while selecting target
@@ -47,6 +47,11 @@ func _ready() -> void:
 	elif Inputs.alt_pressed:
 		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func initiate_play_dice(chosen_nodes: Array[EntityBase]) -> void:
 	var target_base: EntityBase = null

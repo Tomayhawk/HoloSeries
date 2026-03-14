@@ -12,7 +12,7 @@ const DIALOGUE_PATH: String = "res://dialogues/kobo.json"
 #region DIALOGUE
 
 func initiate_dialogue() -> void:
-	TextBox.npc_dialogue(self, DIALOGUE_PATH)
+	Global.open_text_box(self, DIALOGUE_PATH)
 
 func end_dialogue() -> void:
 	pass

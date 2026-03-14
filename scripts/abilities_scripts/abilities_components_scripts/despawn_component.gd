@@ -13,12 +13,17 @@ var off_screen_time: float = 1.0
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 # connect signals on ready
 func _ready() -> void:
 	$Timer.timeout.connect(get_parent().despawn_timeout)
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 # set and start despawn timer
 func set_despawn_requirements(on_screen: float, off_screen: float) -> void:
@@ -26,6 +31,11 @@ func set_despawn_requirements(on_screen: float, off_screen: float) -> void:
 	off_screen_time = off_screen
 	$Timer.start(on_screen)
 
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
 
 # resume on screen timer when on screen
 func _on_screen_entered() -> void:

@@ -1,6 +1,6 @@
 extends Camera2D
 
-# MAIN CAMERA
+# MAIN CAMERA (AUTOLOAD #5)
 
 # ..............................................................................
 
@@ -38,7 +38,7 @@ var shake_intensity: int = 0
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	$CanvasLayer.hide()
@@ -86,22 +86,18 @@ func _physics_process(_delta: float) -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# EDGE CASE: unrelated inputs -> ignore input
-	if not (event.is_action_pressed(&"scroll_up") or event.is_action_pressed(&"scroll_down")):
-		return
-
-	# EDGE CASE: zoom inputs disabled -> ignore input
+	# GUARD: zoom inputs disabled -> ignore input
 	if not Inputs.zoom_inputs_enabled:
 		return
 
-	# prevent input propogation
-	Inputs.accept_event()
-	#print("Input Event: ", event, " Is Echo:", event.is_echo())
+	# INPUT: accept events
+	if event.is_action(&"scroll_up") or event.is_action(&"scroll_down"):
+		Inputs.accept_event()
 
-	# zoom in or out
-	if Input.is_action_just_pressed(&"scroll_up"):
+	# INPUT: scroll_up, scroll_down -> zoom
+	if event.is_action_pressed(&"scroll_up"):
 		update_zoom(1)
-	elif Input.is_action_just_pressed(&"scroll_down"):
+	elif event.is_action_pressed(&"scroll_down"):
 		update_zoom(-1)
 
 #endregion

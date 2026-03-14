@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bvl42ayngp5dn"]
 
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="1_uv2fw"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="2_yair5"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="3_u3g0b"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="4_vcd0d"]
-[ext_resource type="Texture2D" uid="uid://0hod3eligggx" path="res://visuals/entities/entities_highlight.png" id="5_52yke"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="1_uv2fw"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="2_yair5"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="3_u3g0b"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="4_vcd0d"]
+[ext_resource type="Texture2D" uid="uid://0hod3eligggx" path="res://visuals/entities/entities_indicators/entities_highlight.png" id="5_52yke"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wk6ws"]
 atlas = ExtResource("5_52yke")

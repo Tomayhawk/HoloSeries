@@ -1,17 +1,17 @@
 [gd_scene format=3 uid="uid://bfgttyngrxknk"]
 
-[ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/text_box.gd" id="1_1dsxa"]
-[ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://user_interfaces/user_interfaces_resources/panel_style/dark_blue_text_box_panel.tres" id="2_hword"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_focus.tres" id="3_3jmhp"]
-[ext_resource type="Texture2D" uid="uid://b7tr6l3oi7l1p" path="res://visuals/user_interfaces/text_box_2.png" id="3_82sas"]
-[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_3jmhp"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_hover.tres" id="4_82sas"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_pressed.tres" id="5_jj0yi"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://user_interfaces/user_interfaces_resources/button_style/dark_blue_button_normal.tres" id="6_avsc4"]
+[ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/text_box_ui.gd" id="1_2vkij"]
+[ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://visuals/user_interfaces/general/panel_style/dark_blue_text_box_panel.tres" id="2_j6bso"]
+[ext_resource type="Texture2D" uid="uid://b7tr6l3oi7l1p" path="res://visuals/user_interfaces/text_box_ui/text_box_2.png" id="3_bnnh5"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_txbxe"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="5_oyfqh"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="6_032r2"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="7_3r5kp"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="8_bg0bu"]
 
-[node name="TextBoxUI" type="CanvasLayer" unique_id=689393278]
+[node name="TextBoxUi" type="CanvasLayer" unique_id=689393278]
 layer = 100
-script = ExtResource("1_1dsxa")
+script = ExtResource("1_2vkij")
 
 [node name="TextBoxMargin" type="MarginContainer" parent="." unique_id=925133529]
 unique_name_in_owner = true
@@ -31,11 +31,11 @@ theme_override_constants/margin_bottom = 16
 [node name="Panel" type="Panel" parent="TextBoxMargin" unique_id=233290238]
 visible = false
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_hword")
+theme_override_styles/panel = ExtResource("2_j6bso")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="TextBoxMargin" unique_id=359191572]
 layout_mode = 2
-texture = ExtResource("3_82sas")
+texture = ExtResource("3_bnnh5")
 patch_margin_left = 32
 patch_margin_top = 32
 patch_margin_right = 32
@@ -58,7 +58,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_3jmhp")
+theme_override_fonts/font = ExtResource("4_txbxe")
 theme_override_font_sizes/font_size = 16
 text = "*"
 horizontal_alignment = 1
@@ -70,7 +70,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_3jmhp")
+theme_override_fonts/font = ExtResource("4_txbxe")
 theme_override_font_sizes/font_size = 16
 text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
 autowrap_mode = 2
@@ -83,7 +83,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_3jmhp")
+theme_override_fonts/font = ExtResource("4_txbxe")
 theme_override_font_sizes/font_size = 16
 text = "v"
 
@@ -114,10 +114,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("6_avsc4")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/focus = ExtResource("3_3jmhp")
+theme_override_styles/normal = ExtResource("5_oyfqh")
+theme_override_styles/pressed = ExtResource("6_032r2")
+theme_override_styles/hover = ExtResource("7_3r5kp")
+theme_override_styles/focus = ExtResource("8_bg0bu")
 text = " First"
 
 [node name="Option2Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=657410584]
@@ -127,10 +127,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("6_avsc4")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/focus = ExtResource("3_3jmhp")
+theme_override_styles/normal = ExtResource("5_oyfqh")
+theme_override_styles/pressed = ExtResource("6_032r2")
+theme_override_styles/hover = ExtResource("7_3r5kp")
+theme_override_styles/focus = ExtResource("8_bg0bu")
 text = "Second"
 
 [node name="Option3Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=1469091731]
@@ -140,10 +140,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("6_avsc4")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/focus = ExtResource("3_3jmhp")
+theme_override_styles/normal = ExtResource("5_oyfqh")
+theme_override_styles/pressed = ExtResource("6_032r2")
+theme_override_styles/hover = ExtResource("7_3r5kp")
+theme_override_styles/focus = ExtResource("8_bg0bu")
 text = "Third"
 
 [node name="Option4Button" type="Button" parent="OptionsMargin/VBoxContainer" unique_id=1472945334]
@@ -153,10 +153,10 @@ size_flags_vertical = 3
 focus_mode = 1
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
-theme_override_styles/normal = ExtResource("6_avsc4")
-theme_override_styles/pressed = ExtResource("5_jj0yi")
-theme_override_styles/hover = ExtResource("4_82sas")
-theme_override_styles/focus = ExtResource("3_3jmhp")
+theme_override_styles/normal = ExtResource("5_oyfqh")
+theme_override_styles/pressed = ExtResource("6_032r2")
+theme_override_styles/hover = ExtResource("7_3r5kp")
+theme_override_styles/focus = ExtResource("8_bg0bu")
 text = "Fourth"
 
 [node name="SpecialTextBoxMargin" type="MarginContainer" parent="." unique_id=564050847]
@@ -175,7 +175,7 @@ grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="SpecialTextBoxMargin" unique_id=684956745]
 layout_mode = 2
-theme_override_styles/panel = ExtResource("2_hword")
+theme_override_styles/panel = ExtResource("2_j6bso")
 
 [node name="MarginContainer" type="MarginContainer" parent="SpecialTextBoxMargin" unique_id=35623147]
 layout_mode = 2

@@ -1,5 +1,7 @@
 extends PlayerStats
 
+# ROBOCO (CHARACTER)
+
 # Score: 4.025 + 20 Stamina + 15% Crit Damage
 # Physical - Tank
 

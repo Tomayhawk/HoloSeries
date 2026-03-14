@@ -1,5 +1,11 @@
 extends CanvasLayer
 
+# SETTINGS UI (GLOBAL UI)
+
+# ..............................................................................
+
+#region INITIAL
+
 func _ready() -> void:
 	# set size options
 	const RESOLUTION_OPTIONS: Array[Vector2i] = [
@@ -40,20 +46,26 @@ func _ready() -> void:
 	%MasterVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Master"))))
 	%MusicVolumeHSlider.set_value(db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music"))))
 
-
-func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not event.is_action(&"esc"):
-		return
-
-	Inputs.accept_event()
-
-	if Input.is_action_just_pressed(&"esc"):
-		exit_ui()
+#endregion
 
 # ..............................................................................
 
-# SIGNALS
+#region INPUTS
+
+func _input(event: InputEvent) -> void:
+	# INPUT: accept events
+	if event.is_action(&"esc"):
+		Inputs.accept_event()
+
+	# INPUT: esc -> exit ui
+	if event.is_action_pressed(&"esc"):
+		exit_ui()
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func exit_ui() -> void:
 	if get_tree().current_scene.name == &"MainMenuScene":
@@ -61,7 +73,11 @@ func exit_ui() -> void:
 	else:
 		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.HOLO_DECK)
 
-# SETTINGS
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
 
 func _on_full_screen_check_button_toggled(to_enabled: bool) -> void:
 	Settings.toggle_fullscreen(to_enabled)
@@ -78,3 +94,7 @@ func _on_master_volume_h_slider_value_changed(value: float) -> void:
 
 func _on_music_volume_h_slider_value_changed(value: float) -> void:
 	Settings.set_music_volume(linear_to_db(value))
+
+#endregion
+
+# ..............................................................................

@@ -14,7 +14,7 @@ const AKIROSE_PATH: String = "res://scripts/entities_scripts/players_scripts/cha
 #region DIALOGUE
 
 func initiate_dialogue() -> void:
-	TextBox.npc_dialogue(self, DIALOGUE_PATH)
+	Global.open_text_box(self, DIALOGUE_PATH)
 
 #endregion
 
@@ -23,7 +23,9 @@ func initiate_dialogue() -> void:
 #region RECRUIT
 
 func recruit_character() -> void:
+	await Players.camera.toggle_black_screen(true)
 	Players.recruit_character(load(AKIROSE_PATH).new())
+	Players.camera.toggle_black_screen(false)
 	queue_free()
 
 #endregion

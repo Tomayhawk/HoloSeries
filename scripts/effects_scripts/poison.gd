@@ -27,12 +27,17 @@ var max_rand: float = 1.05
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region INITIAL
 
 func _init() -> void:
 	effect_type = Entities.Status.POISON
 	effect_timer = poison_interval
 
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
 
 func effect_timeout(stats: EntityStats) -> void:
 	# calculate and trigger poison

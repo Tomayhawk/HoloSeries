@@ -39,7 +39,7 @@ var snap_position: Vector2 = Vector2.ZERO
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -48,7 +48,7 @@ func _ready() -> void:
 
 # ..............................................................................
 
-#region PHYSICS PROCESS
+#region PROCESS
 
 func _physics_process(_delta: float) -> void:
 	# deccelerate towards target position while snapping
@@ -96,27 +96,20 @@ func _physics_process(_delta: float) -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not (event.is_action(&"left") or event.is_action(&"right") \
-			or event.is_action(&"up") or event.is_action(&"down")):
+	# GUARD: not movement input -> ignore input
+	# INPUT: left, right, up, down -> update movement
+	if not (
+			event.is_action(&"left") or event.is_action(&"right")
+			or event.is_action(&"up") or event.is_action(&"down")
+	):
 		return
 
 	Inputs.accept_event()
 
-	# ignore inputs if not new input
-	if not (
-			Input.is_action_just_pressed(&"left")
-			or Input.is_action_just_pressed(&"right")
-			or Input.is_action_just_pressed(&"up")
-			or Input.is_action_just_pressed(&"down")
-			or Input.is_action_just_released(&"left")
-			or Input.is_action_just_released(&"right")
-			or Input.is_action_just_released(&"up")
-			or Input.is_action_just_released(&"down")
-	):
+	# GUARD: input event is echo -> ignore input
+	if event.is_echo():
 		return
 
-	# update movement
 	move_direction = Input.get_vector(&"left", &"right", &"up", &"down", 0.2)
 
 	if move_direction == Vector2.ZERO:

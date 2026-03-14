@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://hypatwksy0f7"]
 
 [ext_resource type="Script" uid="uid://gb451ht0hms3" path="res://scripts/holo_nexus_scripts/holo_nexus.gd" id="1_84ul6"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/tile_sets/physics.png" id="2_f56on"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/scenes/physics.png" id="2_f56on"]
 [ext_resource type="Texture2D" uid="uid://sh1md1kmeikv" path="res://visuals/holo_nexus/holonexus.png" id="2_kb302"]
 [ext_resource type="Script" uid="uid://dinct17ou4kjh" path="res://scripts/holo_nexus_scripts/nexus_player.gd" id="4_1sun5"]
 [ext_resource type="Texture2D" uid="uid://dc1oxa5cly1i7" path="res://visuals/holo_nexus/holonexus_.png" id="4_dbcyv"]

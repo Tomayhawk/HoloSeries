@@ -1,6 +1,6 @@
-extends Node
+extends RefCounted
 
-# SAVES (AUTOLOAD #10)
+# SAVES
 
 # Directory
 # Windows: %APPDATA%\Godot\app_userdata\HoloSeries\saves
@@ -99,19 +99,9 @@ const SAVE_ERROR_MESSAGE: String = "[saves.gd] Invalid save file access: %s"
 
 # ..............................................................................
 
-#region INITIALIZE
-
-# TODO: temporary function
-func _init() -> void:
-	migrate_json_to_dat()
-
-#endregion
-
-# ..............................................................................
-
 #region NEW SAVE
 
-func new_save(character_index: int) -> void:
+static func new_save(character_index: int) -> void:
 	# create saves directory if it doesn't exist
 	DirAccess.make_dir_absolute("user://saves")
 
@@ -121,7 +111,7 @@ func new_save(character_index: int) -> void:
 	# create save name
 	var save_name: String = get_default_save_name()
 
-	# EDGE CASE: too many saves -> tell user to delete saves first
+	# GUARD: too many saves -> tell user to delete saves first
 	if save_name == "":
 		return # TODO: implement pop up
 
@@ -166,7 +156,7 @@ func new_save(character_index: int) -> void:
 	load_save(file_name)
 
 
-func get_default_save_name() -> String:
+static func get_default_save_name() -> String:
 	var dir: DirAccess = DirAccess.open(SAVES_PATH)
 	var used_names: Array = []
 
@@ -181,8 +171,8 @@ func get_default_save_name() -> String:
 			var data: Variant = bytes_to_var(file.get_buffer(file.get_length()))
 			file.close()
 
-			# EDGE CASE: data is not a dictionary -> continue to next file
-			# EDGE CASE: data doesn't have the "save_name" key -> continue to next file
+			# GUARD: data is not a dictionary -> continue to next file
+			# GUARD: data doesn't have the "save_name" key -> continue to next file
 			if not data is Dictionary or not data.has("save_name"):
 				continue
 
@@ -204,11 +194,11 @@ func get_default_save_name() -> String:
 	return save_name
 
 
-func save_name_to_file_name(save_name: String) -> String:
+static func save_name_to_file_name(save_name: String) -> String:
 	var file_name: String = ""
 
 	for c in save_name.strip_edges().to_lower().replace(" ", "_"):
-		if c.is_valid_identifier() or c == "-":
+		if c.is_valid_identifier() or c.is_valid_int() or c == "-":
 			file_name += c
 
 	return file_name
@@ -219,22 +209,22 @@ func save_name_to_file_name(save_name: String) -> String:
 
 #region LOAD SAVE
 
-func load_last_save() -> void:
+static func load_last_save() -> void:
 	var last_file_name: String = Settings.get_last_save()
 
-	# EDGE CASE: no previous save -> start new save
+	# GUARD: no previous save -> start new save
 	if last_file_name != "":
 		load_save(last_file_name)
 	else:
 		new_save(0) # TODO: should instead go to a "choose character" UI
 
 
-func load_save(file_name: String) -> void:
+static func load_save(file_name: String) -> void:
 	# read save file
 	var data: Dictionary = read_save_file(file_name)
 
-	# EDGE CASE: file doesn't exist -> notify user
-	# EDGE CASE: file data isn't a dictionary -> notify user
+	# GUARD: file doesn't exist -> notify user
+	# GUARD: file data isn't a dictionary -> notify user
 	if data.is_empty():
 		push_error(SAVE_ERROR_MESSAGE % file_name)
 		return
@@ -248,17 +238,17 @@ func load_save(file_name: String) -> void:
 	load_scene(data)
 
 
-func read_save_file(file_name: String) -> Dictionary:
+static func read_save_file(file_name: String) -> Dictionary:
 	var file_path: String = SAVE_FILE_PATH % file_name
 
-	# EDGE CASE: file doesn't exist -> notify user
+	# GUARD: file doesn't exist -> notify user
 	if not FileAccess.file_exists(file_path):
 		return {}
 
 	# load save file as a dictionary
 	var data: Variant = bytes_to_var(FileAccess.get_file_as_bytes(file_path))
 
-	# EDGE CASE: file data isn't a dictionary -> notify user
+	# GUARD: file data isn't a dictionary -> notify user
 	if not data is Dictionary:
 		push_error(SAVE_ERROR_MESSAGE % file_path)
 		return {}
@@ -266,7 +256,7 @@ func read_save_file(file_name: String) -> Dictionary:
 	return data
 
 
-func load_inventories(data: Dictionary) -> void:
+static func load_inventories(data: Dictionary) -> void:
 	# set core inventories
 	Inventory.consumables_inventory.assign(data["consumables_inventory"])
 	Inventory.materials_inventory.assign(data["materials_inventory"])
@@ -280,17 +270,17 @@ func load_inventories(data: Dictionary) -> void:
 	Combat.ui.update_inventory_ui()
 
 
-func load_nexus_variables(data: Dictionary) -> void:
+static func load_nexus_variables(data: Dictionary) -> void:
 	Global.nexus_types.assign(data["nexus_types"])
 	Global.nexus_qualities.assign(data["nexus_qualities"])
 
 
-func load_players(data: Dictionary) -> void:
+static func load_players(data: Dictionary) -> void:
 	var character_index: int = 0
 
 	for character_data in data["characters"]:
-		# EDGE CASE: character not unlocked -> continue to next character
-		# EDGE CASE: character data is not a dictionary -> continue to next character
+		# GUARD: character not unlocked -> continue to next character
+		# GUARD: character data is not a dictionary -> continue to next character
 		if not character_data or not character_data is Dictionary:
 			character_index += 1
 			continue
@@ -310,7 +300,7 @@ func load_players(data: Dictionary) -> void:
 		character_index += 1
 
 
-func load_scene(data: Dictionary) -> void:
+static func load_scene(data: Dictionary) -> void:
 	var save_point: Dictionary = SAVE_POINTS[data["save_point"]]
 	Global.change_scene(Global.Scenes.MAIN_MENU, save_point[SPKeys.SCENE], save_point[SPKeys.POSITION])
 
@@ -320,7 +310,7 @@ func load_scene(data: Dictionary) -> void:
 
 #region SAVE
 
-func save(save_point: SavePoints) -> void:
+static func save(save_point: SavePoints) -> void:
 	var current_file_name: String = Settings.get_last_save()
 	var data: Dictionary[String, Variant] = read_save_file(current_file_name) # TODO: continue editing from here
 	# TODO: also make use of CHARACTER_INDEX constants
@@ -359,7 +349,7 @@ func save(save_point: SavePoints) -> void:
 	dat_to_json(file_path) # TODO: temporary code
 
 
-func save_character(character_index: int, character_data: Dictionary) -> void:
+static func save_character(character_index: int, character_data: Dictionary) -> void:
 	var stats: PlayerStats = get_character_stats(character_index)
 
 	if not stats:
@@ -384,7 +374,7 @@ func save_character(character_index: int, character_data: Dictionary) -> void:
 	character_data["converted_nodes"] = stats.converted_nodes.duplicate()
 
 
-func get_character_stats(character_index: int) -> PlayerStats:
+static func get_character_stats(character_index: int) -> PlayerStats:
 	# check party first
 	for player_base in Players.party_bases:
 		if is_instance_valid(player_base):
@@ -398,7 +388,7 @@ func get_character_stats(character_index: int) -> PlayerStats:
 	return null
 
 
-func save_data_to_file(file_path: String, save_data: Dictionary) -> void:
+static func save_data_to_file(file_path: String, save_data: Dictionary) -> void:
 	var file: FileAccess = FileAccess.open(file_path, FileAccess.WRITE)
 	file.store_buffer(var_to_bytes(save_data))
 	file.close()
@@ -411,7 +401,7 @@ func save_data_to_file(file_path: String, save_data: Dictionary) -> void:
 
 # TODO: temporary functions
 
-func migrate_json_to_dat() -> void:
+static func migrate_json_to_dat() -> void:
 	var dir: DirAccess = DirAccess.open(SAVES_PATH)
 
 	if not dir:
@@ -428,7 +418,7 @@ func migrate_json_to_dat() -> void:
 	dir.list_dir_end()
 
 
-func json_to_dat(json_path: String) -> void:
+static func json_to_dat(json_path: String) -> void:
 	var file: FileAccess = FileAccess.open(json_path, FileAccess.READ)
 	var data: Variant = JSON.parse_string(file.get_as_text())
 	file.close()
@@ -437,7 +427,7 @@ func json_to_dat(json_path: String) -> void:
 		push_error(SAVE_ERROR_MESSAGE % json_path)
 		return
 	for character in data["characters"]:
-		# EDGE CASE: character not unlocked -> continue to next character
+		# GUARD: character not unlocked -> continue to next character
 		if not character:
 			continue
 
@@ -455,7 +445,7 @@ func json_to_dat(json_path: String) -> void:
 	print("[LOG] [saves.gd] Migrated %s -> %s" % [json_path.get_file(), dat_path.get_file()])
 
 
-func dat_to_json(dat_path: String) -> void:
+static func dat_to_json(dat_path: String) -> void:
 	var file: FileAccess = FileAccess.open(dat_path, FileAccess.READ)
 	var data: Variant = bytes_to_var(file.get_buffer(file.get_length()))
 	file.close()
@@ -464,7 +454,7 @@ func dat_to_json(dat_path: String) -> void:
 		push_error(SAVE_ERROR_MESSAGE % dat_path)
 		return
 	for character in data["characters"]:
-		# EDGE CASE: character not unlocked -> continue to next character
+		# GUARD: character not unlocked -> continue to next character
 		if not character:
 			continue
 

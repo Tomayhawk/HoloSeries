@@ -98,8 +98,8 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 		UiKeys.PATH: GLOBAL_UI_PATH % "characters_ui",
 	},
 	Ui.HOLO_DECK: {
-		UiKeys.NAME: ^"HoloDeck",
-		UiKeys.PATH: GLOBAL_UI_PATH % "holo_deck",
+		UiKeys.NAME: ^"HoloDeckUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "holo_deck_ui",
 	},
 	Ui.HOLO_NEXUS: {
 		UiKeys.NAME: ^"HoloNexus",
@@ -118,8 +118,8 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 		UiKeys.PATH: GLOBAL_UI_PATH % "settings_ui",
 	},
 	Ui.TEXT_BOX: {
-		UiKeys.NAME: ^"TextBox",
-		UiKeys.PATH: GLOBAL_UI_PATH % "text_box",
+		UiKeys.NAME: ^"TextBoxUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "text_box_ui",
 	},
 }
 
@@ -173,6 +173,12 @@ var nexus_qualities: Array[int] = []
 # ..............................................................................
 
 #region GLOBAL UI
+
+func open_text_box(npc: AnimatedSprite2D, file_path: String) -> void:
+	var text_box_node: CanvasLayer = load(GLOBAL_UI[Ui.TEXT_BOX][UiKeys.PATH]).instantiate()
+	add_child(text_box_node)
+	text_box_node.npc_dialogue(npc, file_path)
+
 
 func global_ui(current_ui: Ui, next_ui: Ui) -> void:
 	if not current_ui == Ui.NONE:
@@ -257,13 +263,13 @@ func start_music(music: Music) -> void:
 
 	var current_music_player: AudioStreamPlayer = $MusicPlayer
 
-	# EDGE CASE: same track -> continue playing
+	# GUARD: same track -> continue playing
 	if current_music_player.stream.resource_path == music_path:
 		return
 
 	var old_music_player: AudioStreamPlayer = get_node_or_null(^"OldMusicPlayer")
 
-	# EDGE CASE: old music player still exists -> free it
+	# GUARD: old music player still exists -> free it
 	if old_music_player:
 		old_music_player.name = &"FreedMusicPlayer"
 		old_music_player.queue_free()
@@ -271,7 +277,7 @@ func start_music(music: Music) -> void:
 	var music_volume: float = \
 			AudioServer.get_bus_volume_db(AudioServer.get_bus_index(&"Music"))
 
-	# EDGE CASE: low volume -> set new track with no tweens
+	# GUARD: low volume -> set new track with no tweens
 	if music_volume < -70.0:
 		current_music_player.stream = load(music_path)
 		current_music_player.play()

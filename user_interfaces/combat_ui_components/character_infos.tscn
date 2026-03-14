@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://lvv6a88tqi80"]
 
-[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://user_interfaces/user_interfaces_resources/progress_bar_style/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="1_43pca"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://visuals/user_interfaces/combat_ui/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
 
 [node name="CharacterInfos1" type="Control" unique_id=649930407]
 layout_mode = 3
@@ -12,7 +13,8 @@ offset_left = 17.0
 offset_top = 6.0
 offset_right = 97.0
 offset_bottom = 18.0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
 text = "CharacterName"
 vertical_alignment = 1
 
@@ -22,7 +24,8 @@ offset_left = 117.0
 offset_top = 6.0
 offset_right = 132.0
 offset_bottom = 18.0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
 text = "HP"
 vertical_alignment = 1
 
@@ -33,7 +36,8 @@ offset_top = 6.0
 offset_right = 158.0
 offset_bottom = 18.0
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
 text = "#####"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -44,7 +48,8 @@ offset_left = 167.0
 offset_top = 6.0
 offset_right = 183.0
 offset_bottom = 18.0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
 text = "MP"
 vertical_alignment = 1
 
@@ -55,7 +60,8 @@ offset_top = 6.0
 offset_right = 203.0
 offset_bottom = 18.0
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 8
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
 text = "####"
 horizontal_alignment = 1
 vertical_alignment = 1

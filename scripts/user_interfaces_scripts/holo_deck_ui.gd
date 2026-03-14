@@ -1,10 +1,10 @@
 extends CanvasLayer
 
-# HOLO DECK (UI)
+# HOLO DECK UI (GLOBAL UI)
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	# TODO: sometimes doesn't update input modes when hovering characters. need fix.
@@ -21,20 +21,19 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# ignore unrelated inputs
-	if not event.is_action(&"esc"):
-		return
+	# INPUT: accept events
+	if event.is_action(&"esc"):
+		Inputs.accept_event()
 
-	Inputs.accept_event()
-
-	if Input.is_action_just_pressed(&"esc"):
+	# INPUT: esc -> resume game
+	if event.is_action_pressed(&"esc"):
 		_on_resume_pressed()
 
 #endregion
 
 # ..............................................................................
 
-#region BUTTON SIGNALS
+#region SIGNALS
 
 func _on_characters_pressed() -> void:
 	Global.global_ui(Global.Ui.HOLO_DECK, Global.Ui.CHARACTERS)

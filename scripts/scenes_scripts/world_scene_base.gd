@@ -1,52 +1,27 @@
 class_name SceneBase
 extends Node2D
 
-# ..............................................................................
-
-#region CONSTANTS
-
-enum TransitKeys {
-	TRANSIT_AREA,
-	NEXT_SCENE,
-}
-
-#endregion
+# WORLD SCENE BASE (SCENE)
 
 # ..............................................................................
 
-#region VARIABLES
+#region SCENE CHANGE FUNCTIONS
 
-var transit_options: Array[Dictionary] = []
+func add_transit_signal(transit_area: Area2D, next_scene: Global.Scenes) -> void:
+	transit_area.body_entered.connect(transit_change_scene.bind(
+			transit_area.get_node(^"CollisionShape2D"), next_scene))
 
-#endregion
 
-# ..............................................................................
-
-#region READY
-
-func _ready() -> void:
-	Global.new_scene_ready.emit()
-
-	for transit in transit_options:
-		transit[TransitKeys.TRANSIT_AREA].body_entered.connect(change_scene_transit.bind(
-				transit[TransitKeys.TRANSIT_AREA].get_node(^"CollisionShape2D"),
-				transit[TransitKeys.NEXT_SCENE]))
-
-#endregion
-
-# ..............................................................................
-
-#region SCENE CHANGE
-
-func change_scene_transit(
+func transit_change_scene(
 		player_base: PlayerBase,
 		collision_area: CollisionShape2D,
 		next_scene: Global.Scenes
 ) -> void:
-
+	# trigger scene change only for main player
 	if not player_base.is_main_player:
 		return
 
+	# scene change
 	collision_area.set_deferred("disabled", true)
 	Global.change_scene(self.CURRENT_SCENE, next_scene)
 

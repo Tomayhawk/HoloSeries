@@ -30,7 +30,7 @@ var heal_percentage: float = 0.05
 
 # ..............................................................................
 
-#region READY
+#region INITIAL
 
 func _ready() -> void:
 	# request target entity
