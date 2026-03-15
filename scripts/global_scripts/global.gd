@@ -220,14 +220,15 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 
 	# reset world objects and values
 	Entities.end_entities_request()
-	Combat.clear_combat_entities()
-	Combat.leave_combat()
+	Entities.clear_scene_entities()
+	Damage.clear_damage_displays()
+	Combat.end_combat()
 
 	# wait for scene to load
 	await new_scene_ready
 
 	# reparent players to the new scene
-	Players.reparent(get_tree().current_scene)
+	Players.reparent.call_deferred(get_tree().current_scene)
 
 	# move Inputs to the bottom of the tree
 	get_tree().root.move_child(Inputs, -1)

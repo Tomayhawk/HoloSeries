@@ -74,10 +74,13 @@ func action_start() -> void:
 
 	animation_node.frame_changed.connect(action_execute, CONNECT_ONE_SHOT)
 
+	print("action started: ", animation_node.animation, " ", player_base.action_state, " ", player_base.move_state)
+
 
 # ActionState.WINDUP -> ActionState.EXECUTE
 func action_execute() -> void:
 	if not animation_node.animation in ATTACK_ANIMATIONS:
+		print("action_execute failed: ", animation_node.animation, " ", player_base.action_state)
 		return
 
 	player_base.action_state = player_base.ActionState.EXECUTE
@@ -108,6 +111,7 @@ func action_execute() -> void:
 # ActionState.EXECUTE -> ActionState.RECOVERY
 func action_recovery() -> void:
 	if not animation_node.animation in ATTACK_ANIMATIONS:
+		print("action_recovery failed: ", animation_node.animation)
 		return
 
 	player_base.action_state = player_base.ActionState.RECOVERY
@@ -118,6 +122,7 @@ func action_recovery() -> void:
 # ActionState.RECOVERY -> ActionState.COOLDOWN
 func action_complete() -> void:
 	if not animation_node.animation in ATTACK_ANIMATIONS:
+		print("action_complete failed: ", animation_node.animation)
 		return
 
 	if player_base.is_main_player:

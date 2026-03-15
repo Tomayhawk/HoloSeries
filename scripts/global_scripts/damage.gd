@@ -133,7 +133,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	display.queue_free()
 
 
-func clear_damage_display() -> void:
+func clear_damage_displays() -> void:
 	for display in get_children():
 		display.queue_free()
 

@@ -9,7 +9,6 @@
 [ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_3fkh3"]
 [ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="5_yjj58"]
 [ext_resource type="Texture2D" uid="uid://c5qqddt3tskw3" path="res://visuals/user_interfaces/main_menu_button_pressed.png" id="8_ofrqx"]
-[ext_resource type="Texture2D" uid="uid://c54kocs6awmww" path="res://visuals/user_interfaces/main_menu_button_focus.png" id="10_pw2k5"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pw2k5"]
 
@@ -18,9 +17,6 @@ texture = ExtResource("8_ofrqx")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yg1bx"]
 texture = ExtResource("3_8fdqi")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pw2k5"]
-texture = ExtResource("10_pw2k5")
 
 [node name="MainMenu" type="CanvasLayer" unique_id=1595380706]
 script = ExtResource("1_tgs5c")
@@ -59,56 +55,52 @@ theme_override_constants/separation = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("3_wbyn4")
 theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
 theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
-theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "NG/Continue"
 clip_text = true
 
 [node name="SavesButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=909825769]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("3_wbyn4")
 theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
 theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
-theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Saves"
 clip_text = true
 
 [node name="AchievementsButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=215276825]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("3_wbyn4")
 theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
 theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
-theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Achievements"
 clip_text = true
 
 [node name="SettingsButton" type="Button" parent="MainOptionsMenuMargin/MarginContainer/VBoxContainer" unique_id=30635038]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("3_wbyn4")
 theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
 theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
-theme_override_styles/focus = SubResource("StyleBoxTexture_pw2k5")
 text = "Settings"
 clip_text = true
 
@@ -144,7 +136,7 @@ theme_override_constants/separation = 2
 
 [node name="FirstSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=22561543]
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -155,7 +147,7 @@ text = "First Save"
 
 [node name="SecondSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=945513049]
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -166,7 +158,7 @@ text = "Second Save"
 
 [node name="ThirdSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=350670203]
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -187,7 +179,7 @@ size_flags_vertical = 8
 [node name="BackButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=961424921]
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -199,7 +191,7 @@ text = "Back"
 [node name="ContinueButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=962127290]
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -211,7 +203,7 @@ text = "Continue"
 [node name="EditButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=1152096369]
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("2_55lvy")
@@ -223,7 +215,7 @@ text = "Edit"
 [node name="NewGameButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=1150249696]
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("2_55lvy")

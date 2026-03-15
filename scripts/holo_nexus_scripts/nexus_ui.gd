@@ -89,10 +89,6 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# INPUT: accept events
-	if event.is_action(&"esc"):
-		Inputs.accept_event()
-
 	# INPUT: tab -> toggle character selector
 	if event.is_action(&"tab"):
 		Inputs.accept_event()
@@ -100,6 +96,7 @@ func _input(event: InputEvent) -> void:
 	# GUARD: inventory is not visible -> ignore input
 	# INPUT: esc -> hide nexus inventory
 	elif event.is_action_pressed(&"esc") and inventory_ui.visible:
+		Inputs.accept_event()
 		button_focused = false
 		inventory_ui.hide()
 		options_ui.show()

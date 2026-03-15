@@ -68,7 +68,7 @@ func set_variables() -> void:
 	stats.entity_types = Entities.Type.ENEMIES
 
 	# Base Health, Mana and Stamina
-	stats.base_health = 200.0
+	stats.base_health = 2000000.0
 	stats.base_mana = 10.0
 	stats.base_stamina = 150.0
 
@@ -191,7 +191,7 @@ func take_action() -> void:
 	if in_forced_move_state(): return
 
 	# attempt summon
-	if $SummonCooldown.paused and randi() % 3 == 0:
+	if $SummonCooldown.is_stopped() and randi() % 3 == 0:
 		summon_nousagi()
 	else:
 		attack()

@@ -183,11 +183,23 @@ func combat_ui_tween_finished() -> void:
 func _on_attack_pressed() -> void:
 	hide_sub_combat_options()
 
+	for button in %MainVBoxContainer.get_children():
+		button.toggle_mode = false
+
+	%MainVBoxContainer.get_child(0).toggle_mode = true
+	%MainVBoxContainer.get_child(0).button_pressed = true
+
 
 func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 	hide_sub_combat_options()
 	%SubCombatOptions.show()
 	sub_modes_nodes[extra_arg_0].show()
+
+	for button in %MainVBoxContainer.get_children():
+		button.toggle_mode = false
+
+	%MainVBoxContainer.get_child(extra_arg_0 + 1).toggle_mode = true
+	%MainVBoxContainer.get_child(extra_arg_0 + 1).button_pressed = true
 
 #endregion
 
@@ -196,7 +208,7 @@ func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 #region SUB COMBAT OPTIONS
 
 func instantiate_ability(ability_index: int) -> void:
-	Entities.abilities_node.add_child(Combat.ability_loads[ability_index].instantiate())
+	Entities.instantiate_ability(ability_index)
 
 
 func use_consumable(item_index: int) -> void:

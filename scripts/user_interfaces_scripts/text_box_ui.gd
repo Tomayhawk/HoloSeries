@@ -65,7 +65,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	# INPUT: continue, action -> handle text box input
 	if event.is_action(&"continue") or event.is_action(&"action"):
-		Inputs.accept_event()
+		if text_box_state != TextBoxState.WAITING:
+			Inputs.accept_event()
 		if event.is_pressed():
 			text_box_input()
 

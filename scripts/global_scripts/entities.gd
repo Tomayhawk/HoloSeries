@@ -91,6 +91,14 @@ const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.TAUNT: preload("res://scripts/effects_scripts/taunt.gd"),
 }
 
+const ABILITY_PRELOADS: Array[Resource] = [
+	preload("res://abilities/black_magic/fireball.tscn"),
+	preload("res://abilities/white_magic/regen.tscn"),
+	preload("res://abilities/white_magic/heal.tscn"),
+	preload("res://abilities/skills/play_dice.tscn"),
+	preload("res://abilities/talents/rocket_launcher.tscn"),
+]
+
 const PLAYER_COLLISION_LAYER: int = 1
 const ENEMY_COLLISION_LAYER: int = 2
 const ENTITY_LIMIT: int = 200
@@ -111,8 +119,7 @@ var entities_requested_count: int = 0
 var entities_available: Array[EntityBase] = []
 var entities_chosen: Array[EntityBase] = []
 
-@onready var abilities_node: Node = $Abilities
-@onready var lootable_items_node: Node = $LootableItems
+@onready var lootables_node: Node = $Lootables
 
 #endregion
 
@@ -247,7 +254,22 @@ func end_entities_request() -> void:
 
 # ..............................................................................
 
-#region MISCELLANEOUS
+#region UTILITIES
+
+func instantiate_ability(ability_index: int) -> void:
+	$Abilities.add_child(ABILITY_PRELOADS[ability_index].instantiate())
+
+
+# free all ability nodes and lootables
+func clear_scene_entities() -> void:
+	# free all ability nodes
+	for entity_base in $Abilities.get_children():
+		entity_base.queue_free()
+
+	# free all lootables
+	for lootable in lootables_node.get_children():
+		lootable.queue_free()
+
 
 # helper to fetch players with dynamic filters
 func get_players(custom_filter: Callable = Callable()) -> Array[EntityBase]:
@@ -257,6 +279,7 @@ func get_players(custom_filter: Callable = Callable()) -> Array[EntityBase]:
 		player_bases = player_bases.filter(custom_filter)
 
 	return type_entities_array(player_bases)
+
 
 # add an enemy to the current scene enemies node
 func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position_range: float) -> EnemyBase:
@@ -279,6 +302,9 @@ func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position
 func toggle_entities_process(to_enabled: bool) -> void:
 	for entity_base in Players.get_children() + all_enemies():
 		entity_base.toggle_process(to_enabled)
+
+	$Abilities.set_physics_process(to_enabled)
+	lootables_node.set_physics_process(to_enabled)
 
 
 # toggle players process on text box dialogues

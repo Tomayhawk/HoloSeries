@@ -6,6 +6,17 @@ extends Node
 
 #region CONSTANTS
 
+enum ItemTypes {
+	CONSUMABLES,
+	MATERIALS,
+	WEAPONS,
+	ARMORS,
+	ACCESSORIES,
+	MANAGER,
+	NEXUS,
+	KEY,
+}
+
 enum LootablesKeys {
 	TEMP_SHIRAKAMI,
 }
@@ -26,8 +37,9 @@ var materials_inventory: Array[int] = []
 var weapons_inventory: Array[int] = []
 var armors_inventory: Array[int] = []
 var accessories_inventory: Array[int] = []
+var manager_inventory: Array[int] = []
 var nexus_inventory: Array[int] = []
-var key_inventory: Array[int] = []
+var keys_inventory: Array[int] = []
 
 const CONSUMABLES: Array[Resource] = [
 	preload("res://scripts/items_scripts/consumables_scripts/potion.gd"),
@@ -53,8 +65,9 @@ func add_item(item_type: int, item_id: int, count: int = 1) -> void:
 		2: weapons_inventory[item_id] += count
 		3: armors_inventory[item_id] += count
 		4: accessories_inventory[item_id] += count
-		5: nexus_inventory[item_id] += count
-		6: key_inventory[item_id] += count
+		5: manager_inventory[item_id] += count
+		6: nexus_inventory[item_id] += count
+		7: keys_inventory[item_id] += count
 
 	if item_type == 0:
 		if consumables_inventory[item_id] == 1:

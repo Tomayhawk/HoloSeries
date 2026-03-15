@@ -10,7 +10,7 @@
 custom_minimum_size = Vector2(93, 20)
 offset_right = 93.0
 offset_bottom = 20.0
-focus_mode = 1
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 8
 theme_override_styles/normal = ExtResource("4_5skfd")

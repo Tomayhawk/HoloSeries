@@ -33,6 +33,7 @@ func initiate_dot(intervals: int, interval: float) -> void:
 	# start timer
 	start(interval)
 
+
 func _on_timer_timeout() -> void:
 	count -= 1
 

@@ -7,6 +7,10 @@ extends EntityBase
 # TODO: should add toggle setting for release dash
 
 # TODO: test and maybe add other knockback options (maybe also dash)
+# TODO: fix endless knockback
+# TODO: fix unexpected sora slash halts (check action states, move states, and animation updates)
+# TODO: fix nousagi stop attacking
+
 #var t = knockback_timer / 0.4
 # Quadratic
 #velocity = move_state_velocity * t * t
@@ -68,13 +72,10 @@ var action_queue: Array[Dictionary] = [] # { "action_node": Node, "priority": in
 
 #region INITIAL
 
-func _init() -> void:
-	set_process_input(is_main_player)
-
-
 func _ready() -> void:
-	Combat.entering_combat.connect(enter_combat)
-	Combat.left_combat.connect(leave_combat)
+	Combat.entered_combat.connect(enter_combat)
+	Combat.left_combat.connect(end_combat)
+	set_process_input(is_main_player)
 
 #endregion
 
@@ -399,11 +400,9 @@ func stun(duration: float) -> void:
 #region ACTION INPUT
 
 func action_input() -> void:
-	# check action state
-	if action_state != ActionState.READY:
-		return
-
-	action_node.action_start()
+	# check action state and not stunned
+	if action_state == ActionState.READY and move_state != MoveState.STUN:
+		action_node.action_start()
 
 #endregion
 
@@ -523,7 +522,9 @@ func ally_attempt_action() -> void:
 #region ANIMATIONS
 
 func update_animation() -> void:
-	if not stats.alive or in_forced_move_state():
+	print($Animation.frame_changed.get_connections())
+	print($Animation.animation_finished.get_connections())
+	if not stats.alive or (in_forced_move_state() and not in_action()):
 		return
 
 	var next_animation: StringName = $Animation.animation
@@ -782,7 +783,7 @@ func enter_combat() -> void:
 		ally_attempt_action()
 
 
-func leave_combat() -> void:
+func end_combat() -> void:
 	# if is main player or in action, resolve naturally or ignore
 	if is_main_player or in_action():
 		return

@@ -44,8 +44,9 @@ const SAVE_STRUCTURE: Dictionary[String, Variant] = {
 	"weapons_inventory": [],
 	"armors_inventory": [],
 	"accessories_inventory": [],
+	"manager_inventory": [],
 	"nexus_inventory": [],
-	"key_inventory": [],
+	"keys_inventory": [],
 
 	# nexus
 	"nexus_types": [],
@@ -81,8 +82,9 @@ const CHARACTER_STRUCTURE: Dictionary[String, Variant] = {
 # inventories
 const CONSUMABLES_INVENTORY_SIZE: int = 100
 const MATERIALS_INVENTORY_SIZE: int = 101
+const MANAGER_INVENTORY_SIZE: int = 104
 const NEXUS_INVENTORY_SIZE: int = 102
-const KEY_INVENTORY_SIZE: int = 103
+const KEYS_INVENTORY_SIZE: int = 103
 
 # nexus
 const NEXUS_GENERATOR_PATH: String = "res://scripts/holo_nexus_scripts/nexus_generator.gd"
@@ -122,12 +124,14 @@ static func new_save(character_index: int) -> void:
 	# inventories
 	data["consumables_inventory"].resize(CONSUMABLES_INVENTORY_SIZE)
 	data["materials_inventory"].resize(MATERIALS_INVENTORY_SIZE)
+	data["manager_inventory"].resize(MANAGER_INVENTORY_SIZE)
 	data["nexus_inventory"].resize(NEXUS_INVENTORY_SIZE)
-	data["key_inventory"].resize(KEY_INVENTORY_SIZE)
+	data["keys_inventory"].resize(KEYS_INVENTORY_SIZE)
 	data["consumables_inventory"].fill(0)
 	data["materials_inventory"].fill(0)
+	data["manager_inventory"].fill(0)
 	data["nexus_inventory"].fill(0)
-	data["key_inventory"].fill(0)
+	data["keys_inventory"].fill(0)
 
 	# note: weapons, armors, and accessories inventories don't have set sizes
 
@@ -263,8 +267,9 @@ static func load_inventories(data: Dictionary) -> void:
 	Inventory.weapons_inventory.assign(data["weapons_inventory"])
 	Inventory.armors_inventory.assign(data["armors_inventory"])
 	Inventory.accessories_inventory.assign(data["accessories_inventory"])
+	Inventory.manager_inventory.assign(data["manager_inventory"])
 	Inventory.nexus_inventory.assign(data["nexus_inventory"])
-	Inventory.key_inventory.assign(data["key_inventory"])
+	Inventory.keys_inventory.assign(data["keys_inventory"])
 
 	# update combat inventory ui
 	Combat.ui.update_inventory_ui()
@@ -329,8 +334,9 @@ static func save(save_point: SavePoints) -> void:
 	data["weapons_inventory"] = Inventory.weapons_inventory.duplicate()
 	data["armors_inventory"] = Inventory.armors_inventory.duplicate()
 	data["accessories_inventory"] = Inventory.accessories_inventory.duplicate()
+	data["manager_inventory"] = Inventory.manager_inventory.duplicate()
 	data["nexus_inventory"] = Inventory.nexus_inventory.duplicate()
-	data["key_inventory"] = Inventory.key_inventory.duplicate()
+	data["keys_inventory"] = Inventory.keys_inventory.duplicate()
 
 	# nexus
 	data["nexus_types"] = Global.nexus_types.duplicate()
