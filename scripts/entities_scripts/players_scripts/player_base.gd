@@ -97,8 +97,8 @@ func _physics_process(_delta: float) -> void:
 	elif not is_main_player and move_state == MoveState.IDLE and action_target:
 		move_direction = ALL_DIRECTIONS[(roundi(
 				(action_target.position - position).angle() / (PI / 4.0)) + 8) % 8]
-
-		update_animation()
+		$Animation.set_animation_direction(action_target.position - position)
+		$Animation.update_animation()
 
 	move_and_slide()
 
@@ -154,7 +154,7 @@ func apply_movement(next_direction: Vector2) -> void:
 	if next_direction == Vector2.ZERO:
 		move_state = MoveState.IDLE
 		velocity = Vector2.ZERO
-		update_animation()
+		$Animation.update_animation.call_deferred()
 		return
 
 	# update move direction
@@ -183,7 +183,7 @@ func apply_movement(next_direction: Vector2) -> void:
 			velocity = move_state_velocity * move_state_timer / stats.dash_time
 
 	# update animation
-	update_animation()
+	$Animation.update_animation()
 
 # TODO: need to test
 func toggle_text_box(to_enabled: bool) -> void:
@@ -519,64 +519,6 @@ func ally_attempt_action() -> void:
 
 # ..............................................................................
 
-#region ANIMATIONS
-
-func update_animation() -> void:
-	print($Animation.frame_changed.get_connections())
-	print($Animation.animation_finished.get_connections())
-	if not stats.alive or (in_forced_move_state() and not in_action()):
-		return
-
-	var next_animation: StringName = $Animation.animation
-	var animation_speed: float = 1.0
-
-	# determine next animation based on action and move states
-	if in_action():
-		# melee
-		if action_type == ActionType.MELEE:
-			next_animation = [
-				&"right_attack",
-				&"down_attack",
-				&"left_attack",
-				&"up_attack",
-			][(roundi(action_direction.angle() / (PI / 2)) + 4) % 4]
-	elif move_state == MoveState.IDLE:
-		# idle
-		next_animation = [
-			&"up_idle",
-			&"down_idle",
-			&"left_idle",
-			&"right_idle"
-		][move_direction if move_direction < 4 else move_direction % 2 + 2]
-	else:
-		# move
-		next_animation = [
-			&"up_walk",
-			&"down_walk",
-			&"left_walk",
-			&"right_walk"
-		][move_direction if move_direction < 4 else move_direction % 2 + 2]
-
-		# update animation speed based on movement speed
-		animation_speed = stats.move_speed / 70.0
-		if move_state == MoveState.DASH:
-			animation_speed *= 2.0
-		elif move_state == MoveState.SPRINT:
-			animation_speed *= stats.sprint_multiplier
-
-	# play animation if changed
-	if next_animation != $Animation.animation:
-		$Animation.play(next_animation)
-		$Animation.frame_changed.emit()
-		$Animation.animation_finished.emit()
-
-	# update animation speed
-	$Animation.speed_scale = animation_speed
-
-#endregion
-
-# ..............................................................................
-
 #region UPDATE NODES
 
 # used to initialize players
@@ -614,7 +556,7 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	if is_main_player:
 		_on_move_state_timeout()
 	else:
-		update_animation()
+		$Animation.update_animation.call_deferred()
 
 
 func switch_to_main() -> void:
@@ -697,7 +639,7 @@ func switch_character(next_stats: PlayerStats) -> void:
 func fatigue_state() -> void:
 	if move_state in [MoveState.DASH, MoveState.SPRINT]:
 		move_state = MoveState.WALK
-		update_animation()
+		$Animation.update_animation()
 
 
 func death() -> void:
@@ -748,7 +690,7 @@ func revive() -> void:
 
 	# update animation
 	$Animation.animation_finished.emit()
-	update_animation()
+	$Animation.update_animation()
 
 	# TODO: queue actions
 
@@ -871,7 +813,7 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 
 func _on_action_area_body_exited(body: Node2D) -> void:
 	action_target_candidates.erase(body)
-	in_action_range = action_target_candidates.size()
+	in_action_range = not action_target_candidates.is_empty()
 
 	if not is_main_player and not in_action_range:
 		_on_move_state_timeout()

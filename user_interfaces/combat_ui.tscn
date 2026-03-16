@@ -1,33 +1,63 @@
 [gd_scene format=3 uid="uid://cow4d6dq0c31v"]
 
 [ext_resource type="Script" uid="uid://bp37cvmg20s6l" path="res://scripts/user_interfaces_scripts/combat_ui.gd" id="1_w0nri"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="2_1ddg2"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/general/panel_style/blue_translucent_panel.tres" id="2_ppn4a"]
-[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button.png" id="3_ceijx"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="3_jo7y3"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/blue_translucent_panel.tres" id="2_ppn4a"]
 [ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_5527i"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_ywh4v"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="5_kyyya"]
+[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_normal.png" id="5_bjnd6"]
 [ext_resource type="Texture2D" uid="uid://ciyn3cugvl5a3" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_pressed.png" id="6_q4p0c"]
 [ext_resource type="Texture2D" uid="uid://dysrbbx2j3qeu" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_hover.png" id="7_8c8oe"]
-[ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://visuals/user_interfaces/general/panel_style/light_blue_translucent_panel.tres" id="7_c1xwy"]
+[ext_resource type="StyleBox" uid="uid://r8tef0pv2fig" path="res://visuals/user_interfaces/light_blue_translucent_panel.tres" id="7_c1xwy"]
 [ext_resource type="PackedScene" uid="uid://lvv6a88tqi80" path="res://user_interfaces/combat_ui_components/character_infos.tscn" id="8_dsr74"]
 [ext_resource type="Texture2D" uid="uid://b0a3gjq144st1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_hover_pressed.png" id="9_aretp"]
 [ext_resource type="Texture2D" uid="uid://n308mhyabkrl" path="res://visuals/user_interfaces/combat_ui/character_selector_background.png" id="9_bscr1"]
 [ext_resource type="Texture2D" uid="uid://c4wd0yfaurgbr" path="res://visuals/user_interfaces/combat_ui/party_players_background.png" id="9_m2uty"]
 [ext_resource type="Texture2D" uid="uid://2ievxtfyxif7" path="res://visuals/user_interfaces/combat_ui/party_infos_background.png" id="10_bjnd6"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bjnd6"]
-texture = ExtResource("3_ceijx")
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjnd6"]
+atlas = ExtResource("5_bjnd6")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m2uty"]
+texture = SubResource("AtlasTexture_bjnd6")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5527i"]
+texture = ExtResource("6_q4p0c")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q4p0c"]
+texture = ExtResource("7_8c8oe")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8c8oe"]
 texture = ExtResource("6_q4p0c")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aretp"]
-texture = ExtResource("7_8c8oe")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_clq7u"]
 texture = ExtResource("9_aretp")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aretp"]
+texture = ExtResource("9_aretp")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
 
 [node name="CombatUi" type="CanvasLayer" unique_id=1346001288]
 script = ExtResource("1_w0nri")
@@ -93,11 +123,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Attack"
 clip_text = true
@@ -109,11 +138,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Talents"
 clip_text = true
@@ -125,11 +153,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Skills"
 clip_text = true
@@ -141,11 +168,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Buff
 "
@@ -158,11 +184,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Debuff"
 clip_text = true
@@ -174,11 +199,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "White Magic"
 clip_text = true
@@ -190,11 +214,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Black Magic"
 clip_text = true
@@ -206,11 +229,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Summon"
 clip_text = true
@@ -222,11 +244,10 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxTexture_bjnd6")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8c8oe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_aretp")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-theme_override_styles/focus = ExtResource("5_kyyya")
 toggle_mode = true
 text = "Items"
 clip_text = true
@@ -275,6 +296,7 @@ theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
 [node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1065277067]
+visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -286,10 +308,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Rocket Launcher"
 
 [node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1446198244]
@@ -305,10 +328,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Life Drain"
 
 [node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=953318937]
@@ -318,10 +342,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Mana Drain"
 
 [node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=666622587]
@@ -331,10 +356,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Taunt"
 
 [node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=935520257]
@@ -344,10 +370,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Play Dice"
 
 [node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1817402991]
@@ -363,10 +390,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Item"
 
 [node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=35963636]
@@ -382,14 +410,14 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Item"
 
 [node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1239020115]
-visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -401,18 +429,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Heal"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" unique_id=1907825575]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -424,18 +461,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Protect"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" unique_id=740313198]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -447,18 +493,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Haste"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" unique_id=1665398947]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -470,18 +525,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Regen"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" unique_id=1064543930]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -499,18 +563,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Fireball"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" unique_id=1967914479]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -522,18 +595,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Poison"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" unique_id=85038854]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -545,18 +627,27 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Slowness"
 
 [node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" unique_id=1553102202]
-layout_mode = 0
-offset_left = 148.0
-offset_right = 186.0
-offset_bottom = 20.0
-theme_override_font_sizes/font_size = 8
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_5527i")
+theme_override_font_sizes/font_size = 16
 text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -574,10 +665,11 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_fonts/font = ExtResource("4_5527i")
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = ExtResource("2_1ddg2")
-theme_override_styles/pressed = ExtResource("4_ywh4v")
-theme_override_styles/hover = ExtResource("3_jo7y3")
-theme_override_styles/focus = ExtResource("5_kyyya")
+theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
+toggle_mode = true
 text = "Item"
 
 [node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1829303411]

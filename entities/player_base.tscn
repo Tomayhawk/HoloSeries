@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
 [ext_resource type="SpriteFrames" uid="uid://4au5vp4f5jch" path="res://entities/character_animations/sora.tres" id="2_h3n4j"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://visuals/entities/player_base/shield_progress_bar_fill.tres" id="2_nogga"]
+[ext_resource type="Script" uid="uid://p7l1s035chta" path="res://scripts/entities_scripts/players_scripts/player_animation.gd" id="3_h3n4j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
 size = Vector2(16, 7)
@@ -34,6 +35,7 @@ y_sort_enabled = true
 sprite_frames = ExtResource("2_h3n4j")
 animation = &"down_idle"
 offset = Vector2(-0.5, -10)
+script = ExtResource("3_h3n4j")
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=976360696]
 visible = false

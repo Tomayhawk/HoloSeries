@@ -225,7 +225,7 @@ func clear_status() -> void:
 
 
 func has_status(type: Entities.Status) -> bool:
-	return status & type
+	return status & type != 0
 
 #endregion
 

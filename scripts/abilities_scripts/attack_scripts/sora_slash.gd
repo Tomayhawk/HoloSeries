@@ -70,7 +70,7 @@ func action_start() -> void:
 
 	force_shapecast_update()
 
-	player_base.update_animation()
+	animation_node.update_animation()
 
 	animation_node.frame_changed.connect(action_execute, CONNECT_ONE_SHOT)
 
@@ -133,7 +133,7 @@ func action_complete() -> void:
 
 	player_base.action_type = player_base.ActionType.NONE
 
-	player_base.update_animation()
+	animation_node.update_animation()
 
 
 # ActionState.COOLDOWN -> ActionState.READY
