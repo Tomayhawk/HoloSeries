@@ -43,7 +43,7 @@ func toggle_process(to_enabled: bool) -> void:
 	set_physics_process(to_enabled)
 
 	if to_enabled:
-		main_player.apply_main_player_movement()
+		main_player.update_main_player_movement()
 
 #endregion
 
@@ -103,7 +103,7 @@ func add_party_player(stats: PlayerStats, party_index: int, is_main_player: bool
 
 func add_standby_character(stats: PlayerStats) -> void:
 	standby_characters.append(stats)
-	stats.set_stats()
+	stats.reset_stats()
 	Combat.ui.add_standby_character(stats)
 
 

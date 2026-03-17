@@ -1,3 +1,15 @@
 extends Effect
 
-# TODO: (description)
+# SLEEP
+# DESCRIPTION
+
+# ..............................................................................
+
+#region INITIAL
+
+func _init() -> void:
+    effect_name = "Sleep"
+
+#endregion
+
+# ..............................................................................

@@ -156,7 +156,7 @@ func force_black_screen(to_enabled: bool) -> void:
 #region ZOOM
 
 func update_zoom(direction: int) -> void:
-	target_zoom = clamp(target_zoom + (ZOOM_STEP * direction), MIN_ZOOM, MAX_ZOOM)
+	target_zoom = (target_zoom + (ZOOM_STEP * direction)).clamp(MIN_ZOOM, MAX_ZOOM)
 	set_process(true)
 
 

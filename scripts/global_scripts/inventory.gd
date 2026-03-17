@@ -22,7 +22,7 @@ enum LootablesKeys {
 }
 
 const LOOTABLES: Dictionary[LootablesKeys, Array] = {
-	LootablesKeys.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", 0, 0],
+	LootablesKeys.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", ItemTypes.CONSUMABLES, 0],
 }
 
 #endregion
@@ -58,7 +58,7 @@ var accessories: Array[Accessory] = []
 
 #region FUNCTIONS
 
-func add_item(item_type: int, item_id: int, count: int = 1) -> void:
+func add_item(item_type: ItemTypes, item_id: int, count: int = 1) -> void:
 	match item_type:
 		0: consumables_inventory[item_id] += count
 		1: materials_inventory[item_id] += count
@@ -70,10 +70,10 @@ func add_item(item_type: int, item_id: int, count: int = 1) -> void:
 		7: keys_inventory[item_id] += count
 
 	if item_type == 0:
-		if consumables_inventory[item_id] == 1:
-			pass # TODO: create a combat button
-		else:
-			pass # TODO: modify combat button
+		if consumables_inventory[item_id] == count:
+			Combat.ui.add_inventory_button(item_id)
+		elif consumables_inventory[item_id] == 0:
+			Combat.ui.remove_inventory_button(item_id)
 
 
 func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO

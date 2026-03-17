@@ -6,6 +6,9 @@ extends CanvasLayer
 
 #region CONSTANTS
 
+const OPTIONS_BUTTON_PATH: String = \
+		"res://user_interfaces/combat_ui_components/options_button.tscn"
+
 const COMBAT_UI_TWEEN_DURATION: float = 0.2
 
 #endregion
@@ -80,27 +83,41 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-#region ADD BUTTONS
+#region INVENTORY BUTTONS
 
-func update_inventory_ui() -> void:
-	var index: int = 0
-	var options_button_load: PackedScene = \
-			load("res://user_interfaces/combat_ui_components/options_button.tscn")
+func init_combat_inventory() -> void:
+	var item_id: int = 0
 
 	for count in Inventory.consumables_inventory:
 		if count > 0:
-			var options_button: Button = options_button_load.instantiate()
-			var ITEM_NAME: String = Inventory.CONSUMABLES[index].ITEM_NAME
-			options_button.name = ITEM_NAME
-			options_button.get_node(^"Name").text = ITEM_NAME
-			options_button.get_node(^"Number").text = str(count)
-			options_button.pressed.connect(button_pressed)
-			options_button.pressed.connect(use_consumable.bind(index))
-			options_button.mouse_entered.connect(_on_control_mouse_entered)
-			options_button.mouse_exited.connect(_on_control_mouse_exited)
-			items_grid_container_node.add_child(options_button)
-		index += 1
+			add_inventory_button(item_id)
+		item_id += 1
 
+
+func add_inventory_button(item_id: int) -> void:
+	var options_button: Button = load(OPTIONS_BUTTON_PATH).instantiate()
+	var item_name: String = Inventory.CONSUMABLES[item_id].ITEM_NAME
+
+	options_button.name = item_name
+	options_button.get_node(^"Name").text = item_name
+	options_button.get_node(^"Number").text = str(Inventory.consumables_inventory[item_id])
+	options_button.pressed.connect(button_pressed)
+	options_button.pressed.connect(use_consumable.bind(item_id))
+	options_button.mouse_entered.connect(_on_control_mouse_entered)
+	options_button.mouse_exited.connect(_on_control_mouse_exited)
+
+	items_grid_container_node.add_child(options_button)
+
+
+func remove_inventory_button(item_id: int) -> void:
+	var item_name: String = Inventory.CONSUMABLES[item_id].ITEM_NAME
+	items_grid_container_node.get_node(NodePath(item_name)).queue_free()
+
+#endregion
+
+# ..............................................................................
+
+#region STANDBY BUTTONS
 
 func add_standby_character(character: PlayerStats) -> void:
 	var standby_button: Button = load("res://user_interfaces/combat_ui_components/standby_button.tscn").instantiate()

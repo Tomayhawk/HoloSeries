@@ -4,7 +4,6 @@ extends EntityBase
 # PLAYER BASE (PLAYER)
 
 # TODO: deal with all await edge cases in project
-# TODO: should add toggle setting for release dash
 
 # TODO: test and maybe add other knockback options (maybe also dash)
 # TODO: fix endless knockback
@@ -36,6 +35,8 @@ const DIRECTION_VECTORS: Array[Vector2] = [
 ]
 
 const DEAD_ZONE: float = 0.2
+
+const ALLY_MAX_DIST: float = 300.0
 
 #endregion
 
@@ -120,8 +121,8 @@ func _input(event: InputEvent) -> void:
 	):
 		Inputs.accept_event()
 		# GUARD: input is echo || player in forced move state -> ignore input
-		if not (event.is_echo() or in_forced_move_state()):
-			apply_main_player_movement()
+		if not event.is_echo():
+			update_main_player_movement()
 	# INPUT: dash -> handle dash inputs
 	elif event.is_action(&"dash"):
 		Inputs.accept_event()
@@ -133,14 +134,10 @@ func _input(event: InputEvent) -> void:
 
 #region INPUT FUNCTIONS
 
-func apply_main_player_movement() -> void:
-	apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", DEAD_ZONE))
-
-
 func handle_dash_input(event: InputEvent) -> void:
 	if event.is_pressed():
 		attempt_dash()
-	elif move_state == MoveState.SPRINT and Inputs.sprint_toggle:
+	elif move_state == MoveState.SPRINT and not Inputs.sprint_on_release:
 		end_sprint()
 
 #endregion
@@ -169,8 +166,8 @@ func apply_movement(next_direction: Vector2) -> void:
 		Vector2(1.0, -1.0),
 	].find(round(next_direction))]
 
-	# set velocity to direction at walk speed with speed multiplier
-	velocity = next_direction * stats.move_speed * stats.move_speed_modifier
+	# set velocity
+	velocity = next_direction * stats.move_speed
 
 	# update move state or multiply velocity accordingly
 	match move_state:
@@ -209,31 +206,28 @@ func toggle_text_box(to_enabled: bool) -> void:
 
 #region MOVE STATES
 
-# TODO: factorize this function
 func _on_move_state_timeout() -> void:
+	# reset move state
 	move_state_timer = 0.0
+	move_state = MoveState.IDLE
 
-	# update move states
-	if in_forced_move_state():
-		move_state = MoveState.IDLE
-	elif move_state == MoveState.DASH:
-		if is_main_player and (Input.is_action_pressed(&"dash") or not Inputs.sprint_toggle):
-			move_state = MoveState.SPRINT
-		else:
-			move_state = MoveState.WALK
-
-	# handle main player move states
 	if is_main_player:
-		if not in_forced_move_state():
-			apply_main_player_movement()
+		if Input.is_action_pressed(&"dash") or Inputs.sprint_on_release:
+			move_state = MoveState.SPRINT
+		update_main_player_movement()
+	else:
+		update_ally_movement()
 
-		return
 
-	# if not main player:
+func update_main_player_movement() -> void:
+	if not in_forced_move_state():
+		apply_movement(Input.get_vector(&"left", &"right", &"up", &"down", DEAD_ZONE))
 
+
+func update_ally_movement() -> void:
 	# while in action, stay idle
 	if in_action():
-		move_state_timer = max(0.5, action_cooldown)
+		move_state_timer = maxf(0.5, action_cooldown)
 		apply_movement(Vector2.ZERO)
 		return
 
@@ -241,7 +235,7 @@ func _on_move_state_timeout() -> void:
 	var target_direction: Vector2 = Vector2.ZERO
 
 	# if in combat and close to main player
-	if Combat.in_combat() and ally_distance < 300.0:
+	if Combat.in_combat() and ally_distance < ALLY_MAX_DIST:
 		# if in action range
 		if in_action_range:
 			# attempt action on action ready
@@ -253,7 +247,7 @@ func _on_move_state_timeout() -> void:
 
 			# stay idle
 			apply_movement(Vector2.ZERO)
-			move_state_timer = max(0.5, action_cooldown)
+			move_state_timer = maxf(0.5, action_cooldown)
 			return
 
 		# if not in action range, navigate to the nearest candidate by quality
@@ -268,12 +262,12 @@ func _on_move_state_timeout() -> void:
 		$NavigationAgent2D.target_position = action_target.position
 		# TODO: errors on scene changes (also on $ObstacleCheck.force_shapecast_update() below)
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.2, 0.4) / stats.move_speed * stats.DEFAULT_MOVE_SPEED
+		move_state_timer = randf_range(0.2, 0.4) / stats.move_speed * stats.MOVE_SPEED_BASE
 
 	# elif large ally distance, teleport to main player
-	elif ally_distance > 300.0:
+	elif ally_distance > ALLY_MAX_DIST:
 		ally_teleport()
-		_on_move_state_timeout()
+		update_ally_movement()
 		return
 
 	# elif not in idle, enter idle
@@ -290,12 +284,12 @@ func _on_move_state_timeout() -> void:
 	elif ally_distance > 75.0:
 		$NavigationAgent2D.target_position = Players.main_player.position
 		target_direction = to_local($NavigationAgent2D.get_next_path_position())
-		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.DEFAULT_MOVE_SPEED
+		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.MOVE_SPEED_BASE
 
 	# else move randomly (not in combat, and ally distance is less than 75.0)
 	else:
 		target_direction = Vector2.RIGHT.rotated(randf() * TAU)
-		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.DEFAULT_MOVE_SPEED
+		move_state_timer = randf_range(0.5, 0.7) / stats.move_speed * stats.MOVE_SPEED_BASE
 
 	# sprint with main player with conditions
 	if (
@@ -337,6 +331,7 @@ func _on_move_state_timeout() -> void:
 
 	apply_movement(target_direction)
 
+
 # TODO: need to limit teleportation locations using collisions
 func ally_teleport(next_position: Vector2 = Players.main_player.position) -> void:
 	if is_main_player: return
@@ -346,9 +341,7 @@ func ally_teleport(next_position: Vector2 = Players.main_player.position) -> voi
 
 func attempt_dash() -> void:
 	# check dash conditions
-	if stats.fatigue or stats.stamina < stats.dash_min_stamina:
-		return
-	if not move_state in [MoveState.WALK, MoveState.SPRINT]:
+	if not (stats.can_dash() and move_state in [MoveState.WALK, MoveState.SPRINT]):
 		return
 
 	# update dash timer and stamina
@@ -534,7 +527,7 @@ func set_variables(next_stats: PlayerStats, next_party_index: int) -> void:
 	# update stats
 	stats = next_stats
 	stats.base = self
-	stats.set_stats()
+	stats.reset_stats()
 
 	# update animation
 	$Animation.sprite_frames = stats.CHARACTER_ANIMATION

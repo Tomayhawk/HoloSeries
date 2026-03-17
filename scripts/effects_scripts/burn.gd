@@ -26,6 +26,7 @@ var burn_count: int = 8
 #region INITIAL
 
 func _init() -> void:
+	effect_name = "Burn"
 	effect_type = Entities.Status.BURN
 	effect_timer = burn_interval
 

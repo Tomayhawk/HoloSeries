@@ -30,6 +30,7 @@ var max_rand: float = 1.05
 #region INITIAL
 
 func _init() -> void:
+	effect_name = "Poison"
 	effect_type = Entities.Status.POISON
 	effect_timer = poison_interval
 

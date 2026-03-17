@@ -35,8 +35,8 @@ const INTELLIGENCE_CEILING: float = 999.0
 const SPEED_CEILING: float = 255.0
 const AGILITY_CEILING: float = 255.0
 
-const WEIGHT_CEILING: float = 100.0
-const VISION_CEILING: float = 100.0
+const WEIGHT_CEILING: float = 10.0
+const VISION_CEILING: float = 10.0
 
 #endregion
 
@@ -138,7 +138,7 @@ func update_health(value: float) -> void:
 		return
 
 	# update health
-	health = clamp(health + value, 0.0, max_health)
+	health = clampf(health + value, 0.0, max_health)
 
 	# add invincibility if damage dealt
 	if value < 0.0:
@@ -152,19 +152,19 @@ func update_health(value: float) -> void:
 func update_mana(value: float) -> void:
 	if not alive:
 		return
-	mana = clamp(mana + value, 0.0, max_mana)
+	mana = clampf(mana + value, 0.0, max_mana)
 
 
 func update_stamina(value: float) -> void:
 	if not alive:
 		return
-	stamina = clamp(stamina + value, 0.0, max_stamina)
+	stamina = clampf(stamina + value, 0.0, max_stamina)
 
 
 func update_shield(value: float) -> void:
 	if not alive:
 		return
-	shield = clamp(shield + value, 0.0, max_shield)
+	shield = clampf(shield + value, 0.0, max_shield)
 
 #endregion
 

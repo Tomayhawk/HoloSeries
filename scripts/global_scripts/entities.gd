@@ -37,21 +37,22 @@ enum Status {
 	CHARM = 1 << 3,
 	CONFUSE = 1 << 4,
 	COUNTER = 1 << 5,
-	DOOM = 1 << 6,
-	DOT = 1 << 7,
-	FROZEN = 1 << 8,
-	INVINCIBLE = 1 << 9,
-	INVISIBLE = 1 << 10,
-	PETRIFICATION = 1 << 11,
-	POISON = 1 << 12, # deals damage periodically & cannot kill (leaves 1 HP)
-	REFLECT = 1 << 13,
-	REGEN = 1 << 14, # heals target periodically
-	SECOND_CHANCE = 1 << 15,
-	SILENCE = 1 << 16,
-	SLEEP = 1 << 17,
-	STATS = 1 << 18,
-	STUN = 1 << 19,
-	TAUNT = 1 << 20,
+	CUSTOM = 1 << 6,
+	DOOM = 1 << 7,
+	DOT = 1 << 8,
+	FROZEN = 1 << 9,
+	INVINCIBLE = 1 << 10,
+	INVISIBLE = 1 << 11,
+	PETRIFICATION = 1 << 12,
+	POISON = 1 << 13, # deals damage periodically & cannot kill (leaves 1 HP)
+	REFLECT = 1 << 14,
+	REGEN = 1 << 15, # heals target periodically
+	SECOND_CHANCE = 1 << 16,
+	SILENCE = 1 << 17,
+	SLEEP = 1 << 18,
+	STATS = 1 << 19,
+	STUN = 1 << 20,
+	TAUNT = 1 << 21,
 }
 
 const GROUP_NAME: Dictionary[Type, StringName] = {
@@ -75,8 +76,10 @@ const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.CHARM: preload("res://scripts/effects_scripts/charm.gd"),
 	Status.CONFUSE: preload("res://scripts/effects_scripts/confuse.gd"),
 	Status.COUNTER: preload("res://scripts/effects_scripts/counter.gd"),
+	Status.CUSTOM: preload("res://scripts/effects_scripts/custom_effect.gd"),
 	Status.DOOM: preload("res://scripts/effects_scripts/doom.gd"),
 	Status.DOT: preload("res://scripts/effects_scripts/dot.gd"),
+	Status.FROZEN: preload("res://scripts/effects_scripts/frozen.gd"),
 	Status.INVINCIBLE: preload("res://scripts/effects_scripts/invincible.gd"),
 	Status.INVISIBLE: preload("res://scripts/effects_scripts/invisible.gd"),
 	Status.PETRIFICATION: preload("res://scripts/effects_scripts/petrification.gd"),

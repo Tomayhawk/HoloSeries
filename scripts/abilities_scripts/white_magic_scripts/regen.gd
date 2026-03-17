@@ -60,7 +60,7 @@ func entity_chosen(target_entity: EntityBase) -> void:
 		effect.origin_stats = caster_base.stats
 		effect.damage_types = DAMAGE_TYPES
 		effect.regen_interval = 4.0
-		effect.regen_amount = clamp(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0)
+		effect.regen_amount = clampf(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0)
 		effect.regen_count = REGEN_COUNT
 		effect.min_rand = 0.8
 		effect.max_rand = 1.2

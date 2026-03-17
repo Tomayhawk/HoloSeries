@@ -272,7 +272,7 @@ static func load_inventories(data: Dictionary) -> void:
 	Inventory.keys_inventory.assign(data["keys_inventory"])
 
 	# update combat inventory ui
-	Combat.ui.update_inventory_ui()
+	Combat.ui.init_combat_inventory()
 
 
 static func load_nexus_variables(data: Dictionary) -> void:

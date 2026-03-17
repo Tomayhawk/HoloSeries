@@ -8,6 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
+	effect_name = "Doom"
 	effect_type = Entities.Status.DOOM
 	effect_timer = 30.0
 

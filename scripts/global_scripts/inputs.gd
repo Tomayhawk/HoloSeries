@@ -12,7 +12,7 @@ var world_inputs_enabled: bool = false
 var action_inputs_enabled: bool = false
 var zoom_inputs_enabled: bool = false
 
-var sprint_toggle: bool = true
+var sprint_on_release: bool = true
 
 #endregion
 

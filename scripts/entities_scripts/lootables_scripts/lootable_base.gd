@@ -6,7 +6,7 @@ extends Area2D
 
 #region VARIABLES
 
-var item_type: int = -1
+var item_type: Inventory.ItemTypes = Inventory.ItemTypes.CONSUMABLES
 var item_id: int = -1
 
 var nearby_players: Array[PlayerBase] = []
@@ -31,7 +31,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	global_position += (target_player.global_position - global_position).normalized() * multiplier
-	multiplier = clamp(multiplier + increment, 1.0, 10.0)
+	multiplier = minf(multiplier + increment, 10.0)
 
 #endregion
 
@@ -39,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 
 #region FUNCTIONS
 
-func instantiate_item(base_position: Vector2, texture_path: StringName, type: int, id: int) -> void:
+func instantiate_item(base_position: Vector2, texture_path: StringName, type: Inventory.ItemTypes, id: int) -> void:
 	global_position = base_position + Vector2(15 * randf_range(-1.0, 1.0), 15 * randf_range(-1.0, 1.0))
 	Entities.lootables_node.add_child(self)
 	$Sprite2D.texture = load(texture_path)

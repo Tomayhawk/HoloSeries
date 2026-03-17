@@ -29,6 +29,7 @@ var max_rand: float = 1.05
 #region INITIAL
 
 func _init() -> void:
+	effect_name = "Regen"
 	effect_type = Entities.Status.REGEN
 	effect_timer = regen_interval
 

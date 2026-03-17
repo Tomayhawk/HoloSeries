@@ -1,5 +1,7 @@
 extends Node
 
+# TODO: should add toggle setting for release dash
+
 # SETTINGS (AUTOLOAD #2)
 
 # Directory
@@ -26,7 +28,7 @@ const DEFAULT_SETTINGS: Dictionary[String, Dictionary] = {
 		"last_save": "",
 	},
 	"input": {
-		"sprint_toggle": false,
+		"sprint_on_release": false,
 	},
 }
 
@@ -73,8 +75,8 @@ func _init() -> void:
 
 func _ready() -> void:
 	# set input settings
-	Inputs.sprint_toggle = settings.get_value(
-			"input", "sprint_toggle", DEFAULT_SETTINGS["input"]["sprint_toggle"])
+	Inputs.sprint_on_release = settings.get_value(
+			"input", "sprint_on_release", DEFAULT_SETTINGS["input"]["sprint_on_release"])
 
 #endregion
 

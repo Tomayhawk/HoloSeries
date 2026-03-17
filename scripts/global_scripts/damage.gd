@@ -57,9 +57,9 @@ func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_
 
 	# clamp
 	if types & DamageTypes.BREAK_LIMIT:
-		damage = clamp(damage, -99999.0, 99999.0)
+		damage = clampf(damage, -99999.0, 99999.0)
 	else:
-		damage = clamp(damage, -9999.0, 9999.0)
+		damage = clampf(damage, -9999.0, 9999.0)
 
 	# attempt miss
 	# TODO: handle invincibility
