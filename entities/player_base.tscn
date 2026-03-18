@@ -42,6 +42,7 @@ visible = false
 shape = SubResource("RectangleShape2D_n3b4m")
 
 [node name="CombatHitBox" type="Area2D" parent="." unique_id=1468779264]
+visible = false
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox" unique_id=1389123551]
@@ -65,6 +66,7 @@ collision_mask = 64
 shape = SubResource("CircleShape2D_lt4ow")
 
 [node name="ActionArea" type="Area2D" parent="." unique_id=787257025]
+visible = false
 collision_layer = 0
 collision_mask = 2
 

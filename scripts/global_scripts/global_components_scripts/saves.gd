@@ -295,12 +295,16 @@ static func load_players(data: Dictionary) -> void:
 
 		# add character to party or standby accordingly
 		var party_index: int = data["party"].find(character_index)
-		var is_main_player: bool = character_index == data["main_player"]
 
-		if party_index == -1:
-			Players.add_standby_character(stats)
+		if party_index != -1:
+			Players.add_party_player(stats, party_index)
+
+			if character_index == data["main_player"]:
+				Players.main_player = Players.party_bases[party_index]
+				Players.main_player.is_main_player = true
+				Players.camera.update_camera(Players.main_player)
 		else:
-			Players.add_party_player(stats, party_index, is_main_player)
+			Players.add_standby_character(stats)
 
 		character_index += 1
 

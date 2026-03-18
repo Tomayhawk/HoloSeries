@@ -40,12 +40,15 @@ const ANIMATION_DICT: Dictionary[Type, Dictionary] = {
 	}
 }
 
+const DASH_ANIMATION_MULTIPLIER: float = 2.0
+
 #endregion
 
 # ..............................................................................
 
 #region VARIABLES
 
+var animation_type: Type = Type.IDLE
 var animation_direction: Direction = Direction.DOWN
 
 @onready var base: PlayerBase = get_parent()
@@ -57,68 +60,63 @@ var animation_direction: Direction = Direction.DOWN
 #region FUNCTIONS
 
 func update_animation() -> void:
-	if not base.stats.alive or (base.in_forced_move_state() and not base.in_action()):
+	if not base.stats.alive:
 		return
 
-	var next_animation: StringName = animation
-	var animation_speed: float = 1.0
+	var last_animation_type: Type = animation_type
+	set_animation_type()
 
-	# determine next animation based on action and move states
+	# GUARD: from action to action -> no animation change
+	if animation_type == last_animation_type and base.in_action():
+		return
+
+	set_animation_direction()
+	set_animation_speed()
+
+	play(ANIMATION_DICT[animation_type][animation_direction])
+
+
+func set_animation_type() -> void:
+	animation_type = Type.IDLE
+
 	if base.in_action():
-		# melee
 		if base.action_type == base.ActionType.MELEE:
-			next_animation = [
-				&"right_attack",
-				&"down_attack",
-				&"left_attack",
-				&"up_attack",
-			][(roundi(base.action_direction.angle() / (PI / 2)) + 4) % 4]
-	elif base.move_state == base.MoveState.IDLE:
-		# idle
-		next_animation = [
-			&"up_idle",
-			&"down_idle",
-			&"left_idle",
-			&"right_idle"
-		][base.move_direction if base.move_direction < 4 else base.move_direction % 2 + 2]
+			animation_type = Type.MELEE
+	elif base.in_motion():
+		animation_type = Type.WALK
+
+
+func set_animation_direction() -> void:
+	var target_direction: Vector2
+
+	if base.action_direction == Vector2.ZERO:
+		target_direction = base.velocity
 	else:
-		# move
-		next_animation = [
-			&"up_walk",
-			&"down_walk",
-			&"left_walk",
-			&"right_walk"
-		][base.move_direction if base.move_direction < 4 else base.move_direction % 2 + 2]
+		target_direction = base.action_direction
 
-		# update animation speed based on movement speed
-		animation_speed = base.stats.move_speed / 70.0
-		if base.move_state == base.MoveState.DASH:
-			animation_speed *= 2.0
-		elif base.move_state == base.MoveState.SPRINT:
-			animation_speed *= base.stats.sprint_multiplier
-
-	# play animation if changed
-	if next_animation != animation:
-		play(next_animation)
-		frame_changed.emit()
-		animation_finished.emit()
-
-	# update animation speed
-	speed_scale = animation_speed
-
-
-# TODO: not implemented yet
-func set_animation_direction(temp_direction: Vector2 = Vector2.ZERO) -> void:
-	if temp_direction == Vector2.ZERO:
+	if target_direction == Vector2.ZERO:
 		return
 
-	var temp_x: float = temp_direction.x
-	var temp_y: float = temp_direction.y
+	var temp_x: float = target_direction.x
+	var temp_y: float = target_direction.y
 
 	if absf(temp_y) > absf(temp_x):
 		animation_direction = Direction.DOWN if temp_y > 0 else Direction.UP
 	else:
 		animation_direction = Direction.RIGHT if temp_x > 0 else Direction.LEFT
+
+
+func set_animation_speed() -> void:
+	if animation_type != Type.WALK:
+		speed_scale = 1.0
+		return
+
+	speed_scale = base.stats.move_speed / base.stats.MOVE_SPEED_BASE
+
+	if base.move_state == base.MoveState.DASH:
+		speed_scale *= DASH_ANIMATION_MULTIPLIER
+	elif base.move_state == base.MoveState.SPRINT:
+		speed_scale *= base.stats.sprint_multiplier
 
 #endregion
 

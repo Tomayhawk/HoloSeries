@@ -67,7 +67,7 @@ func entity_chosen(target_entity: EntityBase) -> void:
 
 
 func projectile_collision(move_direction) -> void:
-	await Players.camera.screen_shake(5, 1, 20, 20.0)
+	Players.camera.screen_shake(5, 1, 20, 20.0)
 	var target_enemy_bases: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_base in target_enemy_bases:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):

@@ -390,7 +390,8 @@ func reset_base_stats() -> void:
 	base_crit_chance = self.CHARACTER_CRIT_CHANCE # 5% crit chance
 	base_crit_damage = self.CHARACTER_CRIT_DAMAGE # 50% crit damage
 
-	# set base weight, vision
+	# set base force, weight, vision
+	base_force = 1.0
 	base_weight = 1.0
 	base_vision = 1.0
 
@@ -415,6 +416,7 @@ func reset_current_stats() -> void:
 	crit_chance = base_crit_chance
 	crit_damage = base_crit_damage
 
+	force = base_force
 	weight = base_weight
 	vision = base_vision
 

@@ -16,12 +16,12 @@ var players_in_attack_area: Array[Node] = []
 
 #region KNOCKBACK & DEATH
 
-func knockback(direction: Vector2, weight: float = 1.0) -> void:
+func knockback(direction: Vector2, force: float = 1.0) -> void:
 	if in_forced_move_state(): return
 
 	move_state = MoveState.KNOCKBACK
 
-	move_state_velocity = direction * (200.0 if not stats.alive else weight * 160.0) # TODO: should use weight stats
+	move_state_velocity = direction * (200.0 if not stats.alive else force * 160.0) # TODO: should use weight stats
 	if stats.alive: $Animation.speed_scale = 0.3 # TODO
 	velocity = move_state_velocity
 

@@ -35,6 +35,7 @@ const INTELLIGENCE_CEILING: float = 999.0
 const SPEED_CEILING: float = 255.0
 const AGILITY_CEILING: float = 255.0
 
+const FORCE_CEILING: float = 10.0
 const WEIGHT_CEILING: float = 10.0
 const VISION_CEILING: float = 10.0
 
@@ -119,10 +120,12 @@ var base_agility: float = DEFAULT_AGILITY
 var base_crit_chance: float = DEFAULT_CRIT_CHANCE
 var base_crit_damage: float = DEFAULT_CRIT_DAMAGE
 
-# weight, vision
+# force, weight, vision
+var force: float = 1.0
 var weight: float = 1.0
 var vision: float = 1.0
 
+var base_force: float = 1.0
 var base_weight: float = 1.0
 var base_vision: float = 1.0
 

@@ -148,13 +148,12 @@ func add_standby_character(character: PlayerStats) -> void:
 #region UPDATE UI
 
 func update_party_ui(party_index: int, character: PlayerStats) -> void:
-	if not character:
-		name_labels[party_index].get_parent().modulate.a = 0.0
-		return
+	%CharacterInfosVBoxContainer.get_child(party_index).modulate.a = 1.0
 
 	name_labels[party_index].text = character.CHARACTER_NAME
 	health_labels[party_index].text = str(int(character.health))
 	mana_labels[party_index].text = str(int(character.mana))
+
 	ultimate_gauge_bars[party_index].value = character.ultimate_gauge
 	ultimate_gauge_bars[party_index].max_value = character.max_ultimate_gauge
 
@@ -168,10 +167,6 @@ func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
 	standby_level_labels[standby_index].text = str(character.level)
 	standby_health_labels[standby_index].text = str(int(character.health))
 	standby_mana_labels[standby_index].text = str(int(character.mana))
-
-
-func toggle_party_character_info(party_index: int, to_enabled: bool) -> void:
-	%CharacterInfosVBoxContainer.get_child(party_index).modulate.a = 1.0 if to_enabled else 0.0
 
 #endregion
 

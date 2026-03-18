@@ -80,14 +80,13 @@ var process_interval: float = 0.0
 # MOVEMENT
 var move_state: MoveState = MoveState.IDLE
 var move_state_timer: float = 0.5
-var move_direction: Directions = Directions.DOWN
 var move_state_velocity: Vector2 = Vector2.DOWN
 
 # ACTION
 var action_state: ActionState = ActionState.READY
 var action_type: ActionType = ActionType.NONE
 var action_node: Node = null
-var action_direction: Vector2 = Vector2.DOWN
+var action_direction: Vector2 = Vector2.ZERO
 var action_cooldown: float = 0.0
 var in_action_range: bool = false
 
@@ -151,14 +150,13 @@ func revive() -> void:
 func reset_movement(idle_time: float = 0.5) -> void:
 	move_state = MoveState.IDLE
 	move_state_timer = idle_time
-	move_direction = Directions.DOWN
 	move_state_velocity = Vector2.DOWN
 
 
 func reset_action() -> void:
 	action_state = ActionState.READY
 	action_cooldown = 0.0
-	action_direction = Vector2.DOWN
+	action_direction = Vector2.ZERO
 	in_action_range = false
 
 

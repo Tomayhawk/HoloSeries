@@ -83,6 +83,7 @@ func set_variables() -> void:
 	stats.base_crit_damage = 0.50
 
 	# Base Secondary Stats
+	stats.base_force = 1.0
 	stats.base_weight = 1.0
 	stats.base_vision = 1.0
 
@@ -104,6 +105,7 @@ func set_variables() -> void:
 	stats.crit_chance = stats.base_crit_chance
 	stats.crit_damage = stats.base_crit_damage
 
+	stats.force = stats.base_force
 	stats.weight = stats.base_weight
 	stats.vision = stats.base_vision
 

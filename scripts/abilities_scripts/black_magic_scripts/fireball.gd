@@ -80,7 +80,7 @@ func cast_fireball(target_entity: EntityBase) -> void:
 
 
 func projectile_collision(move_direction) -> void:
-	await Players.camera.screen_shake(5, 1, 10, 10.0)
+	Players.camera.screen_shake(5, 1, 10, 10.0)
 
 	for enemy_base in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
 		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):

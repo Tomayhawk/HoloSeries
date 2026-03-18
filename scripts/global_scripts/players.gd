@@ -89,16 +89,10 @@ func load_player_stats(character_index: int, data: Dictionary) -> PlayerStats:
 	return stats
 
 
-func add_party_player(stats: PlayerStats, party_index: int, is_main_player: bool = false) -> void:
+func add_party_player(stats: PlayerStats, party_index: int) -> void:
 	var player_base: Node = load(PLAYER_PATH).instantiate()
-	player_base.is_main_player = is_main_player
-	player_base.set_variables(stats, party_index)
+	player_base.initialize_player(stats, party_index)
 	add_child(player_base)
-
-	Combat.ui.toggle_party_character_info(party_index, true)
-
-	if is_main_player:
-		main_player = player_base
 
 
 func add_standby_character(stats: PlayerStats) -> void:

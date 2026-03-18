@@ -204,11 +204,11 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 	# start black screen
 	await Players.camera.toggle_black_screen(true)
 
-	# change scene
-	get_tree().change_scene_to_file.call_deferred(SCENE_PATHS[next_scene])
-
 	# reparent players to self
 	Players.reparent.call_deferred(self)
+
+	# change scene
+	get_tree().change_scene_to_file.call_deferred(SCENE_PATHS[next_scene])
 
 	# reposition party
 	warp_party(set_position if current_scene == Scenes.MAIN_MENU
@@ -228,7 +228,7 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 	await new_scene_ready
 
 	# reparent players to the new scene
-	Players.reparent.call_deferred(get_tree().current_scene)
+	Players.reparent(get_tree().current_scene)
 
 	# move Inputs to the bottom of the tree
 	get_tree().root.move_child(Inputs, -1)

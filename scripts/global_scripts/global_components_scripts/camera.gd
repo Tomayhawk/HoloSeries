@@ -4,14 +4,6 @@ extends Camera2D
 
 # ..............................................................................
 
-#region SIGNALS
-
-signal screen_shake_ended
-
-#endregion
-
-# ..............................................................................
-
 #region CONSTANTS
 
 const MIN_ZOOM: Vector2 = Vector2(0.8, 0.8)
@@ -31,7 +23,7 @@ var zoom_weight: float = 0.0
 # screen shake
 var shake_counter: int = 0
 var shake_interval: int = 0
-var shake_cooldown: int = 0
+var shake_tick: int = 0
 var shake_intensity: int = 0
 
 #endregion
@@ -68,12 +60,12 @@ func _process(delta: float) -> void:
 
 # process screen shake
 func _physics_process(_delta: float) -> void:
-	shake_cooldown += 1
+	shake_tick += 1
 
-	if shake_cooldown >= shake_interval:
+	if shake_tick >= shake_interval:
 		position = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_intensity
 		shake_counter -= 1
-		shake_cooldown = 0
+		shake_tick = 0
 
 		# end screen shake accordingly
 		if shake_counter <= 0:
@@ -177,16 +169,13 @@ func end_zoom() -> void:
 #region SCREEN SHAKE
 
 # initiate screen shake
-func screen_shake(counter: int, interval: int, intensity: int, camera_speed: float, pause: bool = true) -> void:
+func screen_shake(counter: int, interval: int, intensity: int, smoothing_speed: float) -> void:
 	shake_counter = counter
 	shake_interval = interval
-	shake_cooldown = 0
+	shake_tick = 0
 	shake_intensity = intensity
-	position_smoothing_speed = camera_speed
+	position_smoothing_speed = smoothing_speed
 	set_physics_process(true)
-	Entities.toggle_entities_process(not pause) # TODO: incomplete implementation
-
-	await screen_shake_ended
 
 
 # end screen shake
@@ -194,12 +183,9 @@ func end_screen_shake() -> void:
 	position = Vector2.ZERO
 	shake_counter = 0
 	shake_interval = 0
-	shake_cooldown = 0
 	shake_intensity = 0
 	position_smoothing_speed = 5.0
 	set_physics_process(false)
-	Entities.toggle_entities_process(true) # TODO: incomplete implementation
-	screen_shake_ended.emit()
 
 #endregion
 
