@@ -3,11 +3,11 @@
 [ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="1_43pca"]
 [ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://visuals/user_interfaces/combat_ui/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
 
-[node name="CharacterInfos1" type="Control" unique_id=649930407]
+[node name="CharacterInfos" type="Control" unique_id=649930407]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="CharacterName" type="Label" parent="." unique_id=1370495446]
+[node name="Name" type="Label" parent="." unique_id=1370495446]
 layout_mode = 0
 offset_left = 17.0
 offset_top = 6.0
@@ -29,7 +29,7 @@ theme_override_font_sizes/font_size = 10
 text = "HP"
 vertical_alignment = 1
 
-[node name="HealthAmount" type="Label" parent="." unique_id=855675804]
+[node name="Health" type="Label" parent="." unique_id=855675804]
 layout_mode = 0
 offset_left = 130.0
 offset_top = 6.0
@@ -53,7 +53,7 @@ theme_override_font_sizes/font_size = 10
 text = "MP"
 vertical_alignment = 1
 
-[node name="ManaAmount" type="Label" parent="." unique_id=922613316]
+[node name="Mana" type="Label" parent="." unique_id=922613316]
 layout_mode = 0
 offset_left = 182.0
 offset_top = 6.0

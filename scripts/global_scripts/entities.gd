@@ -122,8 +122,6 @@ var entities_requested_count: int = 0
 var entities_available: Array[EntityBase] = []
 var entities_chosen: Array[EntityBase] = []
 
-@onready var lootables_node: Node = $Lootables
-
 #endregion
 
 # ..............................................................................
@@ -167,12 +165,6 @@ func type_entities_array(entities_array: Array) -> Array[EntityBase]:
 
 # return all enemies in the current scene enemies node
 func all_enemies() -> Array[EntityBase]:
-	if not get_tree().current_scene:
-		return []
-
-	if not get_tree().current_scene.get_node_or_null(^"Enemies"):
-		return []
-
 	return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children())
 
 #endregion
@@ -181,7 +173,7 @@ func all_enemies() -> Array[EntityBase]:
 
 #region ENTITIES REQUESTS
 
-func request_entities(request_types: int, request_count: int = 1) -> void:
+func request_entities(request_types: int, auto_request: Callable, request_count: int = 1) -> void:
 	# append available entities
 	for type in GROUP_NAME:
 		# ignore irrelevant types
@@ -216,12 +208,17 @@ func request_entities(request_types: int, request_count: int = 1) -> void:
 	requesting_entities = true
 	entities_requested_count = request_count
 
+	# handle auto requests
+	if Inputs.alt_pressed:
+		auto_request.call()
+		return
+
 	# highlight available entities
 	for entity_base in entities_available:
 		if entity_base is PlayerBase:
 			entity_base.add_child(PLAYER_HIGHLIGHT.instantiate())
 		else:
-			entity_base.add_child(ENEMY_HIGHLIGHT.instantiate()) # TODO: indicators should scale in size
+			entity_base.add_child(ENEMY_HIGHLIGHT.instantiate())
 
 
 func choose_entity(entity_base: EntityBase) -> void:
@@ -270,7 +267,7 @@ func clear_scene_entities() -> void:
 		entity_base.queue_free()
 
 	# free all lootables
-	for lootable in lootables_node.get_children():
+	for lootable in $Lootables.get_children():
 		lootable.queue_free()
 
 
@@ -299,21 +296,6 @@ func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position
 
 	# return enemy instance
 	return enemy_instance
-
-
-# toggle players and enemies process
-func toggle_entities_process(to_enabled: bool) -> void:
-	for entity_base in Players.get_children() + all_enemies():
-		entity_base.toggle_process(to_enabled)
-
-	$Abilities.set_physics_process(to_enabled)
-	lootables_node.set_physics_process(to_enabled)
-
-
-# toggle players process on text box dialogues
-func toggle_text_box(to_enabled: bool) -> void:
-	for player_base in Players.get_children():
-		player_base.toggle_text_box(to_enabled)
 
 #endregion
 

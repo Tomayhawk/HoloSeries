@@ -7,7 +7,6 @@ extends EntityBase
 
 # TODO: test and maybe add other knockback options (maybe also dash)
 # TODO: fix endless knockback
-# TODO: fix unexpected sora slash halts (check action states, move states, and animation updates)
 # TODO: fix nousagi stop attacking
 
 #var t = knockback_timer / 0.4
@@ -64,7 +63,6 @@ const EIGHT_WAY_INCREMENT: float = PI / 4.0
 
 #region VARIABLES
 
-# TODO: entity_types should help set groups
 var is_main_player: bool = false:
 	set(value):
 		is_main_player = value
@@ -186,25 +184,6 @@ func apply_movement(next_direction: Vector2) -> void:
 
 	# update animation
 	$Animation.update_animation()
-
-
-# TODO: need to test
-func toggle_text_box(to_enabled: bool) -> void:
-	if not stats.alive: return
-
-	set_process(to_enabled)
-	set_physics_process(to_enabled)
-
-	if to_enabled:
-		move_state_timer = 0.0
-		if is_main_player:
-			set_process_input(true)
-		else:
-			_on_move_state_timeout()
-	else:
-		apply_movement(Vector2.ZERO)
-		if is_main_player:
-			set_process_input(false)
 
 #endregion
 
@@ -620,12 +599,12 @@ func switch_to_ally() -> void:
 func switch_character(next_stats: PlayerStats) -> void:
 	stats.base = null
 	stats.last_action_cooldown = action_cooldown
+	stats.reset_display_stats()
 
 	stats = next_stats
 
 	next_stats.base = self
-	next_stats.set_base_variables()
-	next_stats.update_display_values()
+	next_stats.reset_display_stats()
 
 	$Animation.sprite_frames = next_stats.CHARACTER_ANIMATION
 	if is_main_player:
@@ -668,11 +647,11 @@ func death() -> void:
 
 	# handle main player death
 	if is_main_player:
-		var alive_party_players = Players.get_children().filter(func(node: Node) -> bool: return node.stats.alive)
+		var alive_party_players = Global.get_tree().get_nodes_in_group(&"players_alive")
 		if not alive_party_players.is_empty():
 			Players.switch_main_player(alive_party_players[0])
 		else:
-			print("[LOG] [player_base.gd] GAME OVER") # TODO
+			print("[LOG] [player_base.gd] GAME OVER")
 
 	# play death animation
 	var animation_node: AnimatedSprite2D = $Animation
@@ -687,6 +666,7 @@ func death() -> void:
 
 	stats.entity_types &= ~Entities.Type.PLAYERS_ALIVE
 	stats.entity_types |= Entities.Type.PLAYERS_DEAD
+
 
 func revive() -> void:
 	# resume process

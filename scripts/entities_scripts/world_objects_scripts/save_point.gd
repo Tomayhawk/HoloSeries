@@ -9,8 +9,9 @@ extends AnimatedSprite2D
 func can_interact() -> bool:
 	return Combat.not_in_combat()
 
+
 func interact() -> void:
-	pass # TODO: Display Save UI
+	Global.global_ui(Global.Ui.NONE, Global.Ui.SAVE_POINT)
 
 #endregion
 

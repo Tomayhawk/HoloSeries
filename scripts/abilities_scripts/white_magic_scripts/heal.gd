@@ -35,17 +35,19 @@ var heal_percentage: float = 0.05
 func _ready() -> void:
 	# request target entity
 	Entities.entity_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities(Entities.Type.PLAYERS_ALIVE)
-
-	# if alt is pressed, target player with lowest health
-	if Inputs.alt_pressed:
-		Entities.choose_entity(Entities.target_entity_by_stats(Entities.entities_available, &"health", false))
+	Entities.request_entities(Entities.Type.PLAYERS_ALIVE, auto_request)
 
 #endregion
 
 # ..............................................................................
 
 #region FUNCTIONS
+
+# target player with lowest health
+func auto_request() -> void:
+	Entities.choose_entity(Entities.target_entity_by_stats(
+			Entities.entities_available, &"health", false))
+
 
 func entity_chosen(target_entity: EntityBase) -> void:
 	# TODO: should add a variable for "player can cast spells"

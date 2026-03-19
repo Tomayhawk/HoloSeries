@@ -23,9 +23,8 @@ func _ready() -> void:
 	current_index = Players.main_player.party_index
 
 	# get party player stats
-	for player_base in Players.party_bases:
-		if is_instance_valid(player_base):
-			character_stats.append(player_base.stats)
+	for player_base in Players.get_children():
+		character_stats.append(player_base.stats)
 
 	# get standby character stats
 	character_stats.append_array(Players.standby_characters)

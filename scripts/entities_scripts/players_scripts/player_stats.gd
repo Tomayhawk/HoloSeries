@@ -154,6 +154,15 @@ var accessory_3: Accessory = null
 
 # ..............................................................................
 
+#region INITIAL
+
+func _init() -> void:
+	entity_types |= Entities.Type.PLAYERS | Entities.Type.PLAYERS_ALIVE
+
+#endregion
+
+# ..............................................................................
+
 #region PROCESS
 
 func stats_process(process_interval: float) -> void:
@@ -181,13 +190,16 @@ func stats_process(process_interval: float) -> void:
 
 func update_health(value: float) -> void:
 	super (value)
-
-	# in party -> update health bar & label
-	if base:
-		update_health_display()
+	update_health_display()
 
 
 func update_health_display() -> void:
+	# update combat ui label
+	health_label.text = str(int(health))
+
+	if not base:
+		return
+
 	# update health bar
 	var bar_percentage: float = health / max_health
 	health_bar.value = health
@@ -198,8 +210,7 @@ func update_health_display() -> void:
 			else Color(1, 0, 0, 1)
 	)
 
-	# update combat ui label
-	health_label.text = str(int(health))
+
 
 #endregion
 
@@ -209,19 +220,19 @@ func update_health_display() -> void:
 
 func update_mana(value: float) -> void:
 	super (value)
-
-	# in party -> update mana bar & label
-	if base:
-		update_mana_display()
+	update_mana_display()
 
 
 func update_mana_display() -> void:
+	# update combat ui label
+	mana_label.text = str(int(mana))
+
+	if not base:
+		return
+
 	# update mana bar
 	mana_bar.value = mana
 	mana_bar.visible = mana < max_mana
-
-	# update combat ui label
-	mana_label.text = str(int(mana))
 
 #endregion
 
@@ -364,7 +375,7 @@ func reset_stats() -> void:
 	reset_equipment_stats()
 	reset_action_stats()
 	reset_effect_stats()
-	reset_base_variables()
+	reset_display_stats()
 
 
 # in party -> update base variables and nodes
@@ -463,8 +474,15 @@ func reset_effect_stats() -> void:
 		effect.set_effect_stats(self)
 
 
-func reset_base_variables() -> void:
-	if not is_instance_valid(base):
+func reset_display_stats() -> void:
+	# handle standby character
+	if not base:
+		var standby_index: int = Players.standby_characters.find(self)
+		var standby_button: Control = Combat.ui.get_node(
+				^"%CharacterSelectorVBoxContainer").get_child(standby_index)
+		health_label = standby_button.get_node(^"Health")
+		mana_label = standby_button.get_node(^"Mana")
+		Combat.ui.update_standby_ui(standby_index, self)
 		return
 
 	# stats bars
@@ -474,9 +492,12 @@ func reset_base_variables() -> void:
 	shield_bar = base.get_node(^"ShieldBar")
 
 	# combat ui nodes
-	health_label = Combat.ui.health_labels[base.party_index]
-	mana_label = Combat.ui.mana_labels[base.party_index]
-	ultimate_gauge_bar = Combat.ui.ultimate_gauge_bars[base.party_index]
+	var party_infos_node: Control = Combat.ui.get_node(
+				^"%CharacterInfosVBoxContainer").get_child(base.party_index)
+
+	health_label = party_infos_node.get_node(^"Health")
+	mana_label = party_infos_node.get_node(^"Mana")
+	ultimate_gauge_bar = party_infos_node.get_node(^"Ultimate")
 
 	# update display values
 	update_display_values()

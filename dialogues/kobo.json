@@ -1,11 +1,27 @@
 {
 	"default": {
 		"text": [
+			"September 21st"
+		],
+		"options": [
+			"Rickroll",
+			"Bye"
+		],
+		"branches": [
+			"rickroll",
+			"end_dialogue"
+		]
+	},
+	"rickroll": {
+		"text": [
 			"Never gonna give you up.",
 			"Never gonna let you down.",
 			"Never gonna run around and desert you!"
 		],
 		"action": "end_dialogue"
+	},
+	"end_dialogue": {
+		"text": [],
+		"action": "end_dialogue"
 	}
-
 }

@@ -184,7 +184,6 @@ static func get_default_save_name() -> String:
 
 		file_name = dir.get_next()
 
-	dir.list_dir_end()
 
 	# get an available save name between "Save 0" and "Save 99"
 	var save_name: String = ""
@@ -250,7 +249,9 @@ static func read_save_file(file_name: String) -> Dictionary:
 		return {}
 
 	# load save file as a dictionary
-	var data: Variant = bytes_to_var(FileAccess.get_file_as_bytes(file_path))
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	var data: Variant = file.get_var()
+	file.close()
 
 	# GUARD: file data isn't a dictionary -> notify user
 	if not data is Dictionary:
@@ -272,7 +273,7 @@ static func load_inventories(data: Dictionary) -> void:
 	Inventory.keys_inventory.assign(data["keys_inventory"])
 
 	# update combat inventory ui
-	Combat.ui.init_combat_inventory()
+	Combat.ui.initialize_combat_inventory()
 
 
 static func load_nexus_variables(data: Dictionary) -> void:
@@ -386,13 +387,13 @@ static func save_character(character_index: int, character_data: Dictionary) -> 
 
 static func get_character_stats(character_index: int) -> PlayerStats:
 	# check party first
-	for player_base in Players.party_bases:
-		if is_instance_valid(player_base):
+	for player_base in Players.get_children():
+		if player_base.stats.CHARACTER_INDEX == character_index:
 			return player_base.stats
 
 	# check standby
 	for stats in Players.standby_characters:
-		if stats.get_script() == load(Players.CHARACTER_PATHS[character_index]):
+		if stats.CHARACTER_INDEX == character_index:
 			return stats
 
 	return null
@@ -410,50 +411,6 @@ static func save_data_to_file(file_path: String, save_data: Dictionary) -> void:
 #region DEBUG
 
 # TODO: temporary functions
-
-static func migrate_json_to_dat() -> void:
-	var dir: DirAccess = DirAccess.open(SAVES_PATH)
-
-	if not dir:
-		return
-
-	dir.list_dir_begin()
-
-	var file_name: String = dir.get_next()
-	while file_name != "":
-		if file_name.ends_with(".json"):
-			json_to_dat(SAVES_PATH + file_name)
-		file_name = dir.get_next()
-
-	dir.list_dir_end()
-
-
-static func json_to_dat(json_path: String) -> void:
-	var file: FileAccess = FileAccess.open(json_path, FileAccess.READ)
-	var data: Variant = JSON.parse_string(file.get_as_text())
-	file.close()
-
-	if not data is Dictionary:
-		push_error(SAVE_ERROR_MESSAGE % json_path)
-		return
-	for character in data["characters"]:
-		# GUARD: character not unlocked -> continue to next character
-		if not character:
-			continue
-
-		var converted: Array[Vector2i] = []
-		for value in character["converted_nodes"]:
-			converted.append(Vector2i(int(value[0]), int(value[1])))
-		character["converted_nodes"] = converted
-	var temp_array: Array[int] = []
-	temp_array.assign(data["party"])
-	data["party"] = temp_array.duplicate()
-
-	var dat_path: String = json_path.replace(".json", ".dat")
-	save_data_to_file(dat_path, data)
-
-	print("[LOG] [saves.gd] Migrated %s -> %s" % [json_path.get_file(), dat_path.get_file()])
-
 
 static func dat_to_json(dat_path: String) -> void:
 	var file: FileAccess = FileAccess.open(dat_path, FileAccess.READ)

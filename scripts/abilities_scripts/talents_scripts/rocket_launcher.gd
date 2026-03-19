@@ -34,17 +34,19 @@ func _ready() -> void:
 
 	# request target entity
 	Entities.entity_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
-	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
-
-	# if alt is pressed, auto-aim closest enemy
-	if Inputs.alt_pressed:
-		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
+	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN, auto_request)
 
 #endregion
 
 # ..............................................................................
 
 #region FUNCTIONS
+
+# target enemy with shortest distance
+func auto_request() -> void:
+	Entities.choose_entity(Entities.target_entity_by_distance(
+			Entities.entities_available, caster_base.position, false))
+
 
 func entity_chosen(target_entity: EntityBase) -> void:
 	# check conditions

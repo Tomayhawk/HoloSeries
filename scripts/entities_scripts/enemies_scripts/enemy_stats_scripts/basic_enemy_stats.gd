@@ -3,6 +3,15 @@ extends EnemyStats
 
 # ..............................................................................
 
+#region INITIAL
+
+func _init() -> void:
+	entity_types |= Entities.Type.ENEMIES | Entities.Type.ENEMIES_BASIC
+
+#endregion
+
+# ..............................................................................
+
 #region FUNCTIONS
 
 func stats_process(process_interval: float) -> void:

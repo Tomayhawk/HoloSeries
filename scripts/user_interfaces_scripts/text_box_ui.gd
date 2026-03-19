@@ -2,7 +2,7 @@ extends CanvasLayer
 
 # TEXT BOX UI (GLOBAL UI)
 
-# TODO: use .tres instead of .JSON
+# TODO: use .tres instead of .JSON/.dat
 # TODO: should use saved states instead
 
 # ..............................................................................
@@ -100,7 +100,7 @@ func npc_dialogue(npc: AnimatedSprite2D, file_path: String) -> void:
 	dialogue = JSON.parse_string(json_string)
 
 	# toggle world states and show text box
-	toggle_world_states(false)
+	Global.pause_movement()
 	text_box.show()
 
 	# set dialogue key and texts
@@ -162,9 +162,9 @@ func continue_dialogue() -> void:
 
 func end_dialogue() -> void:
 	clear_text_box()
-	toggle_world_states(true)
 
 	Global.global_ui(Global.Ui.TEXT_BOX, Global.Ui.NONE)
+	Global.resume_movement()
 
 
 func request_response() -> void:
@@ -192,11 +192,6 @@ func initialize_npc_states() -> void:
 
 func set_npc_states(_key: String, _state: String) -> void:
 	pass
-
-
-func toggle_world_states(to_enabled: bool) -> void:
-	Entities.toggle_text_box(to_enabled)
-	Inputs.toggle_world_inputs(to_enabled)
 
 
 func clear_text_box() -> void:

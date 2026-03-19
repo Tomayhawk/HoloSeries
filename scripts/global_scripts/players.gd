@@ -24,26 +24,11 @@ const CHARACTER_PATHS: Array[String] = [
 
 #region VARIABLES
 
-# TODO: make better use of party_bases around Players.get_children()
 var main_player: PlayerBase = null
 var party_bases: Array[PlayerBase] = [null, null, null, null]
 var standby_characters: Array[PlayerStats] = []
 
 @onready var camera: Camera2D = $Camera
-
-#endregion
-
-# ..............................................................................
-
-#region UTILITIES
-
-# TODO: need to update states and variables
-func toggle_process(to_enabled: bool) -> void:
-	main_player.velocity = Vector2.ZERO
-	set_physics_process(to_enabled)
-
-	if to_enabled:
-		main_player.update_main_player_movement()
 
 #endregion
 
@@ -96,63 +81,27 @@ func add_party_player(stats: PlayerStats, party_index: int) -> void:
 
 
 func add_standby_character(stats: PlayerStats) -> void:
+	Combat.ui.add_standby_button()
 	standby_characters.append(stats)
 	stats.reset_stats()
-	Combat.ui.add_standby_character(stats)
 
 
-# TODO: very broken
 func recruit_character(stats: PlayerStats) -> void:
-	stats.level = 1
-	stats.base_health = stats.CHARACTER_HEALTH
-	stats.base_mana = stats.CHARACTER_MANA
-	stats.base_stamina = stats.CHARACTER_STAMINA
+	# GUARD: party is full || has standby characters -> add character to standby
+	if get_child_count() == MAX_PARTY_SIZE or not standby_characters.is_empty():
+		add_standby_character(stats)
+		return
 
-	stats.base_defense = stats.CHARACTER_DEFENSE
-	stats.base_ward = stats.CHARACTER_WARD
-	stats.base_strength = stats.CHARACTER_STRENGTH
-	stats.base_intelligence = stats.CHARACTER_INTELLIGENCE
-	stats.base_speed = stats.CHARACTER_SPEED
-	stats.base_agility = stats.CHARACTER_AGILITY
-	stats.base_crit_chance = stats.CHARACTER_CRIT_CHANCE
-	stats.base_crit_damage = stats.CHARACTER_CRIT_DAMAGE
+	# find valid party index
+	var party_index: int = 0
+	for index in MAX_PARTY_SIZE:
+		if not party_bases[index]:
+			party_index = index
+			break
 
-	stats.last_node = stats.CHARACTER_DEFAULT_UNLOCKED[1]
-	stats.unlocked_nodes = stats.CHARACTER_DEFAULT_UNLOCKED
-
-	if get_child_count() < MAX_PARTY_SIZE and standby_characters.is_empty():
-		var player_base: PlayerBase = load(PLAYER_PATH).instantiate()
-		add_child(player_base)
-		player_base.stats = stats
-		stats.base = player_base
-
-		for index in party_bases.size():
-			if not party_bases[index]:
-				player_base.party_index = index
-
-		player_base.position = main_player.position + (25 * Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)))
-
-		# TODO: make function for this
-		Combat.ui.name_labels[player_base.party_index].text = stats.CHARACTER_NAME
-		Combat.ui.health_labels[player_base.party_index].text = str(int(stats.health))
-		Combat.ui.mana_labels[player_base.party_index].text = str(int(stats.mana))
-		Combat.ui.get_node(^"%CharacterInfosVBoxContainer").get_children()[player_base.party_index].modulate.a = 1.0
-	else:
-		standby_characters.append(stats)
-
-		var standby_button: Button = load("res://user_interfaces/combat_ui_components/standby_button.tscn").instantiate()
-		Combat.ui.get_node(^"CharacterSelector/MarginContainer/ScrollContainer/CharacterSelectorVBoxContainer").add_child(standby_button)
-		standby_button.pressed.connect(switch_standby_character.bind(standby_button.get_index()))
-		standby_button.pressed.connect(Combat.ui.button_pressed)
-		standby_button.mouse_entered.connect(Combat.ui._on_control_mouse_entered)
-		standby_button.mouse_exited.connect(Combat.ui._on_control_mouse_exited)
-
-		Combat.ui.standby_name_labels.append(standby_button.get_node(^"Name"))
-		Combat.ui.standby_level_labels.append(standby_button.get_node(^"Level"))
-		Combat.ui.standby_health_labels.append(standby_button.get_node(^"HealthAmount"))
-		Combat.ui.standby_mana_labels.append(standby_button.get_node(^"ManaAmount"))
-
-	# TODO: nexus
+	# add character to party
+	add_party_player(stats, party_index)
+	Players.party_bases[party_index].ally_teleport()
 
 #endregion
 

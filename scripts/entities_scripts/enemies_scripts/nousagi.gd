@@ -121,7 +121,12 @@ func set_variables() -> void:
 #region ANIMATION
 
 func animation_end() -> void:
-	if in_forced_move_state(): return
+	if process_mode == PROCESS_MODE_DISABLED:
+		$Animation.play(&"idle")
+		return
+
+	if in_forced_move_state():
+		return
 
 	velocity = Vector2.ZERO
 	move_state = MoveState.IDLE

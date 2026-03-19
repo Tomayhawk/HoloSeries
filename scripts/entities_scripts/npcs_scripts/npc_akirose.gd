@@ -24,9 +24,11 @@ func initiate_dialogue() -> void:
 
 func recruit_character() -> void:
 	await Players.camera.toggle_black_screen(true)
+
 	Players.recruit_character(load(AKIROSE_PATH).new())
-	Players.camera.toggle_black_screen(false)
 	queue_free()
+
+	Players.camera.toggle_black_screen(false)
 
 #endregion
 

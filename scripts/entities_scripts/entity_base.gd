@@ -180,22 +180,6 @@ func in_action() -> bool:
 func in_forced_move_state() -> bool:
 	return move_state in [MoveState.KNOCKBACK, MoveState.STUN]
 
-
-func toggle_process(to_enabled: bool) -> void:
-	# ignore if not alive
-	if not stats.alive:
-		return
-
-	# toggle animation
-	if to_enabled:
-		$Animation.play()
-	else:
-		$Animation.pause()
-
-	# toggle processes
-	set_process(to_enabled)
-	set_physics_process(to_enabled)
-
 #endregion
 
 # ..............................................................................

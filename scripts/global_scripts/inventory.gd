@@ -21,8 +21,22 @@ enum LootablesKeys {
 	TEMP_SHIRAKAMI,
 }
 
+const CONSUMABLES_PATHS: Array[String] = [
+	"res://scripts/items_scripts/consumables_scripts/potion.gd",
+	"res://scripts/items_scripts/consumables_scripts/max_potion.gd",
+	"res://scripts/items_scripts/consumables_scripts/phoenix_burger.gd",
+	"res://scripts/items_scripts/consumables_scripts/reset_button.gd",
+	"res://scripts/items_scripts/consumables_scripts/temp_kill_item.gd",
+]
+
+const WEAPON_PATHS: Array[String] = []
+const ARMOR_PATHS: Array[String] = []
+const ACCESSORY_PATHS: Array[String] = []
+
 const LOOTABLES: Dictionary[LootablesKeys, Array] = {
-	LootablesKeys.TEMP_SHIRAKAMI: [&"res://visuals/temporary/temp_shirakami.png", ItemTypes.CONSUMABLES, 0],
+	LootablesKeys.TEMP_SHIRAKAMI: [
+		&"res://visuals/temporary/temp_shirakami.png", ItemTypes.CONSUMABLES, 0
+	],
 }
 
 #endregion
@@ -41,105 +55,63 @@ var manager_inventory: Array[int] = []
 var nexus_inventory: Array[int] = []
 var keys_inventory: Array[int] = []
 
-const CONSUMABLES: Array[Resource] = [
-	preload("res://scripts/items_scripts/consumables_scripts/potion.gd"),
-	preload("res://scripts/items_scripts/consumables_scripts/max_potion.gd"),
-	preload("res://scripts/items_scripts/consumables_scripts/phoenix_burger.gd"),
-	preload("res://scripts/items_scripts/consumables_scripts/reset_button.gd"),
-	preload("res://scripts/items_scripts/consumables_scripts/temp_kill_item.gd"),
-]
-var weapons: Array[Weapon] = []
-var armors: Array[Armor] = []
-var accessories: Array[Accessory] = []
-
 #endregion
 
 # ..............................................................................
 
 #region FUNCTIONS
 
-func add_item(item_type: ItemTypes, item_id: int, count: int = 1) -> void:
-	match item_type:
-		0: consumables_inventory[item_id] += count
-		1: materials_inventory[item_id] += count
-		2: weapons_inventory[item_id] += count
-		3: armors_inventory[item_id] += count
-		4: accessories_inventory[item_id] += count
-		5: manager_inventory[item_id] += count
-		6: nexus_inventory[item_id] += count
-		7: keys_inventory[item_id] += count
+func add_item(type: ItemTypes, id: int, count: int = 1) -> void:
+	match type:
+		ItemTypes.CONSUMABLES: consumables_inventory[id] += count
+		ItemTypes.MATERIALS: materials_inventory[id] += count
+		ItemTypes.WEAPONS: weapons_inventory[id] += count
+		ItemTypes.ARMORS: armors_inventory[id] += count
+		ItemTypes.ACCESSORIES: accessories_inventory[id] += count
+		ItemTypes.MANAGER: manager_inventory[id] += count
+		ItemTypes.NEXUS: nexus_inventory[id] += count
+		ItemTypes.KEY: keys_inventory[id] += count
 
-	if item_type == 0:
-		if consumables_inventory[item_id] == count:
-			Combat.ui.add_inventory_button(item_id)
-		elif consumables_inventory[item_id] == 0:
-			Combat.ui.remove_inventory_button(item_id)
+	# add combat inventory button for new consumables
+	if type == ItemTypes.CONSUMABLES and consumables_inventory[id] == count:
+		Combat.ui.add_inventory_button(id)
 
 
-func use_consumable(index: int, is_main_player: bool = true) -> void: # TODO
-	if is_main_player and Entities.requesting_entities:
-		return
+func use_consumable(id: int, target_entities: Array[EntityBase] = []) -> void:
+	var item: Resource = load(CONSUMABLES_PATHS[id])
+	var request_count: int = item.REQUEST_COUNT
+	var single_target: bool = request_count == 1
 
-	var item: Resource = CONSUMABLES[index]
-	var combat_ui_button_node: Button = Combat.ui.items_grid_container_node.get_node_or_null(item.ITEM_NAME)
-
-	if consumables_inventory[index] <= 0:
-		if combat_ui_button_node:
-			combat_ui_button_node.queue_free()
-		return
-
-	var request_count = item.REQUEST_COUNT
-
-	# TODO: bad code
 	if not request_count:
-		item.use_item()
-	elif request_count == 1:
-		var chosen_node: EntityBase = null
-
-		if is_main_player:
-			Entities.request_entities(item.REQUEST_TYPES, request_count)
-			chosen_node = await Entities.entity_request_ended
+		item.use_item(id)
+	# ally requests
+	elif request_count == target_entities.size():
+		if single_target:
+			item.use_item(target_entities[0], id)
 		else:
-			chosen_node = Entities.ally_request_entities()
-
-		if not chosen_node:
-			return
-
-		item.use_item(chosen_node)
-
+			item.use_item(target_entities, id)
+	# main player requests
 	else:
-		var chosen_nodes: Array[EntityBase] = []
-
-		if is_main_player:
-			Entities.request_entities(item.REQUEST_TYPES, request_count)
-			chosen_nodes = await Entities.entities_request_ended
+		if single_target:
+			Entities.entity_request_ended.connect(item.use_item.bind(id), CONNECT_ONE_SHOT)
 		else:
-			chosen_nodes = Entities.ally_request_entities()
+			Entities.entities_request_ended.connect(item.use_item.bind(id), CONNECT_ONE_SHOT)
 
-		if chosen_nodes.size() != request_count:
-			return
+		Entities.request_entities(item.REQUEST_TYPES, item.auto_request, request_count)
 
-		item.use_item(chosen_nodes)
 
-	consumables_inventory[index] -= 1
+func decrement_consumable(id: int) -> void:
+	var options_button: Button = \
+			Combat.ui.get_inventory_button(load(CONSUMABLES_PATHS[id]).ITEM_NAME)
 
-	if consumables_inventory[index] == 0:
-		if combat_ui_button_node:
-			combat_ui_button_node.queue_free()
+	consumables_inventory[id] -= 1
+
+	if consumables_inventory[id] <= 0:
+		if options_button:
+			options_button.queue_free()
 	else:
-		combat_ui_button_node.get_node(^"Number").text = str(consumables_inventory[index])
+		options_button.get_node(^"Number").text = str(consumables_inventory[id])
 
-
-func change_weapon(_character: Node, _index: int) -> void:
-	pass
-
-
-func change_armor(_character: Node, _index: int) -> void:
-	pass
-
-
-func change_accessories(_character: Node, _index: int) -> void:
-	pass
 
 #endregion
 

@@ -37,21 +37,22 @@ func _ready() -> void:
 	hide()
 
 	Entities.entity_request_ended.connect(initiate_play_dice, CONNECT_ONE_SHOT)
-
-	# request target entity
-	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN)
+	Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN, auto_request)
 
 	if Entities.entities_available.is_empty():
 		queue_free()
-	# if alt is pressed, auto-aim closest enemy
-	elif Inputs.alt_pressed:
-		Entities.choose_entity(Entities.target_entity_by_distance(Entities.entities_available, caster_base.position, false))
 
 #endregion
 
 # ..............................................................................
 
 #region FUNCTIONS
+
+# target enemy with shortest distance
+func auto_request() -> void:
+	Entities.choose_entity(Entities.target_entity_by_distance(
+		Entities.entities_available, caster_base.position, false))
+
 
 func initiate_play_dice(chosen_nodes: Array[EntityBase]) -> void:
 	var target_base: EntityBase = null

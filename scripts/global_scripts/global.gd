@@ -26,6 +26,7 @@ enum Ui {
 	MAIN_MENU,
 	SETTINGS,
 	TEXT_BOX,
+	SAVE_POINT,
 }
 
 enum UiKeys {
@@ -121,6 +122,10 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 		UiKeys.NAME: ^"TextBoxUi",
 		UiKeys.PATH: GLOBAL_UI_PATH % "text_box_ui",
 	},
+	Ui.SAVE_POINT: {
+		UiKeys.NAME: ^"SavePointUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "save_point_ui",
+	},
 }
 
 #endregion
@@ -172,6 +177,72 @@ var nexus_qualities: Array[int] = []
 
 # ..............................................................................
 
+#region INITIAL (TEMPORARY FILE CONVERSION)
+
+const DIALOGUES_PATH: String = "res://dialogues/"
+const SAVES_PATH: String = "user://saves/"
+
+func _init() -> void:
+	convert_directory(DIALOGUES_PATH)
+	convert_directory(SAVES_PATH)
+
+
+func convert_directory(dir_path: String) -> void:
+	var dir: DirAccess = DirAccess.open(dir_path)
+
+	dir.list_dir_begin()
+	var file_name: String = dir.get_next()
+
+	while file_name != "":
+		if file_name.get_extension() == "json":
+			json_to_dat(dir_path, file_name)
+		file_name = dir.get_next()
+
+
+func json_to_dat(file_path: String, file_name: String) -> void:
+	var json_path: String = file_path + file_name
+	var dat_path: String = file_path + file_name.get_basename() + ".dat"
+
+	# GUARD: .dat exists and is newer than .json -> skip
+	if FileAccess.file_exists(dat_path):
+		var json_time: int = FileAccess.get_modified_time(json_path)
+		var dat_time: int = FileAccess.get_modified_time(dat_path)
+		if dat_time >= json_time:
+			return
+
+	var json_file: FileAccess = FileAccess.open(json_path, FileAccess.READ)
+	var data: Dictionary = JSON.parse_string(json_file.get_as_text())
+	json_file.close()
+
+	if file_path == SAVES_PATH:
+		save_json_to_dat(data)
+
+	var dat_file: FileAccess = FileAccess.open(dat_path, FileAccess.WRITE)
+	dat_file.store_var(data)
+	dat_file.close()
+
+	print("[LOG] [saves.gd] Migrated %s -> %s" % [file_name, file_name.get_basename() + ".dat"])
+
+
+func save_json_to_dat(data: Dictionary) -> void:
+	for character in data["characters"]:
+		# GUARD: character not unlocked -> continue to next character
+		if not character:
+			continue
+
+		var converted: Array[Vector2i] = []
+		for value in character["converted_nodes"]:
+			converted.append(Vector2i(int(value[0]), int(value[1])))
+		character["converted_nodes"] = converted
+
+	var temp_array: Array[int] = []
+	temp_array.assign(data["party"])
+	data["party"] = temp_array
+
+#endregion
+
+# ..............................................................................
+
 #region GLOBAL UI
 
 func open_text_box(npc: AnimatedSprite2D, file_path: String) -> void:
@@ -197,9 +268,8 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 	var camera_limits: Array[int] = []
 	camera_limits.assign(SCENES_DICT[next_scene][ScenesKeys.CAMERA_LIMITS])
 
-	# disable world inputs and players
-	Inputs.toggle_world_inputs(false)
-	Players.toggle_process(false)
+	# pause world inputs and players
+	pause_movement()
 
 	# start black screen
 	await Players.camera.toggle_black_screen(true)
@@ -240,8 +310,7 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 	Players.camera.toggle_black_screen(false)
 
 	# enable players and world inputs
-	Players.toggle_process(true)
-	Inputs.toggle_world_inputs(true)
+	resume_movement()
 
 
 func warp_party(next_position: Vector2) -> void:
@@ -249,8 +318,8 @@ func warp_party(next_position: Vector2) -> void:
 	Players.main_player.position = next_position
 
 	# reposition ally players
-	for player_base in Players.party_bases:
-		if is_instance_valid(player_base) and not player_base.is_main_player:
+	for player_base in Players.get_children():
+		if not player_base.is_main_player:
 			player_base.ally_teleport(next_position)
 
 #endregion
@@ -307,6 +376,51 @@ func start_music(music: Music) -> void:
 	# turn up new music player
 	next_music_player.create_tween().tween_property(next_music_player, "volume_db",
 			music_volume, 4.0).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+
+#endregion
+
+# ..............................................................................
+
+#region PAUSE
+
+func pause_movement() -> void:
+	Inputs.toggle_world_inputs(false)
+
+	Players.process_mode = PROCESS_MODE_DISABLED
+
+	for player_base in Players.get_children():
+		if is_instance_valid(player_base) and player_base.stats.alive:
+			player_base.move_state_timer = maxf(0.5, player_base.move_state_timer)
+			player_base.apply_movement(Vector2.ZERO)
+			player_base.get_node(^"Animation").process_mode = PROCESS_MODE_ALWAYS
+
+	for enemy_base in Entities.all_enemies():
+		if is_instance_valid(enemy_base) and enemy_base.stats.alive:
+			toggle_enemy_process(enemy_base, false)
+
+
+func resume_movement() -> void:
+	Players.process_mode = PROCESS_MODE_INHERIT
+
+	for player_base in Players.get_children():
+		if is_instance_valid(player_base) and player_base.stats.alive:
+			player_base.get_node(^"Animation").process_mode = PROCESS_MODE_INHERIT
+
+	for enemy_base in Entities.all_enemies():
+		if is_instance_valid(enemy_base) and enemy_base.stats.alive:
+			toggle_enemy_process(enemy_base, true)
+
+	Inputs.toggle_world_inputs(true)
+
+	Players.main_player.update_main_player_movement()
+
+
+func toggle_enemy_process(enemy_base: EnemyBase, to_enabled: bool) -> void:
+	enemy_base.velocity = Vector2.ZERO
+	enemy_base.process_mode = \
+			PROCESS_MODE_INHERIT if to_enabled else PROCESS_MODE_DISABLED
+	enemy_base.get_node(^"Animation").process_mode = \
+			PROCESS_MODE_INHERIT if to_enabled else PROCESS_MODE_ALWAYS
 
 #endregion
 
