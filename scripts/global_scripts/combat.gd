@@ -21,8 +21,7 @@ enum CombatState {
 	LEAVING_COMBAT,
 }
 
-const ENEMY_MARKER: PackedScene = \
-		preload("res://entities/entities_indicators/enemy_marker.tscn")
+const ENEMY_MARKER_PATH: String = "res://entities/entities_indicators/enemy_marker.tscn"
 
 #endregion
 
@@ -102,7 +101,7 @@ func lock(enemy_base: EnemyBase) -> void:
 	if locked_enemy_base == enemy_base: return
 	unlock()
 	locked_enemy_base = enemy_base
-	var marker_node: Sprite2D = ENEMY_MARKER.instantiate()
+	var marker_node: Sprite2D = load(ENEMY_MARKER_PATH).instantiate()
 	enemy_base.add_child(marker_node)
 	marker_node.position = Vector2(0, -40) # should be dynamic
 

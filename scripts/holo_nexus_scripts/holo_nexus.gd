@@ -10,8 +10,8 @@ const DATA: RefCounted = preload("res://scripts/holo_nexus_scripts/nexus_data.gd
 
 const CAMERA_LIMITS: Array[int] = [-679, -592, 681, 592]
 
-const UNLOCKABLES_OUTLINE: Resource = \
-		preload("res://holo_nexus/nexus_components/nexus_unlockables_outline.tscn")
+const UNLOCKABLES_OUTLINE_PATH: String = \
+		"res://holo_nexus/nexus_components/nexus_unlockables_outline.tscn"
 
 #endregion
 
@@ -214,7 +214,7 @@ func add_adjacent_unlockables(index: int) -> void:
 			unlockable_nodes.append(adjacent)
 
 			# create unlockables outline for adjacent node
-			nexus_nodes[adjacent].add_child(UNLOCKABLES_OUTLINE.instantiate())
+			nexus_nodes[adjacent].add_child(load(UNLOCKABLES_OUTLINE_PATH).instantiate())
 
 			break
 

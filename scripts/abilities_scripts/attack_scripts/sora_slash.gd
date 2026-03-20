@@ -10,8 +10,7 @@ const OFFSET_POSITION: Vector2 = Vector2(0.0, -7.0)
 const ACTION_TYPE: PlayerBase.ActionType = PlayerBase.ActionType.MELEE
 
 const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_HIT | \
-		Damage.DamageTypes.COMBAT | \
+		Damage.DamageTypes.ENEMY_TARGET | \
 		Damage.DamageTypes.PHYSICAL
 
 const CAMERA_SHAKE: Array = [5, 1, 10, 10.0]
@@ -129,7 +128,7 @@ func action_collision() -> void:
 			continue
 
 		if Damage.combat_damage(damage, DAMAGE_TYPES, player_base.stats, enemy_base.stats):
-			enemy_base.knockback(player_base.action_direction, knockback_weight)
+			enemy_base.knockback(player_base.action_direction * 90.0 * knockback_weight, 0.5)
 
 
 # GUARD: animation changed during action -> disconnect from all animation signals

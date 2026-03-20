@@ -14,10 +14,10 @@ func _init() -> void:
 
 #region FUNCTIONS
 
-func stats_process(process_interval: float) -> void:
+func stats_process(stats_process_interval: float) -> void:
 	# decrease effects timers
 	for effect in effects.duplicate():
-		effect.effect_timer -= process_interval
+		effect.effect_timer -= stats_process_interval
 		if effect.effect_timer <= 0.0:
 			effect.effect_timeout(self)
 
@@ -28,12 +28,12 @@ func stats_process(process_interval: float) -> void:
 #region STATS UPDATES
 
 func update_health(value: float) -> void:
-	super (value)
+	super(value)
 	if base: base.update_health()
 
 
 func update_shield(value: float) -> void:
-	super (value)
+	super(value)
 	if base: base.update_shield()
 
 #endregion

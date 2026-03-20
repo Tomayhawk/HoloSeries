@@ -6,7 +6,7 @@ extends StaticBody2D
 
 #region VARIABLES
 
-@onready var npc_node: Node = get_parent()
+@onready var npc_node: AnimatedSprite2D = get_parent()
 
 #endregion
 

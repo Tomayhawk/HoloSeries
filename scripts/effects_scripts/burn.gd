@@ -8,7 +8,7 @@ extends Effect
 #region VARIABLES
 
 var damage_types: int = (
-		Damage.DamageTypes.PLAYER_HIT
+		Damage.DamageTypes.PLAYER_TARGET
 		| Damage.DamageTypes.PHYSICAL
 		| Damage.DamageTypes.NO_CRITICAL
 		| Damage.DamageTypes.NO_MISS

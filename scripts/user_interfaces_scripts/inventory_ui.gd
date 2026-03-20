@@ -29,7 +29,7 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-#region ADD BUTTONS
+#region FUNCTIONS
 
 func update_inventory(_inventory_index) -> void:
 	pass
@@ -38,6 +38,11 @@ func update_inventory(_inventory_index) -> void:
 func exit_ui() -> void:
 	Global.global_ui(Global.Ui.INVENTORY, Global.Ui.HOLO_DECK)
 
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
 
 func _on_inventory_type_button_pressed(_extra_arg_0) -> void:
 	pass

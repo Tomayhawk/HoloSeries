@@ -33,10 +33,10 @@ func _ready() -> void:
 #region PROCESS
 
 # TODO: need to fix death
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
-		velocity -= move_state_velocity * (delta / 0.4)
+		velocity = move_state_velocity * sin(move_state_timer / move_state_duration * PI * 0.5)
 	elif move_state == MoveState.IDLE:
 		if not in_action_range:
 			$Animation.play(&"walk")
@@ -68,7 +68,7 @@ func set_variables() -> void:
 	stats.entity_types = Entities.Type.ENEMIES
 
 	# Base Health, Mana and Stamina
-	stats.base_health = 2000000.0
+	stats.base_health = 9999.0
 	stats.base_mana = 10.0
 	stats.base_stamina = 150.0
 
@@ -80,7 +80,7 @@ func set_variables() -> void:
 	stats.base_speed = 0.0
 	stats.base_agility = 0.0
 	stats.base_crit_chance = 0.05
-	stats.base_crit_damage = 0.50
+	stats.base_crit_damage = 1.50
 
 	# Base Secondary Stats
 	stats.base_force = 1.0
@@ -125,11 +125,16 @@ func animation_end() -> void:
 		$Animation.play(&"idle")
 		return
 
-	if in_forced_move_state():
+	if not stats.alive:
+		for i in 3:
+			var item: Node = BASIC_LOOT_PRELOAD.instantiate()
+			item.instantiate_item.callv(DEATH_LOOT)
+		queue_free()
 		return
 
 	velocity = Vector2.ZERO
 	move_state = MoveState.IDLE
+	$Animation.speed_scale = 1.0
 
 	if in_action_range:
 		if in_action():
@@ -180,9 +185,9 @@ func _on_animation_frame_changed() -> void:
 			&"attack":
 				if action_target:
 					var temp_attack_direction = (action_target.position - position).normalized()
-					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_HIT | Damage.DamageTypes.COMBAT | Damage.DamageTypes.PHYSICAL,
+					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_TARGET | Damage.DamageTypes.PHYSICAL,
 							stats, action_target.stats):
-						action_target.knockback(temp_attack_direction, 0.4)
+						action_target.knockback(temp_attack_direction * 50.0, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
 			&"walk":
 				velocity = action_direction * MOVE_SPEED
@@ -245,17 +250,6 @@ func update_health() -> void:
 			"a9ff30" if health_bar_percentage > 0.5 \
 			else "c8a502" if health_bar_percentage > 0.2 \
 			else "a93430"
-
-#endregion
-
-# ..............................................................................
-
-#region DEATH LOOT
-
-func death_loop() -> void:
-	for i in 3:
-		var item: Node = BASIC_LOOT_PRELOAD.instantiate()
-		item.instantiate_item.callv(DEATH_LOOT)
 
 #endregion
 

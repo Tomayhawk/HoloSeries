@@ -5,8 +5,7 @@ extends Area2D
 #region CONSTANTS
 
 const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_HIT | \
-		Damage.DamageTypes.COMBAT | \
+		Damage.DamageTypes.ENEMY_TARGET | \
 		Damage.DamageTypes.PHYSICAL
 
 const MANA_COST: float = 8.0
@@ -73,7 +72,7 @@ func projectile_collision(move_direction) -> void:
 	var target_enemy_bases: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_base in target_enemy_bases:
 		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):
-			enemy_base.knockback(move_direction, 1.5)
+			enemy_base.knockback(move_direction * 130.0, 1.5)
 	queue_free()
 
 #endregion

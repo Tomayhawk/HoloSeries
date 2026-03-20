@@ -10,7 +10,7 @@ extends Node
 #region CONSTANTS
 
 const DAMAGE_TYPES: int = (
-		Damage.DamageTypes.PLAYER_HIT |
+		Damage.DamageTypes.PLAYER_TARGET |
 		Damage.DamageTypes.HEAL |
 		Damage.DamageTypes.MAGIC |
 		Damage.DamageTypes.NO_CRITICAL |

@@ -102,13 +102,9 @@ func _ready() -> void:
 #region PROCESS
 
 func _physics_process(_delta: float) -> void:
-	# no velocity if stunned
-	if move_state == MoveState.STUN:
-		return
-
 	# decrease velocity if taking knockback or dashing
 	if move_state == MoveState.KNOCKBACK:
-		velocity = move_state_velocity * move_state_timer / 0.4
+		velocity = move_state_velocity * sin(move_state_timer / move_state_duration * PI * 0.5)
 	elif move_state == MoveState.DASH:
 		velocity = move_state_velocity * move_state_timer / stats.dash_time
 	# face action target when applicable
@@ -346,7 +342,7 @@ func ally_snap_direction(target_direction: Vector2) -> Vector2:
 
 func attempt_dash() -> void:
 	# check dash conditions
-	if not (stats.can_dash() and move_state in [MoveState.WALK, MoveState.SPRINT]):
+	if stats.fatigue or not move_state in [MoveState.WALK, MoveState.SPRINT]:
 		return
 
 	# update dash timer and stamina
@@ -365,17 +361,15 @@ func end_sprint() -> void:
 
 # KNOCKBACK
 
-func knockback(next_velocity: Vector2, duration: float) -> void:
-	# check if move state can be changed
+func knockback(base_velocity: Vector2, base_duration: float = BASE_KNOCKBACK_TIME) -> void:
+	# GUARD: already taking knockback or stunned -> ignore new knockback
 	if in_forced_move_state():
 		return
 
-	# update velocity and knockback timer
-	move_state_velocity = next_velocity
-	move_state_timer = duration
+	super(base_velocity, base_duration)
 
-	# update move state and animation
-	move_state = MoveState.KNOCKBACK
+	$Animation.speed_scale = BASE_KNOCKBACK_TIME / move_state_duration
+
 
 # STUN
 
@@ -534,11 +528,11 @@ func initialize_player(next_stats: PlayerStats, next_party_index: int) -> void:
 	stats.reset_stats()
 
 	# set character animation
-	$Animation.sprite_frames = stats.CHARACTER_ANIMATION
+	$Animation.sprite_frames = load(stats.CHARACTER_ANIMATION_PATH)
 	$Animation.play(&"down_idle")
 
 	# set basic attack node
-	basic_attack_node = stats.CHARACTER_BASIC_ATTACK.instantiate()
+	basic_attack_node = load(stats.CHARACTER_BASIC_ATTACK_PATH).instantiate()
 	action_node = basic_attack_node
 	add_child(basic_attack_node)
 
@@ -606,14 +600,14 @@ func switch_character(next_stats: PlayerStats) -> void:
 	next_stats.base = self
 	next_stats.reset_display_stats()
 
-	$Animation.sprite_frames = next_stats.CHARACTER_ANIMATION
+	$Animation.sprite_frames = load(next_stats.CHARACTER_ANIMATION_PATH)
 	if is_main_player:
 		update_main_player_movement()
 
 	action_cooldown = next_stats.last_action_cooldown
 	action_state = ActionState.COOLDOWN if action_cooldown > 0.0 else ActionState.READY
 
-	process_interval = 0.0
+	stats_process_interval = 0.0
 
 	# update player ui
 	Combat.ui.update_party_ui(party_index, next_stats)
@@ -632,7 +626,7 @@ func fatigue_state() -> void:
 
 func death() -> void:
 	# pause process and update all base class variables
-	super ()
+	super()
 
 	set_physics_process(false)
 
@@ -670,8 +664,7 @@ func death() -> void:
 
 func revive() -> void:
 	# resume process
-	super ()
-
+	set_process(true)
 	set_physics_process(true)
 
 	# enable collisions
@@ -737,10 +730,10 @@ func _on_action_cooldown_timeout() -> void:
 	if not is_main_player:
 		ally_attempt_action()
 
-# CombatHitBox
+# INTERACTION HIT BOX
 
-func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+func _on_interaction_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_action_pressed(&"action"):
 		if self in Entities.entities_available:
 			Inputs.accept_event()
 			Entities.choose_entity(self)
@@ -749,13 +742,13 @@ func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_i
 			Players.switch_main_player(self)
 
 
-func _on_combat_hit_box_mouse_entered() -> void:
+func _on_interaction_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available or Inputs.alt_pressed:
 		Inputs.action_inputs_enabled = false
 		Inputs.zoom_inputs_enabled = false
 
 
-func _on_combat_hit_box_mouse_exited() -> void:
+func _on_interaction_hit_box_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
 	Inputs.zoom_inputs_enabled = true
 

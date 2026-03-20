@@ -392,7 +392,6 @@ func pause_movement() -> void:
 		if is_instance_valid(player_base) and player_base.stats.alive:
 			player_base.move_state_timer = maxf(0.5, player_base.move_state_timer)
 			player_base.apply_movement(Vector2.ZERO)
-			player_base.get_node(^"Animation").process_mode = PROCESS_MODE_ALWAYS
 
 	for enemy_base in Entities.all_enemies():
 		if is_instance_valid(enemy_base) and enemy_base.stats.alive:
@@ -419,8 +418,6 @@ func toggle_enemy_process(enemy_base: EnemyBase, to_enabled: bool) -> void:
 	enemy_base.velocity = Vector2.ZERO
 	enemy_base.process_mode = \
 			PROCESS_MODE_INHERIT if to_enabled else PROCESS_MODE_DISABLED
-	enemy_base.get_node(^"Animation").process_mode = \
-			PROCESS_MODE_INHERIT if to_enabled else PROCESS_MODE_ALWAYS
 
 #endregion
 

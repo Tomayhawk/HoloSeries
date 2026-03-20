@@ -8,8 +8,7 @@ const MANA_COST: float = 50.0
 const BASE_DAMAGE: float = 5.0
 
 const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_HIT | \
-		Damage.DamageTypes.COMBAT | \
+		Damage.DamageTypes.ENEMY_TARGET | \
 		Damage.DamageTypes.PHYSICAL | \
 		Damage.DamageTypes.NO_CRITICAL
 

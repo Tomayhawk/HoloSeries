@@ -13,15 +13,15 @@ const BASIC_LOOT_PRELOAD = preload("res://entities/lootables/lootable_base.tscn"
 
 # ..............................................................................
 
-#region COMBAT HIT BOX SIGNALS
+#region INTERACTION HIT BOX SIGNALS
 
-func _on_combat_hit_box_mouse_entered() -> void:
+func _on_interaction_hit_box_mouse_entered() -> void:
 	if self in Entities.entities_available:
 		Inputs.action_inputs_enabled = false
 		Inputs.zoom_inputs_enabled = false
 
 
-func _on_combat_hit_box_mouse_exited() -> void:
+func _on_interaction_hit_box_mouse_exited() -> void:
 	Inputs.action_inputs_enabled = true
 	Inputs.zoom_inputs_enabled = true
 

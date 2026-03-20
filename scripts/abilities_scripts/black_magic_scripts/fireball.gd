@@ -8,7 +8,7 @@ extends Area2D
 #region CONSTANTS
 
 const DT: Dictionary[int, int] = Damage.DamageTypes
-const DAMAGE_TYPES: int = DT.ENEMY_HIT | DT.COMBAT | DT.MAGIC
+const DAMAGE_TYPES: int = DT.ENEMY_TARGET | DT.MAGIC
 
 const MANA_COST: float = 8.0
 const DAMAGE: float = 10.0
@@ -86,7 +86,7 @@ func projectile_collision(move_direction) -> void:
 
 	for enemy_base in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
 		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):
-			enemy_base.knockback(move_direction, 0.5)
+			enemy_base.knockback(move_direction * 120.0, 0.5)
 
 	queue_free()
 

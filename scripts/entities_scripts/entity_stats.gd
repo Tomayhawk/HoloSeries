@@ -21,6 +21,10 @@ const DEFAULT_AGILITY: float = 0.0
 const DEFAULT_CRIT_CHANCE: float = 0.05
 const DEFAULT_CRIT_DAMAGE: float = 1.50
 
+const DEFAULT_FORCE: float = 1.0
+const DEFAULT_WEIGHT: float = 1.0
+const DEFAULT_VISION: float = 1.0
+
 # stats ceilings
 const HEALTH_CEILING: float = 9999.0
 const MANA_CEILING: float = 999.0
@@ -38,6 +42,11 @@ const AGILITY_CEILING: float = 255.0
 const FORCE_CEILING: float = 10.0
 const WEIGHT_CEILING: float = 10.0
 const VISION_CEILING: float = 10.0
+
+# 1.0 to 0.5 knockback multiplier
+const KNOCKBACK_SCALE: float = 0.5 / (WEIGHT_CEILING - DEFAULT_WEIGHT)
+const KNOCKBACK_OFFSET: float = 1.0 + DEFAULT_WEIGHT * KNOCKBACK_SCALE
+const KNOCKBACK_CEILING: float = 2.0
 
 #endregion
 
@@ -121,13 +130,13 @@ var base_crit_chance: float = DEFAULT_CRIT_CHANCE
 var base_crit_damage: float = DEFAULT_CRIT_DAMAGE
 
 # force, weight, vision
-var force: float = 1.0
-var weight: float = 1.0
-var vision: float = 1.0
+var force: float = DEFAULT_FORCE
+var weight: float = DEFAULT_WEIGHT
+var vision: float = DEFAULT_VISION
 
-var base_force: float = 1.0
-var base_weight: float = 1.0
-var base_vision: float = 1.0
+var base_force: float = DEFAULT_FORCE
+var base_weight: float = DEFAULT_WEIGHT
+var base_vision: float = DEFAULT_VISION
 
 #endregion
 
@@ -136,8 +145,8 @@ var base_vision: float = 1.0
 #region STATS UPDATES
 
 func update_health(value: float) -> void:
-	# check if alive and not invincible for damage
-	if not alive or (value < 0.0 and has_status(Entities.Status.INVINCIBLE)):
+	# check if alive
+	if not alive:
 		return
 
 	# update health
@@ -175,6 +184,15 @@ func update_shield(value: float) -> void:
 
 #region DEATH & REVIVE
 
+func knockback_multiplier() -> float:
+	# GUARD: lightweight -> multiplier between 1.0x and 2.0x
+	if weight < 1.0:
+		return KNOCKBACK_CEILING - weight
+
+	# multiplier between 1.0x and 0.5x
+	return KNOCKBACK_OFFSET - weight * KNOCKBACK_SCALE
+
+
 func death() -> void:
 	# decrease effects timers
 	for effect in effects.duplicate():
@@ -184,12 +202,6 @@ func death() -> void:
 	alive = false
 	stamina = max_stamina
 	if base: base.death()
-
-
-func revive(value: float) -> void:
-	alive = true
-	update_health(value)
-	if base: base.revive()
 
 #endregion
 
@@ -203,7 +215,7 @@ var effects: Array[Effect] = []
 func add_status(type: Entities.Status) -> Effect:
 	var effect: Effect = Entities.STATUS_PRELOADS[type].new()
 	if base:
-		effect.effect_timer += base.process_interval
+		effect.effect_timer += base.stats_process_interval
 	effects.append(effect)
 	status |= type
 	return effect
@@ -228,7 +240,7 @@ func clear_status() -> void:
 
 
 func has_status(type: Entities.Status) -> bool:
-	return status & type != 0
+	return status & type
 
 #endregion
 

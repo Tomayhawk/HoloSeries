@@ -16,45 +16,27 @@ var players_in_attack_area: Array[Node] = []
 
 #region KNOCKBACK & DEATH
 
-func knockback(direction: Vector2, force: float = 1.0) -> void:
-	if in_forced_move_state(): return
+func knockback(base_velocity: Vector2, base_duration: float = BASE_KNOCKBACK_TIME) -> void:
+	# GUARD: already taking knockback or stunned -> ignore new knockback
+	if in_forced_move_state():
+		return
 
-	move_state = MoveState.KNOCKBACK
+	super(base_velocity, base_duration)
 
-	move_state_velocity = direction * (200.0 if not stats.alive else force * 160.0) # TODO: should use weight stats
-	if stats.alive: $Animation.speed_scale = 0.3 # TODO
-	velocity = move_state_velocity
-
-	$Animation.play(&"death") # TODO
-	move_state_timer = 0.4
-	await move_state_timeout
-
-	move_state = MoveState.IDLE
-	$Animation.speed_scale = 1.0 # TODO
-	$Animation.play(&"idle")
+	$Animation.play(&"knockback")
+	$Animation.flip_h = base_velocity.x > 0
+	$Animation.speed_scale = BASE_KNOCKBACK_TIME / move_state_duration
 
 
 func death() -> void:
-	$Animation.play(&"death")
-
 	move_state = MoveState.KNOCKBACK
+
+	$Animation.play(&"death")
 
 	players_in_detection_area.clear()
 	players_in_attack_area.clear()
 	stats.entity_types &= ~Entities.Type.ENEMIES_ON_SCREEN
 	Combat.remove_active_enemy(self)
-
-	# death timer
-	var death_timer: Timer = Timer.new()
-	add_child(death_timer)
-	death_timer.wait_time = 0.4
-	death_timer.start()
-
-	await death_timer.timeout
-
-	self.call(&"death_loop")
-
-	queue_free()
 
 #endregion
 
@@ -62,10 +44,11 @@ func death() -> void:
 
 #region SIGNALS
 
-# COMBAT HIT BOX
+# INTERACTION HIT BOX
 
-func _on_combat_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if Input.is_action_just_pressed(&"action") and event.is_action_pressed(&"action"):
+func _on_interaction_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_action_pressed(&"action"):
+		print("here")
 		if Inputs.alt_pressed:
 			Inputs.accept_event()
 			Combat.lock(self)

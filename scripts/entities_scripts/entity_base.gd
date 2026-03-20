@@ -3,8 +3,6 @@ extends CharacterBody2D
 
 # ENTITY BASE (ENTITY)
 
-# TODO: add a hit box for player clicks
-
 # ..............................................................................
 
 #region SIGNALS
@@ -36,18 +34,6 @@ enum ActionState {
 	DISABLED,
 }
 
-enum Directions {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	UP_LEFT,
-	UP_RIGHT,
-	DOWN_LEFT,
-	DOWN_RIGHT,
-	NONE,
-}
-
 enum ActionType {
 	MELEE,
 	RANGED,
@@ -57,16 +43,7 @@ enum ActionType {
 	NONE,
 }
 
-const ALL_DIRECTIONS: Array[Directions] = [
-	Directions.RIGHT,
-	Directions.DOWN_RIGHT,
-	Directions.DOWN,
-	Directions.DOWN_LEFT,
-	Directions.LEFT,
-	Directions.UP_LEFT,
-	Directions.UP,
-	Directions.UP_RIGHT,
-]
+const BASE_KNOCKBACK_TIME: float = 1.0
 
 #endregion
 
@@ -75,14 +52,15 @@ const ALL_DIRECTIONS: Array[Directions] = [
 #region VARIABLES
 
 var stats: EntityStats = null
-var process_interval: float = 0.0
+var stats_process_interval: float = 0.0
 
-# MOVEMENT
+# movement
 var move_state: MoveState = MoveState.IDLE
-var move_state_timer: float = 0.5
 var move_state_velocity: Vector2 = Vector2.DOWN
+var move_state_duration: float = 0.5
+var move_state_timer: float = 0.5
 
-# ACTION
+# action
 var action_state: ActionState = ActionState.READY
 var action_type: ActionType = ActionType.NONE
 var action_node: Node = null
@@ -90,7 +68,7 @@ var action_direction: Vector2 = Vector2.ZERO
 var action_cooldown: float = 0.0
 var in_action_range: bool = false
 
-# ACTION TARGETS
+# action targets
 var action_target: EntityBase = null
 var action_target_candidates: Array[EntityBase] = []
 var action_target_types: int = 0
@@ -117,29 +95,38 @@ func _process(delta: float) -> void:
 			action_cooldown_timeout.emit()
 
 	# process stats
-	process_interval += delta
-	if process_interval > 0.1:
-		stats.stats_process(process_interval)
-		process_interval = 0.0
+	stats_process_interval += delta
+	if stats_process_interval > 0.1:
+		stats.stats_process(stats_process_interval)
+		stats_process_interval = 0.0
 
 #endregion
 
 # ..............................................................................
 
-#region DEATH & REVIVE
+#region KNOCKBACK & DEATH
+
+func knockback(base_velocity: Vector2, base_duration: float = BASE_KNOCKBACK_TIME) -> void:
+	move_state = MoveState.KNOCKBACK
+
+	# set starting values
+	var temp_multiplier: float = stats.knockback_multiplier()
+	move_state_velocity = base_velocity * temp_multiplier
+	move_state_duration = base_duration * minf(1.0, temp_multiplier)
+
+	# set state variables
+	velocity = move_state_velocity
+	move_state_timer = move_state_duration
+
 
 func death() -> void:
 	set_process(false)
 
 	# reset variables
-	process_interval = 0.0
+	stats_process_interval = 0.0
 	reset_movement()
 	reset_action()
 	reset_action_targets()
-
-
-func revive() -> void:
-	set_process(true)
 
 #endregion
 

@@ -18,28 +18,25 @@ const MOVE_SPEED_BASE:			float = 140.0 # 140.0 to 260.0 speed
 const MOVE_SPEED_SCALE:			float = 120.0 / SPEED_CEILING
 
 # dash
-const DASH_MULTIPLIER_BASE:		float = 8.0 # 8.0 to 10.0 multiplier
+const DASH_MULTIPLIER_BASE:		float = 4.0 # 4.0 to 6.0 multiplier
 const DASH_MULTIPLIER_SCALE:	float = 2.0 / SPEED_CEILING
 
 const DASH_STAMINA_BASE:		float = 36.0 # 36.0 to 28.0 stamina per dash
-const DASH_STAMINA_SCALE:		float = 8.0 / AGILITY_CEILING
+const DASH_STAMINA_SCALE:		float = -8.0 / AGILITY_CEILING
 
-const DASH_TIME_BASE:			float = 0.2 # 0.2 to 0.1 seconds per dash
-const DASH_TIME_SCALE:			float = 0.1 / AGILITY_CEILING
-
-# dash stamina buffer
-const DASH_STAMINA_BUFFER:		float = 8.0
+const DASH_TIME_BASE:			float = 0.4 # 0.4 to 0.2 seconds per dash
+const DASH_TIME_SCALE:			float = -0.2 / AGILITY_CEILING
 
 # sprint
 const SPRINT_MULTIPLIER_BASE:	float = 1.25 # 1.25 to 1.45 multiplier
 const SPRINT_MULTIPLIER_SCALE:	float = 0.2 / SPEED_CEILING
 
 const SPRINT_STAMINA_BASE:		float = 24.0 # 24.0 to 20.0 stamina per second
-const SPRINT_STAMINA_SCALE:		float = 4.0 / AGILITY_CEILING
+const SPRINT_STAMINA_SCALE:		float = -4.0 / AGILITY_CEILING
 
 # regen
-const MANA_REGEN_BASE:			float = 0.25 # 0.25 to 1.25 mana per second
-const MANA_REGEN_SCALE:			float = 1.0 / MANA_CEILING
+const MANA_REGEN_BASE:			float = 0.2 # 0.2 to 0.4 mana per second
+const MANA_REGEN_SCALE:			float = 0.2 / MANA_CEILING
 
 const STAMINA_REGEN_BASE:		float = 16.0 # 16.0 to 56.0 stamina per second
 const STAMINA_REGEN_SCALE:		float = 40.0 / STAMINA_CEILING
@@ -165,20 +162,20 @@ func _init() -> void:
 
 #region PROCESS
 
-func stats_process(process_interval: float) -> void:
+func stats_process(stats_process_interval: float) -> void:
 	# regenerate mana
 	if mana < max_mana:
-		update_mana(mana_regen * process_interval)
+		update_mana(mana_regen * stats_process_interval)
 
 	# update stamina
 	if base.move_state == base.MoveState.SPRINT:
-		update_stamina(-sprint_stamina * process_interval)
+		update_stamina(-sprint_stamina * stats_process_interval)
 	elif base.move_state != base.MoveState.DASH and stamina < max_stamina:
-		update_stamina((fatigue_regen if fatigue else stamina_regen) * process_interval)
+		update_stamina((fatigue_regen if fatigue else stamina_regen) * stats_process_interval)
 
 	# decrease effects timers
 	for effect in effects.duplicate():
-		effect.effect_timer -= process_interval
+		effect.effect_timer -= stats_process_interval
 		if effect.effect_timer <= 0.0:
 			effect.effect_timeout(self)
 
@@ -189,7 +186,7 @@ func stats_process(process_interval: float) -> void:
 #region HEALTH UPDATES
 
 func update_health(value: float) -> void:
-	super (value)
+	super(value)
 	update_health_display()
 
 
@@ -219,7 +216,7 @@ func update_health_display() -> void:
 #region MANA UPDATES
 
 func update_mana(value: float) -> void:
-	super (value)
+	super(value)
 	update_mana_display()
 
 
@@ -241,7 +238,7 @@ func update_mana_display() -> void:
 #region STAMINA UPDATES
 
 func update_stamina(value: float) -> void:
-	super (value)
+	super(value)
 
 	# handle fatigue
 	if stamina == 0:
@@ -269,7 +266,7 @@ func update_stamina_display() -> void:
 #region SHIELD UPDATES
 
 func update_shield(value: float) -> void:
-	super (value)
+	super(value)
 
 	# in party -> update shield bar
 	if base:
@@ -450,12 +447,12 @@ func reset_action_stats() -> void:
 
 	# dash
 	dash_multiplier		= DASH_MULTIPLIER_BASE		+ (speed * DASH_MULTIPLIER_SCALE)
-	dash_stamina		= DASH_STAMINA_BASE			- (agility * DASH_STAMINA_SCALE)
-	dash_time			= DASH_TIME_BASE			- (agility * DASH_TIME_SCALE)
+	dash_stamina		= DASH_STAMINA_BASE			+ (agility * DASH_STAMINA_SCALE)
+	dash_time			= DASH_TIME_BASE			+ (agility * DASH_TIME_SCALE)
 
 	# sprint
 	sprint_multiplier	= SPRINT_MULTIPLIER_BASE	+ (speed * SPRINT_MULTIPLIER_SCALE)
-	sprint_stamina		= SPRINT_STAMINA_BASE		- (agility * SPRINT_STAMINA_SCALE)
+	sprint_stamina		= SPRINT_STAMINA_BASE		+ (agility * SPRINT_STAMINA_SCALE)
 
 	# regen
 	mana_regen			= MANA_REGEN_BASE			+ (mana * MANA_REGEN_SCALE)
@@ -523,20 +520,18 @@ func update_display_values() -> void:
 
 # ..............................................................................
 
-#region UTILITIES
-
-func can_dash() -> bool:
-	return not fatigue and stamina < dash_stamina - DASH_STAMINA_BUFFER
-
-#endregion
-
-# ..............................................................................
-
-#region DEATH
+#region DEATH & REVIVE
 
 func death() -> void:
 	fatigue = false
-	super ()
+	super()
+
+
+func revive(value: float) -> void:
+	alive = true
+	update_health(value)
+	if base:
+		base.revive()
 
 #endregion
 

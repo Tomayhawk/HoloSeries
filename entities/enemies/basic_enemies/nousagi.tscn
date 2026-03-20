@@ -115,10 +115,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y6a21")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jgjde")
-}, {
-"duration": 1.0,
+"duration": 2.0,
 "texture": SubResource("AtlasTexture_jgjde")
 }],
 "loop": false,
@@ -141,6 +138,17 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6a21")
+}, {
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_jgjde")
+}],
+"loop": false,
+"name": &"knockback",
+"speed": 3.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -173,7 +181,7 @@ animations = [{
 size = Vector2(22, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8foym"]
-size = Vector2(22, 16)
+size = Vector2(24, 25)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_v11vd"]
 radius = 150.0
@@ -193,20 +201,32 @@ wall_min_slide_angle = 0.0
 script = ExtResource("1_kcgu1")
 
 [node name="Animation" type="AnimatedSprite2D" parent="." unique_id=1265510199]
+process_mode = 3
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_7htyj")
 animation = &"attack"
 offset = Vector2(0, -13)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=1346202168]
+visible = false
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_sw4lu")
 
-[node name="CombatHitBox" type="Area2D" parent="." unique_id=2059757367]
+[node name="DamageHitBox" type="Area2D" parent="." unique_id=2059757367]
+visible = false
 collision_layer = 2
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatHitBox" unique_id=2031164175]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageHitBox" unique_id=2031164175]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_8foym")
+
+[node name="InteractionHitBox" type="Area2D" parent="." unique_id=692215429]
+collision_layer = 512
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionHitBox" unique_id=1150250615]
+position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_8foym")
 
 [node name="DetectionArea" type="Area2D" parent="." unique_id=1755578222]
@@ -255,9 +275,9 @@ one_shot = true
 [connection signal="animation_finished" from="Animation" to="." method="animation_end"]
 [connection signal="animation_looped" from="Animation" to="." method="animation_end"]
 [connection signal="frame_changed" from="Animation" to="." method="_on_animation_frame_changed"]
-[connection signal="input_event" from="CombatHitBox" to="." method="_on_combat_hit_box_input_event"]
-[connection signal="mouse_entered" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_entered"]
-[connection signal="mouse_exited" from="CombatHitBox" to="." method="_on_combat_hit_box_mouse_exited"]
+[connection signal="input_event" from="InteractionHitBox" to="." method="_on_interaction_hit_box_input_event"]
+[connection signal="mouse_entered" from="InteractionHitBox" to="." method="_on_interaction_hit_box_mouse_entered"]
+[connection signal="mouse_exited" from="InteractionHitBox" to="." method="_on_interaction_hit_box_mouse_exited"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

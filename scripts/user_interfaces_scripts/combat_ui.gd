@@ -205,7 +205,7 @@ func hide_sub_combat_options() -> void:
 
 # ..............................................................................
 
-#region SIGNALS & BUTTON PRESSES
+#region SIGNALS
 
 func _on_control_mouse_entered() -> void:
 	Inputs.action_inputs_enabled = false

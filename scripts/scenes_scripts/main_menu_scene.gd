@@ -12,8 +12,8 @@ enum Menus {
 	SAVES,
 }
 
-const SAVES_LOAD: Resource = \
-		preload("res://scripts/global_scripts/global_components_scripts/saves.gd")
+const SAVES_PATH: String = \
+		"res://scripts/global_scripts/global_components_scripts/saves.gd"
 
 #endregion
 
@@ -88,7 +88,7 @@ func toggle_menus(next_menu: Menus) -> void:
 
 func _on_play_button_pressed() -> void:
 	await Players.camera.toggle_black_screen(true)
-	SAVES_LOAD.load_last_save()
+	load(SAVES_PATH).load_last_save()
 
 
 func _on_saves_button_pressed() -> void:
@@ -113,7 +113,7 @@ func _on_back_button_pressed() -> void:
 
 
 func _on_new_game_button_pressed() -> void:
-	SAVES_LOAD.new_save(0)
+	load(SAVES_PATH).new_save(0)
 
 #endregion
 

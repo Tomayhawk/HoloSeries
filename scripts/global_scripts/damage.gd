@@ -7,90 +7,144 @@ extends Node
 #region CONSTANTS
 
 enum DamageTypes {
-	PLAYER_HIT = 0,
-	ENEMY_HIT = 1 << 0,
-	COMBAT = 1 << 1,
-	HEAL = 1 << 2,
-	PHYSICAL = 1 << 3,
-	MAGIC = 1 << 4,
-	ITEM = 1 << 5,
-	CRITICAL = 1 << 6,
-	NO_CRITICAL = 1 << 7,
-	NO_RANDOM = 1 << 8,
-	NO_LETHAL = 1 << 9,
-	BREAK_LIMIT = 1 << 10,
-	MISS = 1 << 11,
-	NO_MISS = 1 << 12,
-	HIDDEN = 1 << 13,
+	# target
+    PLAYER_TARGET = 0,
+    ENEMY_TARGET = 1 << 1,
+
+	# basic types
+    PHYSICAL = 1 << 2,
+    MAGIC = 1 << 3,
+    LIGHT = 1 << 4,
+    DARK = 1 << 5,
+    PIERCING = 1 << 6,
+	HEAL = 1 << 7,
+
+	# modifiers
+	NO_MISS = 1 << 8,
+	NO_CRITICAL = 1 << 9,
+	NO_RANDOM = 1 << 10,
+    NO_LETHAL = 1 << 11,
+    NO_REFLECT = 1 << 12,
+    NO_COUNTER = 1 << 13,
+
+	# special
+    MISS = 1 << 14,
+	CRITICAL = 1 << 15,
+	BREAK_LIMIT = 1 << 16,
+    HIDDEN = 1 << 17,
 }
+
+const MISS_MAX: float = 0.25
+const MISS_BASE: float = 0.075
+const MISS_SCALE: float = (MISS_MAX - MISS_BASE) / 50.0
+
+const RANDOM_RANGE: Vector2 = Vector2(0.97, 1.03)
+
+const MAX_DAMAGE: float = 9999.0
+const MAX_DAMAGE_BREAK_LIMIT: float = 99999.0
+
+const DAMAGE_DISPLAY_FONT: Font = preload("res://visuals/fonts/SHPinscher-Regular.otf")
 
 #endregion
 
 # ..............................................................................
 
-#region FUNCTIONS
+#region CALCULATIONS
 
-func combat_damage(damage: float, types: int, origin_stats: EntityStats, target_stats: EntityStats) -> float:
-	# TODO: base calculation (very bad code, need fix)
-	if types & DamageTypes.COMBAT:
-		if types & DamageTypes.PHYSICAL: # physical damage
-			damage += (origin_stats.strength * 2) + (damage * origin_stats.strength * 0.05)
-			damage *= origin_stats.level / (target_stats.level + (origin_stats.level * (1 + (target_stats.defense * 1.0 / 1500))))
-		elif types & DamageTypes.MAGIC: # magic damage
-			damage += (origin_stats.intelligence * 2) + (damage * origin_stats.intelligence * 0.05)
-			damage *= origin_stats.level / (target_stats.level + (origin_stats.level * (1 + (target_stats.ward * 1.0 / 1500))))
-		if types & DamageTypes.PLAYER_HIT and not types & DamageTypes.ITEM: # TODO: don't know why this is here
-			damage += (damage * (0.7 - (((target_stats.defense - 1000) * (target_stats.defense - 1000)) * 1.0 / 1425000))) + (target_stats.defense * 1.0 / 3)
-		damage *= -1
-	elif types & DamageTypes.MAGIC: # magic heal
-		damage *= 1 + (origin_stats.intelligence * 0.05)
+func combat_damage(damage: float, types: int, origin: EntityStats, target: EntityStats) -> float:
+	# attempt miss
+	if not types & DamageTypes.NO_MISS:
+		types |= attempt_miss(types, origin, target)
+
+	# handle miss
+	if types & DamageTypes.MISS:
+		damage_display(0, target.base.position, types)
+		return 0.0
 
 	# attempt crit
-	if not types & DamageTypes.NO_CRITICAL and randf() < origin_stats.crit_chance:
-		types |= DamageTypes.CRITICAL
-	if types & DamageTypes.CRITICAL:
-		damage *= 1.0 + origin_stats.crit_damage
+	if not types & DamageTypes.NO_CRITICAL:
+		types |= DamageTypes.CRITICAL if randf() < origin.crit_chance else 0
 
-	# randomize
-	if not types & DamageTypes.NO_RANDOM:
-		damage *= randf_range(0.97, 1.03)
-
-	# clamp
-	if types & DamageTypes.BREAK_LIMIT:
-		damage = clampf(damage, -99999.0, 99999.0)
+	# damage calculation
+	if types & DamageTypes.HEAL:
+		damage = calculate_heal(damage, origin)
 	else:
-		damage = clampf(damage, -9999.0, 9999.0)
-
-	# attempt miss
-	# TODO: handle invincibility
-	if not types & DamageTypes.NO_MISS and randf() < 0.25: # TODO: randf() < (target_stats.agility / 1028)
-		types |= DamageTypes.MISS
-		damage = 0.0
-
-	# TODO: temporary
-	if types & DamageTypes.NO_LETHAL and damage < 0 and (damage > target_stats.health - 1.0):
-		damage = target_stats.health - 1.0
+		damage = calculate_damage(damage, types, origin, target)
 
 	# update target
-	target_stats.update_health(damage)
+	target.update_health(damage)
 
 	# display damage
-	damage_display(abs(damage), target_stats.base.position, types) # TODO: need to update
+	damage_display(abs(damage), target.base.position, types)
 
 	return damage
 
 
-func combat_buff(_buff: float, _types: Array[DamageTypes], _origin_stats: Node, _target_stats: Node) -> void:
-	pass
+func attempt_miss(types: int, origin: EntityStats, target: EntityStats) -> int:
+	# GUARD: target has invincibility -> MISS
+	if target.has_status(Entities.Status.INVINCIBLE):
+		return DamageTypes.MISS
+
+	var miss_chance: float = \
+			MISS_BASE + (target.agility - origin.speed) * MISS_SCALE
+
+	# 1.5 times miss chance for physical attacks
+	if types & DamageTypes.PHYSICAL:
+		miss_chance *= 1.5
+
+	var will_miss: bool = randf() < minf(miss_chance, MISS_MAX)
+
+	return DamageTypes.MISS if will_miss else 0
 
 
-func mana_depletion(_mana: float, _origin_stats: Node) -> void:
-	pass
+func calculate_heal(amount: float, origin: EntityStats) -> float:
+	# TODO: INCOMPLETE
+	return amount * (1 + (origin.intelligence * 0.05))
 
 
-func stamina_depletion(_stamina: float, _origin_stats: Node) -> void:
-	pass
+func calculate_damage(damage: float, types: int, origin: EntityStats, target: EntityStats) -> float:
+	# TODO: INCOMPLETE AND UGLY
+	if types & DamageTypes.PHYSICAL: # physical damage
+		damage += (origin.strength * 2) + (damage * origin.strength * 0.05)
+		damage *= origin.level / (target.level + (origin.level * (1 + (target.defense * 1.0 / 1500))))
+	elif types & DamageTypes.MAGIC: # magic damage
+		damage += (origin.intelligence * 2) + (damage * origin.intelligence * 0.05)
+		damage *= origin.level / (target.level + (origin.level * (1 + (target.ward * 1.0 / 1500))))
+	if types & DamageTypes.PLAYER_TARGET:
+		damage += (damage * (0.7 - (((target.defense - 1000) * (target.defense - 1000)) * 1.0 / 1425000))) + (target.defense * 1.0 / 3)
 
+	return apply_modifiers(damage, types, origin, target)
+
+
+func apply_modifiers(damage: float, types: int, origin: EntityStats, target: EntityStats) -> float:
+	# handle crit
+	if types & DamageTypes.CRITICAL:
+		damage *= origin.crit_damage
+
+	# handle random
+	if not types & DamageTypes.NO_RANDOM:
+		damage *= randf_range(RANDOM_RANGE.x, RANDOM_RANGE.y)
+
+	# clamp damage
+	if types & DamageTypes.BREAK_LIMIT:
+		damage = minf(damage, MAX_DAMAGE_BREAK_LIMIT)
+	else:
+		damage = minf(damage, MAX_DAMAGE)
+
+	# handle non-lethal
+	if types & DamageTypes.NO_LETHAL:
+		damage = minf(damage, maxf(target.health - 1.0, 0.0))
+
+	# change sign
+	damage = -damage
+
+	return damage
+
+#endregion
+
+# ..............................................................................
+
+#region DAMAGE DISPLAY
 
 func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	if types & DamageTypes.HIDDEN:
@@ -101,6 +155,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	display.z_index = 5
 	add_child(display)
 
+	# set display color
 	var color: String = "#FFF"
 	if types & DamageTypes.MISS:
 		display.text = "Miss"
@@ -109,12 +164,12 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 		color = "#3E3"
 	elif types & DamageTypes.CRITICAL:
 		color = "#FB0"
-	elif types & DamageTypes.PLAYER_HIT:
+	elif types & DamageTypes.PLAYER_TARGET:
 		color = "#B22"
 
 	display.set(&"theme_override_colors/font_color", color)
-	display.set(&"theme_override_fonts/font", load("res://visuals/fonts/SHPinscher-Regular.otf"))
-	display.set(&"theme_override_font_sizes/font_size", 20) # TODO: should scale on damage 7 to 16
+	display.set(&"theme_override_fonts/font", DAMAGE_DISPLAY_FONT)
+	display.set(&"theme_override_font_sizes/font_size", 20) # TODO: should scale on damage 20 to 28
 	display.set(&"theme_override_colors/font_outline_color", "#000")
 	display.set(&"theme_override_constants/outline_size", 2)
 
@@ -128,9 +183,7 @@ func damage_display(damage: int, display_position: Vector2, types: int) -> void:
 	tween.tween_property(display, "position:y", display.position.y - 16, 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
 	tween.tween_property(display, "scale", Vector2(0.75, 0.75), 0.25).set_ease(Tween.EASE_IN).set_delay(0.25)
 
-	await tween.finished
-
-	display.queue_free()
+	tween.finished.connect(display.queue_free)
 
 
 func clear_damage_displays() -> void:
