@@ -1,13 +1,13 @@
 class_name EnemyBase
 extends EntityBase
 
-# ENEMY BASE
+# ENEMY BASE (ENTITY)
 
 # ..............................................................................
 
 #region CONSTANTS
 
-const BASIC_LOOT_PRELOAD = preload("res://entities/lootables/lootable_base.tscn")
+const LOOTABLES_PRELOAD = preload("res://entities/lootables/lootable_base.tscn")
 
 #endregion
 
@@ -15,15 +15,17 @@ const BASIC_LOOT_PRELOAD = preload("res://entities/lootables/lootable_base.tscn"
 
 #region INTERACTION HIT BOX SIGNALS
 
-func _on_interaction_hit_box_mouse_entered() -> void:
-	if self in Entities.entities_available:
-		Inputs.action_inputs_enabled = false
-		Inputs.zoom_inputs_enabled = false
-
-
-func _on_interaction_hit_box_mouse_exited() -> void:
-	Inputs.action_inputs_enabled = true
-	Inputs.zoom_inputs_enabled = true
+func _on_interaction_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
+	if event.is_action_pressed(&"action"):
+		if self in Entities.entities_available:
+			Inputs.accept_event()
+			Entities.choose_entity(self)
+		elif Inputs.alt_pressed:
+			Inputs.accept_event()
+			if Combat.locked_enemy_base != self:
+				Combat.lock_enemy(self)
+			else:
+				Combat.unlock_enemy()
 
 #endregion
 

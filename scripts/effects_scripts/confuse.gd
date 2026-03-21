@@ -1,6 +1,6 @@
 extends Effect
 
-# CONFUSE
+# CONFUSE (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Confuse"
+	effect_name = "Confuse"
 
 #endregion
 

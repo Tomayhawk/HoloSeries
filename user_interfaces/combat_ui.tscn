@@ -104,19 +104,20 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions/MarginContainer" unique_id=1383455227]
+[node name="MainScrollContainer" type="ScrollContainer" parent="CombatControl/MainCombatOptions/MarginContainer" unique_id=1383455227]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="MainVBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" unique_id=1286790993]
+[node name="MainVBoxContainer" type="VBoxContainer" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer" unique_id=1286790993]
 unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=144328070]
+[node name="Attack" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=144328070]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -127,11 +128,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_8c8oe")
-toggle_mode = true
 text = "Attack"
 clip_text = true
 
-[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=82716689]
+[node name="Talents" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=82716689]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -142,11 +142,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Talents"
 clip_text = true
 
-[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=987890133]
+[node name="Skills" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=987890133]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -157,11 +156,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Skills"
 clip_text = true
 
-[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=271863243]
+[node name="Buff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=271863243]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -172,12 +170,11 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Buff
 "
 clip_text = true
 
-[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=1604021819]
+[node name="Debuff" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=1604021819]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -188,11 +185,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Debuff"
 clip_text = true
 
-[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=1286248496]
+[node name="WhiteMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=1286248496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -203,11 +199,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "White Magic"
 clip_text = true
 
-[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=1548677165]
+[node name="BlackMagic" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=1548677165]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -218,11 +213,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Black Magic"
 clip_text = true
 
-[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=1583900496]
+[node name="Summon" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=1583900496]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -233,11 +227,10 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Summon"
 clip_text = true
 
-[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer" unique_id=1574227575]
+[node name="Items" type="Button" parent="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer" unique_id=1574227575]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -248,7 +241,6 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_clq7u")
-toggle_mode = true
 text = "Items"
 clip_text = true
 
@@ -268,7 +260,6 @@ theme_override_constants/margin_left = 114
 theme_override_constants/margin_bottom = 16
 
 [node name="Panel" type="Panel" parent="CombatControl/SubCombatOptions" unique_id=582790624]
-visible = false
 layout_mode = 2
 theme_override_styles/panel = ExtResource("2_ppn4a")
 
@@ -280,12 +271,13 @@ patch_margin_top = 16
 patch_margin_right = 16
 patch_margin_bottom = 16
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions" unique_id=753609874]
+[node name="SubScrollContainer" type="ScrollContainer" parent="CombatControl/SubCombatOptions" unique_id=753609874]
+unique_name_in_owner = true
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="SubModesMarginContainer" type="MarginContainer" parent="CombatControl/SubCombatOptions/ScrollContainer" unique_id=1170884981]
+[node name="SubModesMarginContainer" type="MarginContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer" unique_id=1170884981]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -295,13 +287,13 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
-[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1065277067]
+[node name="TalentsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1065277067]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer" unique_id=1381613575]
+[node name="RocketLauncher" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/TalentsVBoxContainer" unique_id=1381613575]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -312,16 +304,15 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Rocket Launcher"
 
-[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1446198244]
+[node name="SkillsVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1446198244]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=19792629]
+[node name="LifeDrain" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=19792629]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -332,10 +323,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Life Drain"
 
-[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=953318937]
+[node name="ManaDrain" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=953318937]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -346,10 +336,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Mana Drain"
 
-[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=666622587]
+[node name="Taunt" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=666622587]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -360,10 +349,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Taunt"
 
-[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=935520257]
+[node name="PlayDice" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer" unique_id=935520257]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -374,16 +362,15 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Play Dice"
 
-[node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1817402991]
+[node name="BuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1817402991]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer" unique_id=1980485428]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BuffVBoxContainer" unique_id=1980485428]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -394,16 +381,15 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Item"
 
-[node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=35963636]
+[node name="DebuffVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=35963636]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer" unique_id=1124433522]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/DebuffVBoxContainer" unique_id=1124433522]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -414,15 +400,14 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Item"
 
-[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1239020115]
+[node name="WhiteVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1239020115]
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Heal" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=584189595]
+[node name="Heal" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=584189595]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -433,10 +418,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Heal"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" unique_id=1907825575]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" unique_id=1907825575]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -454,7 +438,7 @@ text = "8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Protect" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=132800691]
+[node name="Protect" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=132800691]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -465,10 +449,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Protect"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" unique_id=740313198]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" unique_id=740313198]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -486,7 +469,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Haste" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=385400927]
+[node name="Haste" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=385400927]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -497,10 +480,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Haste"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" unique_id=1665398947]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" unique_id=1665398947]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -518,7 +500,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Regen" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=755472920]
+[node name="Regen" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer" unique_id=755472920]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -529,10 +511,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Regen"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" unique_id=1064543930]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" unique_id=1064543930]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -550,13 +531,13 @@ text = "20"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1798988757]
+[node name="BlackVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1798988757]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Fireball" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1337901624]
+[node name="Fireball" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1337901624]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -567,10 +548,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Fireball"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" unique_id=1967914479]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" unique_id=1967914479]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -588,7 +568,7 @@ text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Poison" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1833436887]
+[node name="Poison" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=1833436887]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -599,10 +579,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Poison"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" unique_id=85038854]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" unique_id=85038854]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -620,7 +599,7 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Slowness" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=673289659]
+[node name="Slowness" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer" unique_id=673289659]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -631,10 +610,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Slowness"
 
-[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" unique_id=1553102202]
+[node name="Cost" type="Label" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" unique_id=1553102202]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -652,13 +630,13 @@ text = "999"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=670956275]
+[node name="SummonVBoxContainer" type="VBoxContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=670956275]
 visible = false
 clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer" unique_id=1768832102]
+[node name="Item" type="Button" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SummonVBoxContainer" unique_id=1768832102]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 focus_mode = 0
@@ -669,10 +647,9 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_m2uty")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_5527i")
 theme_override_styles/hover = SubResource("StyleBoxTexture_q4p0c")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_aretp")
-toggle_mode = true
 text = "Item"
 
-[node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer" unique_id=1829303411]
+[node name="ItemsGridContainer" type="GridContainer" parent="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer" unique_id=1829303411]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 0
@@ -769,95 +746,95 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 2
 
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer" to="." method="_on_control_mouse_exited"]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Attack" to="." method="_on_attack_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Attack" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Talents" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Skills" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Buff" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Buff" to="." method="_on_main_combat_options_pressed" binds= [2]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Debuff" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_main_combat_options_pressed" binds= [3]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_main_combat_options_pressed" binds= [4]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/BlackMagic" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_main_combat_options_pressed" binds= [5]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Summon" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Summon" to="." method="_on_main_combat_options_pressed" binds= [6]]
-[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Items" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Items" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Items" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/ScrollContainer/MainVBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer" to="." method="_on_control_mouse_exited"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="instantiate_ability" binds= [4]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="instantiate_ability" binds= [3]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="instantiate_ability" binds= [2]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="instantiate_ability" binds= [1]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="button_pressed"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="instantiate_ability" binds= [0]]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="button_pressed"]
-[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
-[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
-[connection signal="pressed" from="CombatControl/SubCombatOptions/ScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Attack" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Attack" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Attack" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Talents" to="." method="_on_control_mouse_entered"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Talents" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Talents" to="." method="_on_main_combat_options_pressed" binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Skills" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Skills" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Skills" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Skills" to="." method="_on_main_combat_options_pressed" binds= [1]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Buff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Buff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Buff" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Buff" to="." method="_on_main_combat_options_pressed" binds= [2]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Debuff" to="." method="_on_main_combat_options_pressed" binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/WhiteMagic" to="." method="_on_main_combat_options_pressed" binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/BlackMagic" to="." method="_on_main_combat_options_pressed" binds= [5]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Summon" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Summon" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Summon" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Summon" to="." method="_on_main_combat_options_pressed" binds= [6]]
+[connection signal="mouse_entered" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Items" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Items" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Items" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/MainCombatOptions/MarginContainer/MainScrollContainer/MainVBoxContainer/Items" to="." method="_on_main_combat_options_pressed" binds= [7]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer" to="." method="_on_control_mouse_exited"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/TalentsVBoxContainer/RocketLauncher" to="." method="_on_ability_button_pressed" flags=18 binds= [4]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/LifeDrain" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/ManaDrain" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/Taunt" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SkillsVBoxContainer/PlayDice" to="." method="_on_ability_button_pressed" flags=18 binds= [3]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BuffVBoxContainer/Item" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/DebuffVBoxContainer/Item" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Heal" to="." method="_on_ability_button_pressed" flags=18 binds= [2]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Protect" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Haste" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/WhiteVBoxContainer/Regen" to="." method="_on_ability_button_pressed" flags=18 binds= [1]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_combat_button_pressed"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Fireball" to="." method="_on_ability_button_pressed" flags=18 binds= [0]]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Poison" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/BlackVBoxContainer/Slowness" to="." method="_on_combat_button_pressed"]
+[connection signal="mouse_entered" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_control_mouse_exited"]
+[connection signal="pressed" from="CombatControl/SubCombatOptions/SubScrollContainer/SubModesMarginContainer/SummonVBoxContainer/Item" to="." method="_on_combat_button_pressed"]
 [connection signal="mouse_entered" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="CharacterSelector/MarginContainer" to="." method="_on_control_mouse_exited"]

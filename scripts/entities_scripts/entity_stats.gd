@@ -182,6 +182,40 @@ func update_shield(value: float) -> void:
 
 # ..............................................................................
 
+#region SET STATS
+
+func reset_current_stats() -> void:
+	# max health, mana, stamina
+	max_health = base_health
+	max_mana = base_mana
+	max_stamina = base_stamina
+
+	# current stats
+	health = base_health
+	mana = base_mana
+	stamina = max_stamina
+
+	defense = base_defense
+	ward = base_ward
+	strength = base_strength
+	intelligence = base_intelligence
+	speed = base_speed
+	agility = base_agility
+	crit_chance = base_crit_chance
+	crit_damage = base_crit_damage
+
+	force = base_force
+	weight = base_weight
+	vision = base_vision
+
+	# shield
+	shield = 0.0
+	max_shield = base_health
+
+#endregion
+
+# ..............................................................................
+
 #region DEATH & REVIVE
 
 func knockback_multiplier() -> float:

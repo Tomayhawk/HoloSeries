@@ -50,7 +50,7 @@ enum Status {
 	SECOND_CHANCE = 1 << 16,
 	SILENCE = 1 << 17,
 	SLEEP = 1 << 18,
-	STATS = 1 << 19,
+	STAT_MODIFIER = 1 << 19,
 	STUN = 1 << 20,
 	TAUNT = 1 << 21,
 }
@@ -89,7 +89,7 @@ const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 	Status.SECOND_CHANCE: preload("res://scripts/effects_scripts/second_chance.gd"),
 	Status.SILENCE: preload("res://scripts/effects_scripts/silence.gd"),
 	Status.SLEEP: preload("res://scripts/effects_scripts/sleep.gd"),
-	Status.STATS: preload("res://scripts/effects_scripts/stats.gd"),
+	Status.STAT_MODIFIER: preload("res://scripts/effects_scripts/stat_modifier.gd"),
 	Status.STUN: preload("res://scripts/effects_scripts/stun.gd"),
 	Status.TAUNT: preload("res://scripts/effects_scripts/taunt.gd"),
 }
@@ -133,7 +133,8 @@ func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callab
 	var best_quality: float = -INF if get_max else INF
 
 	for entity_base in candidates:
-		if not is_instance_valid(entity_base): continue
+		if not is_instance_valid(entity_base):
+			continue
 		var quality = get_quality.call(entity_base)
 		if (get_max and quality > best_quality) or (not get_max and quality < best_quality):
 			best_entity = entity_base
@@ -218,7 +219,9 @@ func request_entities(request_types: int, auto_request: Callable, request_count:
 		if entity_base is PlayerBase:
 			entity_base.add_child(PLAYER_HIGHLIGHT.instantiate())
 		else:
-			entity_base.add_child(ENEMY_HIGHLIGHT.instantiate())
+			var enemy_highlight_node: Sprite2D = ENEMY_HIGHLIGHT.instantiate()
+			entity_base.add_child(enemy_highlight_node)
+			enemy_highlight_node.offset.y = entity_base.HIGHLIGHT_OFFSET
 
 
 func choose_entity(entity_base: EntityBase) -> void:
@@ -239,7 +242,7 @@ func end_entities_request() -> void:
 		entities_request_ended.emit(entities_chosen)
 
 	# remove entity highlights
-	for indicator in get_tree().get_nodes_in_group(&"entities_indicators"):
+	for indicator in get_tree().get_nodes_in_group(&"entities_highlights"):
 		if not is_instance_valid(indicator):
 			continue
 		indicator.queue_free()

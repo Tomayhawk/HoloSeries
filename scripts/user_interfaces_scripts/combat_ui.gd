@@ -17,6 +17,15 @@ const COMBAT_UI_TWEEN_DURATION: float = 0.2
 
 # ..............................................................................
 
+#region VARIABLES
+
+var focused_main_option: Button = null
+var focused_sub_option: Button = null
+
+#endregion
+
+# ..............................................................................
+
 #region INITIAL
 
 func _ready() -> void:
@@ -38,24 +47,23 @@ func _input(event: InputEvent) -> void:
 	if not Inputs.world_inputs_enabled:
 		return
 
-	# INPUT: accept events
+	# INPUT: display_combat_ui -> toggle combat ui
 	if event.is_action(&"display_combat_ui"):
 		Inputs.accept_event()
+		if not event.is_pressed():
+			return
+		if %SubCombatOptions.visible:
+			%SubCombatOptions.hide()
+		elif Combat.not_in_combat():
+			%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
+			%CombatControl.visible = %CombatControl.modulate.a == 1.0
+		else:
+			%SubCombatOptions.show()
 
-	# GUARD: in combat -> cannot force toggle combat ui
-	# INPUT: display_combat_ui -> toggle combat ui
-	if event.is_action_pressed(&"display_combat_ui") and Combat.not_in_combat():
-		%CombatControl.modulate.a = 1.0 if %CombatControl.modulate.a != 1.0 else 0.0
-		%CombatControl.visible = %CombatControl.modulate.a == 1.0
 	# INPUT: tab -> toggle character selector
 	elif event.is_action(&"tab"):
 		Inputs.accept_event()
 		%CharacterSelector.visible = event.is_pressed()
-	# GUARD: sub combat options not visible -> ignore esc input
-	# INPUT: esc -> hide sub combat options
-	elif event.is_action_pressed(&"esc") and %SubCombatOptions.visible:
-		Inputs.accept_event()
-		hide_sub_combat_options()
 
 #endregion
 
@@ -76,8 +84,8 @@ func add_inventory_button(item_id: int) -> void:
 	options_button.name = item_name
 	options_button.get_node(^"Name").text = item_name
 	options_button.get_node(^"Number").text = str(Inventory.consumables_inventory[item_id])
-	options_button.pressed.connect(button_pressed)
-	options_button.pressed.connect(use_consumable.bind(item_id))
+	options_button.pressed.connect(_on_combat_button_pressed)
+	options_button.pressed.connect(_on_consumable_button_pressed.bind(options_button, item_id))
 	options_button.mouse_entered.connect(_on_control_mouse_entered)
 	options_button.mouse_exited.connect(_on_control_mouse_exited)
 
@@ -103,7 +111,7 @@ func add_standby_button() -> void:
 
 	# set button signals and connections
 	standby_button.pressed.connect(Players.switch_standby_character.bind(standby_button.get_index()))
-	standby_button.pressed.connect(button_pressed)
+	standby_button.pressed.connect(_on_combat_button_pressed)
 	standby_button.mouse_entered.connect(_on_control_mouse_entered)
 	standby_button.mouse_exited.connect(_on_control_mouse_exited)
 
@@ -141,6 +149,77 @@ func update_standby_ui(standby_index: int, character: PlayerStats) -> void:
 
 # ..............................................................................
 
+#region FOCUSED BUTTONS
+
+func set_focused_options(next_main_option: Button, next_sub_option: Button) -> void:
+	if not next_main_option:
+		reset_focused_main_option()
+		%SubCombatOptions.hide()
+		return
+
+	set_focused_main_option(next_main_option)
+	scroll_to_button(%MainScrollContainer, next_main_option)
+
+	if not is_instance_valid(next_sub_option):
+		reset_focused_sub_option()
+		%SubCombatOptions.hide()
+		return
+
+	for sub_mode in %SubModesMarginContainer.get_children():
+		sub_mode.hide()
+
+	next_sub_option.get_parent().show()
+	%SubCombatOptions.show()
+
+	set_focused_sub_option(next_sub_option)
+	scroll_to_button(%SubScrollContainer, next_sub_option)
+
+
+func scroll_to_button(scroll: ScrollContainer, button: Button) -> void:
+	var button_top: float = button.position.y
+	var button_bottom: float = button.position.y + button.size.y
+	var scroll_top: float = scroll.scroll_vertical
+	var scroll_bottom: float = scroll_top + scroll.size.y
+
+	if button_top < scroll_top:
+		scroll.scroll_vertical = int(button_top)
+	elif button_bottom > scroll_bottom:
+		scroll.scroll_vertical = int(button_bottom - scroll.size.y)
+
+
+func reset_focused_main_option() -> void:
+	if is_instance_valid(focused_main_option):
+		focused_main_option.toggle_mode = false
+
+	focused_main_option = null
+
+
+func set_focused_main_option(next_button: Button) -> void:
+	reset_focused_main_option()
+
+	focused_main_option = next_button
+	focused_main_option.toggle_mode = true
+	focused_main_option.button_pressed = true
+
+
+func reset_focused_sub_option() -> void:
+	if is_instance_valid(focused_sub_option):
+		focused_sub_option.toggle_mode = false
+
+	focused_sub_option = null
+
+
+func set_focused_sub_option(next_button: Button) -> void:
+	reset_focused_sub_option()
+
+	focused_sub_option = next_button
+	focused_sub_option.toggle_mode = true
+	focused_sub_option.button_pressed = true
+
+#endregion
+
+# ..............................................................................
+
 #region UI TWEEN
 
 func combat_ui_tween(target_visibility_value: float) -> void:
@@ -148,10 +227,10 @@ func combat_ui_tween(target_visibility_value: float) -> void:
 
 	create_tween().tween_property(
 			%CombatControl, "modulate:a", target_visibility_value,
-			COMBAT_UI_TWEEN_DURATION).finished.connect(combat_ui_tween_finished)
+			COMBAT_UI_TWEEN_DURATION).finished.connect(_on_combat_ui_tween_finished)
 
 
-func combat_ui_tween_finished() -> void:
+func _on_combat_ui_tween_finished() -> void:
 	if %CombatControl.modulate.a == 0.0:
 		%CombatControl.hide()
 
@@ -162,25 +241,20 @@ func combat_ui_tween_finished() -> void:
 #region MAIN COMBAT OPTIONS
 
 func _on_attack_pressed() -> void:
-	hide_sub_combat_options()
-
-	for button in %MainVBoxContainer.get_children():
-		button.toggle_mode = false
-
-	%MainVBoxContainer.get_child(0).toggle_mode = true
-	%MainVBoxContainer.get_child(0).button_pressed = true
+	%SubCombatOptions.hide()
+	set_focused_main_option(%MainVBoxContainer.get_child(0))
 
 
 func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
-	hide_sub_combat_options()
-	%SubCombatOptions.show()
+	set_focused_main_option(%MainVBoxContainer.get_child(extra_arg_0 + 1))
+
+	for sub_mode in %SubModesMarginContainer.get_children():
+		sub_mode.hide()
+
 	%SubModesMarginContainer.get_child(extra_arg_0).show()
+	%SubCombatOptions.show()
 
-	for button in %MainVBoxContainer.get_children():
-		button.toggle_mode = false
-
-	%MainVBoxContainer.get_child(extra_arg_0 + 1).toggle_mode = true
-	%MainVBoxContainer.get_child(extra_arg_0 + 1).button_pressed = true
+	reset_focused_sub_option()
 
 #endregion
 
@@ -188,18 +262,14 @@ func _on_main_combat_options_pressed(extra_arg_0: int) -> void:
 
 #region SUB COMBAT OPTIONS
 
-func instantiate_ability(ability_index: int) -> void:
+func _on_ability_button_pressed(source: Button, ability_index: int) -> void:
+	set_focused_sub_option(source)
 	Entities.instantiate_ability(ability_index)
 
 
-func use_consumable(item_index: int) -> void:
+func _on_consumable_button_pressed(source: Button, item_index: int) -> void:
+	set_focused_sub_option(source)
 	Inventory.use_consumable(item_index)
-
-
-func hide_sub_combat_options() -> void:
-	%SubCombatOptions.hide()
-	for sub_mode in %SubModesMarginContainer.get_children():
-		sub_mode.hide()
 
 #endregion
 
@@ -217,7 +287,7 @@ func _on_control_mouse_exited() -> void:
 	Inputs.zoom_inputs_enabled = true
 
 
-func button_pressed() -> void:
+func _on_combat_button_pressed() -> void:
 	if Entities.requesting_entities:
 		Entities.end_entities_request()
 

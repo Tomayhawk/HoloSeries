@@ -1,14 +1,43 @@
 extends BasicEnemyBase
 
-# NOUSAGI
+# NOUSAGI (ENEMY)
 
 # ..............................................................................
 
 #region CONSTANTS
 
+const ENEMY_BASE_STATS: Dictionary[StringName, float] = {
+	# health, mana and stamina
+	&"base_health": 9999.0,
+	&"base_mana": 10.0,
+	&"base_stamina": 150.0,
+
+	# basic stats
+	&"base_defense": 10.0,
+	&"base_ward": 10.0,
+	&"base_strength": 10.0,
+	&"base_intelligence": 10.0,
+	&"base_speed": 0.0,
+	&"base_agility": 0.0,
+	&"base_crit_chance": 0.05,
+	&"base_crit_damage": 1.50,
+
+	# secondary stats
+	&"base_force": 1.0,
+	&"base_weight": 1.0,
+	&"base_vision": 1.0,
+}
+
 const MOVE_SPEED: float = 45.0
+
+const ATTACK_DAMAGE_TYPES: int = Damage.DamageTypes.PLAYER_TARGET | Damage.DamageTypes.PHYSICAL
+
 const NOUSAGI_PRELOAD: PackedScene = preload("res://entities/enemies/basic_enemies/nousagi.tscn")
 const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LootablesKeys.TEMP_SHIRAKAMI]
+
+# indicator offsets
+const MARKER_OFFSET: float = -40.0
+const HIGHLIGHT_OFFSET: float = 5.0
 
 #endregion
 
@@ -17,14 +46,20 @@ const DEATH_LOOT: Array = Inventory.LOOTABLES[Inventory.LootablesKeys.TEMP_SHIRA
 #region INITIAL
 
 func _init() -> void:
+	# set stats
 	stats = BasicEnemyStats.new()
-	set_variables()
+	stats.base = self
+	stats.set_enemy_base_stats(self.ENEMY_BASE_STATS)
+	stats.reset_current_stats()
+
+	# set action target variables
+	action_target_types = Entities.Type.PLAYERS_ALIVE
+	action_target_stats = &"health"
+	action_target_get_max = false
 
 
 func _ready() -> void:
-	# start walking in a random direction
-	$Animation.play(&"walk")
-	$Animation.flip_h = action_direction.x < 0
+	animation_end()
 
 #endregion
 
@@ -32,13 +67,12 @@ func _ready() -> void:
 
 #region PROCESS
 
-# TODO: need to fix death
 func _physics_process(_delta: float) -> void:
 	# check knockback
 	if move_state == MoveState.KNOCKBACK:
 		velocity = move_state_velocity * sin(move_state_timer / move_state_duration * PI * 0.5)
 	elif move_state == MoveState.IDLE:
-		if not in_action_range:
+		if not action_in_range:
 			$Animation.play(&"walk")
 		elif action_target:
 			$Animation.flip_h = action_target.position.x < position.x
@@ -46,73 +80,6 @@ func _physics_process(_delta: float) -> void:
 				take_action()
 
 	move_and_slide()
-
-#endregion
-
-# ..............................................................................
-
-#region SET VARIABLES
-
-func set_variables() -> void:
-	# Set base variables
-	action_target = null
-	action_target_types = Entities.Type.PLAYERS_ALIVE
-	action_target_stats = &"health"
-	action_target_get_max = false
-	action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-
-	# Set stats
-	stats.base = self
-
-	stats.level = 1
-	stats.entity_types = Entities.Type.ENEMIES
-
-	# Base Health, Mana and Stamina
-	stats.base_health = 9999.0
-	stats.base_mana = 10.0
-	stats.base_stamina = 150.0
-
-	# Base Basic Stats
-	stats.base_defense = 10.0
-	stats.base_ward = 10.0
-	stats.base_strength = 10.0
-	stats.base_intelligence = 10.0
-	stats.base_speed = 0.0
-	stats.base_agility = 0.0
-	stats.base_crit_chance = 0.05
-	stats.base_crit_damage = 1.50
-
-	# Base Secondary Stats
-	stats.base_force = 1.0
-	stats.base_weight = 1.0
-	stats.base_vision = 1.0
-
-	# Shield
-	stats.shield = 0.0
-	stats.max_shield = 200.0
-
-	# Copy base values to current stats
-	stats.health = stats.base_health
-	stats.mana = stats.base_mana
-	stats.stamina = stats.base_stamina
-
-	stats.defense = stats.base_defense
-	stats.ward = stats.base_ward
-	stats.strength = stats.base_strength
-	stats.intelligence = stats.base_intelligence
-	stats.speed = stats.base_speed
-	stats.agility = stats.base_agility
-	stats.crit_chance = stats.base_crit_chance
-	stats.crit_damage = stats.base_crit_damage
-
-	stats.force = stats.base_force
-	stats.weight = stats.base_weight
-	stats.vision = stats.base_vision
-
-	# Set max values
-	stats.max_health = stats.base_health
-	stats.max_mana = stats.base_mana
-	stats.max_stamina = stats.base_stamina
 
 #endregion
 
@@ -126,55 +93,30 @@ func animation_end() -> void:
 		return
 
 	if not stats.alive:
-		for i in 3:
-			var item: Node = BASIC_LOOT_PRELOAD.instantiate()
-			item.instantiate_item.callv(DEATH_LOOT)
-		queue_free()
+		handle_death()
 		return
 
 	velocity = Vector2.ZERO
+	move_state_velocity = Vector2.ZERO
 	move_state = MoveState.IDLE
 	$Animation.speed_scale = 1.0
 
-	if in_action_range:
+	if action_in_range:
 		if in_action():
 			action_state = ActionState.COOLDOWN
 		$Animation.play(&"idle")
 	elif stats.entity_types | Entities.Type.ENEMIES_ON_SCREEN:
-		# remove all dead players from detection and attack arrays
-		for player_base in players_in_detection_area:
-			if not player_base.stats.alive:
-				_on_detection_area_body_exited(player_base)
-				_on_attack_area_body_exited(player_base)
-
-		var available_player_bases: Array[Node]
-		# determine targetable player nodes
-		if not players_in_attack_area.is_empty():
-			available_player_bases = players_in_attack_area
-		else:
-			available_player_bases = players_in_detection_area
-
-		action_target = null
-		var target_player_health: float = INF
-		# target player with lowest health
-		for player_base in available_player_bases:
-			if player_base.stats.health < target_player_health:
-				target_player_health = player_base.stats.health
-				action_target = player_base
+		set_action_target()
 		# move towards player if any player in detection area
 		if action_target:
 			$NavigationAgent2D.target_position = action_target.position
-			action_direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
-			$Animation.flip_h = action_direction.x < 0.0
+			start_walk(to_local($NavigationAgent2D.get_next_path_position()).normalized())
 		# else move in a random direction
 		else:
-			action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		$Animation.play(&"walk")
-		$Animation.flip_h = action_direction.x < 0.0
+			start_walk()
+
 	else:
-		action_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
-		$Animation.play(&"walk")
-		$Animation.flip_h = action_direction.x < 0.0
+		start_walk()
 
 
 func _on_animation_frame_changed() -> void:
@@ -185,13 +127,20 @@ func _on_animation_frame_changed() -> void:
 			&"attack":
 				if action_target:
 					var temp_attack_direction = (action_target.position - position).normalized()
-					if Damage.combat_damage(13, Damage.DamageTypes.PLAYER_TARGET | Damage.DamageTypes.PHYSICAL,
-							stats, action_target.stats):
+					if Damage.combat_damage(13, ATTACK_DAMAGE_TYPES, stats, action_target.stats):
 						action_target.knockback(temp_attack_direction * 50.0, 0.4)
 					$Animation.flip_h = temp_attack_direction.x < 0
 			&"walk":
-				velocity = action_direction * MOVE_SPEED
+				velocity = move_state_velocity
 				move_state = MoveState.WALK
+
+
+func handle_death() -> void:
+	for i in 3:
+		var item: Node = LOOTABLES_PRELOAD.instantiate()
+		item.instantiate_item.callv([position] + DEATH_LOOT)
+
+	queue_free()
 
 #endregion
 
@@ -258,7 +207,7 @@ func update_health() -> void:
 #region SIGNALS
 
 func _on_action_cooldown_timeout() -> void:
-	if in_action_range:
+	if action_in_range:
 		action_state = ActionState.READY
 	else:
 		pass # TODO

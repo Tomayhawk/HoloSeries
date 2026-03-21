@@ -1,6 +1,6 @@
 extends Effect
 
-# DOOM
+# DOOM (EFFECT)
 # kills target instantly on effect timeout
 
 # ..............................................................................

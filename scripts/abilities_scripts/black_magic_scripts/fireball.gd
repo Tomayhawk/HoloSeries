@@ -7,9 +7,6 @@ extends Area2D
 
 #region CONSTANTS
 
-const DT: Dictionary[int, int] = Damage.DamageTypes
-const DAMAGE_TYPES: int = DT.ENEMY_TARGET | DT.MAGIC
-
 const MANA_COST: float = 8.0
 const DAMAGE: float = 10.0
 const SPEED: float = 90.0
@@ -20,6 +17,10 @@ const SPEED: float = 90.0
 
 #region VARIABLES
 
+var damage_types: int = (
+	Damage.DamageTypes.ENEMY_TARGET
+	| Damage.DamageTypes.MAGIC
+)
 var velocity: Vector2 = Vector2.ZERO
 
 @onready var caster_base: EntityBase = Players.main_player
@@ -85,7 +86,7 @@ func projectile_collision(move_direction) -> void:
 	Players.camera.screen_shake(5, 1, 10, 10.0)
 
 	for enemy_base in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
-		if Damage.combat_damage(DAMAGE, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):
+		if Damage.combat_damage(DAMAGE, damage_types, caster_base.stats, enemy_base.stats):
 			enemy_base.knockback(move_direction * 120.0, 0.5)
 
 	queue_free()

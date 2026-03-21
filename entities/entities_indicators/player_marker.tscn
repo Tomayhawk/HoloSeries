@@ -7,6 +7,6 @@ load_path = "res://.godot/imported/entities_highlight.png-55ab5cccf54cd6e0627f74
 atlas = SubResource("CompressedTexture2D_a6qos")
 region = Rect2(0, 0, 16, 16)
 
-[node name="PlayerMarker" type="Sprite2D" unique_id=299626556 groups=["entities_indicators"]]
-position = Vector2(0, -40)
+[node name="PlayerMarker" type="Sprite2D" unique_id=299626556]
 texture = SubResource("AtlasTexture_cauru")
+offset = Vector2(0, -40)

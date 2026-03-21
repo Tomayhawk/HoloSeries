@@ -1,6 +1,6 @@
 extends Effect
 
-# INVINCIBLE
+# INVINCIBLE (EFFECT)
 # grants temporary invincibility frames
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-	effect_name = ""
+	effect_name = "Invincible"
 	effect_type = Entities.Status.INVINCIBLE
 	effect_timer = 0.1
 

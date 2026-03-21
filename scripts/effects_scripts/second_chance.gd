@@ -1,6 +1,6 @@
 extends Effect
 
-# SECOND CHANCE
+# SECOND CHANCE (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Second Chance"
+	effect_name = "Second Chance"
 
 #endregion
 

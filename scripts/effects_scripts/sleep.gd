@@ -1,6 +1,6 @@
 extends Effect
 
-# SLEEP
+# SLEEP (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Sleep"
+	effect_name = "Sleep"
 
 #endregion
 

@@ -1,6 +1,6 @@
 extends Effect
 
-# INVISIBLE
+# INVISIBLE (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Invisible"
+	effect_name = "Invisible"
 
 #endregion
 

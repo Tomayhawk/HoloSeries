@@ -51,6 +51,7 @@ position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="InteractionHitBox" type="Area2D" parent="." unique_id=1304511050]
+process_mode = 3
 collision_layer = 512
 collision_mask = 0
 

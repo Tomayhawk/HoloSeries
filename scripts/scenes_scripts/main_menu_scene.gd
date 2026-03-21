@@ -43,13 +43,11 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# INPUT: accept events
+	# INPUT: esc -> handle esc inputs
 	if event.is_action(&"esc"):
 		Inputs.accept_event()
-
-	# INPUT: esc -> handle esc inputs
-	if event.is_action_pressed(&"esc"):
-		esc_input()
+		if event.is_pressed():
+			esc_input()
 
 #endregion
 
@@ -62,7 +60,7 @@ func esc_input() -> void:
 	# or switch between main options and settings menus
 	if not menu_nodes[Menus.MAIN_OPTIONS].is_visible():
 		toggle_menus(Menus.MAIN_OPTIONS)
-	elif Global.get_node_or_null(^"SettingsUi"):
+	elif Global.has_node(^"SettingsUi"):
 		Global.global_ui(Global.Ui.SETTINGS, Global.Ui.NONE)
 	else:
 		Global.global_ui(Global.Ui.NONE, Global.Ui.SETTINGS)

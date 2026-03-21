@@ -1,12 +1,10 @@
 extends Area2D
 
+# TODO: need fix
+
 # ..............................................................................
 
 #region CONSTANTS
-
-const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_TARGET | \
-		Damage.DamageTypes.PHYSICAL
 
 const MANA_COST: float = 8.0
 
@@ -18,6 +16,10 @@ const MANA_COST: float = 8.0
 
 var speed: float = 90.0
 var damage: float = 10.0
+var damage_types: int = (
+		Damage.DamageTypes.ENEMY_TARGET
+		| Damage.DamageTypes.PHYSICAL
+)
 
 @onready var caster_base: EntityBase = Players.main_player
 @onready var caster_stats: EntityStats = caster_base.stats
@@ -71,7 +73,7 @@ func projectile_collision(move_direction) -> void:
 	Players.camera.screen_shake(5, 1, 20, 20.0)
 	var target_enemy_bases: Array[EntityBase] = await $AreaOfEffect.area_of_effect(2)
 	for enemy_base in target_enemy_bases:
-		if Damage.combat_damage(damage, DAMAGE_TYPES, caster_base.stats, enemy_base.stats):
+		if Damage.combat_damage(damage, damage_types, caster_base.stats, enemy_base.stats):
 			enemy_base.knockback(move_direction * 130.0, 1.5)
 	queue_free()
 

@@ -1,6 +1,6 @@
 extends Effect
 
-# FROZEN
+# FROZEN (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Frozen"
+	effect_name = "Frozen"
 
 #endregion
 

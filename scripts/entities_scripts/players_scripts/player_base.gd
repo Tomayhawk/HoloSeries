@@ -228,7 +228,7 @@ func update_ally_movement() -> void:
 			ally_teleport()
 
 		# if in action range
-		if in_action_range:
+		if action_in_range:
 			# attempt action on action ready
 			if action_state == ActionState.READY:
 				ally_attempt_action()
@@ -467,7 +467,7 @@ func ally_set_action() -> void:
 		if target_base.stats.entity_types & action_target_types:
 			action_target_candidates.append(target_base)
 
-	in_action_range = not action_target_candidates.is_empty()
+	action_in_range = not action_target_candidates.is_empty()
 
 
 func ally_set_target() -> void:
@@ -539,7 +539,7 @@ func initialize_player(next_stats: PlayerStats, next_party_index: int) -> void:
 	# update stats ui and stats bars
 	Combat.ui.update_party_ui(party_index, stats)
 
-
+# TODO: refactor 3 functions below for new Combat.ui updates
 func switch_to_main() -> void:
 	# update main player
 	is_main_player = true
@@ -559,10 +559,12 @@ func switch_to_main() -> void:
 
 	# reset action variables
 	action_direction = Vector2.ZERO
-	in_action_range = false
+	action_in_range = false
 
 	stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
 	stats.entity_types |= Entities.Type.PLAYERS_MAIN
+
+	Combat.ui.set_focused_options(stats.focused_main_option, stats.focused_sub_option)
 
 
 func switch_to_ally() -> void:
@@ -589,16 +591,15 @@ func switch_to_ally() -> void:
 	stats.entity_types &= ~Entities.Type.PLAYERS_MAIN
 	stats.entity_types |= Entities.Type.PLAYERS_ALLIES
 
+	stats.focused_main_option = Combat.ui.focused_main_option
+	stats.focused_sub_option = Combat.ui.focused_sub_option
+
 
 func switch_character(next_stats: PlayerStats) -> void:
-	stats.base = null
-	stats.last_action_cooldown = action_cooldown
-	stats.reset_display_stats()
+	stats.switch_to_standby()
 
 	stats = next_stats
-
-	next_stats.base = self
-	next_stats.reset_display_stats()
+	next_stats.switch_to_party(self)
 
 	$Animation.sprite_frames = load(next_stats.CHARACTER_ANIMATION_PATH)
 	if is_main_player:
@@ -627,11 +628,6 @@ func fatigue_state() -> void:
 func death() -> void:
 	# pause process and update all base class variables
 	super()
-
-	set_physics_process(false)
-
-	# disable collisions
-	toggle_collisions(false)
 
 	# hide stats bars
 	$HealthBar.hide()
@@ -664,11 +660,7 @@ func death() -> void:
 
 func revive() -> void:
 	# resume process
-	set_process(true)
-	set_physics_process(true)
-
-	# enable collisions
-	toggle_collisions(true)
+	process_mode = PROCESS_MODE_INHERIT
 
 	# update animation
 	$Animation.animation_finished.emit()
@@ -684,12 +676,6 @@ func revive() -> void:
 
 	stats.entity_types &= ~Entities.Type.PLAYERS_DEAD
 	stats.entity_types |= Entities.Type.PLAYERS_ALIVE
-
-func toggle_collisions(to_enabled: bool) -> void:
-	$MovementHitBox.disabled = not to_enabled
-	$InteractionArea/CollisionShape2D.disabled = not to_enabled
-	$LootableArea/CollisionShape2D.disabled = not to_enabled
-	$ActionArea/CollisionShape2D.disabled = not to_enabled
 
 #endregion
 
@@ -737,20 +723,9 @@ func _on_interaction_hit_box_input_event(_viewport: Node, event: InputEvent, _sh
 		if self in Entities.entities_available:
 			Inputs.accept_event()
 			Entities.choose_entity(self)
-		elif Inputs.alt_pressed and not is_main_player:
+		elif stats.alive and Inputs.alt_pressed and not is_main_player:
 			Inputs.accept_event()
 			Players.switch_main_player(self)
-
-
-func _on_interaction_hit_box_mouse_entered() -> void:
-	if self in Entities.entities_available or Inputs.alt_pressed:
-		Inputs.action_inputs_enabled = false
-		Inputs.zoom_inputs_enabled = false
-
-
-func _on_interaction_hit_box_mouse_exited() -> void:
-	Inputs.action_inputs_enabled = true
-	Inputs.zoom_inputs_enabled = true
 
 # InteractionArea
 
@@ -787,7 +762,7 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 
 	# update action target variables
 	action_target_candidates.append(body)
-	in_action_range = true
+	action_in_range = true
 
 	# attempt action if ready
 	if action_state == ActionState.READY:
@@ -796,9 +771,9 @@ func _on_action_area_body_entered(body: Node2D) -> void:
 
 func _on_action_area_body_exited(body: Node2D) -> void:
 	action_target_candidates.erase(body)
-	in_action_range = not action_target_candidates.is_empty()
+	action_in_range = not action_target_candidates.is_empty()
 
-	if not is_main_player and not in_action_range:
+	if not is_main_player and not action_in_range:
 		_on_move_state_timeout()
 
 #endregion

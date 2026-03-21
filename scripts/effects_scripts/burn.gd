@@ -1,6 +1,6 @@
 extends Effect
 
-# BURN
+# BURN (EFFECT)
 # deals physical damage periodically
 
 # ..............................................................................
@@ -10,8 +10,7 @@ extends Effect
 var damage_types: int = (
 		Damage.DamageTypes.PLAYER_TARGET
 		| Damage.DamageTypes.PHYSICAL
-		| Damage.DamageTypes.NO_CRITICAL
-		| Damage.DamageTypes.NO_MISS
+		| Damage.DamageTypes.EFFECT
 )
 
 var burn_interval: float = 1.5

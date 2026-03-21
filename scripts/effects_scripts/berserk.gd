@@ -1,14 +1,15 @@
 extends Effect
 
-# BERSERK
+# BERSERK (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
 
-#region FUNCTIINITIALONS
+#region INITIAL
 
 func _init() -> void:
     effect_name = "Berserk"
+    effect_type = Entities.Status.BERSERK
 
 #endregion
 

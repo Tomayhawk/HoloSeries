@@ -1,6 +1,8 @@
 class_name Effect
 extends RefCounted
 
+# EFFECT
+
 # ..............................................................................
 
 #region VARIABLES

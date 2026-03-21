@@ -4,12 +4,12 @@ extends Node
 
 #region CONSTANTS
 
-const DAMAGE_TYPES: int = (
-		Damage.DamageTypes.PLAYER_TARGET |
-		Damage.DamageTypes.HEAL |
-		Damage.DamageTypes.MAGIC |
-		Damage.DamageTypes.NO_CRITICAL |
-		Damage.DamageTypes.NO_MISS
+var damage_types: int = (
+		Damage.DamageTypes.PLAYER_TARGET
+		| Damage.DamageTypes.HEAL
+		| Damage.DamageTypes.MAGIC
+		| Damage.DamageTypes.NO_CRITICAL
+		| Damage.DamageTypes.NO_MISS
 )
 
 const MANA_COST: float = 4.0
@@ -56,7 +56,7 @@ func entity_chosen(target_entity: EntityBase) -> void:
 		caster_stats.update_mana(-MANA_COST)
 		# heal chosen node
 		Damage.combat_damage(target_entity.stats.max_health * heal_percentage,
-				DAMAGE_TYPES, caster_stats, target_entity.stats)
+				damage_types, caster_stats, target_entity.stats)
 
 	queue_free()
 

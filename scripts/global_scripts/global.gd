@@ -401,10 +401,6 @@ func pause_movement() -> void:
 func resume_movement() -> void:
 	Players.process_mode = PROCESS_MODE_INHERIT
 
-	for player_base in Players.get_children():
-		if is_instance_valid(player_base) and player_base.stats.alive:
-			player_base.get_node(^"Animation").process_mode = PROCESS_MODE_INHERIT
-
 	for enemy_base in Entities.all_enemies():
 		if is_instance_valid(enemy_base) and enemy_base.stats.alive:
 			toggle_enemy_process(enemy_base, true)

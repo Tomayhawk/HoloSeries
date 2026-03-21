@@ -1,6 +1,6 @@
 extends Effect
 
-# REFLECT
+# REFLECT (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Reflect"
+	effect_name = "Reflect"
 
 #endregion
 

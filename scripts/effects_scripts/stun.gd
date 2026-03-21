@@ -1,6 +1,6 @@
 extends Effect
 
-# STUN
+# STUN (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Stun"
+	effect_name =  "Stun"
 
 #endregion
 

@@ -7,16 +7,17 @@ extends Node2D
 const MANA_COST: float = 50.0
 const BASE_DAMAGE: float = 5.0
 
-const DAMAGE_TYPES: int = \
-		Damage.DamageTypes.ENEMY_TARGET | \
-		Damage.DamageTypes.PHYSICAL | \
-		Damage.DamageTypes.NO_CRITICAL
-
 #endregion
 
 # ..............................................................................
 
 #region VARIABLES
+
+var damage_types: int = (
+		Damage.DamageTypes.ENEMY_TARGET
+		| Damage.DamageTypes.PHYSICAL
+		| Damage.DamageTypes.NO_CRITICAL
+)
 
 var dice_results: Array[int] = []
 var dice_damage := 0.0
@@ -86,7 +87,7 @@ func initiate_play_dice(chosen_nodes: Array[EntityBase]) -> void:
 
 			# TODO: want to accelerate for each iteration
 			interval_timer.start()
-			Damage.combat_damage(dice_damage, DAMAGE_TYPES,
+			Damage.combat_damage(dice_damage, damage_types,
 					caster_stats, target_base.stats)
 			await interval_timer.timeout
 

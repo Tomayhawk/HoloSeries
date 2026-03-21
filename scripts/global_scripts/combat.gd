@@ -29,9 +29,9 @@ const ENEMY_MARKER_PATH: String = "res://entities/entities_indicators/enemy_mark
 
 #region VARIABLES
 
-var locked_enemy_base: Node = null
-
 var combat_state: CombatState = CombatState.NOT_IN_COMBAT
+
+var locked_enemy_base: Node = null
 
 @onready var ui: CanvasLayer = $CombatUi
 
@@ -71,7 +71,7 @@ func end_combat() -> void:
 	get_tree().call_group(
 			&"enemies_in_combat", "remove_from_group", &"enemies_in_combat")
 
-	unlock()
+	unlock_enemy()
 
 	combat_state = CombatState.NOT_IN_COMBAT
 
@@ -94,25 +94,26 @@ func not_in_combat() -> bool:
 
 # ..............................................................................
 
-#region LOCKED ENEMY NODE
+#region LOCKED NODES
 
 # lock enemy
-func lock(enemy_base: EnemyBase) -> void:
-	if locked_enemy_base == enemy_base: return
-	unlock()
+func lock_enemy(enemy_base: EnemyBase) -> void:
+	unlock_enemy()
 	locked_enemy_base = enemy_base
+
 	var marker_node: Sprite2D = load(ENEMY_MARKER_PATH).instantiate()
 	enemy_base.add_child(marker_node)
-	marker_node.position = Vector2(0, -40) # should be dynamic
+	marker_node.offset.y = enemy_base.MARKER_OFFSET
 
 
 # unlock enemy
-func unlock() -> void:
+func unlock_enemy() -> void:
 	if not is_instance_valid(locked_enemy_base):
+		locked_enemy_base = null
 		return
 
-	if locked_enemy_base.has_node(^"ENEMY_MARKER"):
-		locked_enemy_base.get_node(^"ENEMY_MARKER").queue_free()
+	if locked_enemy_base.has_node(^"EnemyMarker"):
+		locked_enemy_base.get_node(^"EnemyMarker").queue_free()
 
 	locked_enemy_base = null
 
@@ -126,7 +127,7 @@ func unlock() -> void:
 func remove_active_enemy(enemy_base: EnemyBase) -> void:
 	# manage locked enemy
 	if locked_enemy_base == enemy_base:
-		unlock()
+		unlock_enemy()
 
 	# update combat state
 	if get_tree().get_nodes_in_group(&"enemies_in_combat").is_empty():

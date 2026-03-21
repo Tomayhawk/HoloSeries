@@ -1,6 +1,6 @@
 extends Effect
 
-# PETRIFICATION
+# PETRIFICATION (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Petrification"
+	effect_name = "Petrification"
 
 #endregion
 

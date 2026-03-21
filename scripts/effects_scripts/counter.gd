@@ -1,6 +1,6 @@
 extends Effect
 
-# COUNTER
+# COUNTER (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Counter"
+	effect_name = "Counter"
 
 #endregion
 

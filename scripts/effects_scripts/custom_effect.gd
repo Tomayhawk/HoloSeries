@@ -1,6 +1,6 @@
 extends Effect
 
-# CUSTOM EFFECT
+# CUSTOM EFFECT (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................

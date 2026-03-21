@@ -56,7 +56,7 @@ var stats_process_interval: float = 0.0
 
 # movement
 var move_state: MoveState = MoveState.IDLE
-var move_state_velocity: Vector2 = Vector2.DOWN
+var move_state_velocity: Vector2 = Vector2.ZERO
 var move_state_duration: float = 0.5
 var move_state_timer: float = 0.5
 
@@ -66,7 +66,7 @@ var action_type: ActionType = ActionType.NONE
 var action_node: Node = null
 var action_direction: Vector2 = Vector2.ZERO
 var action_cooldown: float = 0.0
-var in_action_range: bool = false
+var action_in_range: bool = false
 
 # action targets
 var action_target: EntityBase = null
@@ -120,7 +120,7 @@ func knockback(base_velocity: Vector2, base_duration: float = BASE_KNOCKBACK_TIM
 
 
 func death() -> void:
-	set_process(false)
+	process_mode = PROCESS_MODE_DISABLED
 
 	# reset variables
 	stats_process_interval = 0.0
@@ -134,17 +134,19 @@ func death() -> void:
 
 #region RESET VARIABLES
 
-func reset_movement(idle_time: float = 0.5) -> void:
+func reset_movement() -> void:
 	move_state = MoveState.IDLE
-	move_state_timer = idle_time
+	move_state_timer = 0.5
+	move_state_duration = 0.5
 	move_state_velocity = Vector2.DOWN
 
 
 func reset_action() -> void:
 	action_state = ActionState.READY
+	action_type = ActionType.NONE
 	action_cooldown = 0.0
 	action_direction = Vector2.ZERO
-	in_action_range = false
+	action_in_range = false
 
 
 func reset_action_targets() -> void:
@@ -166,6 +168,20 @@ func in_action() -> bool:
 
 func in_forced_move_state() -> bool:
 	return move_state in [MoveState.KNOCKBACK, MoveState.STUN]
+
+#endregion
+
+# ..............................................................................
+
+#region INTERACTION HIT BOX SIGNALS
+
+func _on_interaction_hit_box_mouse_entered() -> void:
+	if self in Entities.entities_available:
+		Inputs.action_inputs_enabled = false
+
+
+func _on_interaction_hit_box_mouse_exited() -> void:
+	Inputs.action_inputs_enabled = true
 
 #endregion
 

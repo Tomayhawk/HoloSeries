@@ -1,14 +1,43 @@
 class_name BasicEnemyBase
 extends EnemyBase
 
-# BASIC ENEMY BASE
+# BASIC ENEMY BASE (ENTITY)
 
 # ..............................................................................
 
 #region VARIABLES
 
-var players_in_detection_area: Array[Node] = []
-var players_in_attack_area: Array[Node] = []
+var players_in_detection_area: Array[PlayerBase] = []
+var players_in_attack_area: Array[PlayerBase] = []
+
+#endregion
+
+# ..............................................................................
+
+#region MOVEMENT AND ACTIONS
+
+func start_walk(temp_direction: Vector2 = Vector2.ZERO) -> void:
+	# move in a random direction if no set direction
+	if temp_direction == Vector2.ZERO:
+		temp_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
+
+	$Animation.play(&"walk")
+	$Animation.flip_h = move_state_velocity.x < 0.0
+
+	move_state_velocity = temp_direction * self.MOVE_SPEED
+
+
+func set_action_target() -> void:
+	# set available targets
+	var available_targets: Array[EntityBase]
+	if not players_in_attack_area.is_empty():
+		available_targets.assign(players_in_attack_area)
+	else:
+		available_targets.assign(players_in_detection_area)
+
+	# target player by stats
+	action_target = Entities.target_entity_by_stats(
+			available_targets, action_target_stats, action_target_get_max)
 
 #endregion
 
@@ -23,6 +52,7 @@ func knockback(base_velocity: Vector2, base_duration: float = BASE_KNOCKBACK_TIM
 
 	super(base_velocity, base_duration)
 
+	# knockback animation
 	$Animation.play(&"knockback")
 	$Animation.flip_h = base_velocity.x > 0
 	$Animation.speed_scale = BASE_KNOCKBACK_TIME / move_state_duration
@@ -42,26 +72,9 @@ func death() -> void:
 
 # ..............................................................................
 
-#region SIGNALS
+#region DETECTION SIGNALS
 
-# INTERACTION HIT BOX
-
-func _on_interaction_hit_box_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event.is_action_pressed(&"action"):
-		print("here")
-		if Inputs.alt_pressed:
-			Inputs.accept_event()
-			Combat.lock(self)
-		elif self in Entities.entities_available:
-			Inputs.accept_event()
-			Entities.choose_entity(self)
-
-# DETECTION AREA
-
-func _on_detection_area_body_entered(body: Node2D) -> void:
-	if not stats.alive or not body.stats.alive:
-		return
-
+func _on_detection_area_body_entered(body: PlayerBase) -> void:
 	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 
 	if not players_in_detection_area.has(body):
@@ -70,37 +83,35 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 	Combat.enter_combat()
 
 
-func _on_detection_area_body_exited(body: Node2D) -> void:
-	players_in_attack_area.erase(body)
+func _on_detection_area_body_exited(body: PlayerBase) -> void:
 	players_in_detection_area.erase(body)
-	if players_in_attack_area.is_empty() and action_state != ActionState.EXECUTE:
-		in_action_range = false
 	if players_in_detection_area.is_empty():
 		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		Combat.remove_active_enemy(self)
 
-# ATTACK AREA
+#endregion
 
-func _on_attack_area_body_entered(body: Node2D) -> void:
-	if not stats.alive or not body.stats.alive:
-		return
+# ..............................................................................
 
-	if not players_in_detection_area.has(body):
-		players_in_detection_area.append(body)
+#region ATTACK AREA SIGNALS
 
+func _on_attack_area_body_entered(body: PlayerBase) -> void:
 	if not players_in_attack_area.has(body):
 		players_in_attack_area.append(body)
 
-	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
-	in_action_range = true
+	action_in_range = true
 
 
-func _on_attack_area_body_exited(body: Node2D) -> void:
+func _on_attack_area_body_exited(body: PlayerBase) -> void:
 	players_in_attack_area.erase(body)
 	if players_in_attack_area.is_empty():
-		in_action_range = false
+		action_in_range = false
 
-# ON SCREEN STATUS
+#endregion
+
+# ..............................................................................
+
+#region ON SCREEN SIGNALS
 
 func _on_visible_on_screen_notifier_2d_screen_entered() -> void:
 	stats.entity_types |= Entities.Type.ENEMIES_ON_SCREEN

@@ -1,6 +1,6 @@
 extends Effect
 
-# POISON
+# POISON (EFFECT)
 # deals damage periodically & cannot kill (leaves 1 HP)
 
 # ..............................................................................
@@ -10,9 +10,8 @@ extends Effect
 var damage_types: int = (
 		Damage.DamageTypes.PLAYER_TARGET
 		| Damage.DamageTypes.MAGIC
-		| Damage.DamageTypes.NO_CRITICAL
 		| Damage.DamageTypes.NO_LETHAL
-		| Damage.DamageTypes.NO_MISS
+		| Damage.DamageTypes.EFFECT
 )
 
 var origin_stats: EntityStats = null

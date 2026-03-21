@@ -1,6 +1,6 @@
 extends Effect
 
-# BLINDNESS
+# BLINDNESS (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................

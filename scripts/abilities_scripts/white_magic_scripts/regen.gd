@@ -9,14 +9,6 @@ extends Node
 
 #region CONSTANTS
 
-const DAMAGE_TYPES: int = (
-		Damage.DamageTypes.PLAYER_TARGET |
-		Damage.DamageTypes.HEAL |
-		Damage.DamageTypes.MAGIC |
-		Damage.DamageTypes.NO_CRITICAL |
-		Damage.DamageTypes.NO_MISS
-)
-
 const MANA_COST: float = 20
 const REGEN_COUNT: int = 7
 const HEAL_PERCENTAGE: float = 0.02
@@ -26,6 +18,13 @@ const HEAL_PERCENTAGE: float = 0.02
 # ..............................................................................
 
 #region VARIABLES
+
+var damage_types: int = (
+		Damage.DamageTypes.PLAYER_TARGET
+		| Damage.DamageTypes.HEAL
+		| Damage.DamageTypes.MAGIC
+		| Damage.DamageTypes.EFFECT
+)
 
 @onready var caster_base: EntityBase = Players.main_player
 
@@ -60,7 +59,7 @@ func entity_chosen(target_entity: EntityBase) -> void:
 		# 70 HP to 1470 HP (max at 7000 HP)
 		effect.effect_timer = 4.0
 		effect.origin_stats = caster_base.stats
-		effect.damage_types = DAMAGE_TYPES
+		effect.damage_types = damage_types
 		effect.regen_interval = 4.0
 		effect.regen_amount = clampf(target_entity.stats.max_health * HEAL_PERCENTAGE, 10.0, 210.0)
 		effect.regen_count = REGEN_COUNT

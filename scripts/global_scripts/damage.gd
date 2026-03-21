@@ -27,6 +27,9 @@ enum DamageTypes {
     NO_REFLECT = 1 << 12,
     NO_COUNTER = 1 << 13,
 
+	# effect modifiers
+	EFFECT = NO_MISS | NO_CRITICAL | NO_REFLECT | NO_COUNTER,
+
 	# special
     MISS = 1 << 14,
 	CRITICAL = 1 << 15,

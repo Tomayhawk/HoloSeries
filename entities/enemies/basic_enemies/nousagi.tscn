@@ -204,7 +204,7 @@ script = ExtResource("1_kcgu1")
 process_mode = 3
 y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_7htyj")
-animation = &"attack"
+animation = &"walk"
 offset = Vector2(0, -13)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=1346202168]

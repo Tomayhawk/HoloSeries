@@ -1,6 +1,6 @@
 extends Effect
 
-# CHARM
+# CHARM (EFFECT)
 # DESCRIPTION
 
 # ..............................................................................
@@ -8,7 +8,7 @@ extends Effect
 #region INITIAL
 
 func _init() -> void:
-    effect_name = "Charm"
+	effect_name = "Charm"
 
 #endregion
 

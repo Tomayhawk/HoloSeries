@@ -151,6 +151,15 @@ var accessory_3: Accessory = null
 
 # ..............................................................................
 
+#region COMBAT UI
+
+var focused_main_option: Button = null
+var focused_sub_option: Button = null
+
+#endregion
+
+# ..............................................................................
+
 #region INITIAL
 
 func _init() -> void:
@@ -192,20 +201,19 @@ func update_health(value: float) -> void:
 
 func update_health_display() -> void:
 	# update combat ui label
-	health_label.text = str(int(health))
-
-	if not base:
-		return
+	if health_label:
+		health_label.text = str(int(health))
 
 	# update health bar
-	var bar_percentage: float = health / max_health
-	health_bar.value = health
-	health_bar.visible = health > 0.0 and health < max_health
-	health_bar.modulate = (
-			Color(0, 1, 0, 1) if bar_percentage > 0.5
-			else Color(1, 1, 0, 1) if bar_percentage > 0.2
-			else Color(1, 0, 0, 1)
-	)
+	if base:
+		var bar_percentage: float = health / max_health
+		health_bar.value = health
+		health_bar.visible = health > 0.0 and health < max_health
+		health_bar.modulate = (
+				Color(0, 1, 0, 1) if bar_percentage > 0.5
+				else Color(1, 1, 0, 1) if bar_percentage > 0.2
+				else Color(1, 0, 0, 1)
+		)
 
 
 
@@ -222,14 +230,13 @@ func update_mana(value: float) -> void:
 
 func update_mana_display() -> void:
 	# update combat ui label
-	mana_label.text = str(int(mana))
-
-	if not base:
-		return
+	if mana_label:
+		mana_label.text = str(int(mana))
 
 	# update mana bar
-	mana_bar.value = mana
-	mana_bar.visible = mana < max_mana
+	if base:
+		mana_bar.value = mana
+		mana_bar.visible = mana < max_mana
 
 #endregion
 
@@ -248,7 +255,7 @@ func update_stamina(value: float) -> void:
 	elif stamina == max_stamina:
 		fatigue = false
 
-	# in party -> update stamina bar
+	# update stamina bar
 	if base:
 		update_stamina_display()
 
@@ -268,7 +275,7 @@ func update_stamina_display() -> void:
 func update_shield(value: float) -> void:
 	super(value)
 
-	# in party -> update shield bar
+	# update shield bar
 	if base:
 		update_shield_display()
 
@@ -290,7 +297,7 @@ func update_ultimate_gauge(value: float) -> void:
 
 	ultimate_gauge = clampf(ultimate_gauge + value, 0, max_ultimate_gauge)
 
-	# in party -> update ultimate gauge bar
+	# update ultimate gauge bar
 	if base:
 		update_ultimate_gauge_display()
 
@@ -345,6 +352,26 @@ func update_experience_required() -> void:
 
 # ..............................................................................
 
+#region STANDBY UPDATES
+
+func switch_to_party(next_base: PlayerBase) -> void:
+	base = next_base
+	reset_display_stats()
+	Combat.ui.set_focused_options(focused_main_option, focused_sub_option)
+
+
+func switch_to_standby() -> void:
+	last_action_cooldown = base.action_cooldown
+	focused_main_option = Combat.ui.focused_main_option
+	focused_sub_option = Combat.ui.focused_sub_option
+
+	base = null
+	reset_display_stats()
+
+#endregion
+
+# ..............................................................................
+
 #region SET STATS
 
 func load_character(character_data: Dictionary) -> void:
@@ -368,8 +395,8 @@ func load_character(character_data: Dictionary) -> void:
 
 func reset_stats() -> void:
 	reset_base_stats()
-	reset_current_stats()
 	reset_equipment_stats()
+	reset_current_stats()
 	reset_action_stats()
 	reset_effect_stats()
 	reset_display_stats()
@@ -402,35 +429,6 @@ func reset_base_stats() -> void:
 	base_force = 1.0
 	base_weight = 1.0
 	base_vision = 1.0
-
-
-func reset_current_stats() -> void:
-	# max health, mana, stamina
-	max_health = base_health
-	max_mana = base_mana
-	max_stamina = base_stamina
-
-	# current stats
-	health = base_health
-	mana = base_mana
-	stamina = max_stamina
-
-	defense = base_defense
-	ward = base_ward
-	strength = base_strength
-	intelligence = base_intelligence
-	speed = base_speed
-	agility = base_agility
-	crit_chance = base_crit_chance
-	crit_damage = base_crit_damage
-
-	force = base_force
-	weight = base_weight
-	vision = base_vision
-
-	# shield
-	shield = 0.0
-	max_shield = base_health
 
 
 func reset_equipment_stats() -> void:
