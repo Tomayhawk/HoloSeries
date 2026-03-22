@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://sgfef4u071uo"]
 
 [ext_resource type="Script" uid="uid://8wrosxgjdbti" path="res://scripts/user_interfaces_scripts/save_point_ui.gd" id="1_bjvvk"]
-[ext_resource type="Texture2D" uid="uid://88dj8thlnawh" path="res://visuals/user_interfaces/save_point_ui_background.png" id="1_mn7g7"]
+[ext_resource type="Texture2D" uid="uid://88dj8thlnawh" path="res://art/entities/interactables/save_point_ui_background.png" id="1_mn7g7"]
 
 [node name="SavePointUi" type="CanvasLayer" unique_id=1423587691]
 script = ExtResource("1_bjvvk")

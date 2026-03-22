@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 # MAIN MENU (SCENE)
-# TODO: Multiplayer, Mini Games, Leaderboards
 
 # ..............................................................................
 
@@ -46,7 +45,7 @@ func _input(event: InputEvent) -> void:
 	# INPUT: esc -> handle esc inputs
 	if event.is_action(&"esc"):
 		Inputs.accept_event()
-		if event.is_pressed():
+		if event.is_pressed() and not event.is_echo():
 			esc_input()
 
 #endregion

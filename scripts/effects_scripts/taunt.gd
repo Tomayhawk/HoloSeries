@@ -14,4 +14,4 @@ func _init() -> void:
 
 # ..............................................................................
 
-# TODO: becomes more likely to be targetted by enemies
+# becomes more likely to be targetted by enemies

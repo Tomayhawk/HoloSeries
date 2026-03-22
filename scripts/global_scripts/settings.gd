@@ -1,7 +1,5 @@
 extends Node
 
-# TODO: should add toggle setting for release dash
-
 # SETTINGS (AUTOLOAD #2)
 
 # Directory

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://nsnibaboaiaa"]
+
+[ext_resource type="Script" uid="uid://d3fxu35u7ygoe" path="res://scripts/entities_scripts/interactables_scripts/spawner.gd" id="1_6p7cy"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/interactables/interactable_base.tscn" id="2_opsxs"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gg3k0"]
+
+[node name="Spawner" type="AnimatedSprite2D" unique_id=430563849]
+sprite_frames = SubResource("SpriteFrames_gg3k0")
+script = ExtResource("1_6p7cy")
+
+[node name="InteractableBase" parent="." unique_id=1752085752 instance=ExtResource("2_opsxs")]
+
+[node name="Timer" type="Timer" parent="." unique_id=1299393472]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

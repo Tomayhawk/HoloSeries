@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
-[ext_resource type="SpriteFrames" uid="uid://4au5vp4f5jch" path="res://entities/character_animations/sora.tres" id="2_h3n4j"]
-[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://visuals/entities/player_base/shield_progress_bar_fill.tres" id="2_nogga"]
+[ext_resource type="SpriteFrames" uid="uid://4au5vp4f5jch" path="res://resources/entities/characters/sora.tres" id="2_h3n4j"]
+[ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/temporary/shield_progress_bar_fill.tres" id="2_nogga"]
 [ext_resource type="Script" uid="uid://p7l1s035chta" path="res://scripts/entities_scripts/players_scripts/player_animation.gd" id="3_h3n4j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
@@ -25,7 +25,7 @@ size = Vector2(16, 7)
 
 [node name="PlayerBase" type="CharacterBody2D" unique_id=1022924037 groups=["players", "players_alive"]]
 y_sort_enabled = true
-collision_mask = 239
+collision_mask = 235
 input_pickable = true
 motion_mode = 1
 script = ExtResource("1_dib8t")
@@ -62,7 +62,7 @@ shape = SubResource("RectangleShape2D_fbnw6")
 [node name="InteractionArea" type="Area2D" parent="." unique_id=2120827375]
 visible = false
 collision_layer = 0
-collision_mask = 36
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=778146203]
 shape = SubResource("CircleShape2D_swviq")

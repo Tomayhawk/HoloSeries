@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://beguyordwswmw"]
 
 [ext_resource type="Script" uid="uid://jha6rculihp" path="res://scripts/user_interfaces_scripts/characters_ui.gd" id="1_ejeso"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/general/panel_style/blue_translucent_panel.tres" id="1_yqs53"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/temporary/blue_translucent_panel.tres" id="1_yqs53"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x1ttm"]
 load_path = "res://.godot/imported/holonexus_.png-619b29bf0c8b4aea3d719f26db2e2f7e.ctex"

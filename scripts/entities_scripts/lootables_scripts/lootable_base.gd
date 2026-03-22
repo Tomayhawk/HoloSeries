@@ -77,10 +77,8 @@ func player_exited(player_base: PlayerBase) -> void:
 
 #region SIGNALS
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: PlayerBase) -> void:
 	Inventory.add_item(item_type, item_id)
-	body.stats.update_shield(10.0) # TODO: temporary code
-	body.stats.update_ultimate_gauge(10.0) # TODO: temporary code
 	queue_free()
 
 #endregion

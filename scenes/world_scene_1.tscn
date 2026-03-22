@@ -1,15 +1,15 @@
 [gd_scene format=4 uid="uid://dyvmrtl5c0ad3"]
 
 [ext_resource type="Script" uid="uid://ohywvrrmpnpi" path="res://scripts/scenes_scripts/world_scene_1.gd" id="1_4rgc2"]
-[ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://visuals/temporary/plains.png" id="1_7j0j2"]
-[ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://visuals/temporary/objects.png" id="2_nnwlk"]
-[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://visuals/scenes/physics.png" id="4_kndtx"]
-[ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://entities/world_objects/chest.tscn" id="5_uih6u"]
-[ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/npcs/npc_kobo.tscn" id="6_5ivv1"]
-[ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://entities/world_objects/spawner.tscn" id="6_y50s5"]
-[ext_resource type="PackedScene" uid="uid://bcyrkvjaiy1go" path="res://entities/world_objects/save_point.tscn" id="7_f7v21"]
+[ext_resource type="Texture2D" uid="uid://c5bvpekwpv6rw" path="res://art/temporary/plains.png" id="1_7j0j2"]
+[ext_resource type="Texture2D" uid="uid://btj1vfgsejh7f" path="res://art/temporary/objects.png" id="2_nnwlk"]
+[ext_resource type="Texture2D" uid="uid://brhav82ewcwqm" path="res://art/scenes/physics.png" id="4_kndtx"]
+[ext_resource type="PackedScene" uid="uid://dthvymrd0k1my" path="res://entities/interactables/chest.tscn" id="5_uih6u"]
+[ext_resource type="PackedScene" uid="uid://dlxkifgl6lq80" path="res://entities/interactables/npcs/npc_kobo.tscn" id="6_5ivv1"]
+[ext_resource type="PackedScene" uid="uid://nsnibaboaiaa" path="res://entities/interactables/spawner.tscn" id="6_y50s5"]
+[ext_resource type="PackedScene" uid="uid://bcyrkvjaiy1go" path="res://entities/interactables/save_point.tscn" id="7_f7v21"]
 [ext_resource type="PackedScene" uid="uid://du2d3fhraj8fe" path="res://entities/enemies/basic_enemies/nousagi.tscn" id="8_mdvis"]
-[ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://entities/npcs/npc_akirose.tscn" id="10_nqrae"]
+[ext_resource type="PackedScene" uid="uid://cl846axs17iqn" path="res://entities/interactables/npcs/npc_akirose.tscn" id="10_nqrae"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5688q"]
 texture = ExtResource("1_7j0j2")

@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bfgttyngrxknk"]
 
 [ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/text_box_ui.gd" id="1_2vkij"]
-[ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://visuals/user_interfaces/dark_blue_text_box_panel.tres" id="2_j6bso"]
-[ext_resource type="Texture2D" uid="uid://b7tr6l3oi7l1p" path="res://visuals/user_interfaces/text_box_ui/text_box_2.png" id="3_bnnh5"]
-[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="4_txbxe"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/dark_blue_button_normal.tres" id="5_oyfqh"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/dark_blue_button_pressed.tres" id="6_032r2"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/dark_blue_button_hover.tres" id="7_3r5kp"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/dark_blue_button_focus.tres" id="8_bg0bu"]
+[ext_resource type="StyleBox" uid="uid://idro3qbiv415" path="res://resources/temporary/dark_blue_text_box_panel.tres" id="2_j6bso"]
+[ext_resource type="Texture2D" uid="uid://b7tr6l3oi7l1p" path="res://art/user_interfaces/text_box_ui/text_box_2.png" id="3_bnnh5"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://art/fonts/SHPinscher-Regular.otf" id="4_txbxe"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/temporary/dark_blue_button_normal.tres" id="5_oyfqh"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/temporary/dark_blue_button_pressed.tres" id="6_032r2"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/temporary/dark_blue_button_hover.tres" id="7_3r5kp"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/temporary/dark_blue_button_focus.tres" id="8_bg0bu"]
 
 [node name="TextBoxUi" type="CanvasLayer" unique_id=689393278]
 layer = 100

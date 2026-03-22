@@ -3,20 +3,20 @@
 [ext_resource type="Script" uid="uid://ds1yaf3ereija" path="res://scripts/global_scripts/players.gd" id="1_eytbs"]
 [ext_resource type="Script" uid="uid://sxj4ru0mops5" path="res://scripts/global_scripts/global_components_scripts/camera.gd" id="2_j4fbi"]
 
-[node name="Players" type="Node2D"]
+[node name="Players" type="Node2D" unique_id=995705492]
 y_sort_enabled = true
 script = ExtResource("1_eytbs")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1955175885]
 process_mode = 3
 process_callback = 0
 position_smoothing_enabled = true
 script = ExtResource("2_j4fbi")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Camera"]
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera" unique_id=1571357577]
 layer = 100
 
-[node name="ColorRect" type="ColorRect" parent="Camera/CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="Camera/CanvasLayer" unique_id=1941397082]
 offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0.156863, 0.156863, 0.156863, 0)

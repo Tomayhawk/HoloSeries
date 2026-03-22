@@ -10,7 +10,7 @@ var speed: float = 100.0
 
 var target_entity: EntityBase = null
 
-@onready var ability: Node = get_parent()
+@onready var ability: Node2D = get_parent()
 
 #endregion
 
@@ -28,7 +28,7 @@ func _ready() -> void:
 #region PROCESS
 
 func _physics_process(delta: float) -> void:
-	# maintain direction if no target
+	# GUARD: no target -> maintain direction
 	if not target_entity:
 		ability.position += Vector2.RIGHT.rotated(ability.rotation) * speed * delta
 		return
@@ -53,7 +53,8 @@ func initiate_homing_projectile(entity_base: EntityBase, projectile_speed: float
 	ability.look_at(target_entity.position)
 	set_physics_process(true)
 
-func _on_body_exited(body: Node2D) -> void:
+
+func _on_body_exited(body: EntityBase) -> void:
 	if body == target_entity:
 		target_entity = null
 

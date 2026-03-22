@@ -14,4 +14,4 @@ func _init() -> void:
 
 # ..............................................................................
 
-# TODO: deflects non-mana abilties, back towards original caster
+# reflects non-mana abilties, back towards original caster

@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://810cm81280q3"]
 
 [ext_resource type="Script" uid="uid://1vvf7qsqosjt" path="res://scripts/scenes_scripts/main_menu_scene.gd" id="1_tgs5c"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/dark_blue_button_normal.tres" id="2_55lvy"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/blue_translucent_panel.tres" id="2_jdk0e"]
-[ext_resource type="Texture2D" uid="uid://hm7e5wc8ld8i" path="res://visuals/scenes/main_menu_scene/main_menu_button_hover.png" id="3_8fdqi"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/dark_blue_button_hover.tres" id="3_pj10e"]
-[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="3_wbyn4"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/dark_blue_button_pressed.tres" id="4_3fkh3"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/dark_blue_button_focus.tres" id="5_yjj58"]
-[ext_resource type="Texture2D" uid="uid://c5qqddt3tskw3" path="res://visuals/scenes/main_menu_scene/main_menu_button_pressed.png" id="8_ofrqx"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/temporary/dark_blue_button_normal.tres" id="2_55lvy"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/temporary/blue_translucent_panel.tres" id="2_jdk0e"]
+[ext_resource type="Texture2D" uid="uid://hm7e5wc8ld8i" path="res://art/scenes/main_menu_scene/main_menu_button_hover.png" id="3_8fdqi"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/temporary/dark_blue_button_hover.tres" id="3_pj10e"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://art/fonts/SHPinscher-Regular.otf" id="3_wbyn4"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/temporary/dark_blue_button_pressed.tres" id="4_3fkh3"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/temporary/dark_blue_button_focus.tres" id="5_yjj58"]
+[ext_resource type="Texture2D" uid="uid://c5qqddt3tskw3" path="res://art/scenes/main_menu_scene/main_menu_button_pressed.png" id="8_ofrqx"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pw2k5"]
 

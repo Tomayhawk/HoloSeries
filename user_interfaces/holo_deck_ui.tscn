@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://b0bohmrss6hcx"]
 
 [ext_resource type="Script" uid="uid://uimxe38ynyg4" path="res://scripts/user_interfaces_scripts/holo_deck_ui.gd" id="1_3p7i7"]
-[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://visuals/user_interfaces/general/panel_style/blue_translucent_panel.tres" id="2_up7w1"]
-[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_normal.tres" id="3_0mh8y"]
-[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_pressed.tres" id="4_107nx"]
-[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_hover.tres" id="5_14qic"]
-[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://visuals/user_interfaces/general/button_style/dark_blue_button_focus.tres" id="6_f5pg6"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/temporary/blue_translucent_panel.tres" id="2_up7w1"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/temporary/dark_blue_button_normal.tres" id="3_0mh8y"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/temporary/dark_blue_button_pressed.tres" id="4_107nx"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/temporary/dark_blue_button_hover.tres" id="5_14qic"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/temporary/dark_blue_button_focus.tres" id="6_f5pg6"]
 
 [node name="HoloDeckUi" type="CanvasLayer" unique_id=1771298442]
 layer = 20

@@ -15,15 +15,15 @@ enum SavePoints {
 	WORLD_SCENE_1_SPAWN,
 }
 
-enum SPKeys {
+enum SaveKeys {
 	SCENE,
 	POSITION,
 }
 
 const SAVE_POINTS: Dictionary[SavePoints, Dictionary] = {
 	SavePoints.WORLD_SCENE_1_SPAWN: {
-		SPKeys.SCENE: Global.Scenes.WORLD_SCENE_1,
-		SPKeys.POSITION: Vector2(0.0, 0.0),
+		SaveKeys.SCENE: Global.Scenes.WORLD_SCENE_1,
+		SaveKeys.POSITION: Vector2(0.0, 0.0),
 	},
 }
 
@@ -91,8 +91,6 @@ const NEXUS_GENERATOR_PATH: String = "res://scripts/holo_nexus_scripts/nexus_gen
 
 # characters
 const CHARACTERS_COUNT: int = 5
-
-# LOAD SAVE
 
 # errors
 const SAVE_ERROR_MESSAGE: String = "[saves.gd] Invalid save file access: %s"
@@ -312,7 +310,7 @@ static func load_players(data: Dictionary) -> void:
 
 static func load_scene(data: Dictionary) -> void:
 	var save_point: Dictionary = SAVE_POINTS[data["save_point"]]
-	Global.change_scene(Global.Scenes.MAIN_MENU, save_point[SPKeys.SCENE], save_point[SPKeys.POSITION])
+	Global.change_scene(Global.Scenes.MAIN_MENU, save_point[SaveKeys.SCENE], save_point[SaveKeys.POSITION])
 
 #endregion
 

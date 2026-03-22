@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://chdvdbkh2i06w"]
 
-[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_normal.png" id="1_ti1y2"]
-[ext_resource type="Texture2D" uid="uid://ciyn3cugvl5a3" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_pressed.png" id="2_nhmvv"]
-[ext_resource type="Texture2D" uid="uid://dysrbbx2j3qeu" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_hover.png" id="3_3br78"]
-[ext_resource type="Texture2D" uid="uid://b0a3gjq144st1" path="res://visuals/user_interfaces/combat_ui/combat_ui_button_hover_pressed.png" id="4_bp6ko"]
-[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="5_ti1y2"]
+[ext_resource type="Texture2D" uid="uid://dkklfprifuwl1" path="res://art/user_interfaces/combat_ui/combat_ui_button_normal.png" id="1_ti1y2"]
+[ext_resource type="Texture2D" uid="uid://ciyn3cugvl5a3" path="res://art/user_interfaces/combat_ui/combat_ui_button_pressed.png" id="2_nhmvv"]
+[ext_resource type="Texture2D" uid="uid://dysrbbx2j3qeu" path="res://art/user_interfaces/combat_ui/combat_ui_button_hover.png" id="3_3br78"]
+[ext_resource type="Texture2D" uid="uid://b0a3gjq144st1" path="res://art/user_interfaces/combat_ui/combat_ui_button_hover_pressed.png" id="4_bp6ko"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://art/fonts/SHPinscher-Regular.otf" id="5_ti1y2"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7ue3w"]
 texture = ExtResource("1_ti1y2")

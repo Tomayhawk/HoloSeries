@@ -4,6 +4,14 @@ extends Node2D
 
 # ..............................................................................
 
+#region SIGNALS
+
+signal main_player_switched
+
+#endregion
+
+# ..............................................................................
+
 #region CONSTANTS
 
 const PLAYER_PATH: String = "res://entities/player_base.tscn"
@@ -40,6 +48,7 @@ var standby_characters: Array[PlayerStats] = []
 func switch_main_player(next_main_player: PlayerBase) -> void:
 	main_player.switch_to_ally()
 	next_main_player.switch_to_main()
+	main_player_switched.emit()
 
 
 # update main player, add previous stats to standby, and update standby ui

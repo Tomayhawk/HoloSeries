@@ -32,7 +32,7 @@ const CHARACTER_CRIT_DAMAGE: float = 1.60 # +0.10 Crit Damage
 const CHARACTER_DEFAULT_UNLOCKED: Array[int] = [491, 522, 523]
 
 # animation
-const CHARACTER_ANIMATION_PATH: String = "res://entities/character_animations/akirose.tres"
+const CHARACTER_ANIMATION_PATH: String = "res://resources/entities/characters/akirose.tres"
 
 # basic attack, ultimate
 const CHARACTER_BASIC_ATTACK_PATH: String = "res://abilities/attack/sora_slash.tscn"

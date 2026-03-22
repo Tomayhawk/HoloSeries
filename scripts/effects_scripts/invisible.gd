@@ -14,5 +14,5 @@ func _init() -> void:
 
 # ..............................................................................
 
-# TODO: becomes semi-transparent
-# TODO: cannot be target by enemies
+# becomes semi-transparent
+# cannot be target by enemies

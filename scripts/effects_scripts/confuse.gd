@@ -14,6 +14,6 @@ func _init() -> void:
 
 # ..............................................................................
 
-# TODO: cannot become main player
-# TODO: can only use basic attack, and cannot use any items, abilities or ultimates
-# TODO: attacks ally instead
+# cannot become main player
+# can only use basic attack, and cannot use any items, abilities or ultimates
+# attacks ally instead

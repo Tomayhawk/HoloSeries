@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dl4lxtmyhiro0"]
-
-[ext_resource type="Script" uid="uid://c7y07g6gmpisf" path="res://scripts/abilities_scripts/abilities_components_scripts/area_of_effect.gd" id="1_0rypx"]
-
-[node name="AreaOfEffect" type="Node2D" unique_id=1512337941]
-script = ExtResource("1_0rypx")

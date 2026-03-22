@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action(&"continue") or event.is_action(&"action"):
 		if text_box_state != TextBoxState.WAITING:
 			Inputs.accept_event()
-		if event.is_pressed():
+		if event.is_pressed() and not event.is_echo():
 			text_box_input()
 
 #endregion

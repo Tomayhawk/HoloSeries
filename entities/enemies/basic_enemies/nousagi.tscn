@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://du2d3fhraj8fe"]
 
 [ext_resource type="Script" uid="uid://c1jjlvfogfwsu" path="res://scripts/entities_scripts/enemies_scripts/nousagi.gd" id="1_kcgu1"]
-[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://visuals/entities/enemies/basic_enemies/Nousagi.png" id="2_wdkf2"]
+[ext_resource type="Texture2D" uid="uid://cy4t7453518vs" path="res://art/entities/enemies/basic_enemies/Nousagi.png" id="2_wdkf2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_spcl6"]
 atlas = ExtResource("2_wdkf2")
@@ -189,9 +189,6 @@ radius = 150.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_p8mfo"]
 radius = 35.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8foym"]
-radius = 20.0
-
 [node name="Nousagi" type="CharacterBody2D" unique_id=1123065530 groups=["enemies", "enemies_basic"]]
 y_sort_enabled = true
 collision_layer = 2
@@ -242,14 +239,6 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=2017901439]
 shape = SubResource("CircleShape2D_p8mfo")
-
-[node name="AttackShape" type="Area2D" parent="." unique_id=817238980]
-visible = false
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackShape" unique_id=1071345662]
-position = Vector2(35, 0)
-shape = SubResource("CircleShape2D_8foym")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=2100346411]
 

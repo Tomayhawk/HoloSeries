@@ -3,20 +3,6 @@ extends EntityBase
 
 # PLAYER BASE (PLAYER)
 
-# TODO: deal with all await edge cases in project
-
-# TODO: test and maybe add other knockback options (maybe also dash)
-# TODO: fix endless knockback
-# TODO: fix nousagi stop attacking
-
-#var t = knockback_timer / 0.4
-# Quadratic
-#velocity = move_state_velocity * t * t
-# Exponential
-#velocity = move_state_velocity * pow(t, 0.5)
-# Ease Out Sine
-#velocity = move_state_velocity * sin(t * PI * 0.5)
-
 # ..............................................................................
 
 #region CONSTANTS
@@ -146,7 +132,7 @@ func _input(event: InputEvent) -> void:
 #region INPUT FUNCTIONS
 
 func handle_dash_input(event: InputEvent) -> void:
-	if event.is_pressed():
+	if event.is_pressed() and not event.is_echo():
 		attempt_dash()
 	elif move_state == MoveState.SPRINT and not Inputs.sprint_on_release:
 		end_sprint()
@@ -407,7 +393,6 @@ func action_input() -> void:
 
 #region ALLY ACTIONS
 
-# TODO: should add action selection logic
 func ally_queue_action(action: Node = null, priority: int = 0) -> void:
 	# action queue limit = 3 actions
 	if action_queue.size() > 3:
@@ -539,7 +524,7 @@ func initialize_player(next_stats: PlayerStats, next_party_index: int) -> void:
 	# update stats ui and stats bars
 	Combat.ui.update_party_ui(party_index, stats)
 
-# TODO: refactor 3 functions below for new Combat.ui updates
+
 func switch_to_main() -> void:
 	# update main player
 	is_main_player = true

@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://2uwd6qdjq1m4"]
 
-[ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://visuals/temporary/slime.png" id="1_boyp2"]
+[ext_resource type="Texture2D" uid="uid://cpkqlu48vt85m" path="res://art/temporary/slime.png" id="1_boyp2"]
 [ext_resource type="Script" uid="uid://bflk5o67i1b1h" path="res://scripts/abilities_scripts/black_magic_scripts/fireball.gd" id="1_g8rfi"]
-[ext_resource type="PackedScene" uid="uid://dl4lxtmyhiro0" path="res://abilities/abilities_components/area_of_effect.tscn" id="3_hc2jg"]
 [ext_resource type="PackedScene" uid="uid://bknnh8cqfuu10" path="res://abilities/abilities_components/despawn_component.tscn" id="6_iors1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rd68m"]
@@ -70,7 +69,5 @@ sprite_frames = SubResource("SpriteFrames_m0lm0")
 animation = &"shoot"
 
 [node name="DespawnComponent" parent="." unique_id=1622178997 instance=ExtResource("6_iors1")]
-
-[node name="AreaOfEffect" parent="." unique_id=72175737 instance=ExtResource("3_hc2jg")]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

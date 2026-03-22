@@ -1,4 +1,5 @@
-extends Node2D
+class_name AreaOfEffect
+extends Object
 
 # AREA OF EFFECT (ABILITIES COMPONENTS)
 
@@ -7,20 +8,20 @@ extends Node2D
 #region FUNCTIONS
 
 # trigger AOE and return entities in the area
-func area_of_effect(collision_masks: int) -> Array[EntityBase]:
+static func area_of_effect(
+		set_position: Vector2, set_collision_mask: int, set_shape: Shape2D
+) -> Array[EntityBase]:
+
 	var query := PhysicsShapeQueryParameters2D.new()
-	query.transform = global_transform
-	query.collision_mask = collision_masks
+	query.transform = Transform2D(0.0, set_position)
+	query.collision_mask = set_collision_mask
 	query.collide_with_areas = true
 	query.collide_with_bodies = false
-	query.shape = CircleShape2D.new()
-	query.shape.radius = 10.0
+	query.shape = set_shape
 
 	var entity_bases: Array[EntityBase] = []
-	for target_dict in get_world_2d().direct_space_state.intersect_shape(query):
-		var target_base: EntityBase = target_dict["collider"].get_parent()
-		if target_base.stats.alive:
-			entity_bases.append(target_base)
+	for target_dict in Players.get_world_2d().direct_space_state.intersect_shape(query):
+		entity_bases.append(target_dict["collider"].get_parent())
 
 	# return entities
 	return entity_bases

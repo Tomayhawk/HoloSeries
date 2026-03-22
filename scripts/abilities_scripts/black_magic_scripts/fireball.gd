@@ -1,15 +1,14 @@
 extends Area2D
 
-# ABILITY NAME: FIREBALL
-# ABILITY TYPE: BLACK MAGIC
+# FIREBALL (ABILITY - BLACK MAGIC)
 
 # ..............................................................................
 
 #region CONSTANTS
 
 const MANA_COST: float = 8.0
-const DAMAGE: float = 10.0
 const SPEED: float = 90.0
+const DAMAGE: float = 10.0
 
 #endregion
 
@@ -82,10 +81,14 @@ func cast_fireball(target_entity: EntityBase) -> void:
 	show()
 
 
-func projectile_collision(move_direction) -> void:
+func projectile_collision(move_direction: Vector2) -> void:
 	Players.camera.screen_shake(5, 1, 10, 10.0)
 
-	for enemy_base in $AreaOfEffect.area_of_effect(Entities.ENEMY_COLLISION_LAYER):
+	var area_of_effect_shape := CircleShape2D.new()
+	area_of_effect_shape.radius = 10.0
+
+	for enemy_base in AreaOfEffect.area_of_effect(
+			position, Entities.ENEMY_COLLISION_LAYER, area_of_effect_shape):
 		if Damage.combat_damage(DAMAGE, damage_types, caster_base.stats, enemy_base.stats):
 			enemy_base.knockback(move_direction * 120.0, 0.5)
 
@@ -97,7 +100,7 @@ func despawn_timeout() -> void:
 
 
 # on collision,
-func _on_body_entered(_body: Node2D) -> void:
+func _on_body_entered(_body: EntityBase) -> void:
 	projectile_collision(velocity.normalized())
 
 #endregion

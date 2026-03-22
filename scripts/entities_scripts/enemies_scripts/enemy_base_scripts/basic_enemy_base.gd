@@ -21,10 +21,10 @@ func start_walk(temp_direction: Vector2 = Vector2.ZERO) -> void:
 	if temp_direction == Vector2.ZERO:
 		temp_direction = Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)).normalized()
 
+	move_state_velocity = temp_direction * self.MOVE_SPEED
+
 	$Animation.play(&"walk")
 	$Animation.flip_h = move_state_velocity.x < 0.0
-
-	move_state_velocity = temp_direction * self.MOVE_SPEED
 
 
 func set_action_target() -> void:
@@ -77,6 +77,9 @@ func death() -> void:
 func _on_detection_area_body_entered(body: PlayerBase) -> void:
 	stats.entity_types |= Entities.Type.ENEMIES_IN_COMBAT
 
+	if not action_target:
+		set_action_target()
+
 	if not players_in_detection_area.has(body):
 		players_in_detection_area.append(body)
 
@@ -85,6 +88,10 @@ func _on_detection_area_body_entered(body: PlayerBase) -> void:
 
 func _on_detection_area_body_exited(body: PlayerBase) -> void:
 	players_in_detection_area.erase(body)
+
+	if action_target == body:
+		set_action_target()
+
 	if players_in_detection_area.is_empty():
 		stats.entity_types &= ~Entities.Type.ENEMIES_IN_COMBAT
 		Combat.remove_active_enemy(self)
@@ -104,8 +111,16 @@ func _on_attack_area_body_entered(body: PlayerBase) -> void:
 
 func _on_attack_area_body_exited(body: PlayerBase) -> void:
 	players_in_attack_area.erase(body)
+
+	if action_target == body:
+		set_action_target()
+
 	if players_in_attack_area.is_empty():
 		action_in_range = false
+
+	if not action_in_range and not in_action() and action_target:
+		$NavigationAgent2D.target_position = action_target.position
+		start_walk(to_local($NavigationAgent2D.get_next_path_position()).normalized())
 
 #endregion
 

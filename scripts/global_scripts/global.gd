@@ -104,7 +104,7 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 	},
 	Ui.HOLO_NEXUS: {
 		UiKeys.NAME: ^"HoloNexus",
-		UiKeys.PATH: "res://holo_nexus/holo_nexus.tscn", # TODO: maybe put this somewhere else
+		UiKeys.PATH: "res://holo_nexus/holo_nexus.tscn",
 	},
 	Ui.INVENTORY: {
 		UiKeys.NAME: ^"InventoryUi",
@@ -288,7 +288,7 @@ func change_scene(current_scene: Scenes, next_scene: Scenes, set_position: Vecto
 	Players.camera.force_zoom(Players.camera.target_zoom)
 	Players.camera.update_camera_limits(camera_limits)
 
-	# reset world objects and values
+	# reset scene entities and combat states
 	Entities.end_entities_request()
 	Entities.clear_scene_entities()
 	Damage.clear_damage_displays()

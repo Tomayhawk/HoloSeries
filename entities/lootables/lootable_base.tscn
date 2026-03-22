@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://7rma740sfkgc"]
 
 [ext_resource type="Script" uid="uid://bnxect0l0vkjj" path="res://scripts/entities_scripts/lootables_scripts/lootable_base.gd" id="1_o7mmm"]
-[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://visuals/temporary/temp_shirakami.png" id="2_nhk7i"]
+[ext_resource type="Texture2D" uid="uid://dcrqirbjsm8rx" path="res://art/temporary/temp_shirakami.png" id="2_nhk7i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs6gg"]
 size = Vector2(6, 6)

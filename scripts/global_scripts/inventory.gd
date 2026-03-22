@@ -35,7 +35,7 @@ const ACCESSORY_PATHS: Array[String] = []
 
 const LOOTABLES: Dictionary[LootablesKeys, Array] = {
 	LootablesKeys.TEMP_SHIRAKAMI: [
-		&"res://visuals/temporary/temp_shirakami.png", ItemTypes.CONSUMABLES, 0
+		&"res://art/temporary/temp_shirakami.png", ItemTypes.CONSUMABLES, 0
 	],
 }
 

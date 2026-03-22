@@ -3,7 +3,10 @@
 project.godot
 scripts/.DS_Store
 .DS_Store
+
+art
 music
 sound_effects
-visuals
 visual_effects
+
+*.gd.uid

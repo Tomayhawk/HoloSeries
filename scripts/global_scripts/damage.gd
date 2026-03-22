@@ -2,6 +2,8 @@ extends Node
 
 # DAMAGE (AUTOLOAD #6)
 
+# TODO: INCOMPLETE HEAL & DAMAGE FORMULAS
+
 # ..............................................................................
 
 #region CONSTANTS
@@ -46,7 +48,7 @@ const RANDOM_RANGE: Vector2 = Vector2(0.97, 1.03)
 const MAX_DAMAGE: float = 9999.0
 const MAX_DAMAGE_BREAK_LIMIT: float = 99999.0
 
-const DAMAGE_DISPLAY_FONT: Font = preload("res://visuals/fonts/SHPinscher-Regular.otf")
+const DAMAGE_DISPLAY_FONT: Font = preload("res://art/fonts/SHPinscher-Regular.otf")
 
 #endregion
 
@@ -101,12 +103,10 @@ func attempt_miss(types: int, origin: EntityStats, target: EntityStats) -> int:
 
 
 func calculate_heal(amount: float, origin: EntityStats) -> float:
-	# TODO: INCOMPLETE
 	return amount * (1 + (origin.intelligence * 0.05))
 
 
 func calculate_damage(damage: float, types: int, origin: EntityStats, target: EntityStats) -> float:
-	# TODO: INCOMPLETE AND UGLY
 	if types & DamageTypes.PHYSICAL: # physical damage
 		damage += (origin.strength * 2) + (damage * origin.strength * 0.05)
 		damage *= origin.level / (target.level + (origin.level * (1 + (target.defense * 1.0 / 1500))))

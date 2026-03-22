@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://lvv6a88tqi80"]
 
-[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://visuals/fonts/SHPinscher-Regular.otf" id="1_43pca"]
-[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://visuals/user_interfaces/combat_ui/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
+[ext_resource type="FontFile" uid="uid://biqshlrd77b" path="res://art/fonts/SHPinscher-Regular.otf" id="1_43pca"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://resources/temporary/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
 
 [node name="CharacterInfos" type="Control" unique_id=649930407]
 layout_mode = 3
