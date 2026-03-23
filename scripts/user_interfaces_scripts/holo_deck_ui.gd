@@ -21,13 +21,11 @@ func _ready() -> void:
 #region INPUTS
 
 func _input(event: InputEvent) -> void:
-	# INPUT: accept events
+	# INPUT: esc -> resume game
 	if event.is_action(&"esc"):
 		Inputs.accept_event()
-
-	# INPUT: esc -> resume game
-	if event.is_action_pressed(&"esc"):
-		_on_resume_pressed()
+		if event.is_pressed():
+			_on_resume_pressed()
 
 #endregion
 

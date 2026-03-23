@@ -93,7 +93,7 @@ func _on_saves_button_pressed() -> void:
 
 
 func _on_achievements_button_pressed() -> void:
-	pass # Replace with function body.
+	pass
 
 
 func _on_settings_button_pressed() -> void:

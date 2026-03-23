@@ -185,6 +185,7 @@ tile_set = SubResource("TileSet_k5v2m")
 y_sort_enabled = true
 
 [node name="Chest" type="StaticBody2D" parent="WorldEntities" unique_id=73228427]
+visible = false
 collision_layer = 0
 collision_mask = 0
 

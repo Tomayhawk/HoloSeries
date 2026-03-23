@@ -228,7 +228,7 @@ func _on_action_cooldown_timeout() -> void:
 	if action_in_range:
 		action_state = ActionState.READY
 	else:
-		pass # TODO
+		pass
 
 #endregion
 

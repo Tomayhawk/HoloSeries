@@ -313,3 +313,11 @@ collision_layer = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WorldScene2Transit" unique_id=893803303]
 shape = SubResource("RectangleShape2D_h76rv")
+
+[node name="DungeonEntranceTransit" type="Area2D" parent="." unique_id=277828471]
+position = Vector2(0, -296)
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DungeonEntranceTransit" unique_id=1079166010]
+position = Vector2(-144, 16)
+shape = SubResource("RectangleShape2D_h76rv")

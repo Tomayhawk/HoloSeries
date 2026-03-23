@@ -42,6 +42,7 @@ enum UiKeys {
 
 enum Scenes {
 	MAIN_MENU,
+	DUNGEON_ENTRANCE,
 	WORLD_SCENE_1,
 	WORLD_SCENE_2,
 	DUNGEON_SCENE_1,
@@ -73,6 +74,7 @@ const GLOBAL_UI_PATH = "res://user_interfaces/%s.tscn"
 
 const SCENE_PATHS: Dictionary[Scenes, String] = {
 	Scenes.MAIN_MENU: "res://scenes/main_menu_scene.tscn",
+	Scenes.DUNGEON_ENTRANCE: "res://scenes/dungeon_entrance.tscn",
 	Scenes.WORLD_SCENE_1: "res://scenes/world_scene_1.tscn",
 	Scenes.WORLD_SCENE_2: "res://scenes/world_scene_2.tscn",
 	Scenes.DUNGEON_SCENE_1: "res://scenes/dungeon_scene_1.tscn",
@@ -135,6 +137,10 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 #region SCENES DICTIONARIES
 
 const SCENES_DICT: Dictionary[Scenes, Dictionary] = {
+	Scenes.DUNGEON_ENTRANCE: {
+		ScenesKeys.CAMERA_LIMITS: [-10000000, -10000000, 10000000, 10000000],
+		ScenesKeys.MUSIC: Music.SHUNKAN_HEARTBEAT,
+	},
 	Scenes.WORLD_SCENE_1: {
 		ScenesKeys.CAMERA_LIMITS: [-208, -288, 224, 64],
 		ScenesKeys.MUSIC: Music.OH_ASMARA,
@@ -151,6 +157,7 @@ const SCENES_DICT: Dictionary[Scenes, Dictionary] = {
 
 const SCENE_CHANGES: Dictionary[Scenes, Dictionary] = {
 	Scenes.WORLD_SCENE_1: {
+		Scenes.DUNGEON_ENTRANCE: Vector2.ZERO,
 		Scenes.WORLD_SCENE_2: Vector2(0.0, 341.0),
 	},
 	Scenes.WORLD_SCENE_2: {

@@ -395,8 +395,8 @@ func load_character(character_data: Dictionary) -> void:
 
 func reset_stats() -> void:
 	reset_base_stats()
-	reset_equipment_stats()
 	reset_current_stats()
+	reset_equipment_stats()
 	reset_action_stats()
 	reset_effect_stats()
 	reset_display_stats()
@@ -461,7 +461,7 @@ func reset_action_stats() -> void:
 
 	for equipment in equipments:
 		if equipment:
-			equipment.update_action_stats(self)
+			equipment.equip_action_stats(self)
 
 
 func reset_effect_stats() -> void:

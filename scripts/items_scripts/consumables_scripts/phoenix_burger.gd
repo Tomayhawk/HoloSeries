@@ -21,7 +21,6 @@ static func use_item(target_base: EntityBase, id: int) -> void:
 		return
 
 	target_base.stats.revive(target_base.stats.max_health * 0.25)
-
 	Inventory.decrement_consumable(id)
 
 

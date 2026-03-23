@@ -82,15 +82,15 @@ func _input(event: InputEvent) -> void:
 	if not Inputs.zoom_inputs_enabled:
 		return
 
-	# INPUT: accept events
-	if event.is_action(&"scroll_up") or event.is_action(&"scroll_down"):
-		Inputs.accept_event()
-
 	# INPUT: scroll_up, scroll_down -> zoom
-	if event.is_action_pressed(&"scroll_up"):
-		update_zoom(1)
-	elif event.is_action_pressed(&"scroll_down"):
-		update_zoom(-1)
+	if event.is_action(&"scroll_up"):
+		Inputs.accept_event()
+		if event.is_pressed():
+			update_zoom(1)
+	if event.is_action(&"scroll_down"):
+		Inputs.accept_event()
+		if event.is_pressed():
+			update_zoom(-1)
 
 #endregion
 

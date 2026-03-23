@@ -1,3 +1,3 @@
 extends Weapon
 
-# Elves using bows a racial stereotype.
+# Elves using bows is a racial stereotype.
