@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b4hmg7dpopnq5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5klbe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc30a"]
+atlas = SubResource("CompressedTexture2D_5klbe")
+region = Rect2(16, 16, 48, 16)
+
+[node name="EnemyHighlight" type="Sprite2D" unique_id=352516917 groups=["entities_highlights"]]
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_vc30a")

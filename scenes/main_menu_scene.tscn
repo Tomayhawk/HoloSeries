@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://810cm81280q3"]
+
+[ext_resource type="Script" uid="uid://1vvf7qsqosjt" path="res://scripts/scenes_scripts/main_menu_scene.gd" id="1_tgs5c"]
+[ext_resource type="StyleBox" uid="uid://bw214osv4w074" path="res://resources/temporary/dark_blue_button_normal.tres" id="2_55lvy"]
+[ext_resource type="StyleBox" uid="uid://dtovomh45r1r8" path="res://resources/temporary/blue_translucent_panel.tres" id="2_jdk0e"]
+[ext_resource type="Texture2D" uid="uid://chvyb0virkbqp" path="res://art/scenes/main_menu_scene/main_menu_button_hover.png" id="3_8fdqi"]
+[ext_resource type="StyleBox" uid="uid://dn4ooi3iuri7g" path="res://resources/temporary/dark_blue_button_hover.tres" id="3_pj10e"]
+[ext_resource type="FontFile" uid="uid://b151s8ahp37y5" path="res://art/fonts/SHPinscher-Regular.otf" id="3_wbyn4"]
+[ext_resource type="StyleBox" uid="uid://skv4yoww86p0" path="res://resources/temporary/dark_blue_button_pressed.tres" id="4_3fkh3"]
+[ext_resource type="StyleBox" uid="uid://dmdgq5u21gfpl" path="res://resources/temporary/dark_blue_button_focus.tres" id="5_yjj58"]
+[ext_resource type="Texture2D" uid="uid://bvascj8d3ok3h" path="res://art/scenes/main_menu_scene/main_menu_button_pressed.png" id="8_ofrqx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pw2k5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pe0bh"]
+texture = ExtResource("8_ofrqx")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yg1bx"]
+texture = ExtResource("3_8fdqi")
+
+[node name="MainMenu" type="CanvasLayer" unique_id=1595380706]
+script = ExtResource("1_tgs5c")
+
+[node name="MainOptionsMenuMargin" type="MarginContainer" parent="." unique_id=1598342662]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -56.0
+offset_top = -178.0
+offset_right = 56.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainOptionsMenuMargin" unique_id=396463994]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="PlayButton" type="Button" parent="MainOptionsMenuMargin/VBoxContainer" unique_id=1660047756]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+text = "NG/Continue"
+clip_text = true
+
+[node name="SavesButton" type="Button" parent="MainOptionsMenuMargin/VBoxContainer" unique_id=909825769]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+text = "Saves"
+clip_text = true
+
+[node name="AchievementsButton" type="Button" parent="MainOptionsMenuMargin/VBoxContainer" unique_id=215276825]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+text = "Achievements"
+clip_text = true
+
+[node name="SettingsButton" type="Button" parent="MainOptionsMenuMargin/VBoxContainer" unique_id=30635038]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("3_wbyn4")
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StyleBoxEmpty_pw2k5")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_pe0bh")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yg1bx")
+text = "Settings"
+clip_text = true
+
+[node name="SavesMenuMargin" type="MarginContainer" parent="." unique_id=996704080]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="Panel" parent="SavesMenuMargin" unique_id=1303910048]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_jdk0e")
+
+[node name="MarginContainer" type="MarginContainer" parent="SavesMenuMargin" unique_id=1508455011]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SavesMenuMargin/MarginContainer" unique_id=512652229]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="FirstSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=22561543]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "First Save"
+
+[node name="SecondSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=945513049]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Second Save"
+
+[node name="ThirdSaveButton" type="Button" parent="SavesMenuMargin/MarginContainer/VBoxContainer" unique_id=350670203]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Third Save"
+
+[node name="MarginContainer" type="MarginContainer" parent="SavesMenuMargin/MarginContainer" unique_id=1517996541]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SavesMenuMargin/MarginContainer/MarginContainer" unique_id=1948775197]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="BackButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=961424921]
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Back"
+
+[node name="ContinueButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=962127290]
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Continue"
+
+[node name="EditButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=1152096369]
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "Edit"
+
+[node name="NewGameButton" type="Button" parent="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer" unique_id=1150249696]
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = ExtResource("2_55lvy")
+theme_override_styles/pressed = ExtResource("4_3fkh3")
+theme_override_styles/hover = ExtResource("3_pj10e")
+theme_override_styles/focus = ExtResource("5_yjj58")
+text = "New Game"
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1908657150]
+
+[connection signal="pressed" from="MainOptionsMenuMargin/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainOptionsMenuMargin/VBoxContainer/SavesButton" to="." method="_on_saves_button_pressed"]
+[connection signal="pressed" from="MainOptionsMenuMargin/VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="MainOptionsMenuMargin/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="SavesMenuMargin/MarginContainer/MarginContainer/HBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

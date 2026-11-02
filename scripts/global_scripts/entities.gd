@@ -1,0 +1,307 @@
+extends Node
+
+# ENTITIES (AUTOLOAD #4)
+
+# ..............................................................................
+
+#region SIGNALS
+
+signal entity_request_ended(entity_base: EntityBase)
+signal entities_request_ended(entity_bases: Array[EntityBase])
+
+#endregion
+
+# ..............................................................................
+
+#region CONSTANTS
+
+enum Type {
+	PLAYERS = 1 << 0,
+	PLAYERS_MAIN = 1 << 1,
+	PLAYERS_ALLIES = 1 << 2,
+	PLAYERS_ALIVE = 1 << 3,
+	PLAYERS_DEAD = 1 << 4,
+	ENEMIES = 1 << 5,
+	ENEMIES_BASIC = 1 << 6,
+	ENEMIES_ELITE = 1 << 7,
+	ENEMIES_BOSS = 1 << 8,
+	ENEMIES_IN_COMBAT = 1 << 9,
+	ENEMIES_ON_SCREEN = 1 << 10,
+}
+
+enum Status {
+	NONE = 0,
+	BERSERK = 1 << 0,
+	BLINDNESS = 1 << 1,
+	BURN = 1 << 2, # deals physical damage periodically
+	CHARM = 1 << 3,
+	CONFUSE = 1 << 4,
+	COUNTER = 1 << 5,
+	CUSTOM = 1 << 6,
+	DOOM = 1 << 7,
+	DOT = 1 << 8,
+	FROZEN = 1 << 9,
+	INVINCIBLE = 1 << 10,
+	INVISIBLE = 1 << 11,
+	PETRIFICATION = 1 << 12,
+	POISON = 1 << 13, # deals damage periodically & cannot kill (leaves 1 HP)
+	REFLECT = 1 << 14,
+	REGEN = 1 << 15, # heals target periodically
+	SECOND_CHANCE = 1 << 16,
+	SILENCE = 1 << 17,
+	SLEEP = 1 << 18,
+	STAT_MODIFIER = 1 << 19,
+	STUN = 1 << 20,
+	TAUNT = 1 << 21,
+}
+
+const GROUP_NAME: Dictionary[Type, StringName] = {
+	Type.PLAYERS: &"players",
+	Type.PLAYERS_MAIN: &"players_main",
+	Type.PLAYERS_ALLIES: &"players_allies",
+	Type.PLAYERS_ALIVE: &"players_alive",
+	Type.PLAYERS_DEAD: &"players_dead",
+	Type.ENEMIES: &"enemies",
+	Type.ENEMIES_BASIC: &"enemies_basic",
+	Type.ENEMIES_ELITE: &"enemies_elite",
+	Type.ENEMIES_BOSS: &"enemies_boss",
+	Type.ENEMIES_IN_COMBAT: &"enemies_in_combat",
+	Type.ENEMIES_ON_SCREEN: &"enemies_on_screen",
+}
+
+const STATUS_PATH: String = "res://scripts/effects_scripts/%s.gd"
+const STATUS_PRELOADS: Dictionary[Status, Resource] = {
+	Status.BERSERK: preload(STATUS_PATH % "berserk"),
+	Status.BLINDNESS: preload(STATUS_PATH % "blindness"),
+	Status.BURN: preload(STATUS_PATH % "burn"),
+	Status.CHARM: preload(STATUS_PATH % "charm"),
+	Status.CONFUSE: preload(STATUS_PATH % "confuse"),
+	Status.COUNTER: preload(STATUS_PATH % "counter"),
+	Status.CUSTOM: preload(STATUS_PATH % "custom_effect"),
+	Status.DOOM: preload(STATUS_PATH % "doom"),
+	Status.DOT: preload(STATUS_PATH % "dot"),
+	Status.FROZEN: preload(STATUS_PATH % "frozen"),
+	Status.INVINCIBLE: preload(STATUS_PATH % "invincible"),
+	Status.INVISIBLE: preload(STATUS_PATH % "invisible"),
+	Status.PETRIFICATION: preload(STATUS_PATH % "petrification"),
+	Status.POISON: preload(STATUS_PATH % "poison"),
+	Status.REFLECT: preload(STATUS_PATH % "reflect"),
+	Status.REGEN: preload(STATUS_PATH % "regen"),
+	Status.SECOND_CHANCE: preload(STATUS_PATH % "second_chance"),
+	Status.SILENCE: preload(STATUS_PATH % "silence"),
+	Status.SLEEP: preload(STATUS_PATH % "sleep"),
+	Status.STAT_MODIFIER: preload(STATUS_PATH % "stat_modifier"),
+	Status.STUN: preload(STATUS_PATH % "stun"),
+	Status.TAUNT: preload(STATUS_PATH % "taunt"),
+}
+
+const ABILITY_PATH: String = "res://abilities/%s.tscn"
+const ABILITY_PRELOADS: Array[Resource] = [
+	preload(ABILITY_PATH % "black_magic/fireball"),
+	preload(ABILITY_PATH % "white_magic/regen"),
+	preload(ABILITY_PATH % "white_magic/heal"),
+	preload(ABILITY_PATH % "skills/rocket_launcher"),
+	preload(ABILITY_PATH % "talents/play_dice"),
+]
+
+const PLAYER_COLLISION_LAYER: int = 1
+const ENEMY_COLLISION_LAYER: int = 2
+const ENTITY_LIMIT: int = 200
+
+const PLAYER_HIGHLIGHT: PackedScene = preload("res://entities/entities_indicators/player_highlight.tscn")
+const ENEMY_HIGHLIGHT: PackedScene = preload("res://entities/entities_indicators/enemy_highlight.tscn")
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+# ENTITIES REQUESTS
+
+var requesting_entities: bool = false
+var entities_requested_count: int = 0
+var entities_available: Array[EntityBase] = []
+var entities_chosen: Array[EntityBase] = []
+
+#endregion
+
+# ..............................................................................
+
+#region ENTITIES FILTERS
+
+func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callable, get_max: bool) -> EntityBase:
+	var best_entity: EntityBase = null
+	var best_quality: float = -INF if get_max else INF
+
+	for entity_base in candidates:
+		if not is_instance_valid(entity_base):
+			continue
+		var quality = get_quality.call(entity_base)
+		if (get_max and quality > best_quality) or (not get_max and quality < best_quality):
+			best_entity = entity_base
+			best_quality = quality
+
+	return best_entity
+
+
+# target entity by stats
+func target_entity_by_stats(candidates: Array[EntityBase], stat_name: StringName, get_max: bool) -> EntityBase:
+	return target_entity_by_quality(candidates, func(entity_base) -> float: return entity_base.stats.get(stat_name), get_max)
+
+
+# target entity by distance
+func target_entity_by_distance(candidates: Array[EntityBase], origin: Vector2, get_max: bool) -> EntityBase:
+	return target_entity_by_quality(candidates, func(entity_base) -> float: return origin.distance_squared_to(entity_base.position), get_max)
+
+
+# convert Array into Array[EntityBase]
+func type_entities_array(entities_array: Array) -> Array[EntityBase]:
+	var entity_bases: Array[EntityBase] = []
+
+	for entity_base in entities_array:
+		if is_instance_valid(entity_base) and entity_base is EntityBase:
+			entity_bases.append(entity_base)
+
+	return entity_bases
+
+
+# return all enemies in the current scene enemies node
+func all_enemies() -> Array[EntityBase]:
+	return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children())
+
+#endregion
+
+# ..............................................................................
+
+#region ENTITIES REQUESTS
+
+func request_entities(request_types: int, auto_request: Callable, request_count: int = 1) -> void:
+	# append available entities
+	for type in GROUP_NAME:
+		# ignore irrelevant types
+		if not request_types & type:
+			continue
+
+		# append unique and valid entities
+		for entity_base in get_tree().get_nodes_in_group(GROUP_NAME[type]):
+			if is_instance_valid(entity_base) and entity_base not in entities_available:
+				entities_available.append(entity_base)
+
+	# insufficient candidates -> cancel request
+	if entities_available.size() < request_count:
+		if request_count == 1:
+			entity_request_ended.emit(null)
+		else:
+			entities_request_ended.emit([] as Array[EntityBase])
+		entities_available.clear()
+		return
+
+	# single target + only enemy targets -> choose locked enemy
+	if (request_count == 1 and Combat.locked_enemy_base in entities_available
+			and not (request_types & (Type.PLAYERS | Type.PLAYERS_ALIVE | Type.PLAYERS_DEAD))
+	):
+		entity_request_ended.emit(Combat.locked_enemy_base as EntityBase)
+		entities_available.clear()
+		return
+
+	# sufficient candidates + managed locked enemy exceptions -> proceed request
+
+	# set new variables
+	requesting_entities = true
+	entities_requested_count = request_count
+
+	# handle auto requests
+	if Inputs.alt_pressed:
+		auto_request.call()
+		return
+
+	# highlight available entities
+	for entity_base in entities_available:
+		if entity_base is PlayerBase:
+			entity_base.add_child(PLAYER_HIGHLIGHT.instantiate())
+		else:
+			var enemy_highlight_node: Sprite2D = ENEMY_HIGHLIGHT.instantiate()
+			entity_base.add_child(enemy_highlight_node)
+			enemy_highlight_node.offset.y = entity_base.HIGHLIGHT_OFFSET
+
+
+func choose_entity(entity_base: EntityBase) -> void:
+	# register chosen target
+	entities_chosen.append(entity_base)
+	entities_available.erase(entity_base)
+
+	# sufficient targets -> end request
+	if entities_chosen.size() == entities_requested_count:
+		end_entities_request()
+
+
+func end_entities_request() -> void:
+	# emit appropriate signals to request origin
+	if entities_requested_count == 1:
+		entity_request_ended.emit(null if entities_chosen.is_empty() else entities_chosen[0])
+	elif entities_requested_count != 0:
+		entities_request_ended.emit(entities_chosen)
+
+	# remove entity highlights
+	for indicator in get_tree().get_nodes_in_group(&"entities_highlights"):
+		if not is_instance_valid(indicator):
+			continue
+		indicator.queue_free()
+
+	# reset variables
+	requesting_entities = false
+	entities_requested_count = 0
+	entities_available.clear()
+	entities_chosen.clear()
+
+#endregion
+
+# ..............................................................................
+
+#region UTILITIES
+
+func instantiate_ability(ability_index: int) -> void:
+	$Abilities.add_child(ABILITY_PRELOADS[ability_index].instantiate())
+
+
+# free all ability nodes and lootables
+func clear_scene_entities() -> void:
+	# free all ability nodes
+	for entity_base in $Abilities.get_children():
+		entity_base.queue_free()
+
+	# free all lootables
+	for lootable in $Lootables.get_children():
+		lootable.queue_free()
+
+
+# helper to fetch players with dynamic filters
+func get_players(custom_filter: Callable = Callable()) -> Array[EntityBase]:
+	var player_bases: Array[Node] = Players.get_children()
+
+	if custom_filter.is_valid():
+		player_bases = player_bases.filter(custom_filter)
+
+	return type_entities_array(player_bases)
+
+
+# add an enemy to the current scene enemies node
+func add_enemy_to_scene(enemy_load: Resource, entity_position: Vector2, position_range: float) -> EnemyBase:
+	if not get_tree().current_scene: return null
+
+	# get enemies node and check entity limit
+	var enemies_node = get_tree().current_scene.get_node(^"Enemies")
+	if enemies_node.get_child_count() > ENTITY_LIMIT: return null
+
+	# create enemy instance and set position
+	var enemy_instance: EnemyBase = enemy_load.instantiate()
+	enemy_instance.position = entity_position + Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * position_range
+	enemies_node.add_child(enemy_instance)
+
+	# return enemy instance
+	return enemy_instance
+
+#endregion
+
+# ..............................................................................

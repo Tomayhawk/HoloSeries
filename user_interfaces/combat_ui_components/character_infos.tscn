@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://lvv6a88tqi80"]
+
+[ext_resource type="FontFile" uid="uid://b151s8ahp37y5" path="res://art/fonts/SHPinscher-Regular.otf" id="1_43pca"]
+[ext_resource type="StyleBox" uid="uid://lvj1g05bns5d" path="res://resources/temporary/ultimate_progress_bar_fill.tres" id="2_x6ojg"]
+
+[node name="CharacterInfos" type="Control" unique_id=649930407]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Name" type="Label" parent="." unique_id=1370495446]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 6.0
+offset_right = 97.0
+offset_bottom = 18.0
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
+text = "CharacterName"
+vertical_alignment = 1
+
+[node name="HP" type="Label" parent="." unique_id=377223768]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 6.0
+offset_right = 132.0
+offset_bottom = 18.0
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
+text = "HP"
+vertical_alignment = 1
+
+[node name="Health" type="Label" parent="." unique_id=855675804]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 6.0
+offset_right = 158.0
+offset_bottom = 18.0
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
+text = "#####"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MP" type="Label" parent="." unique_id=1421503300]
+layout_mode = 0
+offset_left = 167.0
+offset_top = 6.0
+offset_right = 183.0
+offset_bottom = 18.0
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
+text = "MP"
+vertical_alignment = 1
+
+[node name="Mana" type="Label" parent="." unique_id=922613316]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 6.0
+offset_right = 203.0
+offset_bottom = 18.0
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("1_43pca")
+theme_override_font_sizes/font_size = 10
+text = "####"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Ultimate" type="ProgressBar" parent="." unique_id=1069242684]
+modulate = Color(0.815686, 1, 0, 1)
+layout_mode = 0
+offset_left = 16.0
+offset_top = 18.0
+offset_right = 204.0
+offset_bottom = 25.0
+scale = Vector2(1, 0.5)
+mouse_filter = 2
+theme_override_styles/fill = ExtResource("2_x6ojg")
+show_percentage = false

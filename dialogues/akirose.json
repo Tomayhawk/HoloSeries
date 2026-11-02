@@ -1,0 +1,43 @@
+{
+	"recruit_ask": {
+		"text": [
+			"Do you want to recruit me?"
+		],
+		"options": [
+			"Yes",
+			"No",
+			"Hell No"
+		],
+		"branches": [
+			"recruit_success",
+			"recruit_again",
+			"angry_exit"
+		]
+	},
+	"recruit_again": {
+		"text": [
+			"But Why?"
+		],
+		"options": [
+			"Fine",
+			"Get out of my sight"
+		],
+		"branches": [
+			"recruit_success",
+			"angry_exit"
+		]
+	},
+	"recruit_success": {
+		"text": [
+			"Thank You!",
+			"I will join your party."
+		],
+		"action": "recruit_character"
+	},
+	"angry_exit": {
+		"text": [
+			"????"
+		],
+		"action": "end_dialogue"
+	}
+}

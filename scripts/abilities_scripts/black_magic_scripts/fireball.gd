@@ -1,0 +1,109 @@
+extends Area2D
+
+# FIREBALL (ABILITY - BLACK MAGIC)
+
+# ..............................................................................
+
+#region CONSTANTS
+
+const MANA_COST: float = 0.5 # 8.0
+const SPEED: float = 90.0
+const DAMAGE: float = 10.0
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+var damage_types: int = (
+	Damage.DamageTypes.ENEMY_TARGET
+	| Damage.DamageTypes.MAGIC
+)
+var velocity: Vector2 = Vector2.ZERO
+
+var caster_base: EntityBase = Players.main_player
+var caster_stats: EntityStats = caster_base.stats
+
+#endregion
+
+# ..............................................................................
+
+#region INITIAL
+
+func _ready() -> void:
+	set_physics_process(false)
+	hide()
+
+	# main player -> request target entity
+	if caster_base == Players.main_player:
+		Entities.entity_request_ended.connect(cast_fireball, CONNECT_ONE_SHOT)
+		Entities.request_entities(Entities.Type.ENEMIES_ON_SCREEN, auto_request)
+
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
+
+func _physics_process(delta: float) -> void:
+	position += velocity * delta
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
+# target enemy with shortest distance
+func auto_request() -> void:
+	Entities.choose_entity(Entities.target_entity_by_distance(
+			Entities.entities_available, caster_base.position, false))
+
+
+func cast_fireball(target_entity: EntityBase) -> void:
+	# check conditions
+	if not target_entity or caster_stats.mana < MANA_COST or not caster_stats.alive:
+		queue_free()
+		return
+
+	caster_stats.update_mana(-MANA_COST)
+	position = caster_base.position + Vector2(0, -7)
+	$AnimatedSprite2D.play(&"shoot")
+
+	# start despawn timer
+	$DespawnComponent.set_despawn_requirements(5.0, 1.0)
+
+	var base_velocity: Vector2 = (target_entity.position - position).normalized() * SPEED
+	var speed_multiplier: float = 1 + (caster_stats.intelligence / 500.0)
+	velocity = base_velocity * speed_multiplier
+
+	set_physics_process(true)
+	show()
+
+
+func projectile_collision(move_direction: Vector2) -> void:
+	Players.camera.screen_shake(5, 1, 10, 10.0)
+
+	var area_of_effect_shape := CircleShape2D.new()
+	area_of_effect_shape.radius = 10.0
+
+	for enemy_base in AreaOfEffect.area_of_effect(
+			position, Entities.ENEMY_COLLISION_LAYER, area_of_effect_shape):
+		if Damage.combat_damage(DAMAGE, damage_types, caster_base.stats, enemy_base.stats):
+			enemy_base.knockback(move_direction * 120.0, 0.5)
+
+	queue_free()
+
+
+func despawn_timeout() -> void:
+	projectile_collision(velocity.normalized())
+
+
+# on collision,
+func _on_body_entered(_entity_base: EntityBase) -> void:
+	projectile_collision(velocity.normalized())
+
+#endregion
+
+# ..............................................................................

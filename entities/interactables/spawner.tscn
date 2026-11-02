@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://nsnibaboaiaa"]
+
+[ext_resource type="Script" uid="uid://d3fxu35u7ygoe" path="res://scripts/entities_scripts/interactables_scripts/spawner.gd" id="1_6p7cy"]
+[ext_resource type="Texture2D" uid="uid://b6u4r8gigsmjq" path="res://art/scenes/dungeon.png" id="1_ng5mo"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/interactables/interactable_base.tscn" id="2_opsxs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlm48"]
+resource_local_to_scene = true
+atlas = ExtResource("1_ng5mo")
+region = Rect2(64, 208, 32, 32)
+
+[node name="Spawner" type="Sprite2D" unique_id=1359912217]
+texture = SubResource("AtlasTexture_wlm48")
+script = ExtResource("1_6p7cy")
+
+[node name="InteractableBase" parent="." unique_id=1752085752 instance=ExtResource("2_opsxs")]
+position = Vector2(0, 2)
+scale = Vector2(0.8, 0.6)
+
+[node name="Timer" type="Timer" parent="." unique_id=1299393472]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

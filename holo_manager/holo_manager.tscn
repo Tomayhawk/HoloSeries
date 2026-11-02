@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d10d4srqnul0c"]
+
+[ext_resource type="Script" uid="uid://ba83rsq8i7rsh" path="res://scripts/holo_manager_scripts/holo_manager.gd" id="1_vckgs"]
+
+[node name="HoloManager" type="Node2D" unique_id=615710958]
+script = ExtResource("1_vckgs")

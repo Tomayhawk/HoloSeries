@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://boxw8863ploo7"]
+
+[node name="ActionBlock" type="Control" unique_id=1903758615]
+layout_mode = 3
+anchors_preset = 0

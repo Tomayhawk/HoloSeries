@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://s013cituj1sl"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_c31pv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlsv6"]
+atlas = SubResource("CompressedTexture2D_c31pv")
+region = Rect2(16, 0, 48, 16)
+
+[node name="PlayerHighlight" type="Sprite2D" unique_id=1927311488 groups=["entities_highlights"]]
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_mlsv6")
+offset = Vector2(0, 5)

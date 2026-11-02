@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://brbkesgxot8df"]
+
+[ext_resource type="Script" uid="uid://cbwi50w3m7pbo" path="res://scripts/abilities_scripts/talents_scripts/play_dice.gd" id="1_rbaiq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wsbrx"]
+
+[node name="PlayDice" type="Area2D" unique_id=1435475944]
+script = ExtResource("1_rbaiq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1723875978]
+shape = SubResource("CircleShape2D_wsbrx")
+
+[node name="Interval" type="Timer" parent="." unique_id=730840083]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true

@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://bfgttyngrxknk"]
+
+[ext_resource type="Script" uid="uid://b28iacek0u8bl" path="res://scripts/user_interfaces_scripts/dialogue_ui.gd" id="1_2vkij"]
+[ext_resource type="Texture2D" uid="uid://b4jy4pucnoddw" path="res://art/user_interfaces/dialogue_ui/dialogue_2.png" id="3_bnnh5"]
+[ext_resource type="FontFile" uid="uid://b151s8ahp37y5" path="res://art/fonts/SHPinscher-Regular.otf" id="4_txbxe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xugld"]
+bg_color = Color(0.156863, 0.156863, 0.196078, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.117647, 0.117647, 0.156863, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="DialogueUi" type="CanvasLayer" unique_id=689393278]
+layer = 100
+script = ExtResource("1_2vkij")
+
+[node name="DialogueMargin" type="MarginContainer" parent="." unique_id=925133529]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -85.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="DialogueMargin" unique_id=233290238]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xugld")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="DialogueMargin" unique_id=359191572]
+layout_mode = 2
+texture = ExtResource("3_bnnh5")
+patch_margin_left = 32
+patch_margin_top = 32
+patch_margin_right = 32
+patch_margin_bottom = 23
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueMargin" unique_id=1131183952]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogueMargin/MarginContainer" unique_id=1798133050]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TextStartLabel" type="Label" parent="DialogueMargin/MarginContainer/HBoxContainer" unique_id=1658338968]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_txbxe")
+theme_override_font_sizes/font_size = 16
+text = "*"
+horizontal_alignment = 1
+
+[node name="TextAreaLabel" type="Label" parent="DialogueMargin/MarginContainer/HBoxContainer" unique_id=1329256376]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_txbxe")
+theme_override_font_sizes/font_size = 16
+text = "Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text. Sample Text."
+autowrap_mode = 2
+clip_text = true
+
+[node name="TextEndLabel" type="Label" parent="DialogueMargin/MarginContainer/HBoxContainer" unique_id=252659067]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(7, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_txbxe")
+theme_override_font_sizes/font_size = 16
+text = "v"
+
+[node name="OptionsMargin" type="MarginContainer" parent="." unique_id=50288742]
+unique_name_in_owner = true
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_left = 496
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 86
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OptionsMargin" unique_id=1275756857]
+layout_mode = 2
+theme_override_constants/separation = 0

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dthvymrd0k1my"]
+
+[ext_resource type="Texture2D" uid="uid://bpgblfaxl4lpo" path="res://art/entities/interactables/chest.png" id="1_csibx"]
+[ext_resource type="Script" uid="uid://c7m5cnfrblx7m" path="res://scripts/entities_scripts/interactables_scripts/chest.gd" id="1_us2di"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/interactables/interactable_base.tscn" id="2_kl2yh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_csibx"]
+atlas = ExtResource("1_csibx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qn5w0"]
+atlas = ExtResource("1_csibx")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fggcj"]
+atlas = ExtResource("1_csibx")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wjhio"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_csibx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qn5w0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fggcj")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="Chest" type="AnimatedSprite2D" unique_id=276829642]
+y_sort_enabled = true
+sprite_frames = SubResource("SpriteFrames_wjhio")
+frame = 2
+frame_progress = 1.0
+script = ExtResource("1_us2di")
+
+[node name="InteractableBase" parent="." unique_id=1752085752 instance=ExtResource("2_kl2yh")]
+position = Vector2(0, 5)
+scale = Vector2(1.3, 0.9)

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://caqal1s0kxiyk"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a6qos"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cauru"]
+atlas = SubResource("CompressedTexture2D_a6qos")
+region = Rect2(0, 0, 16, 16)
+
+[node name="PlayerMarker" type="Sprite2D" unique_id=299626556]
+texture = SubResource("AtlasTexture_cauru")
+offset = Vector2(0, -40)

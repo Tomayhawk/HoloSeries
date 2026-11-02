@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://k5uy4eb3revw"]
+
+[ext_resource type="Script" uid="uid://hw32nxxt348l" path="res://scripts/entities_scripts/interactables_scripts/door.gd" id="1_43am6"]
+[ext_resource type="Texture2D" uid="uid://b6u4r8gigsmjq" path="res://art/scenes/dungeon.png" id="1_kvc73"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/interactables/interactable_base.tscn" id="2_thscb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgwjc"]
+resource_local_to_scene = true
+atlas = ExtResource("1_kvc73")
+region = Rect2(0, 240, 32, 48)
+
+[node name="Door" type="Sprite2D" unique_id=1815887661]
+texture = SubResource("AtlasTexture_sgwjc")
+script = ExtResource("1_43am6")
+
+[node name="InteractableBase" parent="." unique_id=1752085752 instance=ExtResource("2_thscb")]
+position = Vector2(0, 16)
+scale = Vector2(1.6, 0.6)

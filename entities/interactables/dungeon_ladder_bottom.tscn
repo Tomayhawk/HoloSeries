@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c8eifpb6f0tdv"]
+
+[ext_resource type="Texture2D" uid="uid://b6u4r8gigsmjq" path="res://art/scenes/dungeon.png" id="1_2s5gs"]
+[ext_resource type="Script" uid="uid://4tvsrmg3gyqq" path="res://scripts/entities_scripts/interactables_scripts/dungeon_ladder_bottom.gd" id="2_ddxwi"]
+[ext_resource type="PackedScene" uid="uid://s3lxokljwgge" path="res://entities/interactables/interactable_base.tscn" id="2_u7mcn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddxwi"]
+atlas = ExtResource("1_2s5gs")
+region = Rect2(0, 192, 32, 48)
+
+[node name="DungeonLadderBottom" type="Sprite2D" unique_id=799574404]
+y_sort_enabled = true
+texture = SubResource("AtlasTexture_ddxwi")
+offset = Vector2(0, -16)
+script = ExtResource("2_ddxwi")
+
+[node name="InteractableBase" parent="." unique_id=1752085752 instance=ExtResource("2_u7mcn")]
+position = Vector2(0, 3)
+scale = Vector2(0.8, 0.3)

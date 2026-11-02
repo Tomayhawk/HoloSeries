@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="DialogueTree" format=3 uid="uid://bfq54e6pjb4mo"]
+
+[ext_resource type="Script" uid="uid://byww2kqg2mgrx" path="res://scripts/dialogues_scripts/dialogue_node.gd" id="1_bsohe"]
+[ext_resource type="Script" uid="uid://cltotbwpts1vy" path="res://scripts/dialogues_scripts/dialogue_option.gd" id="2_peka5"]
+[ext_resource type="Script" uid="uid://c5ii2qcvl40d1" path="res://scripts/dialogues_scripts/dialogue_tree.gd" id="3_3q8qn"]
+
+[sub_resource type="Resource" id="Resource_s3nxq"]
+script = ExtResource("2_peka5")
+text = "Yes"
+branch = 2
+
+[sub_resource type="Resource" id="Resource_g2128"]
+script = ExtResource("2_peka5")
+text = "No"
+branch = 1
+
+[sub_resource type="Resource" id="Resource_lkn1b"]
+script = ExtResource("2_peka5")
+text = "Hell No"
+branch = 3
+
+[sub_resource type="Resource" id="Resource_qo6gt"]
+script = ExtResource("1_bsohe")
+text = Array[String](["Do you want to recruit me?"])
+options = Array[ExtResource("2_peka5")]([SubResource("Resource_s3nxq"), SubResource("Resource_g2128"), SubResource("Resource_lkn1b")])
+
+[sub_resource type="Resource" id="Resource_7trt5"]
+script = ExtResource("2_peka5")
+text = "Fine"
+branch = 2
+
+[sub_resource type="Resource" id="Resource_spvea"]
+script = ExtResource("2_peka5")
+text = "Get out of my sight"
+branch = 3
+
+[sub_resource type="Resource" id="Resource_8edcx"]
+script = ExtResource("1_bsohe")
+text = Array[String](["But Why?"])
+options = Array[ExtResource("2_peka5")]([SubResource("Resource_7trt5"), SubResource("Resource_spvea")])
+
+[sub_resource type="Resource" id="Resource_eqh8l"]
+script = ExtResource("1_bsohe")
+text = Array[String](["Thank You!", "I will join your party."])
+action = &"recruit_character"
+
+[sub_resource type="Resource" id="Resource_rxxt2"]
+script = ExtResource("1_bsohe")
+text = Array[String](["????"])
+action = &"end_dialogue"
+
+[resource]
+script = ExtResource("3_3q8qn")
+nodes = Array[ExtResource("1_bsohe")]([SubResource("Resource_qo6gt"), SubResource("Resource_8edcx"), SubResource("Resource_eqh8l"), SubResource("Resource_rxxt2")])

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="DialogueTree" format=3 uid="uid://b6qekih7e4hr4"]
+
+[ext_resource type="Script" uid="uid://byww2kqg2mgrx" path="res://scripts/dialogues_scripts/dialogue_node.gd" id="1_f1omn"]
+[ext_resource type="Script" uid="uid://cltotbwpts1vy" path="res://scripts/dialogues_scripts/dialogue_option.gd" id="2_y6tux"]
+[ext_resource type="Script" uid="uid://c5ii2qcvl40d1" path="res://scripts/dialogues_scripts/dialogue_tree.gd" id="3_73hfk"]
+
+[sub_resource type="Resource" id="Resource_ukbp2"]
+script = ExtResource("2_y6tux")
+text = "Rickroll"
+branch = 1
+
+[sub_resource type="Resource" id="Resource_8rs36"]
+script = ExtResource("2_y6tux")
+text = "Bye"
+branch = 2
+
+[sub_resource type="Resource" id="Resource_81yo8"]
+script = ExtResource("1_f1omn")
+text = Array[String](["September 21st"])
+options = Array[ExtResource("2_y6tux")]([SubResource("Resource_ukbp2"), SubResource("Resource_8rs36")])
+
+[sub_resource type="Resource" id="Resource_6ggbd"]
+script = ExtResource("1_f1omn")
+text = Array[String](["Never gonna give you up.", "Never gonna let you down.", "Never gonna run around and desert you!"])
+action = &"end_dialogue"
+
+[sub_resource type="Resource" id="Resource_22cdi"]
+script = ExtResource("1_f1omn")
+action = &"end_dialogue"
+
+[resource]
+script = ExtResource("3_73hfk")
+nodes = Array[ExtResource("1_f1omn")]([SubResource("Resource_81yo8"), SubResource("Resource_6ggbd"), SubResource("Resource_22cdi")])

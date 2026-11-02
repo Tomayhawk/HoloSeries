@@ -1,0 +1,64 @@
+extends Node
+
+# ..............................................................................
+
+#region CONSTANTS
+
+var damage_types: int = (
+		Damage.DamageTypes.PLAYER_TARGET
+		| Damage.DamageTypes.HEAL
+		| Damage.DamageTypes.MAGIC
+		| Damage.DamageTypes.NO_CRITICAL
+		| Damage.DamageTypes.NO_MISS
+)
+
+const MANA_COST: float = 4.0
+
+#endregion
+
+# ..............................................................................
+
+#region VARIABLES
+
+var heal_percentage: float = 0.05
+
+var caster_base: EntityBase = Players.main_player
+var caster_stats: EntityStats = caster_base.stats
+
+#endregion
+
+# ..............................................................................
+
+#region INITIAL
+
+func _ready() -> void:
+	# main player -> request target entity
+	if caster_base == Players.main_player:
+		Entities.entity_request_ended.connect(entity_chosen, CONNECT_ONE_SHOT)
+		Entities.request_entities(Entities.Type.PLAYERS_ALIVE, auto_request)
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
+# target player with lowest health
+func auto_request() -> void:
+	Entities.choose_entity(Entities.target_entity_by_stats(
+			Entities.entities_available, &"health", false))
+
+
+func entity_chosen(target_entity: EntityBase) -> void:
+	# heal if node chosen, caster is alive and caster has enough mana
+	if target_entity and caster_stats.alive and caster_stats.mana >= MANA_COST:
+		caster_stats.update_mana(-MANA_COST)
+		# heal chosen node
+		Damage.combat_damage(target_entity.stats.max_health * heal_percentage,
+				damage_types, caster_stats, target_entity.stats)
+
+	queue_free()
+
+#endregion
+
+# ..............................................................................

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ctk61ixtrksol"]
+
+[ext_resource type="Script" uid="uid://cc37ip0aqp2dk" path="res://scripts/global_scripts/dev.gd" id="1_nirvc"]
+
+[node name="Dev" type="Node" unique_id=241476454]
+script = ExtResource("1_nirvc")

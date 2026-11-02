@@ -1,0 +1,63 @@
+extends Area2D
+
+# HOMING PROJECTILE (ABILITIES COMPONENTS)
+
+# ..............................................................................
+
+#region VARIABLES
+
+var speed: float = 100.0
+
+var target_entity: EntityBase = null
+
+@onready var ability: Node2D = get_parent()
+
+#endregion
+
+# ..............................................................................
+
+#region INITIAL
+
+func _ready() -> void:
+	set_physics_process(false)
+
+#endregion
+
+# ..............................................................................
+
+#region PROCESS
+
+func _physics_process(delta: float) -> void:
+	# GUARD: no target -> maintain direction
+	if not target_entity:
+		ability.position += Vector2.RIGHT.rotated(ability.rotation) * speed * delta
+		return
+
+	var target_position: Vector2 = target_entity.position
+
+	# look and move towards target
+	ability.look_at(target_position)
+	ability.position = ability.position.move_toward(target_position, speed * delta)
+
+#endregion
+
+# ..............................................................................
+
+#region FUNCTIONS
+
+func initiate_homing_projectile(entity_base: EntityBase, projectile_speed: float) -> void:
+	target_entity = entity_base
+	speed = projectile_speed
+
+	$CollisionShape2D.disabled = false
+	ability.look_at(target_entity.position)
+	set_physics_process(true)
+
+
+func _on_body_exited(entity_base: EntityBase) -> void:
+	if entity_base == target_entity:
+		target_entity = null
+
+#endregion
+
+# ..............................................................................

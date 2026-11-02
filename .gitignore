@@ -1,0 +1,12 @@
+.godot
+.vscode
+project.godot
+scripts/.DS_Store
+.DS_Store
+
+art
+music
+sound_effects
+visual_effects
+
+*.gd.uid
