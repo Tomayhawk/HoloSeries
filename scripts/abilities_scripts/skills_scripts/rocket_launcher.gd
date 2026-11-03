@@ -8,6 +8,7 @@ extends Area2D
 
 #region CONSTANTS
 
+const ABILITY_NAME: String = "Rocket Launcher"
 const MANA_COST: float = 8.0
 const SPEED: float = 90.0
 const DAMAGE: float = 10.0

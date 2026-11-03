@@ -6,7 +6,8 @@ extends Area2D
 
 #region CONSTANTS
 
-const MANA_COST: float = 0.5 # 8.0
+const ABILITY_NAME: String = "Fireball"
+const MANA_COST: float = 1.0 # 8.0
 const SPEED: float = 90.0
 const DAMAGE: float = 10.0
 

@@ -97,11 +97,11 @@ const STATUS_PRELOADS: Dictionary[Status, Resource] = {
 
 const ABILITY_PATH: String = "res://abilities/%s.tscn"
 const ABILITY_PRELOADS: Array[Resource] = [
-	preload(ABILITY_PATH % "black_magic/fireball"),
-	preload(ABILITY_PATH % "white_magic/regen"),
-	preload(ABILITY_PATH % "white_magic/heal"),
-	preload(ABILITY_PATH % "skills/rocket_launcher"),
 	preload(ABILITY_PATH % "talents/play_dice"),
+	preload(ABILITY_PATH % "skills/rocket_launcher"),
+	preload(ABILITY_PATH % "white_magic/heal"),
+	preload(ABILITY_PATH % "white_magic/regen"),
+	preload(ABILITY_PATH % "black_magic/fireball"),
 ]
 
 const PLAYER_COLLISION_LAYER: int = 1

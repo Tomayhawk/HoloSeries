@@ -574,6 +574,8 @@ func switch_to_main() -> void:
 	stats.entity_types &= ~Entities.Type.PLAYERS_ALLIES
 	stats.entity_types |= Entities.Type.PLAYERS_MAIN
 
+	# update combat ui
+	Combat.ui.toggle_ability_buttons()
 	Combat.ui.set_focused_options(stats.focused_main_option, stats.focused_sub_option)
 
 
@@ -620,7 +622,8 @@ func switch_character(next_stats: PlayerStats) -> void:
 
 	stats_process_interval = 0.0
 
-	# update player ui
+	# update combat ui
+	Combat.ui.toggle_ability_buttons()
 	Combat.ui.update_party_ui(party_index, next_stats)
 
 #endregion

@@ -248,6 +248,9 @@ static func load_save(file_name: String) -> void:
 	load_players(data)
 	load_scene(data)
 
+	# load combat buttons
+	load_combat_buttons()
+
 
 static func read_save_file(file_name: String) -> Dictionary:
 	var file_path: String = SAVE_FILE_PATH % file_name
@@ -270,7 +273,6 @@ static func read_save_file(file_name: String) -> Dictionary:
 
 
 static func load_inventories(data: Dictionary) -> void:
-	# set core inventories
 	Inventory.consumables_inventory.assign(data["consumables_inventory"])
 	Inventory.materials_inventory.assign(data["materials_inventory"])
 	Inventory.weapons_inventory.assign(data["weapons_inventory"])
@@ -279,9 +281,6 @@ static func load_inventories(data: Dictionary) -> void:
 	Inventory.manager_inventory.assign(data["manager_inventory"])
 	Inventory.nexus_inventory.assign(data["nexus_inventory"])
 	Inventory.keys_inventory.assign(data["keys_inventory"])
-
-	# update combat inventory ui
-	Combat.ui.initialize_combat_inventory()
 
 
 static func load_nexus_variables(data: Dictionary) -> void:
@@ -321,6 +320,11 @@ static func load_players(data: Dictionary) -> void:
 static func load_scene(data: Dictionary) -> void:
 	var save_point: Dictionary = SAVE_POINTS[data["save_point"]]
 	Global.change_scene(Global.Scenes.MAIN_MENU, save_point[SaveKeys.SCENE], save_point[SaveKeys.POSITION])
+
+
+static func load_combat_buttons() -> void:
+	Combat.ui.initialize_ability_buttons()
+	Combat.ui.initialize_item_buttons()
 
 #endregion
 

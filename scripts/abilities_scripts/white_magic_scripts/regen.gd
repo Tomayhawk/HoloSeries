@@ -6,6 +6,7 @@ extends Node
 
 #region CONSTANTS
 
+const ABILITY_NAME: String = "Regen"
 const MANA_COST: float = 20
 const REGEN_COUNT: int = 7
 const HEAL_PERCENTAGE: float = 0.02

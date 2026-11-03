@@ -4,13 +4,7 @@ extends Node
 
 #region CONSTANTS
 
-var damage_types: int = (
-		Damage.DamageTypes.PLAYER_TARGET
-		| Damage.DamageTypes.HEAL
-		| Damage.DamageTypes.MAGIC
-		| Damage.DamageTypes.NO_CRITICAL
-		| Damage.DamageTypes.NO_MISS
-)
+const ABILITY_NAME: String = "Heal"
 
 const MANA_COST: float = 4.0
 
@@ -19,6 +13,14 @@ const MANA_COST: float = 4.0
 # ..............................................................................
 
 #region VARIABLES
+
+var damage_types: int = (
+		Damage.DamageTypes.PLAYER_TARGET
+		| Damage.DamageTypes.HEAL
+		| Damage.DamageTypes.MAGIC
+		| Damage.DamageTypes.NO_CRITICAL
+		| Damage.DamageTypes.NO_MISS
+)
 
 var heal_percentage: float = 0.05
 

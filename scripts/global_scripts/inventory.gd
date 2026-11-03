@@ -74,7 +74,7 @@ func add_item(type: ItemTypes, id: int, count: int = 1) -> void:
 
 	# add combat inventory button for new consumables
 	if type == ItemTypes.CONSUMABLES and consumables_inventory[id] == count:
-		Combat.ui.add_inventory_button(id)
+		Combat.ui.add_item_button(id)
 
 
 func use_consumable(id: int, target_entities: Array[EntityBase] = []) -> void:

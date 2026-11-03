@@ -2,7 +2,8 @@ extends CanvasLayer
 
 # COMBAT UI (GLOBAL UI)
 
-# TODO: dynamic buttons creation and signal inputs
+# TODO: find places to use metadata
+# TODO: Deleted Buttons: LifeDrain, ManaDrain, Taunt, Protect, Haste, Poison, Slowness
 
 # ..............................................................................
 
@@ -31,10 +32,12 @@ var focused_sub_option: Button = null
 #region INITIAL
 
 func _ready() -> void:
+	# hide all combat ui
 	%CombatControl.modulate.a = 0.0
 	%SubCombatOptions.hide()
 	%CharacterSelector.hide()
 
+	# hide all party infos
 	for character_infos_node in %CharacterInfosVBoxContainer.get_children():
 		character_infos_node.modulate.a = 0.0
 
@@ -71,15 +74,75 @@ func _input(event: InputEvent) -> void:
 
 # ..............................................................................
 
-#region INVENTORY BUTTONS
+#region ABILITY BUTTONS
 
-func initialize_combat_inventory() -> void:
+func initialize_ability_buttons() -> void:
+	for ability_id in Entities.ABILITY_PRELOADS.size():
+		add_ability_button(ability_id)
+
+	toggle_ability_buttons()
+
+
+func add_ability_button(ability_id: int) -> void:
+	var ability_path: String = Entities.ABILITY_PRELOADS[ability_id].resource_path
+	var ability_type: String = ability_path.get_base_dir().get_file()
+
+	ability_path = "res://scripts/abilities_scripts/%s_scripts/%s.gd" % [
+			ability_type, ability_path.get_basename().get_file()]
+
+	var ability_script: Script = load(ability_path)
+
+	var options_button: Button = load(OPTIONS_BUTTON_PATH).instantiate()
+
+	options_button.name = ability_script.ABILITY_NAME
+	options_button.get_node(^"Name").text = ability_script.ABILITY_NAME
+
+	if "MANA_COST" in ability_script:
+		options_button.get_node(^"Number").text = str(int(ability_script.MANA_COST))
+		options_button.set_meta(&"mana_cost", ability_script.MANA_COST)
+	else:
+		options_button.get_node(^"Number").queue_free()
+
+	options_button.pressed.connect(_on_combat_button_pressed)
+	options_button.pressed.connect(_on_ability_button_pressed.bind(options_button, ability_id))
+	options_button.mouse_entered.connect(_on_control_mouse_entered)
+	options_button.mouse_exited.connect(_on_control_mouse_exited)
+	options_button.set_meta(&"ability_id", ability_id)
+
+	%SubModesMarginContainer.get_node(
+			ability_type.trim_suffix("_magic").capitalize() + "GridContainer"
+			).add_child(options_button)
+
+
+func toggle_ability_buttons() -> void:
+	var main_player_stats: PlayerStats = Players.main_player.stats
+	var unlocked_abilities: Array[int] = main_player_stats.unlocked_abilities
+
+	for ability_type in %SubModesMarginContainer.get_children():
+		if ability_type.name == &"ItemsGridContainer":
+			continue
+
+		for ability_button in ability_type.get_children():
+			ability_button.visible = ability_button.get_meta(&"ability_id") in unlocked_abilities
+
+			if ability_button.visible and ability_button.has_meta(&"mana_cost"):
+				ability_button.get_node(^"Number").text = \
+						str(roundi(main_player_stats.apply_mana_reductions(
+						int(ability_button.get_meta(&"mana_cost")))))
+
+#endregion
+
+# ..............................................................................
+
+#region ITEM BUTTONS
+
+func initialize_item_buttons() -> void:
 	for item_id in Inventory.consumables_inventory.size():
 		if Inventory.consumables_inventory[item_id] > 0:
-			add_inventory_button(item_id)
+			add_item_button(item_id)
 
 
-func add_inventory_button(item_id: int) -> void:
+func add_item_button(item_id: int) -> void:
 	var options_button: Button = load(OPTIONS_BUTTON_PATH).instantiate()
 	var item_name: String = load(Inventory.CONSUMABLES_PATHS[item_id]).ITEM_NAME
 

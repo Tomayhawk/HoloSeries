@@ -4,6 +4,7 @@ extends Area2D
 
 #region CONSTANTS
 
+const ABILITY_NAME: String = "Play Dice"
 const MANA_COST: float = 50.0
 const BASE_DAMAGE: float = 5.0
 

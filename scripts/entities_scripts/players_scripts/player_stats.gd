@@ -87,6 +87,9 @@ var last_node: int = -1
 var unlocked_nodes: Array[int] = []
 var converted_nodes: Array[Vector2i] = [] # (index, type)
 
+# unlocked abilities
+var unlocked_abilities: Array[int] = [0, 1, 2, 3, 4]
+
 # party
 var last_action_cooldown: float = 0.0
 
@@ -215,13 +218,16 @@ func update_health_display() -> void:
 				else Color(1, 0, 0, 1)
 		)
 
-
-
 #endregion
 
 # ..............................................................................
 
 #region MANA UPDATES
+
+# TODO: not implemented yet
+func apply_mana_reductions(value: float, _white_magic: bool = true) -> float:
+	return value
+
 
 func update_mana(value: float) -> void:
 	super(value)
