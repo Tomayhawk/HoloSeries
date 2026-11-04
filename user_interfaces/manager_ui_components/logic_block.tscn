@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://co5v7u2xboflg"]
+
+[ext_resource type="Script" uid="uid://dm5rg3y0su6ma" path="res://scripts/user_interfaces_scripts/manager_ui_components_scripts/draggable_block.gd" id="1_6po86"]
+[ext_resource type="Texture2D" uid="uid://bmhkuie748a8" path="res://art/user_interfaces/manager_ui/manager_blocks.png" id="2_x6acd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsbrx"]
+atlas = ExtResource("2_x6acd")
+region = Rect2(135, 8, 66, 16)
+
+[node name="LogicBlock" type="Control" unique_id=22286141]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6po86")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=667967447]
+layout_mode = 0
+texture = SubResource("AtlasTexture_wsbrx")

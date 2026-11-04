@@ -2,9 +2,6 @@ extends CanvasLayer
 
 # COMBAT UI (GLOBAL UI)
 
-# TODO: find places to use metadata
-# TODO: Deleted Buttons: LifeDrain, ManaDrain, Taunt, Protect, Haste, Poison, Slowness
-
 # ..............................................................................
 
 #region CONSTANTS

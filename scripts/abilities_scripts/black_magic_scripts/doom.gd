@@ -1,3 +1,0 @@
-extends Area2D
-
-# DOOM (ABILITY - BLACK MAGIC)

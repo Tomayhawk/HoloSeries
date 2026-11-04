@@ -1,0 +1,3 @@
+extends Area2D
+
+# DEAD BEAT (ABILITY - BLACK MAGIC)

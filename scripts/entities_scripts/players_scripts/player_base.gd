@@ -294,7 +294,6 @@ func ally_teleport(next_position: Vector2 = Players.main_player.position) -> voi
 		candidate_position = NavigationServer2D.map_get_closest_point(map, candidate_position)
 
 		query.transform = Transform2D(0.0, candidate_position)
-		print("[LOG] [player_base.gd] Teleport Attempt - ", stats.CHARACTER_NAME, ": ", candidate_position)
 
 		if space.intersect_shape(query, 1).is_empty():
 			position = candidate_position

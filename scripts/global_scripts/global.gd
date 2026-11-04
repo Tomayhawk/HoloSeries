@@ -18,10 +18,10 @@ signal new_scene_ready
 
 enum Ui {
 	NONE,
-	ABILITIES,
 	CHARACTERS,
 	HOLO_DECK,
 	HOLO_NEXUS,
+	MANAGER,
 	INVENTORY,
 	MAIN_MENU,
 	SETTINGS,
@@ -93,10 +93,6 @@ const MUSIC_PATHS: Dictionary[Music, String] = {
 #region UI DICTIONARY
 
 const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
-	Ui.ABILITIES: {
-		UiKeys.NAME: ^"AbilitiesUi",
-		UiKeys.PATH: GLOBAL_UI_PATH % "abilities_ui",
-	},
 	Ui.CHARACTERS: {
 		UiKeys.NAME: ^"CharactersUi",
 		UiKeys.PATH: GLOBAL_UI_PATH % "characters_ui",
@@ -116,6 +112,10 @@ const GLOBAL_UI: Dictionary[Ui, Dictionary] = {
 	Ui.MAIN_MENU: {
 		UiKeys.NAME: ^"MainMenuUi",
 		UiKeys.PATH: GLOBAL_UI_PATH % "main_menu_ui",
+	},
+	Ui.MANAGER: {
+		UiKeys.NAME: ^"ManagerUi",
+		UiKeys.PATH: GLOBAL_UI_PATH % "manager_ui",
 	},
 	Ui.SETTINGS: {
 		UiKeys.NAME: ^"SettingsUi",

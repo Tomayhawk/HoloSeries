@@ -71,7 +71,7 @@ theme_override_styles/focus = ExtResource("6_f5pg6")
 text = "HoloNexus
 "
 
-[node name="Abilities" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer" unique_id=964602051]
+[node name="Manager" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer" unique_id=964602051]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 focus_mode = 1
@@ -81,7 +81,7 @@ theme_override_styles/normal = ExtResource("3_0mh8y")
 theme_override_styles/pressed = ExtResource("4_107nx")
 theme_override_styles/hover = ExtResource("5_14qic")
 theme_override_styles/focus = ExtResource("6_f5pg6")
-text = "Abilities"
+text = "Manager"
 
 [node name="Inventory" type="Button" parent="MarginContainer/MarginContainer/VBoxContainer" unique_id=324910465]
 custom_minimum_size = Vector2(0, 24)
@@ -134,7 +134,7 @@ text = "Exit Game"
 
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Characters" to="." method="_on_characters_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/HoloNexus" to="." method="_on_holo_nexus_pressed"]
-[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Abilities" to="." method="_on_abilities_pressed"]
+[connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Manager" to="." method="_on_manager_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Inventory" to="." method="_on_inventory_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]

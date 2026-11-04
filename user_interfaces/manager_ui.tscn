@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://d4kvcf76jc1ey"]
+
+[ext_resource type="Script" uid="uid://b6qb1xo75now6" path="res://scripts/user_interfaces_scripts/manager_ui.gd" id="1_u423x"]
+[ext_resource type="PackedScene" uid="uid://1wqdj8f3y0k0" path="res://user_interfaces/manager_ui_components/condition_block.tscn" id="2_vfktb"]
+[ext_resource type="PackedScene" uid="uid://co5v7u2xboflg" path="res://user_interfaces/manager_ui_components/logic_block.tscn" id="3_7xwgf"]
+[ext_resource type="PackedScene" uid="uid://boxw8863ploo7" path="res://user_interfaces/manager_ui_components/action_block.tscn" id="4_vr2tv"]
+
+[node name="ManagerUi" type="CanvasLayer" unique_id=311736075]
+layer = 20
+script = ExtResource("1_u423x")
+
+[node name="ConditionBlock" parent="." unique_id=841111921 instance=ExtResource("2_vfktb")]
+
+[node name="LogicBlock" parent="." unique_id=22286141 instance=ExtResource("3_7xwgf")]
+offset_left = 100.0
+offset_top = 107.0
+offset_right = 100.0
+offset_bottom = 107.0
+
+[node name="ActionBlock" parent="." unique_id=1903758615 instance=ExtResource("4_vr2tv")]
+offset_left = 219.0
+offset_top = 38.0
+offset_right = 219.0
+offset_bottom = 38.0

@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://d4kvcf76jc1ey"]
-
-[ext_resource type="Script" uid="uid://b6qb1xo75now6" path="res://scripts/user_interfaces_scripts/abilities_ui.gd" id="1_lp30q"]
-
-[node name="AbilitiesUi" type="CanvasLayer" unique_id=311736075]
-layer = 20
-script = ExtResource("1_lp30q")

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://boxw8863ploo7"]
+
+[ext_resource type="Script" uid="uid://dm5rg3y0su6ma" path="res://scripts/user_interfaces_scripts/manager_ui_components_scripts/draggable_block.gd" id="1_sagwv"]
+[ext_resource type="Texture2D" uid="uid://bmhkuie748a8" path="res://art/user_interfaces/manager_ui/manager_blocks.png" id="2_wayyh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsbrx"]
+atlas = ExtResource("2_wayyh")
+region = Rect2(208, 0, 112, 32)
+
+[node name="ActionBlock" type="Control" unique_id=1903758615]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_sagwv")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1533167911]
+custom_minimum_size = Vector2(112, 32)
+layout_mode = 0
+texture = SubResource("AtlasTexture_wsbrx")
+patch_margin_left = 48
+patch_margin_right = 16

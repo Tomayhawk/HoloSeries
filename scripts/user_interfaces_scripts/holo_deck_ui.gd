@@ -37,8 +37,8 @@ func _on_holo_nexus_pressed() -> void:
 	Global.global_ui(Global.Ui.HOLO_DECK, Global.Ui.HOLO_NEXUS)
 
 
-func _on_abilities_pressed() -> void:
-	Global.global_ui(Global.Ui.HOLO_DECK, Global.Ui.ABILITIES)
+func _on_manager_pressed() -> void:
+	Global.global_ui(Global.Ui.HOLO_DECK, Global.Ui.MANAGER)
 
 
 func _on_inventory_pressed() -> void:
