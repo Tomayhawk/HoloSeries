@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://1wqdj8f3y0k0"]
+
+[ext_resource type="Script" uid="uid://dm5rg3y0su6ma" path="res://scripts/user_interfaces_scripts/manager_ui_components_scripts/if_block.gd" id="1_j56a2"]
+[ext_resource type="Theme" uid="uid://dlabc1jg8wlme" path="res://resources/user_interfaces_resources/settings_ui_theme.tres" id="3_31p3v"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_odjtx"]
+load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d440727e5e3a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x08xi"]
+atlas = SubResource("CompressedTexture2D_odjtx")
+region = Rect2(0, 0, 96, 58)
+
+[node name="IfBlock" type="NinePatchRect" unique_id=1242890506]
+custom_minimum_size = Vector2(82, 58)
+offset_right = 82.0
+offset_bottom = 58.0
+size_flags_vertical = 3
+mouse_filter = 1
+texture = SubResource("AtlasTexture_x08xi")
+patch_margin_left = 44
+patch_margin_top = 32
+patch_margin_right = 37
+patch_margin_bottom = 24
+script = ExtResource("1_j56a2")
+
+[node name="LeftMarginContainer" type="MarginContainer" parent="." unique_id=1851850856]
+layout_mode = 1
+offset_right = 15.0
+offset_bottom = 25.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 2
+
+[node name="Label" type="Label" parent="LeftMarginContainer" unique_id=1547451442]
+layout_mode = 2
+theme = ExtResource("3_31p3v")
+text = "If"
+
+[node name="RightMarginContainer" type="MarginContainer" parent="." unique_id=1054187031]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -24.0
+offset_bottom = 25.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 6
+
+[node name="Label" type="Label" parent="RightMarginContainer" unique_id=532263172]
+layout_mode = 2
+theme = ExtResource("3_31p3v")
+text = "Then"
+
+[node name="ContentMarginContainer" type="MarginContainer" parent="." unique_id=1264013350]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 58)
+layout_mode = 0
+offset_right = 82.0
+offset_bottom = 58.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 14
+
+[node name="ContentVBoxContainer" type="VBoxContainer" parent="ContentMarginContainer" unique_id=1643768552]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = -6
+
+[node name="LogicMarginContainer" type="MarginContainer" parent="." unique_id=1362506646]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 22)
+layout_mode = 0
+offset_right = 82.0
+offset_bottom = 22.0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 28
+
+[connection signal="resized" from="ContentMarginContainer" to="." method="_on_content_margin_container_resized"]
+[connection signal="resized" from="LogicMarginContainer" to="." method="_on_logic_margin_container_resized"]

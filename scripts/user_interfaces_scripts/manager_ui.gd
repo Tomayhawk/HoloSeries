@@ -12,6 +12,14 @@ extends CanvasLayer
 
 # ..............................................................................
 
+#region VARIABLES
+
+var dragging_block: Control = null
+
+#endregion
+
+# ..............................................................................
+
 #region INPUTS
 
 func _input(event: InputEvent) -> void:

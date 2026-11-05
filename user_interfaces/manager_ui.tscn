@@ -1,24 +1,118 @@
 [gd_scene format=3 uid="uid://d4kvcf76jc1ey"]
 
 [ext_resource type="Script" uid="uid://b6qb1xo75now6" path="res://scripts/user_interfaces_scripts/manager_ui.gd" id="1_u423x"]
-[ext_resource type="PackedScene" uid="uid://1wqdj8f3y0k0" path="res://user_interfaces/manager_ui_components/condition_block.tscn" id="2_vfktb"]
-[ext_resource type="PackedScene" uid="uid://co5v7u2xboflg" path="res://user_interfaces/manager_ui_components/logic_block.tscn" id="3_7xwgf"]
+[ext_resource type="PackedScene" uid="uid://1wqdj8f3y0k0" path="res://user_interfaces/manager_ui_components/if_block.tscn" id="2_vfktb"]
+[ext_resource type="PackedScene" uid="uid://co5v7u2xboflg" path="res://user_interfaces/manager_ui_components/operator_block.tscn" id="3_7xwgf"]
 [ext_resource type="PackedScene" uid="uid://boxw8863ploo7" path="res://user_interfaces/manager_ui_components/action_block.tscn" id="4_vr2tv"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wayyh"]
+load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d440727e5e3a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vr2tv"]
+atlas = SubResource("CompressedTexture2D_wayyh")
+region = Rect2(208, 0, 100, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_odjtx"]
+load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d440727e5e3a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mrgdx"]
+atlas = SubResource("CompressedTexture2D_odjtx")
+region = Rect2(0, 0, 96, 58)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fln70"]
+load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d440727e5e3a.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6ucq"]
+atlas = SubResource("CompressedTexture2D_fln70")
+region = Rect2(128, 0, 68, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tt76s"]
+atlas = SubResource("CompressedTexture2D_wayyh")
+region = Rect2(208, 0, 100, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfdcu"]
+atlas = SubResource("CompressedTexture2D_odjtx")
+region = Rect2(0, 0, 96, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jradk"]
+atlas = SubResource("CompressedTexture2D_fln70")
+region = Rect2(128, 0, 68, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxgwq"]
+atlas = SubResource("CompressedTexture2D_wayyh")
+region = Rect2(208, 0, 100, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5hxu"]
+atlas = SubResource("CompressedTexture2D_odjtx")
+region = Rect2(0, 0, 96, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3j3tn"]
+atlas = SubResource("CompressedTexture2D_fln70")
+region = Rect2(128, 0, 68, 19)
 
 [node name="ManagerUi" type="CanvasLayer" unique_id=311736075]
 layer = 20
 script = ExtResource("1_u423x")
 
-[node name="ConditionBlock" parent="." unique_id=841111921 instance=ExtResource("2_vfktb")]
+[node name="ActionBlock" parent="." unique_id=1533167911 instance=ExtResource("4_vr2tv")]
+offset_left = 12.0
+offset_top = 15.0
+offset_right = 112.0
+offset_bottom = 47.0
+texture = SubResource("AtlasTexture_vr2tv")
 
-[node name="LogicBlock" parent="." unique_id=22286141 instance=ExtResource("3_7xwgf")]
-offset_left = 100.0
-offset_top = 107.0
-offset_right = 100.0
-offset_bottom = 107.0
+[node name="IfBlock" parent="." unique_id=1242890506 instance=ExtResource("2_vfktb")]
+offset_left = 202.0
+offset_top = 133.0
+offset_right = 284.0
+offset_bottom = 191.0
+texture = SubResource("AtlasTexture_mrgdx")
 
-[node name="ActionBlock" parent="." unique_id=1903758615 instance=ExtResource("4_vr2tv")]
-offset_left = 219.0
-offset_top = 38.0
-offset_right = 219.0
-offset_bottom = 38.0
+[node name="OperatorBlock" parent="." unique_id=667967447 instance=ExtResource("3_7xwgf")]
+offset_left = 119.0
+offset_top = 25.0
+offset_right = 187.0
+offset_bottom = 44.0
+texture = SubResource("AtlasTexture_u6ucq")
+
+[node name="ActionBlock2" parent="." unique_id=1856253243 instance=ExtResource("4_vr2tv")]
+offset_left = 2.0
+offset_top = 60.0
+offset_right = 102.0
+offset_bottom = 92.0
+texture = SubResource("AtlasTexture_tt76s")
+
+[node name="IfBlock2" parent="." unique_id=1843085161 instance=ExtResource("2_vfktb")]
+offset_left = 234.0
+offset_top = 40.0
+offset_right = 316.0
+offset_bottom = 98.0
+texture = SubResource("AtlasTexture_cfdcu")
+
+[node name="OperatorBlock2" parent="." unique_id=1092471859 instance=ExtResource("3_7xwgf")]
+offset_left = 171.0
+offset_top = 103.0
+offset_right = 239.0
+offset_bottom = 122.0
+texture = SubResource("AtlasTexture_jradk")
+
+[node name="ActionBlock3" parent="." unique_id=326233487 instance=ExtResource("4_vr2tv")]
+offset_left = -1.0
+offset_top = 114.0
+offset_right = 99.0
+offset_bottom = 146.0
+texture = SubResource("AtlasTexture_jxgwq")
+
+[node name="IfBlock3" parent="." unique_id=169846420 instance=ExtResource("2_vfktb")]
+offset_left = 79.0
+offset_top = 148.0
+offset_right = 161.0
+offset_bottom = 206.0
+texture = SubResource("AtlasTexture_q5hxu")
+
+[node name="OperatorBlock3" parent="." unique_id=78649583 instance=ExtResource("3_7xwgf")]
+offset_left = 189.0
+offset_top = 13.0
+offset_right = 257.0
+offset_bottom = 32.0
+texture = SubResource("AtlasTexture_3j3tn")
