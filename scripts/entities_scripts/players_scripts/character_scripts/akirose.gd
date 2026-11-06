@@ -42,3 +42,11 @@ const CHARACTER_ULTIMATE_PATH: String = "res://abilities/attack/sora_slash.tscn"
 #endregion
 
 # ..............................................................................
+
+#region ANIMATION CONSTANTS
+
+const ACCESSORY_ANIMATION_COOLDOWN: float = 9999.0
+
+#endregion
+
+# ..............................................................................

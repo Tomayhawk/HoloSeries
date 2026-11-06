@@ -1,0 +1,47 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bacshotpqtitu"]
+
+[ext_resource type="Texture2D" uid="uid://c3lasc8a5kjt7" path="res://art/entities/characters/cecilia/cecilia_spritesheet.png" id="1_8udra"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8udra"]
+atlas = ExtResource("1_8udra")
+region = Rect2(304, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bws2w"]
+atlas = ExtResource("1_8udra")
+region = Rect2(304, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kov57"]
+atlas = ExtResource("1_8udra")
+region = Rect2(304, 32, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8udra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bws2w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kov57")
+}],
+"loop": 2,
+"name": &"down",
+"speed": 12.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"up",
+"speed": 5.0
+}]

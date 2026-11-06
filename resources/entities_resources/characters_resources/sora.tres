@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dnsatu0vsph5d" path="res://art/temporary/player.png" id="1_0ukpq"]
 [ext_resource type="Texture2D" uid="uid://be8cdhp4nrejj" path="res://art/entities/characters/Sora_draft_1.png" id="2_0ukpq"]
-[ext_resource type="Texture2D" uid="uid://bqcfv75gads7c" path="res://art/entities/characters/Sora_test.png" id="3_xuvqk"]
+[ext_resource type="Texture2D" uid="uid://cqr0x8t4bj7hb" path="res://art/entities/characters/Sora_draft.png" id="3_xuvqk"]
 [ext_resource type="Texture2D" uid="uid://cb21psj3t1af4" path="res://art/entities/characters/Sora_old.png" id="4_jl2l7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sj06v"]

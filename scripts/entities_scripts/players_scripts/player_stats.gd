@@ -362,6 +362,8 @@ func update_experience_required() -> void:
 
 func switch_to_party(next_base: PlayerBase) -> void:
 	base = next_base
+	base.get_node(^"Animation").frame_changed.connect(update_animation_offsets)
+
 	reset_display_stats()
 	Combat.ui.set_focused_options(focused_main_option, focused_sub_option)
 
@@ -371,8 +373,14 @@ func switch_to_standby() -> void:
 	focused_main_option = Combat.ui.focused_main_option
 	focused_sub_option = Combat.ui.focused_sub_option
 
+	base.get_node(^"Animation").frame_changed.disconnect(update_animation_offsets)
 	base = null
+
 	reset_display_stats()
+
+
+func update_animation_offsets() -> void:
+	pass
 
 #endregion
 

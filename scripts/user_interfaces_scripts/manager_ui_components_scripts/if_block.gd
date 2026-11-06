@@ -21,7 +21,7 @@ var cursor_offset: Vector2 = Vector2.ZERO
 
 # ..............................................................................
 
-#region PROCESS
+#region READY
 
 func _ready() -> void:
 	set_process(false)
@@ -50,9 +50,9 @@ func _input(event: InputEvent) -> void:
 	if dragging == self:
 		manager_ui_node.set_deferred(&"dragging_block", null)
 		set_process(false)
-	elif dragging.BLOCK_TYPE == 1 and mouse_on_block(%LogicMarginContainer):
+	elif dragging.BLOCK_TYPE == 1 and mouse_on_block(%OperatorMarginContainer):
 		accept_event()
-		dragging.snap_block(%LogicMarginContainer)
+		dragging.snap_block(%OperatorMarginContainer)
 	elif dragging.BLOCK_TYPE in [0, 2] and mouse_on_block(%ContentVBoxContainer):
 		accept_event()
 		dragging.snap_block(%ContentVBoxContainer)
@@ -93,6 +93,7 @@ func snap_block(new_parent: Control) -> void:
 
 
 func unsnap_block() -> void:
+	get_parent().get_parent().custom_minimum_size = Vector2.ZERO
 	get_parent().get_parent().reset_size.call_deferred()
 	reparent(manager_ui_node)
 	manager_ui_node.dragging_block = self
@@ -110,26 +111,16 @@ func unsnap_block() -> void:
 #region SIGNALS
 
 func _on_content_margin_container_resized() -> void:
-	%ContentMarginContainer.size.x = \
-			max(%ContentMarginContainer.size.x, %LogicMarginContainer.size.x)
-
-	print("bozo")
-	size = %ContentMarginContainer.size
-
-	if get_parent() != manager_ui_node:
-		get_parent().get_parent().reset_size()
+	%ContentMarginContainer.custom_minimum_size = %ContentMarginContainer.size
+	custom_minimum_size = %ContentMarginContainer.custom_minimum_size.max(
+			%OperatorMarginContainer.custom_minimum_size)
 
 
-func _on_logic_margin_container_resized() -> void:
-	print("what")
-	%ContentMarginContainer.size.x = \
-			max(%ContentMarginContainer.size.x, %LogicMarginContainer.size.x)
-	%LogicMarginContainer.size.x = %ContentMarginContainer.size.x
-
-	size = %ContentMarginContainer.size
-
-	if get_parent() != manager_ui_node:
-		get_parent().get_parent().reset_size()
+func _on_operator_margin_container_resized() -> void:
+	%OperatorMarginContainer.custom_minimum_size = %OperatorMarginContainer.size
+	custom_minimum_size = %ContentMarginContainer.custom_minimum_size.max(
+			%OperatorMarginContainer.custom_minimum_size)
+	%ContentMarginContainer.size = custom_minimum_size
 
 #endregion
 

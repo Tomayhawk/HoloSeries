@@ -21,7 +21,7 @@ const CHARACTER_PATH: String = "res://scripts/entities_scripts/players_scripts/c
 const CHARACTER_PATHS: Array[String] = [
 	CHARACTER_PATH % "sora",
 	CHARACTER_PATH % "azki",
-	CHARACTER_PATH % "roboco",
+	CHARACTER_PATH % "cecilia",
 	CHARACTER_PATH % "akirose",
 	CHARACTER_PATH % "luna",
 ]

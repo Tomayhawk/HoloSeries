@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://c5o6bi43j562b"]
 
 [ext_resource type="Script" uid="uid://cmf3b5ufhosbk" path="res://scripts/entities_scripts/players_scripts/player_base.gd" id="1_dib8t"]
-[ext_resource type="SpriteFrames" uid="uid://4au5vp4f5jch" path="res://resources/entities_resources/characters_resources/sora.tres" id="2_h3n4j"]
+[ext_resource type="PackedScene" uid="uid://duaf0yxenur1o" path="res://entities/player_animation.tscn" id="2_h3n4j"]
 [ext_resource type="StyleBox" uid="uid://d2ei8dgmfqtfn" path="res://resources/temporary/shield_progress_bar_fill.tres" id="2_nogga"]
-[ext_resource type="Script" uid="uid://p7l1s035chta" path="res://scripts/entities_scripts/players_scripts/player_animation.gd" id="3_h3n4j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3b4m"]
-size = Vector2(16, 7)
+size = Vector2(11, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nogga"]
+size = Vector2(20, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fbnw6"]
-size = Vector2(26, 29.5)
+size = Vector2(24, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_swviq"]
 radius = 20.0
@@ -21,7 +23,7 @@ radius = 25.0
 radius = 20.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r405m"]
-size = Vector2(16, 7)
+size = Vector2(11, 4)
 
 [node name="PlayerBase" type="CharacterBody2D" unique_id=1022924037 groups=["players", "players_alive"]]
 y_sort_enabled = true
@@ -30,33 +32,30 @@ input_pickable = true
 motion_mode = 1
 script = ExtResource("1_dib8t")
 
-[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=190156712]
-process_mode = 3
-y_sort_enabled = true
-sprite_frames = ExtResource("2_h3n4j")
-animation = &"down_idle"
-offset = Vector2(-0.5, -10)
-script = ExtResource("3_h3n4j")
+[node name="Animation" parent="." unique_id=1314456713 instance=ExtResource("2_h3n4j")]
+animation = &"up_idle"
+frame_progress = 0.0
+offset = Vector2(-0.5, -16)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=976360696]
 visible = false
 shape = SubResource("RectangleShape2D_n3b4m")
 
 [node name="DamageHitBox" type="Area2D" parent="." unique_id=1468779264]
-visible = false
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageHitBox" unique_id=1389123551]
-position = Vector2(0, -11)
-shape = SubResource("RectangleShape2D_fbnw6")
+position = Vector2(0, -12.5)
+shape = SubResource("RectangleShape2D_nogga")
 
 [node name="InteractionHitBox" type="Area2D" parent="." unique_id=1304511050]
 process_mode = 3
+visible = false
 collision_layer = 512
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionHitBox" unique_id=457447525]
-position = Vector2(0, -11.25)
+position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_fbnw6")
 
 [node name="InteractionArea" type="Area2D" parent="." unique_id=2120827375]
@@ -96,9 +95,9 @@ debug_enabled = true
 modulate = Color(0, 1, 0, 1)
 z_index = 1
 offset_left = -10.0
-offset_top = -29.0
+offset_top = -35.0
 offset_right = 190.0
-offset_bottom = -9.0
+offset_bottom = -15.0
 scale = Vector2(0.1, 0.1)
 max_value = 200.0
 value = 150.0
@@ -109,9 +108,9 @@ metadata/_edit_use_anchors_ = true
 modulate = Color(0.301961, 0.301961, 1, 1)
 z_index = 1
 offset_left = -10.0
-offset_top = 4.0
+offset_top = 3.0
 offset_right = 190.0
-offset_bottom = 24.0
+offset_bottom = 23.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
 max_value = 200.0
@@ -123,9 +122,9 @@ metadata/_edit_use_anchors_ = true
 modulate = Color(1, 0.501961, 0, 1)
 z_index = 1
 offset_left = -10.0
-offset_top = 6.0
+offset_top = 5.0
 offset_right = 190.0
-offset_bottom = 21.0
+offset_bottom = 20.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
 max_value = 200.0
@@ -136,9 +135,9 @@ metadata/_edit_use_anchors_ = true
 [node name="ShieldBar" type="ProgressBar" parent="." unique_id=402742927]
 z_index = 1
 offset_left = -10.0
-offset_top = -27.0
+offset_top = -33.0
 offset_right = 190.0
-offset_bottom = -17.0
+offset_bottom = -23.0
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 8
 theme_override_styles/fill = ExtResource("2_nogga")

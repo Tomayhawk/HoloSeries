@@ -540,6 +540,8 @@ func initialize_player(next_stats: PlayerStats, next_party_index: int) -> void:
 	$Animation.sprite_frames = load(stats.CHARACTER_ANIMATION_PATH)
 	$Animation.play(&"down_idle")
 
+	$Animation.frame_changed.connect(stats.update_animation_offsets)
+
 	# set basic attack node
 	basic_attack_node = load(stats.CHARACTER_BASIC_ATTACK_PATH).instantiate()
 	action_node = basic_attack_node

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://duaf0yxenur1o"]
+
+[ext_resource type="SpriteFrames" uid="uid://dqjxt0v004ivm" path="res://resources/entities_resources/characters_resources/cecilia.tres" id="1_u3mav"]
+[ext_resource type="Script" uid="uid://p7l1s035chta" path="res://scripts/entities_scripts/players_scripts/player_animation.gd" id="2_xwq5v"]
+[ext_resource type="SpriteFrames" uid="uid://bacshotpqtitu" path="res://resources/entities_resources/characters_resources/cecilia_eyes.tres" id="3_q21tr"]
+[ext_resource type="SpriteFrames" uid="uid://0x2r8bak82pr" path="res://resources/entities_resources/characters_resources/cecilia_accessory.tres" id="4_4y7cg"]
+
+[node name="Animation" type="AnimatedSprite2D" unique_id=1314456713]
+process_mode = 3
+y_sort_enabled = true
+sprite_frames = ExtResource("1_u3mav")
+animation = &"down_idle"
+frame_progress = 0.40059242
+offset = Vector2(-0.5, -16)
+script = ExtResource("2_xwq5v")
+
+[node name="EyesAnimation" type="AnimatedSprite2D" parent="." unique_id=371206296]
+sprite_frames = ExtResource("3_q21tr")
+animation = &"down"
+offset = Vector2(1.5, -9)
+
+[node name="AccessoryAnimation" type="AnimatedSprite2D" parent="." unique_id=1146834047]
+sprite_frames = ExtResource("4_4y7cg")
+animation = &"up"
+offset = Vector2(-1.5, -22)
+
+[node name="EyesAnimationCooldown" type="Timer" parent="." unique_id=386905974]
+autostart = true
+
+[node name="AccessoryAnimationCooldown" type="Timer" parent="." unique_id=2014652278]
+autostart = true
+
+[connection signal="timeout" from="EyesAnimationCooldown" to="." method="_on_eyes_animation_cooldown_timeout"]
+[connection signal="timeout" from="AccessoryAnimationCooldown" to="." method="_on_accessory_animation_cooldown_timeout"]

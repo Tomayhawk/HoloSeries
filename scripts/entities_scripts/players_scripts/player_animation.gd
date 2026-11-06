@@ -37,7 +37,14 @@ const ANIMATION_DICT: Dictionary[Type, Dictionary] = {
 		Direction.DOWN: &"down_attack",
 		Direction.LEFT: &"left_attack",
 		Direction.UP: &"up_attack",
-	}
+	},
+}
+
+const DIRECTION_TO_STRING: Dictionary[Direction, String] = {
+	Direction.RIGHT: &"right",
+	Direction.DOWN: &"down",
+	Direction.LEFT: &"left",
+	Direction.UP: &"up",
 }
 
 const DASH_ANIMATION_MULTIPLIER: float = 2.0
@@ -72,6 +79,14 @@ func update_animation() -> void:
 
 	set_animation_direction()
 	set_animation_speed()
+
+	# toggle eyes and accessory animations for idle animation
+	$EyesAnimation.visible = animation_type == Type.IDLE
+	$AccessoryAnimation.visible = animation_type == Type.IDLE
+
+	# update eyes and accessory animation directions
+	$EyesAnimation.animation = DIRECTION_TO_STRING[animation_direction]
+	$AccessoryAnimation.animation = DIRECTION_TO_STRING[animation_direction]
 
 	play(ANIMATION_DICT[animation_type][animation_direction])
 
@@ -117,6 +132,22 @@ func set_animation_speed() -> void:
 		speed_scale *= DASH_ANIMATION_MULTIPLIER
 	elif base.move_state == base.MoveState.SPRINT:
 		speed_scale *= base.stats.sprint_multiplier
+
+#endregion
+
+# ..............................................................................
+
+#region SIGNALS
+
+func _on_eyes_animation_cooldown_timeout() -> void:
+	$EyesAnimation.play()
+	$EyesAnimationCooldown.wait_time = randf_range(12.0, 18.0)
+
+
+func _on_accessory_animation_cooldown_timeout() -> void:
+	$AccessoryAnimation.play()
+	$AccessoryAnimationCooldown.wait_time = \
+			base.stats.ACCESSORY_ANIMATION_COOLDOWN * randf_range(1.0, 1.5)
 
 #endregion
 

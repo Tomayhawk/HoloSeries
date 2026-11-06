@@ -21,7 +21,7 @@ var cursor_offset: Vector2 = Vector2.ZERO
 
 # ..............................................................................
 
-#region PROCESS
+#region READY
 
 func _ready() -> void:
 	set_process(false)
@@ -82,6 +82,7 @@ func snap_block(new_parent: Control) -> void:
 
 
 func unsnap_block() -> void:
+	get_parent().custom_minimum_size = Vector2.ZERO
 	get_parent().reset_size.call_deferred()
 	reparent(manager_ui_node)
 	manager_ui_node.dragging_block = self

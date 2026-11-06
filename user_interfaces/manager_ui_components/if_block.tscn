@@ -67,7 +67,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = -6
 
-[node name="LogicMarginContainer" type="MarginContainer" parent="." unique_id=1362506646]
+[node name="OperatorMarginContainer" type="MarginContainer" parent="." unique_id=1362506646]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(82, 22)
 layout_mode = 0
@@ -78,4 +78,4 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 28
 
 [connection signal="resized" from="ContentMarginContainer" to="." method="_on_content_margin_container_resized"]
-[connection signal="resized" from="LogicMarginContainer" to="." method="_on_logic_margin_container_resized"]
+[connection signal="resized" from="OperatorMarginContainer" to="." method="_on_operator_margin_container_resized"]
