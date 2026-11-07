@@ -33,9 +33,7 @@ motion_mode = 1
 script = ExtResource("1_dib8t")
 
 [node name="Animation" parent="." unique_id=1314456713 instance=ExtResource("2_h3n4j")]
-animation = &"up_idle"
 frame_progress = 0.0
-offset = Vector2(-0.5, -16)
 
 [node name="MovementHitBox" type="CollisionShape2D" parent="." unique_id=976360696]
 visible = false

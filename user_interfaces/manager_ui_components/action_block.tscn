@@ -9,7 +9,7 @@ load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d44072
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r7n8m"]
 atlas = SubResource("CompressedTexture2D_wayyh")
-region = Rect2(208, 0, 100, 32)
+region = Rect2(176, 0, 100, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7w4ew"]
 atlas = ExtResource("4_dsjio")
@@ -20,6 +20,7 @@ margin = Rect2(0, 0, 2, 0)
 custom_minimum_size = Vector2(100, 32)
 offset_right = 100.0
 offset_bottom = 32.0
+size_flags_horizontal = 3
 mouse_filter = 1
 texture = SubResource("AtlasTexture_r7n8m")
 patch_margin_left = 28
@@ -79,3 +80,5 @@ layout_mode = 2
 
 [node name="Button5" type="Button" parent="MarginContainer/VBoxContainer" unique_id=523399468]
 layout_mode = 2
+
+[connection signal="resized" from="." to="." method="_on_resized"]

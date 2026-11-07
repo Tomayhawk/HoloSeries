@@ -14,6 +14,7 @@ region = Rect2(0, 0, 96, 58)
 custom_minimum_size = Vector2(82, 58)
 offset_right = 82.0
 offset_bottom = 58.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 texture = SubResource("AtlasTexture_x08xi")
@@ -22,6 +23,33 @@ patch_margin_top = 32
 patch_margin_right = 37
 patch_margin_bottom = 24
 script = ExtResource("1_j56a2")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1077807437]
+custom_minimum_size = Vector2(82, 58)
+layout_mode = 0
+offset_right = 82.0
+offset_bottom = 58.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=731679829]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="OperatorMarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1362506646]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 23)
+custom_maximum_size = Vector2(-1, 23)
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 28
+
+[node name="ContentVBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1643768552]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = -8
 
 [node name="LeftMarginContainer" type="MarginContainer" parent="." unique_id=1851850856]
 layout_mode = 1
@@ -51,31 +79,6 @@ layout_mode = 2
 theme = ExtResource("3_31p3v")
 text = "Then"
 
-[node name="ContentMarginContainer" type="MarginContainer" parent="." unique_id=1264013350]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(82, 58)
-layout_mode = 0
-offset_right = 82.0
-offset_bottom = 58.0
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 14
-
-[node name="ContentVBoxContainer" type="VBoxContainer" parent="ContentMarginContainer" unique_id=1643768552]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = -6
-
-[node name="OperatorMarginContainer" type="MarginContainer" parent="." unique_id=1362506646]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(82, 22)
-layout_mode = 0
-offset_right = 82.0
-offset_bottom = 22.0
-theme_override_constants/margin_left = 25
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 28
-
-[connection signal="resized" from="ContentMarginContainer" to="." method="_on_content_margin_container_resized"]
-[connection signal="resized" from="OperatorMarginContainer" to="." method="_on_operator_margin_container_resized"]
+[connection signal="resized" from="." to="." method="_on_resized"]
+[connection signal="resized" from="MarginContainer/VBoxContainer/OperatorMarginContainer" to="." method="_on_child_container_resized"]
+[connection signal="resized" from="MarginContainer/VBoxContainer/ContentVBoxContainer" to="." method="_on_child_container_resized"]

@@ -92,21 +92,25 @@ region = Rect2(96, 336, 48, 48)
 atlas = ExtResource("1_2ulmd")
 region = Rect2(144, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hbdql"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(0, 200, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdb7h"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(0, 144, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1i1r2"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(32, 200, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7bva"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(48, 144, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_h7v8f"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(64, 200, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0i1y"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(96, 144, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gd262"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(96, 200, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdexf"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(144, 144, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70sfi"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(192, 144, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_221ft"]
 atlas = ExtResource("3_w8jsb")
@@ -148,21 +152,25 @@ region = Rect2(96, 336, 48, 48)
 atlas = ExtResource("1_2ulmd")
 region = Rect2(144, 336, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_k8yyg"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(0, 280, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_70hfd"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(0, 96, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3rhv6"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(32, 280, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ct37u"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(48, 96, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gqifc"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(64, 280, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_cej46"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(96, 96, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ivyl2"]
-atlas = ExtResource("3_w8jsb")
-region = Rect2(96, 280, 32, 40)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsnbr"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(144, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cccg"]
+atlas = ExtResource("2_1yhvk")
+region = Rect2(192, 96, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3ctnw"]
 atlas = ExtResource("3_w8jsb")
@@ -342,21 +350,24 @@ animations = [{
 "speed": 4.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hbdql")
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_jdb7h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1i1r2")
+"texture": SubResource("AtlasTexture_h7bva")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_h7v8f")
+"texture": SubResource("AtlasTexture_h0i1y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gd262")
+"texture": SubResource("AtlasTexture_wdexf")
+}, {
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_70sfi")
 }],
-"loop": 1,
+"loop": 2,
 "name": &"left_idle",
-"speed": 4.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -399,21 +410,24 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k8yyg")
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_70hfd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3rhv6")
+"texture": SubResource("AtlasTexture_ct37u")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gqifc")
+"texture": SubResource("AtlasTexture_cej46")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ivyl2")
+"texture": SubResource("AtlasTexture_wsnbr")
+}, {
+"duration": 8.0,
+"texture": SubResource("AtlasTexture_8cccg")
 }],
-"loop": 1,
+"loop": 2,
 "name": &"right_idle",
-"speed": 4.0
+"speed": 11.0
 }, {
 "frames": [{
 "duration": 1.0,

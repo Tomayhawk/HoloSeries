@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://co5v7u2xboflg"]
 
-[ext_resource type="Script" uid="uid://cdov5vchnv3gn" path="res://scripts/user_interfaces_scripts/manager_ui_components_scripts/operator_block.gd" id="2_6po86"]
+[ext_resource type="Script" uid="uid://cdov5vchnv3gn" path="res://scripts/user_interfaces_scripts/manager_ui_components_scripts/comparator_block.gd" id="2_6po86"]
 [ext_resource type="Theme" uid="uid://dlabc1jg8wlme" path="res://resources/user_interfaces_resources/settings_ui_theme.tres" id="3_x6acd"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fln70"]
@@ -8,17 +8,18 @@ load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d44072
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgujq"]
 atlas = SubResource("CompressedTexture2D_fln70")
-region = Rect2(128, 0, 68, 19)
+region = Rect2(96, 0, 68, 19)
 
-[node name="OperatorBlock" type="TextureRect" unique_id=667967447]
+[node name="ComparatorBlock" type="TextureRect" unique_id=667967447]
 custom_minimum_size = Vector2(68, 19)
 offset_right = 68.0
 offset_bottom = 19.0
+size_flags_horizontal = 3
 texture = SubResource("AtlasTexture_lgujq")
 script = ExtResource("2_6po86")
 
 [node name="LeftLabel" type="Label" parent="." unique_id=772911852]
-layout_mode = 0
+layout_mode = 1
 offset_left = 10.0
 offset_top = 4.0
 offset_right = 28.0
@@ -29,12 +30,18 @@ theme_override_font_sizes/font_size = 8
 text = "Health"
 
 [node name="RightLabel" type="Label" parent="." unique_id=155782807]
-layout_mode = 0
-offset_left = 43.0
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -25.0
 offset_top = 4.0
-offset_right = 58.0
+offset_right = -10.0
 offset_bottom = 14.0
+grow_horizontal = 0
 theme = ExtResource("3_x6acd")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 8
 text = "20%"
+
+[connection signal="resized" from="." to="." method="_on_resized"]
