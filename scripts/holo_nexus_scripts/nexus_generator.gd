@@ -184,7 +184,7 @@ static func stats_nodes_randomizer() -> Array[Array]:
 
 			# catch failed allocation
 			if not stats_set_success:
-				failed_node_indices.push_back(node_index)
+				failed_node_indices.append(node_index)
 
 		# resolve failed node indices
 		for node_index in failed_node_indices:

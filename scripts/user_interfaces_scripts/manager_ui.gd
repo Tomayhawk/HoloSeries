@@ -35,6 +35,12 @@ func _input(event: InputEvent) -> void:
 
 #region FUNCTIONS
 
+func save_layout() -> Array[Array]:
+	var logic: Array[Array] = []
+
+	return logic
+
+
 func exit_ui() -> void:
 	Global.global_ui(Global.Ui.MANAGER, Global.Ui.HOLO_DECK)
 

@@ -213,10 +213,9 @@ func update_health() -> void:
 	$HealthBar.max_value = stats.max_health
 	$HealthBar.value = stats.health
 
-	var health_bar_percentage = stats.health / stats.max_health
 	$HealthBar.modulate = (
-			"a9ff30" if health_bar_percentage > 0.5
-			else "c8a502" if health_bar_percentage > 0.2
+			"a9ff30" if stats.health_percentage > 0.5
+			else "c8a502" if stats.health_percentage > 0.2
 			else "a93430"
 	)
 

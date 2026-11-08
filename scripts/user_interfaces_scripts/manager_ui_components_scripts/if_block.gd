@@ -2,15 +2,9 @@ extends NinePatchRect
 
 # ..............................................................................
 
-#region CONSTANTS
-
-const BLOCK_TYPE: int = 0
-
-#endregion
-
-# ..............................................................................
-
 #region VARIABLES
+
+var block_type: Manager.BlockType = Manager.BlockType.IF
 
 var cursor_offset: Vector2 = Vector2.ZERO
 var parent_block: Control = null
@@ -51,10 +45,10 @@ func _input(event: InputEvent) -> void:
 	if dragging == self:
 		manager_ui_node.set_deferred(&"dragging_block", null)
 		set_process(false)
-	elif dragging.BLOCK_TYPE == 1 and mouse_on_block(%OperatorMarginContainer):
+	elif dragging.block_type & Manager.OPERATOR_BLOCKS and mouse_on_block(%OperatorMarginContainer):
 		accept_event()
 		dragging.snap_block(self)
-	elif dragging.BLOCK_TYPE in [0, 2] and mouse_on_block(%ContentVBoxContainer):
+	elif dragging.block_type & Manager.CONTENT_BLOCKS and mouse_on_block(%ContentVBoxContainer):
 		accept_event()
 		dragging.snap_block(self)
 
@@ -96,6 +90,7 @@ func snap_block(new_parent_block: Control) -> void:
 
 func unsnap_block() -> void:
 	reparent(manager_ui_node)
+
 	texture.region.position.y = 0.0
 
 	parent_block.get_node(^"%ContentVBoxContainer").reset_size()
@@ -113,7 +108,9 @@ func _on_resized() -> void:
 	if parent_block and get_parent().size.x > size.x:
 		size.x = get_parent().size.x
 
-	$MarginContainer.size = size
+	$MarginContainer.custom_minimum_size = size
+	$MarginContainer.reset_size()
+	$MarginContainer.custom_minimum_size = Vector2(82.0, 58.0)
 
 
 func _on_child_container_resized() -> void:
@@ -123,9 +120,7 @@ func _on_child_container_resized() -> void:
 	size = $MarginContainer.size
 
 	if parent_block:
-		parent_block.get_node(^"%ContentVBoxContainer").reset_size()
-
-		# handle situations where the minimum size is larger than the local minimum
+		parent_block.get_node(^"MarginContainer").reset_size()
 		$MarginContainer.size = size
 
 #endregion

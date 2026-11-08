@@ -1,3 +1,4 @@
+class_name Entities_
 extends Node
 
 # ENTITIES (AUTOLOAD #4)
@@ -130,7 +131,7 @@ var entities_chosen: Array[EntityBase] = []
 
 #region ENTITIES FILTERS
 
-func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callable, get_max: bool) -> EntityBase:
+static func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callable, get_max: bool) -> EntityBase:
 	var best_entity: EntityBase = null
 	var best_quality: float = -INF if get_max else INF
 
@@ -146,17 +147,17 @@ func target_entity_by_quality(candidates: Array[EntityBase], get_quality: Callab
 
 
 # target entity by stats
-func target_entity_by_stats(candidates: Array[EntityBase], stat_name: StringName, get_max: bool) -> EntityBase:
+static func target_entity_by_stats(candidates: Array[EntityBase], stat_name: StringName, get_max: bool) -> EntityBase:
 	return target_entity_by_quality(candidates, func(entity_base) -> float: return entity_base.stats.get(stat_name), get_max)
 
 
 # target entity by distance
-func target_entity_by_distance(candidates: Array[EntityBase], origin: Vector2, get_max: bool) -> EntityBase:
+static func target_entity_by_distance(candidates: Array[EntityBase], origin: Vector2, get_max: bool) -> EntityBase:
 	return target_entity_by_quality(candidates, func(entity_base) -> float: return origin.distance_squared_to(entity_base.position), get_max)
 
 
 # convert Array into Array[EntityBase]
-func type_entities_array(entities_array: Array) -> Array[EntityBase]:
+static func type_entities_array(entities_array: Array) -> Array[EntityBase]:
 	var entity_bases: Array[EntityBase] = []
 
 	for entity_base in entities_array:
@@ -167,8 +168,8 @@ func type_entities_array(entities_array: Array) -> Array[EntityBase]:
 
 
 # return all enemies in the current scene enemies node
-func all_enemies() -> Array[EntityBase]:
-	return type_entities_array(get_tree().current_scene.get_node(^"Enemies").get_children())
+static func all_enemies() -> Array[EntityBase]:
+	return type_entities_array(Global.get_tree().current_scene.get_node(^"Enemies").get_children())
 
 #endregion
 
@@ -276,6 +277,7 @@ func clear_scene_entities() -> void:
 		lootable.queue_free()
 
 
+# TODO: unused
 # helper to fetch players with dynamic filters
 func get_players(custom_filter: Callable = Callable()) -> Array[EntityBase]:
 	var player_bases: Array[Node] = Players.get_children()

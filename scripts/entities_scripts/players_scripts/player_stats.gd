@@ -122,7 +122,17 @@ var fatigue: bool = false
 
 # ..............................................................................
 
-#region STATS UI
+#region MANAGER VARIABLES
+
+var manager_layouts: Array[PackedInt32Array] = []
+var current_manager_layout: int = 0
+var current_action_index: int = 0
+
+#endregion
+
+# ..............................................................................
+
+#region STATS
 
 # stats bars
 var health_bar: ProgressBar = null
@@ -209,12 +219,11 @@ func update_health_display() -> void:
 
 	# update health bar
 	if base:
-		var bar_percentage: float = health / max_health
 		health_bar.value = health
 		health_bar.visible = health > 0.0 and health < max_health
 		health_bar.modulate = (
-				Color(0, 1, 0, 1) if bar_percentage > 0.5
-				else Color(1, 1, 0, 1) if bar_percentage > 0.2
+				Color(0, 1, 0, 1) if health_percentage > 0.5
+				else Color(1, 1, 0, 1) if health_percentage > 0.2
 				else Color(1, 0, 0, 1)
 		)
 
@@ -254,11 +263,11 @@ func update_stamina(value: float) -> void:
 	super(value)
 
 	# handle fatigue
-	if stamina == 0:
+	if is_equal_approx(stamina, 0.0):
 		fatigue = true
 		if base:
 			base.fatigue_state()
-	elif stamina == max_stamina:
+	elif is_equal_approx(stamina, max_stamina):
 		fatigue = false
 
 	# update stamina bar

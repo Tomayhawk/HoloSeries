@@ -10,7 +10,7 @@ load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d44072
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vr2tv"]
 atlas = SubResource("CompressedTexture2D_wayyh")
-region = Rect2(176, 0, 100, 32)
+region = Rect2(96, 0, 80, 32)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_odjtx"]
 load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d440727e5e3a.ctex"
@@ -24,11 +24,11 @@ load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d44072
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u6ucq"]
 atlas = SubResource("CompressedTexture2D_fln70")
-region = Rect2(96, 0, 68, 19)
+region = Rect2(176, 0, 74, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tt76s"]
 atlas = SubResource("CompressedTexture2D_wayyh")
-region = Rect2(176, 0, 100, 32)
+region = Rect2(96, 0, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cfdcu"]
 atlas = SubResource("CompressedTexture2D_odjtx")
@@ -36,11 +36,11 @@ region = Rect2(0, 0, 96, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jradk"]
 atlas = SubResource("CompressedTexture2D_fln70")
-region = Rect2(96, 0, 68, 19)
+region = Rect2(176, 0, 74, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxgwq"]
 atlas = SubResource("CompressedTexture2D_wayyh")
-region = Rect2(176, 0, 100, 32)
+region = Rect2(96, 0, 80, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q5hxu"]
 atlas = SubResource("CompressedTexture2D_odjtx")
@@ -48,7 +48,7 @@ region = Rect2(0, 0, 96, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3j3tn"]
 atlas = SubResource("CompressedTexture2D_fln70")
-region = Rect2(96, 0, 68, 19)
+region = Rect2(176, 0, 74, 19)
 
 [node name="ManagerUi" type="CanvasLayer" unique_id=311736075]
 layer = 20

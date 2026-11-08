@@ -36,7 +36,7 @@ func set_action_target() -> void:
 		available_targets.assign(players_in_detection_area)
 
 	# target player by stats
-	action_target = Entities.target_entity_by_stats(
+	action_target = Entities_.target_entity_by_stats(
 			available_targets, action_target_stats, action_target_get_max)
 
 #endregion

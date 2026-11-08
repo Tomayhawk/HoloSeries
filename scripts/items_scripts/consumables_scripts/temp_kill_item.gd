@@ -16,6 +16,7 @@ const REQUEST_TYPES: int = Entities.Type.PLAYERS_ALIVE
 
 #region FUNCTIONS
 
+# TODO: use item and highlight not working properly
 static func use_item(target_base: EntityBase, id: int) -> void:
 	if not target_base:
 		return
@@ -26,7 +27,7 @@ static func use_item(target_base: EntityBase, id: int) -> void:
 
 
 static func auto_request() -> void:
-	Entities.choose_entity(Entities.target_entity_by_stats(
+	Entities.choose_entity(Entities_.target_entity_by_stats(
 			Entities.entities_available, &"health", false))
 
 #endregion

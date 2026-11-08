@@ -26,7 +26,7 @@ static func use_item(target_base: EntityBase, id: int) -> void:
 
 # target player with highest health
 static func auto_request() -> void:
-	Entities.choose_entity(Entities.target_entity_by_stats(
+	Entities.choose_entity(Entities_.target_entity_by_stats(
 			Entities.entities_available, &"max_health", true))
 
 #endregion

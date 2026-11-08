@@ -106,6 +106,18 @@ var max_health: float = DEFAULT_HEALTH
 var max_mana: float = DEFAULT_MANA
 var max_stamina: float = DEFAULT_STAMINA
 
+var health_percentage: float = 1.0:
+	get():
+		return health / max_health
+
+var mana_percentage: float = 1.0:
+	get():
+		return mana / max_mana
+
+var stamina_percentage: float = 1.0:
+	get():
+		return stamina / max_stamina
+
 # shield
 var shield: float = 0.0
 var max_shield: float = DEFAULT_MAX_SHIELD
@@ -157,7 +169,7 @@ func update_health(value: float) -> void:
 		add_status(Entities.Status.INVINCIBLE)
 
 	# handle death
-	if health == 0.0:
+	if is_equal_approx(health, 0.0):
 		death()
 
 

@@ -2,15 +2,9 @@ extends NinePatchRect
 
 # ..............................................................................
 
-#region CONSTANTS
-
-const BLOCK_TYPE: int = 2
-
-#endregion
-
-# ..............................................................................
-
 #region VARIABLES
+
+var block_type: Manager.BlockType = Manager.BlockType.ATTACK
 
 var cursor_offset: Vector2 = Vector2.ZERO
 
@@ -28,6 +22,7 @@ var parent_block: Control = null
 func _ready() -> void:
 	set_process(false)
 	set_process_input(false)
+	$MarginContainer.reset_size()
 
 #endregion
 
@@ -79,15 +74,19 @@ func _gui_input(event: InputEvent) -> void:
 func snap_block(new_parent_block: Control) -> void:
 	parent_block = new_parent_block
 	texture.region.position.y = 32.0
+
 	reparent(parent_block.get_node(^"%ContentVBoxContainer"))
 
 
 func unsnap_block() -> void:
 	reparent(manager_ui_node)
+
 	texture.region.position.y = 0.0
 
 	parent_block.get_node(^"%ContentVBoxContainer").reset_size()
 	parent_block = null
+
+	$MarginContainer.reset_size()
 
 #endregion
 
@@ -96,8 +95,16 @@ func unsnap_block() -> void:
 #region SIGNALS
 
 func _on_resized() -> void:
+	$MarginContainer.size = size
 	if parent_block and get_parent().size.x > size.x:
 		size.x = get_parent().size.x
+
+
+func _on_margin_container_resized() -> void:
+	custom_minimum_size = $MarginContainer.size
+	reset_size()
+
+	custom_minimum_size = $MarginContainer.get_combined_minimum_size()
 
 #endregion
 

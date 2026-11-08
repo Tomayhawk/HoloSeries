@@ -2,15 +2,9 @@ extends TextureRect
 
 # ..............................................................................
 
-#region CONSTANTS
-
-const BLOCK_TYPE: int = 1
-
-#endregion
-
-# ..............................................................................
-
 #region VARIABLES
+
+var block_type: Manager.BlockType = Manager.BlockType.EQUALS
 
 var cursor_offset: Vector2 = Vector2.ZERO
 
@@ -87,16 +81,19 @@ func mouse_on_block(block_node: Control) -> bool:
 
 func snap_block(new_parent_block: Control) -> void:
 	parent_block = new_parent_block
-	texture.region.position.y = 96.0
+	texture.region.position.y = 32.0
 	reparent(parent_block.get_node(^"%OperatorMarginContainer"))
 
 
 func unsnap_block() -> void:
 	reparent(manager_ui_node)
+
 	texture.region.position.y = 0.0
 
 	parent_block.get_node(^"%OperatorMarginContainer").reset_size()
 	parent_block = null
+
+	reset_size()
 
 #endregion
 

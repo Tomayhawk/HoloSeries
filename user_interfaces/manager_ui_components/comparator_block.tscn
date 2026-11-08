@@ -8,10 +8,10 @@ load_path = "res://.godot/imported/manager_blocks.png-91fe40d5d1267c6a8223d44072
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgujq"]
 atlas = SubResource("CompressedTexture2D_fln70")
-region = Rect2(96, 0, 68, 19)
+region = Rect2(176, 0, 74, 19)
 
 [node name="ComparatorBlock" type="TextureRect" unique_id=667967447]
-custom_minimum_size = Vector2(68, 19)
+custom_minimum_size = Vector2(74, 19)
 offset_right = 68.0
 offset_bottom = 19.0
 size_flags_horizontal = 3
